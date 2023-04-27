@@ -3,7 +3,7 @@ package io.vertx.up.util;
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.Actuator;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -108,7 +108,7 @@ final class Congregation {
     static <T> void exec(final JsonObject data, final String flag,
                          final Boolean sec, // S - Start, E - End, C - Contains
                          final BiConsumer<T, String> consumer) {
-        if (HH.isNil(flag)) {
+        if (HaS.isNil(flag)) {
             exec(data, consumer);
         } else {
             data.stream().filter(entry -> {

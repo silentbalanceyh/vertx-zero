@@ -12,7 +12,7 @@ import io.horizon.eon.runtime.VEnv;
 import io.horizon.fn.Actuator;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.runtime.internal.HService;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -33,17 +33,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
-public final class Ut extends HH {
+public final class Ut extends HaS {
     private Ut() {
     }
 
@@ -611,33 +607,6 @@ public final class Ut extends HH {
         return It.itSet(set);
     }
 
-    public static void itDay(final String from, final String to, final Consumer<Date> consumer) {
-        final LocalDateTime begin = Period.toDateTime(Period.parseFull(from));
-        final LocalDateTime end = Period.toDateTime(Period.parseFull(to));
-        Period.itDay(begin.toLocalDate(), end.toLocalDate(), consumer);
-    }
-
-    public static void itDay(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
-        Period.itDay(from.toLocalDate(), to.toLocalDate(), consumer);
-    }
-
-    public static void itDay(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
-        Period.itDay(from, to, consumer);
-    }
-
-    public static void itWeek(final LocalDateTime from, final LocalDateTime to, final Consumer<Date> consumer) {
-        Period.itWeek(from.toLocalDate(), to.toLocalDate(), consumer);
-    }
-
-    public static void itWeek(final LocalDate from, final LocalDate to, final Consumer<Date> consumer) {
-        Period.itWeek(from, to, consumer);
-    }
-
-    public static void itWeek(final String from, final String to, final Consumer<Date> consumer) {
-        final LocalDate begin = Period.toDate(Period.parseFull(from));
-        final LocalDate end = Period.toDate(Period.parseFull(to));
-        Period.itWeek(begin, end, consumer);
-    }
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
         Congregation.exec(list, fnEach);
@@ -1179,18 +1148,6 @@ public final class Ut extends HH {
         return Numeric.isRange(value, min, max);
     }
 
-    public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
-        return Period.isDuration(current, start, end);
-    }
-
-    public static boolean isSame(final Date left, final Date right) {
-        return Period.equalDate(left, right);
-    }
-
-    public static boolean isDate(final Object value) {
-        return Types.isDate(value);
-    }
-
     public static boolean isArrayString(final JsonArray array) {
         return Types.isArrayString(array);
     }
@@ -1231,7 +1188,7 @@ public final class Ut extends HH {
         return Types.isIn(input, fields);
     }
 
-    public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
+    public static <T> boolean isSame(final JsonObject record, final String field, final T expected) {
         return Types.isEqual(record, field, expected);
     }
 
@@ -1430,21 +1387,6 @@ public final class Ut extends HH {
         return To.toJObject(map);
     }
 
-    public static int toMonth(final String literal) {
-        return Period.toMonth(literal);
-    }
-
-    public static int toMonth(final Date date) {
-        return Period.toMonth(date);
-    }
-
-    public static int toYear(final String literal) {
-        return Period.toYear(literal);
-    }
-
-    public static int toYear(final Date date) {
-        return Period.toYear(date);
-    }
 
     public static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
         return To.toMethod(supplier, defaultValue);
@@ -1470,48 +1412,8 @@ public final class Ut extends HH {
         return To.toCollection(value);
     }
 
-    public static LocalDateTime toDateTime(final String literal) {
-        return Period.toDateTime(literal);
-    }
-
-    public static LocalDateTime toDuration(final long millSeconds) {
-        return Period.toDuration(millSeconds);
-    }
-
-    public static LocalDate toDate(final String literal) {
-        return Period.toDate(literal);
-    }
-
-    public static LocalTime toTime(final String literal) {
-        return Period.toTime(literal);
-    }
-
     public static <T> byte[] toBytes(final T message) {
         return Stream.to(message);
-    }
-
-    public static LocalDate toDate(final Date date) {
-        return Period.toDate(date);
-    }
-
-    public static LocalTime toTime(final Date date) {
-        return Period.toTime(date);
-    }
-
-    public static LocalDateTime toDateTime(final Date date) {
-        return Period.toDateTime(date);
-    }
-
-    public static LocalDate toDate(final Instant date) {
-        return Period.toDate(date);
-    }
-
-    public static LocalTime toTime(final Instant date) {
-        return Period.toTime(date);
-    }
-
-    public static LocalDateTime toDateTime(final Instant date) {
-        return Period.toDateTime(date);
     }
 
     public static <V> ConcurrentMap<String, V> toMap(final JsonObject data) {
@@ -1598,35 +1500,6 @@ public final class Ut extends HH {
     }
 
     /*
-     * Date literal parse here for time calculation
-     * 1) parse / parseFull
-     * 2) now()
-     */
-    public static Date parse(final String literal) {
-        return Period.parse(literal);
-    }
-
-    public static Date parse(final LocalTime time) {
-        return Period.parse(time);
-    }
-
-    public static Date parse(final LocalDateTime datetime) {
-        return Period.parse(datetime);
-    }
-
-    public static Date parse(final LocalDate date) {
-        return Period.parse(date);
-    }
-
-    public static Date valueNow() {
-        return Period.parse(LocalDateTime.now());
-    }
-
-    public static Date parseFull(final String literal) {
-        return Period.parseFull(literal);
-    }
-
-    /*
      * String conversation
      * 1) fromBuffer
      * 2) fromObject
@@ -1674,21 +1547,6 @@ public final class Ut extends HH {
         return StringUtil.join(input, separator);
     }
 
-    public static String fromAdjust(final Integer seed, final Integer width, final char fill) {
-        return StringUtil.adjust(seed, width, fill);
-    }
-
-    public static String fromAdjust(final String seed, final Integer width, final char fill) {
-        return StringUtil.adjust(seed, width, fill);
-    }
-
-    public static String fromAdjust(final String seed, final Integer width) {
-        return StringUtil.adjust(seed, width, ' ');
-    }
-
-    public static String fromAdjust(final Integer seed, final Integer width) {
-        return StringUtil.adjust(seed, width, '0');
-    }
 
     public static String fromMessageB(final String pattern, final Object... args) {
         return Format.formatBold(pattern, args);
@@ -1712,26 +1570,6 @@ public final class Ut extends HH {
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
         return StringUtil.prefix(data, prefix);
-    }
-
-    public static String fromDate(final LocalDate date, final String pattern) {
-        return Period.fromPattern(date, pattern);
-    }
-
-    public static String fromDate(final LocalDateTime datetime, final String pattern) {
-        return Period.fromPattern(datetime, pattern);
-    }
-
-    public static String fromDate(final LocalTime time, final String pattern) {
-        return Period.fromPattern(time, pattern);
-    }
-
-    public static String fromDate(final Date date, final String pattern) {
-        return Period.fromPattern(Period.toDateTime(date), pattern);
-    }
-
-    public static String fromDate(final Instant instant, final String pattern) {
-        return Period.fromPattern(Period.toDateTime(instant), pattern);
     }
 
     /*

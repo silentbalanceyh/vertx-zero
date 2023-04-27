@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -33,7 +33,7 @@ final class Types {
     }
 
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
-        if (HH.isNil(record)) {
+        if (HaS.isNil(record)) {
             /*
              * If record is null or empty, return `false`
              */
@@ -43,7 +43,7 @@ final class Types {
              * Object reference
              */
             final Object value = record.getValue(field);
-            return HH.isEqual(value, expected);
+            return HaS.isSame(value, expected);
         }
     }
 
@@ -125,19 +125,6 @@ final class Types {
                 .filter(Ut::isNotNil)
                 .count();
             return counter == fields.length;
-        }
-    }
-
-    static boolean isDate(final Object value) {
-        if (Objects.isNull(value)) {
-            return false;
-        } else {
-            if (value instanceof Class) {
-                final Class<?> type = (Class<?>) value;
-                return HH.isDate(type);
-            } else {
-                return Period.isValid(value.toString());
-            }
         }
     }
 

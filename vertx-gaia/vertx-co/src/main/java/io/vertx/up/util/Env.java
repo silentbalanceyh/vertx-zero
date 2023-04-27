@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VString;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
@@ -64,7 +64,7 @@ class Env {
             final String name = it.nextElement();
             final String value = properties.getProperty(name);
             // .env.development （环境变量设置，JDK 11之后带参数执行）
-            if (HH.isNotNil(value)) {
+            if (HaS.isNotNil(value)) {
                 envMap.put(name, value);
                 envResult.put(name, value);
             }

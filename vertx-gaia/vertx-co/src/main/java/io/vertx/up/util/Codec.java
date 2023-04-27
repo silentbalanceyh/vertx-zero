@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -117,7 +117,7 @@ final class Codec {
 
     @SuppressWarnings("unchecked")
     static <T> T decodeJ(final String literal) {
-        if (HH.isNil(literal)) {
+        if (HaS.isNil(literal)) {
             return null;
         }
         final String trimInput = literal.trim();

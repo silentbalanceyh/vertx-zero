@@ -1,7 +1,7 @@
 package io.horizon.exception;
 
 import io.horizon.eon.error.ErrorMessage;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 
 /**
  * @author lang : 2023/4/27
@@ -26,7 +26,7 @@ public abstract class InternalException extends AbstractException {
 
     @Override
     public String getMessage() {
-        return HH.fromMessage(ErrorMessage.E_1X_MESSAGE, String.valueOf(this.getCode()), super.getMessage());
+        return HaS.fromMessage(ErrorMessage.E_1X_MESSAGE, String.valueOf(this.getCode()), super.getMessage());
     }
 
     @Override

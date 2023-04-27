@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 
 /**
  * @author lang : 2023/4/24
@@ -31,7 +31,7 @@ class Format {
     }
 
     static String color(final String pattern, final String flag, final int color, final boolean bold) {
-        if (HH.isNil(pattern)) {
+        if (HaS.isNil(pattern)) {
             return color(flag, color, bold);
         } else {
             return String.format(pattern, color(flag, color, bold));
@@ -40,7 +40,7 @@ class Format {
 
     static String formatBold(final String message, final Object... args) {
         if (0 < args.length) {
-            return BOLD_FLAG + HH.fromMessage(message, args);
+            return BOLD_FLAG + HaS.fromMessage(message, args);
         } else {
             return BOLD_FLAG + message;
         }

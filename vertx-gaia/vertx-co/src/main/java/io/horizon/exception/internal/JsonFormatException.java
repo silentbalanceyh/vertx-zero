@@ -2,11 +2,11 @@ package io.horizon.exception.internal;
 
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 
 public class JsonFormatException extends InternalException {
     public JsonFormatException(final Class<?> caller, final String filename) {
-        super(caller, HH.fromMessage(ErrorCode._11004.M(), filename));
+        super(caller, HaS.fromMessage(ErrorCode._11004.M(), filename));
     }
 
     @Override

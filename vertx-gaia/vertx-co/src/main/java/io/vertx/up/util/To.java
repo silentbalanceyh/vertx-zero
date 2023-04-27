@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.HRecord;
-import io.horizon.util.HH;
+import io.horizon.util.HaS;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.DecodeException;
@@ -69,7 +69,7 @@ final class To {
 
     static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
         final String method = supplier.get();
-        if (HH.isNil(method)) {
+        if (HaS.isNil(method)) {
             return defaultValue;
         } else {
             return HttpMethod.valueOf(method);

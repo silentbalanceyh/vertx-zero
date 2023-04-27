@@ -76,29 +76,6 @@ final class StringUtil {
         }, input);
     }
 
-    private static String repeat(final Integer times, final char fill) {
-        final StringBuilder builder = new StringBuilder();
-        for (int idx = 0; idx < times; idx++) {
-            builder.append(fill);
-        }
-        return builder.toString();
-    }
-
-    static String adjust(final Integer seed, final Integer width, final char fill) {
-        return adjust(seed.toString(), width, fill);
-    }
-
-    static String adjust(final String seed, final Integer width, final char fill) {
-        final StringBuilder builder = new StringBuilder();
-        final int seedLen = seed.length();
-        int fillLen = width - seedLen;
-        if (0 > fillLen) {
-            fillLen = 0;
-        }
-        builder.append(repeat(fillLen, fill));
-        builder.append(seed);
-        return builder.toString();
-    }
 
     /// Captcha related. ///
     private static char randomCaptchaChar() {

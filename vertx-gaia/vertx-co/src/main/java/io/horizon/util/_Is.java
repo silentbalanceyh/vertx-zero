@@ -4,62 +4,16 @@ import io.horizon.eon.runtime.VEnv;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.Date;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
- * High Metadata Service 高阶元数据工具类
- * 1）动参版本
- * 2）对象版本
- * 上述两个版本直接在 HH 类中铺开写逻辑
- * 包域中只包含基础逻辑，没有其他内容
- *
  * @author lang : 2023/4/27
  */
-public class HH {
-    /*
-     * 构造函数只能被子类调用，不可以在其他地方调用，所以此处是工具类的重新设计，原理
-     * 1. Java 中的静态方法可以从父类继承，但是不可以从接口初获得
-     * 2. 虽然继承之后子类定义的方法只是隐藏了父类的，但不会出现Overwrite
-     * 3. 但从代码去重上是一个非常好的策略
-     *
-     * 父类：protected 的默认构造函数 + 静态类
-     * 子类：private 的构造函数 + final 不可继承类
-     * 这种类最终会导致二者合并形成统一方法区间
-     */
-    protected HH() {
-    }
-
-    // ---------------- 格式化函数
-
-    /**
-     * 使用 MessageFormat 进行格式化，参数
-     * {0} {1} {2}
-     * 使用 Slf4j 进行格式化，参数
-     * {} {} {}
-     *
-     * @param pattern 格式化模板
-     * @param args    参数
-     *
-     * @return 格式化后的字符串
-     */
-    public static String fromMessage(final String pattern, final Object... args) {
-        return HFormat.format(pattern, args);
-    }
-
-    // ---------------- 池化函数
-    public static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn, final String key) {
-        return HPool.poolThread(pool, poolFn, key);
-    }
-
-    public static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn) {
-        return HPool.poolThread(pool, poolFn, null);
-    }
-
-    public static <K, V> V pool(final Map<K, V> pool, final K key, final Supplier<V> poolFn) {
-        return HPool.pool(pool, key, poolFn);
+class _Is extends _From {
+    protected _Is() {
     }
 
     // ---------------- 判断函数：空/非空
@@ -236,8 +190,8 @@ public class HH {
      *
      * @return 是否相等
      */
-    public static boolean isEqual(final Object left, final Object right) {
-        return HIs.isEqual(left, right);
+    public static boolean isSame(final Object left, final Object right) {
+        return HIs.isSame(left, right);
     }
 
     /**
@@ -249,7 +203,7 @@ public class HH {
      * @return 是否相等
      */
     public static boolean isDiff(final Object left, final Object right) {
-        return !isEqual(left, right);
+        return !isSame(left, right);
     }
 
     // ---------------- 判断函数：类型（反射）
@@ -568,75 +522,39 @@ public class HH {
         return HIs.isFileName(filename);
     }
 
-    // ---------------- 转换函数：to - 转成 / from - 转入
-
     /**
-     * 根据传入类型将该类型转换成基本类型
+     * 检查对象是否是一个合法时间格式，或可转换成时间的格式
      *
-     * @param source 源类型
+     * @param value 对象
      *
-     * @return 基本类型
+     * @return 是否是一个合法时间格式
      */
-    public static Class<?> toPrimary(final Class<?> source) {
-        return HTo.toPrimary(source);
+    public static boolean isDate(final Object value) {
+        return HIs.isDate(value);
     }
 
     /**
-     * 根据传入枚举类型做字符串级别的转换
+     * 检查字符串是否是否位于某个区间内，从开始时间到结束时间
      *
-     * @param clazz   枚举元类型
-     * @param literal 字符串
-     * @param <T>     枚举类型
+     * @param current 当前时间
+     * @param start   开始时间
+     * @param end     结束时间
      *
-     * @return 枚举
+     * @return 是否位于某个区间内
      */
-    public static <T extends Enum<T>> T toEnum(final String literal, final Class<T> clazz) {
-        return HTo.toEnum(literal, clazz, null);
+    public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
+        return HPeriod.isDuration(current, start, end);
     }
 
     /**
-     * 根据传入枚举类型做字符串级别的转换（带默认值）
+     * 检查两个日期是否相等
      *
-     * @param clazz        枚举元类型
-     * @param literal      字符串
-     * @param defaultValue 默认值
-     * @param <T>          枚举类型
+     * @param left  左边日期
+     * @param right 右边日期
      *
-     * @return 枚举
+     * @return 是否相等
      */
-    public static <T extends Enum<T>> T toEnum(final String literal, final Class<T> clazz, final T defaultValue) {
-        return HTo.toEnum(literal, clazz, defaultValue);
-    }
-
-    /**
-     * 根据传入枚举类型做字符串级别的转换（函数模式）
-     *
-     * @param supplier 字符串提供者
-     * @param clazz    枚举元类型
-     * @param <T>      枚举类型
-     *
-     * @return 枚举
-     */
-    public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> clazz) {
-        return HTo.toEnum(supplier.get(), clazz, null);
-    }
-
-    /**
-     * 根据传入枚举类型做字符串级别的转换（函数模式带默认值）
-     *
-     * @param supplier     字符串提供者
-     * @param clazz        枚举元类型
-     * @param defaultValue 默认值
-     * @param <T>          枚举类型
-     *
-     * @return 枚举
-     */
-    public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> clazz, final T defaultValue) {
-        return HTo.toEnum(supplier.get(), clazz, defaultValue);
-    }
-
-    // ---------------- Jvm强化函数
-    public static void requireNonNull(final Object... args) {
-        Arrays.stream(args).forEach(Objects::requireNonNull);
+    public static boolean isSame(final Date left, final Date right) {
+        return HPeriod.isSame(left, right);
     }
 }

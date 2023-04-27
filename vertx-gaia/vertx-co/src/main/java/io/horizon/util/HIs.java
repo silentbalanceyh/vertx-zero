@@ -37,7 +37,7 @@ class HIs {
         return Objects.nonNull(converted);
     }
 
-    static boolean isEqual(final Object left, final Object right) {
+    static boolean isSame(final Object left, final Object right) {
         if (Objects.isNull(left) && Objects.isNull(right)) {
             return true;
         } else {
@@ -85,5 +85,17 @@ class HIs {
     static boolean isFileName(final String literal) {
         return Objects.nonNull(literal)
             && isMatch(literal, VString.REGEX.FILENAME);
+    }
+
+    static boolean isDate(final Object value) {
+        if (Objects.isNull(value)) {
+            return false;
+        }
+
+        if (value instanceof Class<?>) {
+            return HType.isDate((Class<?>) value);
+        } else {
+            return HPeriod.isValid(value.toString());
+        }
     }
 }
