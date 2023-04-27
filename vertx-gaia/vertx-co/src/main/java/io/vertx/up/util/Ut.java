@@ -1156,30 +1156,6 @@ public final class Ut extends HaS {
         return Types.isArrayJson(array);
     }
 
-    public static boolean isJArray(final String literal) {
-        return Types.isJArray(literal);
-    }
-
-    public static boolean isJArray(final Object value) {
-        return Types.isJArray(value);
-    }
-
-    public static boolean isJArray(final Class<?> clazz) {
-        return Types.isJArray(clazz);
-    }
-
-    public static boolean isJObject(final String literal) {
-        return Types.isJObject(literal);
-    }
-
-    public static boolean isJObject(final Object value) {
-        return Types.isJObject(value);
-    }
-
-    public static boolean isJObject(final Class<?> clazz) {
-        return Types.isJObject(clazz);
-    }
-
     public static boolean isClass(final Object value) {
         return Types.isClass(value);
     }
@@ -1670,30 +1646,6 @@ public final class Ut extends HaS {
 
     public static JsonArray valueJArray(final JsonArray array, final String field) {
         return To.toJArray(valueSetString(array, field));
-    }
-
-    public static JsonArray valueJArray(final JsonArray array) {
-        return Jackson.sureJArray(array);
-    }
-
-    public static JsonArray valueJArray(final JsonArray array, final boolean copied) {
-        return Jackson.sureJArray(array, copied);
-    }
-
-    public static JsonArray valueJArray(final JsonObject input, final String field) {
-        return Jackson.sureJArray(input, field);
-    }
-
-    public static JsonObject valueJObject(final JsonObject object) {
-        return Jackson.sureJObject(object);
-    }
-
-    public static JsonObject valueJObject(final JsonObject object, final boolean copied) {
-        return Jackson.sureJObject(object, copied);
-    }
-
-    public static JsonObject valueJObject(final JsonObject input, final String field) {
-        return Jackson.sureJObject(input, field);
     }
 
     // mapping + replace/append

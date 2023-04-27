@@ -1,7 +1,5 @@
 package io.horizon.util;
 
-import io.vertx.up.util.Ut;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -66,7 +64,7 @@ final class HPeriod {
 
     private static <T> T parseEach(final String literal, final DateTimeFormatter formatter,
                                    final BiFunction<String, DateTimeFormatter, T> executor) {
-        if (Ut.isNil(literal)) {
+        if (HIs.isNil(literal)) {
             return null;
         } else {
             try {

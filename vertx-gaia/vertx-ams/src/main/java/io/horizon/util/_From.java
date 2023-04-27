@@ -81,7 +81,7 @@ class _From {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final Integer seed, final Integer width, final char fill) {
-        return TString.adjust(String.valueOf(seed), width, fill);
+        return HString.fromAdjust(String.valueOf(seed), width, fill);
     }
 
     /**
@@ -95,7 +95,7 @@ class _From {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final String seed, final Integer width, final char fill) {
-        return TString.adjust(seed, width, fill);
+        return HString.fromAdjust(seed, width, fill);
     }
 
     /**
@@ -107,7 +107,7 @@ class _From {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final String seed, final Integer width) {
-        return TString.adjust(seed, width, ' ');
+        return HString.fromAdjust(seed, width, ' ');
     }
 
     /**
@@ -119,6 +119,6 @@ class _From {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final Integer seed, final Integer width) {
-        return TString.adjust(String.valueOf(seed), width, '0');
+        return HString.fromAdjust(String.valueOf(seed), width, '0');
     }
 }

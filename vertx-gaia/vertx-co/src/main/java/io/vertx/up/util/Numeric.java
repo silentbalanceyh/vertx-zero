@@ -42,14 +42,17 @@ final class Numeric {
         }, source, field, clazz);
     }
 
+    @Deprecated
     static boolean isPositive(final String original) {
         return StringUtil.isMatch(VString.REGEX.POSITIVE, original);
     }
 
+    @Deprecated
     static boolean isNegative(final String original) {
         return StringUtil.isMatch(VString.REGEX.NEGATIVE, original);
     }
 
+    @Deprecated
     static boolean isInteger(final String original) {
         return StringUtil.isMatch(VString.REGEX.INTEGER, original) || isPositive(original) || isNegative(original);
     }

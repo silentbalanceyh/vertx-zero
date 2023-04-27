@@ -8,25 +8,10 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 final class Types {
-    static final ConcurrentMap<Class<?>, Class<?>> UNBOXES =
-        new ConcurrentHashMap<Class<?>, Class<?>>() {
-            {
-                this.put(Integer.class, int.class);
-                this.put(Long.class, long.class);
-                this.put(Short.class, short.class);
-                this.put(Boolean.class, boolean.class);
-                this.put(Character.class, char.class);
-                this.put(Double.class, double.class);
-                this.put(Float.class, float.class);
-                this.put(Byte.class, byte.class);
-            }
-        };
     private static final Annal LOGGER = Annal.get(Types.class);
 
     private Types() {
@@ -47,6 +32,7 @@ final class Types {
         }
     }
 
+    @Deprecated
     static boolean isJArray(final String literal) {
         return Fn.orNull(Boolean.FALSE, () -> {
             try {
@@ -58,12 +44,14 @@ final class Types {
         }, literal);
     }
 
+    @Deprecated
     static boolean isJArray(final Object value) {
         return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> isJArray(value.getClass()));
     }
 
+    @Deprecated
     static boolean isJArray(final Class<?> clazz) {
         return JsonArray.class == clazz;
     }
@@ -90,6 +78,7 @@ final class Types {
             () -> null != Instance.clazz(value.toString()));
     }
 
+    @Deprecated
     static boolean isJObject(final String literal) {
         return Fn.orNull(Boolean.FALSE, () -> {
             try {
@@ -101,12 +90,14 @@ final class Types {
         }, literal);
     }
 
+    @Deprecated
     static boolean isJObject(final Object value) {
         return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> isJObject(value.getClass()));
     }
 
+    @Deprecated
     static boolean isJObject(final Class<?> clazz) {
         return JsonObject.class == clazz || LinkedHashMap.class == clazz;
     }

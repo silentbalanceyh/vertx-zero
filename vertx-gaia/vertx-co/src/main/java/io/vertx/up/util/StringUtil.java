@@ -315,6 +315,7 @@ final class StringUtil {
         return (valueFolder + valueFile).replace("//", "/");
     }
 
+    @Deprecated
     // Regex Matcher for string
     static boolean isMatch(final String regex, final String original) {
         return Fn.orNull(() -> {

@@ -4,7 +4,6 @@ import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -74,11 +73,12 @@ class HIs {
     }
 
     static boolean isMatch(final String value, final String regex) {
-        return Fn.orNull(() -> {
-            final Pattern pattern = Pattern.compile(regex);
-            final Matcher matcher = pattern.matcher(value);
-            return matcher.matches();
-        }, regex, value);
+        if (isNil(value) || isNil(regex)) {
+            return false;
+        }
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(value);
+        return matcher.matches();
     }
 
 

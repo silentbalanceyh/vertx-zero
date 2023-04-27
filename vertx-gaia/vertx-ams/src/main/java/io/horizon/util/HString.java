@@ -3,15 +3,15 @@ package io.horizon.util;
 /**
  * @author lang : 2023/4/27
  */
-class TString {
-    private TString() {
+class HString {
+    private HString() {
     }
 
     private static String repeat(final Integer times, final char fill) {
         return String.valueOf(fill).repeat(Math.max(0, times));
     }
 
-    static String adjust(final String seed, final Integer width, final char fill) {
+    static String fromAdjust(final String seed, final Integer width, final char fill) {
         final StringBuilder builder = new StringBuilder();
         final int seedLen = seed.length();
         int fillLen = width - seedLen;

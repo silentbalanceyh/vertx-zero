@@ -28,10 +28,6 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-config-yaml</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-        </dependency>
         <!-- Hazelcast -->
         <dependency>
             <groupId>io.vertx</groupId>

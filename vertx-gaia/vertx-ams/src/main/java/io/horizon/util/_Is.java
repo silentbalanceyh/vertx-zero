@@ -288,6 +288,72 @@ class _Is extends _From {
         return HType.isNumber(clazz);
     }
 
+    /**
+     * 检查类型是否 JsonObject 类型
+     *
+     * @param clazz 类型
+     *
+     * @return 是否 JsonObject 类型
+     */
+    public static boolean isJObject(final Class<?> clazz) {
+        return HType.isJObject(clazz);
+    }
+
+    /**
+     * 检查一个对象是否 JsonObject 类型
+     *
+     * @param obj 对象
+     *
+     * @return 是否 JsonObject 类型
+     */
+    public static boolean isJObject(final Object obj) {
+        return HJson.isJObject(obj);
+    }
+
+    /**
+     * 检查一个字符串是否 JsonObject 类型
+     *
+     * @param literal 字符串
+     *
+     * @return 是否 JsonObject 类型
+     */
+    public static boolean isJObject(final String literal) {
+        return HJson.isJObject(literal);
+    }
+
+    /**
+     * 检查类型是否 JsonArray 类型
+     *
+     * @param clazz 类型
+     *
+     * @return 是否 JsonArray 类型
+     */
+    public static boolean isJArray(final Class<?> clazz) {
+        return HType.isJArray(clazz);
+    }
+
+    /**
+     * 检查一个对象是否 JsonArray 类型
+     *
+     * @param obj 对象
+     *
+     * @return 是否 JsonArray 类型
+     */
+    public static boolean isJArray(final Object obj) {
+        return HJson.isJArray(obj);
+    }
+
+    /**
+     * 检查一个字符串是否 JsonArray 类型
+     *
+     * @param literal 字符串
+     *
+     * @return 是否 JsonArray 类型
+     */
+    public static boolean isJArray(final String literal) {
+        return HJson.isJArray(literal);
+    }
+
     // ---------------- 判断函数：类型
 
     /**

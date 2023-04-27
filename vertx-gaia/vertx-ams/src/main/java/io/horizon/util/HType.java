@@ -1,9 +1,13 @@
 package io.horizon.util;
 
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.temporal.Temporal;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 /**
  * @author lang : 2023/4/27
@@ -54,5 +58,14 @@ final class HType {
         return isDecimal(clazz)
             || isInteger(clazz)
             || Number.class.isAssignableFrom(clazz);
+    }
+
+    static boolean isJObject(final Class<?> clazz) {
+        return JsonObject.class.isAssignableFrom(clazz)
+            || LinkedHashMap.class.isAssignableFrom(clazz);
+    }
+
+    static boolean isJArray(final Class<?> clazz) {
+        return JsonArray.class.isAssignableFrom(clazz);
     }
 }

@@ -236,10 +236,6 @@ final class To {
         return params;
     }
 
-    static Class<?> toPrimary(final Class<?> source) {
-        return Types.UNBOXES.getOrDefault(source, source);
-    }
-
     static WebException toError(
         final Class<? extends WebException> clazz,
         final Object... args

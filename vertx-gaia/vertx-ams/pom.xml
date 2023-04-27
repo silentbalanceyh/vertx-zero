@@ -13,6 +13,11 @@
     <artifactId>vertx-ams</artifactId>
     <name>「vertx-ams」Agreed Metadata Service</name>
     <dependencies>
+        <!-- Vert.x -->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

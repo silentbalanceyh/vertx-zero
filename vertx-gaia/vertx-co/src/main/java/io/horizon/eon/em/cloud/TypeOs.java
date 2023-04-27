@@ -1,6 +1,6 @@
 package io.horizon.eon.em.cloud;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -13,7 +13,7 @@ public enum TypeOs {
     WINDOWS;        // WINDOWS
 
     public static TypeOs from(final String os) {
-        if (Ut.isNil(os)) {
+        if (HaS.isNil(os)) {
             return TypeOs.NA;
         }
         if (os.startsWith("Windows")) {

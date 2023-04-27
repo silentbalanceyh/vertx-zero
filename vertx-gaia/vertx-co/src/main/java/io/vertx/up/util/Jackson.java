@@ -346,6 +346,7 @@ final class Jackson {
         }, target, source, field));
     }
 
+    @Deprecated
     static JsonArray sureJArray(final JsonArray array, final boolean copied) {
         if (Ut.isNil(array)) {
             return new JsonArray();
@@ -358,38 +359,12 @@ final class Jackson {
         }
     }
 
+    @Deprecated
     static JsonArray sureJArray(final JsonArray array) {
         return sureJArray(array, false);
     }
 
-    static JsonArray sureJArray(JsonObject input, final String field) {
-        input = sureJObject(input);
-        final Object value = input.getValue(field);
-        if (Objects.isNull(value)) {
-            return new JsonArray();
-        }
-        if (value instanceof JsonArray) {
-            return (JsonArray) value;
-        } else {
-            LOGGER.warn("The value could not be converted to JsonArray = {0}", value);
-            return new JsonArray();
-        }
-    }
-
-    static JsonObject sureJObject(JsonObject input, final String field) {
-        input = sureJObject(input);
-        final Object value = input.getValue(field);
-        if (Objects.isNull(value)) {
-            return new JsonObject();
-        }
-        if (value instanceof JsonObject) {
-            return (JsonObject) value;
-        } else {
-            LOGGER.warn("The value could not be converted to JsonObject = {0}", value);
-            return new JsonObject();
-        }
-    }
-
+    @Deprecated
     static JsonObject sureJObject(final JsonObject object, final boolean copied) {
         if (Ut.isNil(object)) {
             return new JsonObject();
@@ -402,6 +377,7 @@ final class Jackson {
         }
     }
 
+    @Deprecated
     static JsonObject sureJObject(final JsonObject object) {
         return sureJObject(object, false);
     }
