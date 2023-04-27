@@ -47,8 +47,7 @@ public class TypedInsurer extends AbstractInsurer {
                 final JsonObject fields = rule.getJsonObject(Rules.TYPED);
                 Fn.verifyJObject(fields, (item, name) -> {
                     // 3. extract key for field definition
-                    final JsonType key = Ut.toEnum(JsonType.class,
-                        item.toString());
+                    final JsonType key = Ut.toEnum(item.toString(), JsonType.class);
                     final Function<Object, Boolean> fnTest
                         = FUNS.getOrDefault(key, (input) -> Boolean.TRUE);
                     // 4. checking failure, the pre-condition is that data contains checked key.

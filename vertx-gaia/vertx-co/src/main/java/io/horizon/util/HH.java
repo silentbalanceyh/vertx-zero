@@ -255,11 +255,11 @@ public class HH {
     // ---------------- 判断函数：类型（反射）
 
     /**
-     * 检查传入类型是否原始类型
+     * 检查传入类型是否基本类型
      *
      * @param clazz 类型
      *
-     * @return 是否原始类型
+     * @return 是否基本类型
      */
     public static boolean isPrimary(final Class<?> clazz) {
         return VEnv.SPEC.TYPES.containsValue(clazz);
@@ -555,6 +555,84 @@ public class HH {
     public static boolean isDecimalNegative(final Object input) {
         return Objects.nonNull(input)
             && HNumeric.isDecimalNegative(input.toString().trim().intern());
+    }
+
+    /**
+     * 检查字符串是否是一个操作系统的合法文件名，非空正则模式
+     *
+     * @param filename 文件名
+     *
+     * @return 是否是一个操作系统的合法文件名
+     */
+    public static boolean isFileName(final String filename) {
+        return HIs.isFileName(filename);
+    }
+
+    // ---------------- 转换函数：to - 转成 / from - 转入
+
+    /**
+     * 根据传入类型将该类型转换成基本类型
+     *
+     * @param source 源类型
+     *
+     * @return 基本类型
+     */
+    public static Class<?> toPrimary(final Class<?> source) {
+        return HTo.toPrimary(source);
+    }
+
+    /**
+     * 根据传入枚举类型做字符串级别的转换
+     *
+     * @param clazz   枚举元类型
+     * @param literal 字符串
+     * @param <T>     枚举类型
+     *
+     * @return 枚举
+     */
+    public static <T extends Enum<T>> T toEnum(final String literal, final Class<T> clazz) {
+        return HTo.toEnum(literal, clazz, null);
+    }
+
+    /**
+     * 根据传入枚举类型做字符串级别的转换（带默认值）
+     *
+     * @param clazz        枚举元类型
+     * @param literal      字符串
+     * @param defaultValue 默认值
+     * @param <T>          枚举类型
+     *
+     * @return 枚举
+     */
+    public static <T extends Enum<T>> T toEnum(final String literal, final Class<T> clazz, final T defaultValue) {
+        return HTo.toEnum(literal, clazz, defaultValue);
+    }
+
+    /**
+     * 根据传入枚举类型做字符串级别的转换（函数模式）
+     *
+     * @param supplier 字符串提供者
+     * @param clazz    枚举元类型
+     * @param <T>      枚举类型
+     *
+     * @return 枚举
+     */
+    public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> clazz) {
+        return HTo.toEnum(supplier.get(), clazz, null);
+    }
+
+    /**
+     * 根据传入枚举类型做字符串级别的转换（函数模式带默认值）
+     *
+     * @param supplier     字符串提供者
+     * @param clazz        枚举元类型
+     * @param defaultValue 默认值
+     * @param <T>          枚举类型
+     *
+     * @return 枚举
+     */
+    public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> clazz, final T defaultValue) {
+        return HTo.toEnum(supplier.get(), clazz, defaultValue);
     }
 
     // ---------------- Jvm强化函数

@@ -1187,17 +1187,8 @@ public final class Ut extends HH {
         return Period.equalDate(left, right);
     }
 
-    // isFileName
-    public static boolean isFileName(final String original) {
-        return StringUtil.isMatch(io.horizon.eon.VString.REGEX.FILENAME, original);
-    }
-
     public static boolean isDate(final Object value) {
         return Types.isDate(value);
-    }
-
-    public static boolean isSubset(final JsonObject cond, final JsonObject record) {
-        return Types.isSubset(cond, record);
     }
 
     public static boolean isArrayString(final JsonArray array) {
@@ -1455,14 +1446,6 @@ public final class Ut extends HH {
         return Period.toYear(date);
     }
 
-    public static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
-        return To.toEnum(clazz, input);
-    }
-
-    public static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
-        return To.toEnum(supplier, type, defaultEnum);
-    }
-
     public static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
         return To.toMethod(supplier, defaultValue);
     }
@@ -1485,10 +1468,6 @@ public final class Ut extends HH {
 
     public static Collection toCollection(final Object value) {
         return To.toCollection(value);
-    }
-
-    public static Class<?> toPrimary(final Class<?> source) {
-        return To.toPrimary(source);
     }
 
     public static LocalDateTime toDateTime(final String literal) {

@@ -458,7 +458,7 @@ final class Jackson {
     static ChangeFlag flag(final JsonObject data) {
         final JsonObject copy = Ut.valueJObject(data);
         final String flag = copy.getString(KName.__.FLAG, ChangeFlag.NONE.name());
-        return Ut.toEnum(ChangeFlag.class, flag);
+        return Ut.toEnum(flag, ChangeFlag.class);
     }
 
 

@@ -53,7 +53,7 @@ public class RpcClientImpl implements RpcClient {
         final JsonObject normalized = RpcHelper.normalize(name, config, record);
         this.holder = this.lookupHolder(this.vertx, name, normalized);
         // Get Channel
-        final IpcType type = Ut.toEnum(IpcType.class, config.getString(Key.TYPE));
+        final IpcType type = Ut.toEnum(config.getString(Key.TYPE), IpcType.class);
         final RpcStub stub = this.getStub(type);
         // Future result return to client.
         final IpcData request = new IpcData();

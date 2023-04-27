@@ -51,7 +51,7 @@ class KeyDefault implements AoDefault {
 
     private String getName(final JsonObject key) {
         // 读取键类型
-        final KeyType type = Ut.toEnum(KeyType.class, key.getString("type"));
+        final KeyType type = Ut.toEnum(key.getString("type"), KeyType.class);
         final StringBuilder name = new StringBuilder();
         name.append(KeyType.PRIMARY == type ? "PK_" : "UK_");
         name.append(this.entity.getTableName()).append('_');

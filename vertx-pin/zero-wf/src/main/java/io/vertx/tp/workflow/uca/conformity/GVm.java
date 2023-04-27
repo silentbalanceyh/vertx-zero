@@ -23,7 +23,7 @@ public final class GVm {
      */
     public static void generate(final WTodo generated, final WTodo wTask,
                                 final WTicket ticket) {
-        final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, wTask.getStatus());
+        final TodoStatus todoStatus = Ut.toEnum(wTask.getStatus(), TodoStatus.class);
         /*
          * 状态计算，若没有目标状态则直接设置 PENDING
          * 若存在目标状态（可能配置到Move中）则不设置目标状态

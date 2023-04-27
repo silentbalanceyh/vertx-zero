@@ -32,20 +32,6 @@ final class Types {
     private Types() {
     }
 
-    /*
-     * Whether record contains all the data in cond.
-     * JsonObject subset here for checking
-     */
-    static boolean isSubset(final JsonObject cond, final JsonObject record) {
-        final Set<String> fields = cond.fieldNames();
-        final long counter = fields.stream()
-            /* record contains all cond */
-            .filter(record::containsKey)
-            .filter(field -> HH.isEqual(record.getValue(field), cond.getValue(field)))
-            .count();
-        return fields.size() == counter;
-    }
-
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         if (HH.isNil(record)) {
             /*

@@ -31,7 +31,7 @@ public class Metadata implements Serializable {
              * Source parsed here.
              */
             final MetaSource source =
-                Ut.toEnum(MetaSource.class, input.getString(KEY_TYPE));
+                Ut.toEnum(input.getString(KEY_TYPE), MetaSource.class);
             final JsonObject content = input.getJsonObject(KEY_CONTENT);
             /*
              * Parser applying

@@ -96,7 +96,7 @@ public class RpcSslTool {
     private static TrustPipe<JsonObject> getPipe(final JsonObject ssl) {
         final Object type = ssl.getValue("type");
         final CertType certType = null == type ?
-            CertType.PEM : Ut.toEnum(CertType.class, type.toString());
+            CertType.PEM : Ut.toEnum(type::toString, CertType.class);
         return TrustPipe.get(certType);
     }
 }

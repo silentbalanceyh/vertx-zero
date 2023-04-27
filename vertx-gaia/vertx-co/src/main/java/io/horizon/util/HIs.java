@@ -1,5 +1,6 @@
 package io.horizon.util;
 
+import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -78,5 +79,11 @@ class HIs {
             final Matcher matcher = pattern.matcher(value);
             return matcher.matches();
         }, regex, value);
+    }
+
+
+    static boolean isFileName(final String literal) {
+        return Objects.nonNull(literal)
+            && isMatch(literal, VString.REGEX.FILENAME);
     }
 }

@@ -117,7 +117,7 @@ public class UiActor {
         final JsonObject condition = Ux.whereAnd()
             .put(KName.SIGMA, header.getSigma())
             .put(KName.POSITION, position);
-        final ViewType type = Ut.toEnum(ViewType.class, typeStr);
+        final ViewType type = Ut.toEnum(typeStr, ViewType.class);
         if (ViewType.Model == type) {
             // POSITION = ? AND SIGMA = ? AND IDENTIFIER = ? ORDER BY SORT ASC
             condition.put(KName.IDENTIFIER, id);
@@ -142,7 +142,7 @@ public class UiActor {
          *      "alias": The name that you can define here.
          * }
          */
-        final ControlType controlType = Ut.toEnum(ControlType.class, params.getString(KName.TYPE));
+        final ControlType controlType = Ut.toEnum(params.getString(KName.TYPE), ControlType.class);
 
         if (Objects.isNull(controlType)) {
             return Ux.futureJ();

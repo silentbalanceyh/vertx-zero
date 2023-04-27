@@ -72,7 +72,7 @@ class AtRunner {
          * 1）如果计算的字段列表信息为 Empty，则变更历史跳过
          * 2）如果不为 Empty 才执行下一步操作
          */
-        final ChangeFlag flag = Ut.toEnum(ChangeFlag.class, activity.getType());
+        final ChangeFlag flag = Ut.toEnum(activity.getType(), ChangeFlag.class);
         final List<XActivityChange> changeList = this.toChanges(
             oldRecord, newRecord,
             flag, this.atom, ignoreSet);

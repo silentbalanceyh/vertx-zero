@@ -100,7 +100,7 @@ public class ZeroRegistry implements UddiRegistry {
         Observable.fromIterable(nodes.entrySet())
             .filter(Objects::nonNull)
             .filter(item -> Objects.nonNull(item.getKey()) && Objects.nonNull(item.getValue()))
-            .filter(item -> Etat.RUNNING == Ut.toEnum(Etat.class, item.getValue()))
+            .filter(item -> Etat.RUNNING == Ut.toEnum(item::getValue, Etat.class))
             .map(Map.Entry::getKey)
             .subscribe(sets::add).dispose();
         return sets;

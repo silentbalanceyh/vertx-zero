@@ -67,19 +67,6 @@ final class To {
         return nested;
     }
 
-    static <T extends Enum<T>> T toEnum(final Class<T> clazz, final String input) {
-        return Fn.orJvm(null, () -> Enum.valueOf(clazz, input), clazz, input);
-    }
-
-    static <T extends Enum<T>> T toEnum(final Supplier<String> supplier, final Class<T> type, final T defaultEnum) {
-        final String method = supplier.get();
-        T result = Ut.toEnum(type, method);
-        if (null == result) {
-            result = defaultEnum;
-        }
-        return result;
-    }
-
     static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
         final String method = supplier.get();
         if (HH.isNil(method)) {
@@ -87,10 +74,6 @@ final class To {
         } else {
             return HttpMethod.valueOf(method);
         }
-    }
-
-    static Integer toInteger(final Object value) {
-        return Fn.orNull(null, () -> Integer.parseInt(value.toString()), value);
     }
 
     static List<Class<?>> toClass(final JsonArray names) {

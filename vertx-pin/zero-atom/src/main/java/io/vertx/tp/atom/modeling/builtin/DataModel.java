@@ -133,7 +133,7 @@ public class DataModel extends AbstractHModel implements Model {
     @Override
     public ModelType type() {
         final String typeStr = this.model.getType();
-        final ModelType type = Ut.toEnum(ModelType.class, typeStr);
+        final ModelType type = Ut.toEnum(typeStr, ModelType.class);
         return null == type ? ModelType.DIRECT : type;
     }
 

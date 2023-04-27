@@ -29,7 +29,7 @@ public class AclService implements AclStub {
         } else {
             /* Sample Rule Here ( Here are no definition ) */
             final WTodo todo = record.task();
-            final TodoStatus todoStatus = Ut.toEnum(TodoStatus.class, todo.getStatus());
+            final TodoStatus todoStatus = Ut.toEnum(todo.getStatus(), TodoStatus.class);
             final JsonObject edition = new JsonObject();
 
             if (TodoStatus.DRAFT == todoStatus ||

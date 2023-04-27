@@ -104,7 +104,7 @@ final class OxConfig {
             koJson.fieldNames().forEach(field -> {
                 final String message = koJson.getString(field);
                 if (Ut.isNotNil(message)) {
-                    final TypeLog logKey = Ut.toEnum(TypeLog.class, field);
+                    final TypeLog logKey = Ut.toEnum(field, TypeLog.class);
                     if (Objects.nonNull(logKey)) {
                         MESSAGE.put(logKey, message);
                     }

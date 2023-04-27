@@ -68,7 +68,7 @@ class Bridge {
          * 1.只有特殊情况会在这个流程中填充source，一个是连接过后值为1
          * 2.另外一个是模型类型为DIRECT
          */
-        final ModelType type = Ut.toEnum(ModelType.class, model.dbModel().getType());
+        final ModelType type = Ut.toEnum(model.dbModel().getType(), ModelType.class);
         if (VValue.ONE == schemata.size() && ModelType.DIRECT == type) {
             // 判断模型的类型
             final Schema schema = schemata.iterator().next();

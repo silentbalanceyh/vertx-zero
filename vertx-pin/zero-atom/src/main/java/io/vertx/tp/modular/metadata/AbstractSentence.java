@@ -64,7 +64,7 @@ public abstract class AbstractSentence implements AoSentence, SqlStatement {
         columns.forEach(column -> columnList.add("`" + column + "`"));
         final String columnStr = Ut.fromJoin(columnList, VString.COMMA);
         // 类型处理
-        final KeyType typeKey = Ut.toEnum(KeyType.class, key.getType());
+        final KeyType typeKey = Ut.toEnum(key.getType(), KeyType.class);
         if (KeyType.PRIMARY == typeKey) {
             segment.append(MessageFormat.format(SqlStatement.CONSTRAINT_PK, key.getName(), columnStr));
         } else if (KeyType.UNIQUE == typeKey) {
