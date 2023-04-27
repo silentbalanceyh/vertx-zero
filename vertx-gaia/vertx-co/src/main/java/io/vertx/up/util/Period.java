@@ -1,7 +1,5 @@
 package io.vertx.up.util;
 
-import io.vertx.up.fn.Fn;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -155,18 +153,6 @@ final class Period {
             .filter(Objects::nonNull)
             .findAny()
             .orElse(null);
-        /*
-        final Optional<DateTimeFormatter> hit =
-                Fn.getNull(Optional.empty(),
-                        () -> TIMES.stream()
-                                .filter(formatter ->
-                                        null != Fn.getJvm(
-                                                null,
-                                                () -> LocalTime.parse(literal, formatter),
-                                                literal))
-                                .findFirst(), literal);
-        return hit.isPresent() ? LocalTime.parse(literal, hit.get()) : null;
-         */
     }
 
     /**
@@ -252,7 +238,9 @@ final class Period {
     }
 
     static Date parse(final String literal) {
-        return Fn.orNull(null, () -> {
+        if (Objects.isNull(literal)) {
+            return null;
+        } else {
             String target = literal;
             if (target.contains("T")) {
                 target = target.replace('T', ' ');
@@ -292,7 +280,7 @@ final class Period {
             } else {
                 return parseFull(literal);
             }
-        }, literal);
+        }
     }
 
     private static ZoneId getAdjust(final String literal) {
@@ -311,7 +299,9 @@ final class Period {
      * @return null or valid `java.util.Date` object
      */
     static Date parseFull(final String literal) {
-        return Fn.orNull(null, () -> {
+        if (Objects.isNull(literal)) {
+            return null;
+        } else {
             // Datetime parsing
             final LocalDateTime datetime = toDateTime(literal);
             final ZoneId zoneId = getAdjust(literal);
@@ -334,7 +324,7 @@ final class Period {
                  */
                 return Date.from(datetime.atZone(zoneId).toInstant());
             }
-        }, literal);
+        }
     }
 
     static void itDay(final LocalDate from, final LocalDate end,

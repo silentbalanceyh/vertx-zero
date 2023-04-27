@@ -664,17 +664,17 @@ public final class Fn {
         return Atomic.passion(input, Arrays.asList(executors));
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(value = HH.class)
     public static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
         return HH.pool(pool, key, poolFn);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(value = HH.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
         return HH.poolThread(pool, poolFn);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(value = HH.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
         return HH.poolThread(pool, poolFn, key);
     }

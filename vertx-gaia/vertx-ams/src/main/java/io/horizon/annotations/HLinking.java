@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface HLinking {
-    Class<?> refer();
+    Class<?> value();
 }

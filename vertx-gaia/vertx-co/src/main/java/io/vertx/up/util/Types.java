@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import io.horizon.eon.VValue;
 import io.horizon.util.HH;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
@@ -8,11 +7,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -38,18 +32,6 @@ final class Types {
     private Types() {
     }
 
-    private static boolean equal(final Object left, final Object right) {
-        if (null == left && null == right) {
-            return true;
-        } else if (null == left && null != right) {
-            return false;
-        } else if (null != left && null == right) {
-            return false;
-        } else {
-            return left.equals(right);
-        }
-    }
-
     /*
      * Whether record contains all the data in cond.
      * JsonObject subset here for checking
@@ -59,13 +41,9 @@ final class Types {
         final long counter = fields.stream()
             /* record contains all cond */
             .filter(record::containsKey)
-            .filter(field -> equal(record.getValue(field), cond.getValue(field)))
+            .filter(field -> HH.isEqual(record.getValue(field), cond.getValue(field)))
             .count();
         return fields.size() == counter;
-    }
-
-    static boolean isEqual(final String left, final String right) {
-        return equal(left, right);
     }
 
     static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
@@ -79,21 +57,8 @@ final class Types {
              * Object reference
              */
             final Object value = record.getValue(field);
-            return equal(value, expected);
+            return HH.isEqual(value, expected);
         }
-    }
-
-    /*
-     * Low performance processing, be careful to use
-     */
-    static boolean isUUID(final String literal) {
-        UUID converted;
-        try {
-            converted = UUID.fromString(literal);
-        } catch (final IllegalArgumentException ex) {
-            converted = null;
-        }
-        return Objects.nonNull(converted);
     }
 
     static boolean isJArray(final String literal) {
@@ -131,10 +96,6 @@ final class Types {
         } else {
             return array.stream().allMatch(item -> item instanceof JsonObject);
         }
-    }
-
-    static boolean isVoid(final Class<?> clazz) {
-        return null == clazz || Void.class == clazz || void.class == clazz;
     }
 
     static boolean isClass(final Object value) {
@@ -187,43 +148,10 @@ final class Types {
             () -> Numeric.isInteger(value.toString()));
     }
 
-    static boolean isInteger(final Class<?> clazz) {
-        return int.class == clazz || Integer.class == clazz
-            || long.class == clazz || Long.class == clazz
-            || short.class == clazz || Short.class == clazz;
-    }
-
     static boolean isDecimal(final Object value) {
         return Fn.orSemi(null == value, LOGGER,
             () -> false,
             () -> Numeric.isDecimal(value.toString()));
-    }
-
-    static boolean isDecimal(final Class<?> clazz) {
-        return double.class == clazz || Double.class == clazz
-            || float.class == clazz || Float.class == clazz
-            || BigDecimal.class == clazz;
-    }
-
-    static boolean isBoolean(final Class<?> clazz) {
-        return boolean.class == clazz || Boolean.class == clazz;
-    }
-
-    static boolean isBoolean(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
-            () -> false,
-            () -> {
-                boolean logical = false;
-                final String literal = value.toString();
-                // Multi true literal such as "true", "TRUE" or 1
-                if (VValue.TRUE.equalsIgnoreCase(literal)
-                    || Integer.valueOf(1).toString().equalsIgnoreCase(literal)
-                    || VValue.FALSE.equalsIgnoreCase(literal)
-                    || Integer.valueOf(0).toString().equalsIgnoreCase(literal)) {
-                    logical = true;
-                }
-                return logical;
-            });
     }
 
     static boolean isDate(final Object value) {
@@ -232,17 +160,11 @@ final class Types {
         } else {
             if (value instanceof Class) {
                 final Class<?> type = (Class<?>) value;
-                return isDate(type);
+                return HH.isDate(type);
             } else {
                 return Period.isValid(value.toString());
             }
         }
-    }
-
-    static boolean isDate(final Class<?> type) {
-        return LocalDateTime.class == type || LocalDate.class == type ||
-            LocalTime.class == type || Date.class == type ||
-            Instant.class == type;
     }
 
     static boolean isArray(final Object value) {
@@ -251,17 +173,5 @@ final class Types {
         }
         return (value instanceof Collection ||
             value.getClass().isArray());
-    }
-
-
-    /**
-     * Check Primary
-     *
-     * @param source
-     *
-     * @return
-     */
-    static boolean isPrimary(final Class<?> source) {
-        return UNBOXES.values().contains(source);
     }
 }

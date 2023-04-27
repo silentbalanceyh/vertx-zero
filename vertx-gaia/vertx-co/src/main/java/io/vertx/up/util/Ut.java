@@ -1191,16 +1191,19 @@ public final class Ut {
         return Period.equalDate(left, right);
     }
 
+    @HLinking(HH.class)
     public static boolean isUUID(final String literal) {
-        return Types.isUUID(literal);
+        return HH.isUUID(literal); // Types.isUUID(literal);
     }
 
+    @HLinking(HH.class)
     public static boolean isBoolean(final Class<?> clazz) {
-        return Types.isBoolean(clazz);
+        return HH.isBoolean(clazz); // Types.isBoolean(clazz);
     }
 
+    @HLinking(HH.class)
     public static boolean isBoolean(final Object value) {
-        return Types.isBoolean(value);
+        return Objects.nonNull(value) && HH.isBoolean(value.toString(), true); // Types.isBoolean(value);
     }
 
     public static boolean isPositive(final String original) {
@@ -1231,16 +1234,18 @@ public final class Ut {
         return Types.isInteger(value);
     }
 
+    @HLinking(HH.class)
     public static boolean isInteger(final Class<?> clazz) {
-        return Types.isInteger(clazz);
+        return HH.isInteger(clazz); // Types.isInteger(clazz);
     }
 
     public static boolean isDecimal(final Object value) {
         return Types.isDecimal(value);
     }
 
+    @HLinking(HH.class)
     public static boolean isDecimal(final Class<?> clazz) {
-        return Types.isDecimal(clazz);
+        return HH.isDecimal(clazz); // Types.isDecimal(clazz);
     }
 
     public static boolean isDecimal(final String original) {
@@ -1268,8 +1273,9 @@ public final class Ut {
         return Types.isDate(value);
     }
 
+    @HLinking(HH.class)
     public static boolean isDate(final Class<?> type) {
-        return Types.isDate(type);
+        return HH.isDate(type); // Types.isDate(type);
     }
 
     public static boolean isSubset(final JsonObject cond, final JsonObject record) {
@@ -1309,66 +1315,78 @@ public final class Ut {
     }
 
 
+    @HLinking(HH.class)
     public static boolean isVoid(final Class<?> clazz) {
-        return Types.isVoid(clazz);
+        return HH.isVoid(clazz); // Types.isVoid(clazz);
     }
 
     public static boolean isClass(final Object value) {
         return Types.isClass(value);
     }
 
+    @HLinking(HH.class)
     public static boolean isPrimary(final Class<?> clazz) {
-        return Types.isPrimary(clazz);
+        return HH.isPrimary(clazz); // Types.isPrimary(clazz);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNull(final Object... args) {
         return HH.isNull(args); // 0 == args.length || Arrays.stream(args).allMatch(Objects::isNull);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNil(final String input) {
         return HH.isNil(input); // StringUtil.isNil(input);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNil(final String... inputs) {
         return HH.isNil(inputs); // StringUtil.isNil(inputs);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNil(final JsonObject json) {
         return HH.isNil(json); // Types.isEmpty(json);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNil(final JsonArray jsonArray) {
         return HH.isNil(jsonArray); // Types.isEmpty(jsonArray);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNotNil(final String input) {
         return HH.isNotNil(input); // StringUtil.notNil(input);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNotNil(final JsonObject json) {
         return HH.isNotNil(json); // !isNil(json);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNotNil(final JsonArray jsonArray) {
         return HH.isNotNil(jsonArray); // !isNil(jsonArray);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static boolean isNotNull(final Object... objects) {
         return HH.isNotNil(objects); // !isNull(objects);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static void requireNonNull(final Object... objects) {
         HH.requireNonNull(objects); // Arrays.stream(objects).forEach(Objects::requireNonNull);
+    }
+
+    @HLinking(HH.class)
+    public static boolean isEqual(final String left, final String right) {
+        return HH.isEqual(left, right);         // Types.isEqual(left, right);
+    }
+
+    @HLinking(HH.class)
+    public static boolean isDiff(final String left, final String right) {
+        return HH.isDiff(left, right); // !isEqual(left, right);
     }
 
     public static boolean isIn(final JsonObject input, final String... fields) {
@@ -1377,14 +1395,6 @@ public final class Ut {
 
     public static <T> boolean isEqual(final JsonObject record, final String field, final T expected) {
         return Types.isEqual(record, field, expected);
-    }
-
-    public static boolean isEqual(final String left, final String right) {
-        return Types.isEqual(left, right);
-    }
-
-    public static boolean isDiff(final String left, final String right) {
-        return !isEqual(left, right);
     }
 
     public static boolean isDiff(final JsonArray left, final JsonArray right, final Set<String> fields) {
@@ -1858,7 +1868,7 @@ public final class Ut {
         return Format.formatBold(pattern, args);
     }
 
-    @HLinking(refer = HH.class)
+    @HLinking(HH.class)
     public static String fromMessage(final String pattern, final Object... args) {
         return HH.fromMessage(pattern, args);
     }
