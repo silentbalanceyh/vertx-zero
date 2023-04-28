@@ -10,6 +10,7 @@ import io.vertx.up.util.Ut;
 import io.vertx.up.verticle.ZeroHttpAgent;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -34,13 +35,14 @@ public class HttpFactor extends AbstractFactor {
     static {
         final JsonObject data = VISITOR.read();
         if (data.containsKey(KName.Micro.ETCD)) {
-            Ut.clazzIf(KWeb.COMPONENTS.AGENT_RPC, clazz -> {
+            final Class<?> clazz = Ut.clazz(KWeb.COMPONENTS.AGENT_RPC, null);
+            if (Objects.nonNull(clazz)) {
                 /*
                  * Plugin In ( gRpc Environment )
                  */
                 AGENT_SET.add(clazz);
                 INTERNALS.put(ServerType.IPC, clazz);
-            });
+            }
         }
     }
 

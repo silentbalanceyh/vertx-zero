@@ -5,6 +5,7 @@ import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -20,13 +21,14 @@ public class ApiFactor extends AbstractFactor {
     private static final ConcurrentMap<ServerType, Class<?>> INTERNALS = new ConcurrentHashMap<>();
 
     static {
-        Ut.clazzIf(KWeb.COMPONENTS.AGENT_API, clazz -> {
+        final Class<?> clazz = Ut.clazz(KWeb.COMPONENTS.AGENT_API, null);
+        if (Objects.nonNull(clazz)) {
             /*
              * Plugin In
              */
             AGENT_SET.add(clazz);
             INTERNALS.put(ServerType.IPC, clazz);
-        });
+        }
     }
 
     @Override

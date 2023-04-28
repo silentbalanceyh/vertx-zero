@@ -755,10 +755,6 @@ public final class Ut extends HaS {
         return Instance.clazz(name, defaultCls);
     }
 
-    public static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
-        Instance.clazzIf(name, consumer);
-    }
-
     public static boolean isImplement(final Class<?> clazz, final Class<?> interfaceCls) {
         return Instance.isMatch(clazz, interfaceCls);
     }

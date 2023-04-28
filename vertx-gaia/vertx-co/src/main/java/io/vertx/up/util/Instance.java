@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unchecked"})
@@ -126,13 +125,6 @@ final class Instance {
             .getContextClassLoader().loadClass(name), name), name);
         //        return Fn.po?l(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
         //            .getContextClassLoader().loadClass(name), name));
-    }
-
-    static void clazzIf(final String name, final Consumer<Class<?>> consumer) {
-        final Class<?> clazz = clazz(name, null);
-        if (Objects.nonNull(clazz)) {
-            consumer.accept(clazz);
-        }
     }
 
     static Class<?> clazz(final String name, final Class<?> defaultCls) {
