@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * @author lang : 2023/4/27
  */
-class _Is extends _From {
+class _Is extends _IoIn {
     protected _Is() {
     }
 

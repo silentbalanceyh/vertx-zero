@@ -7,7 +7,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
 import java.math.BigDecimal;
-import java.util.Random;
 
 /**
  * Number checking
@@ -55,23 +54,6 @@ final class Numeric {
     @Deprecated
     static boolean isInteger(final String original) {
         return StringUtil.isMatch(VString.REGEX.INTEGER, original) || isPositive(original) || isNegative(original);
-    }
-
-    static Integer randomNumber(final int length) {
-        // 1. Generate seed
-        final StringBuilder min = new StringBuilder();
-        final StringBuilder max = new StringBuilder();
-        // 2. Calculate
-        min.append(1);
-        for (int idx = 0; idx < length; idx++) {
-            min.append(0);
-            max.append(9);
-        }
-        // 3. min/max
-        final int minValue = Integer.parseInt(min.toString()) / 10;
-        final int maxValue = Integer.parseInt(max.toString());
-        final Random random = new Random();
-        return minValue + random.nextInt(maxValue - minValue);
     }
 
     static boolean isRange(final Integer value, final Integer min, final Integer max) {

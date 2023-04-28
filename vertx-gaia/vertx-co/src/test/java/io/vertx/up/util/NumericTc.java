@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.horizon.util.HaS;
 import org.junit.Test;
 
 public class NumericTc {
@@ -9,7 +10,7 @@ public class NumericTc {
         final long start = System.currentTimeMillis();
         int counter = 0;
         for (int idx = 0; idx < 100; idx++) {
-            final Integer result = Numeric.randomNumber(6);
+            final Integer result = HaS.randomNumber(6);
             if (6 != result.toString().length()) {
                 System.out.println(result);
             }

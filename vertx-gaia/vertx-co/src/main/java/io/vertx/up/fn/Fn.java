@@ -294,7 +294,7 @@ public final class Fn extends _Out {
      *    ifEmpty   - 异步集合检查（无同步）
      */
     public static JsonObject ifString(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> Wag.ifString(json, field));
+        Arrays.stream(fields).forEach(field -> If.ifString(json, field));
         return json;
     }
 
@@ -312,7 +312,7 @@ public final class Fn extends _Out {
     }
 
     public static JsonObject ifJObject(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> Wag.ifJson(json, field));
+        Arrays.stream(fields).forEach(field -> If.ifJson(json, field));
         return json;
     }
 
@@ -330,7 +330,7 @@ public final class Fn extends _Out {
     }
 
     public static JsonObject ifDefault(final JsonObject record, final String field, final Object value) {
-        return Wag.ifDefault(record, field, value);
+        return If.ifDefault(record, field, value);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifDefault(final String field, final Object value) {
@@ -340,7 +340,7 @@ public final class Fn extends _Out {
     // ======================= 和业务些许相关的复杂操作（特殊类API）
 
     public static JsonObject ifCopy(final JsonObject record, final String from, final String to) {
-        return Wag.ifCopy(record, from, to);
+        return If.ifCopy(record, from, to);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifCopy(final String from, final String to) {
@@ -348,7 +348,7 @@ public final class Fn extends _Out {
     }
 
     public static JsonObject ifCopies(final JsonObject target, final JsonObject source, final String... fields) {
-        return Wag.ifCopies(target, source, fields);
+        return If.ifCopies(target, source, fields);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifCopies(final JsonObject source, final String... fields) {
@@ -359,7 +359,7 @@ public final class Fn extends _Out {
      * 「双态型」两种形态
      */
     public static JsonObject ifPage(final JsonObject pageData, final String... fields) {
-        return Wag.ifPage(pageData, fields);
+        return If.ifPage(pageData, fields);
     }
 
     public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
@@ -368,11 +368,11 @@ public final class Fn extends _Out {
 
     // 单模式特殊方法（无第二形态）
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {
-        return t -> Future.succeededFuture(Wag.ifField(input, null, t));
+        return t -> Future.succeededFuture(If.ifField(input, null, t));
     }
 
     public static <T> Function<T, Future<JsonObject>> ifField(final JsonObject input, final String field) {
-        return t -> Future.succeededFuture(Wag.ifField(input, field, t));
+        return t -> Future.succeededFuture(If.ifField(input, field, t));
     }
 
     public static <T, V> Consumer<JsonObject> ifField(final String field, final Function<V, T> executor) {

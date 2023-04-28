@@ -17,7 +17,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class Wag {
+class If {
     /*
      * field:   JsonObject / JsonArray
      * to:      String ( encode() )
@@ -30,7 +30,7 @@ class Wag {
                     // JsonObject -> String
                     final String literal = valueJ.encode();
                     json.put(field, literal);
-                } else if (value instanceof JsonArray valueA) {
+                } else if (value instanceof final JsonArray valueA) {
                     // JsonArray -> String
                     final String literal = valueA.encode();
                     json.put(field, literal);
@@ -52,27 +52,27 @@ class Wag {
                 if (value instanceof final String literal) {
                     // String Literal
                     if (Ut.isJObject(literal)) {
-                        final JsonObject replaced = Ut.toJObject(literal, Wag::ifMetadata);
+                        final JsonObject replaced = Ut.toJObject(literal, If::ifMetadata);
                         object.put(field, replaced);
                     } else if (Ut.isJArray(literal)) {
-                        final JsonArray replaced = Ut.toJArray(literal, Wag::ifMetadata);
+                        final JsonArray replaced = Ut.toJArray(literal, If::ifMetadata);
                         object.put(field, replaced);
                     }
                 } else if (value instanceof final JsonObject valueJ) {
                     // JsonObject
-                    object.put(field, Wag.ifMetadata(valueJ));
+                    object.put(field, If.ifMetadata(valueJ));
                 } else if (value instanceof final JsonArray valueA) {
                     // JsonArray
                     final JsonArray replaced = new JsonArray();
                     // Element Extracting
                     valueA.forEach(valueE -> {
-                        if (valueE instanceof JsonObject valueJ) {
+                        if (valueE instanceof final JsonObject valueJ) {
                             // Element = JsonObject
-                            replaced.add(Wag.ifMetadata(valueJ));
-                        } else if (valueE instanceof String valueS) {
+                            replaced.add(If.ifMetadata(valueJ));
+                        } else if (valueE instanceof final String valueS) {
                             // Element = String
                             replaced.add(valueS);
-                        } else if (valueE instanceof JsonArray valueIA) {
+                        } else if (valueE instanceof final JsonArray valueIA) {
                             // Element = JsonArray（Fix Issue）
                             replaced.add(valueIA);
                         }

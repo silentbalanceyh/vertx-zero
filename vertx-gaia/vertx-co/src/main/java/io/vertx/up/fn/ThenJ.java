@@ -1,6 +1,5 @@
 package io.vertx.up.fn;
 
-import io.horizon.eon.info.VFn;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -41,7 +40,7 @@ final class ThenJ {
             });
         } else {
             // 什么都不做
-            Log.warn(ThenJ.class, VFn.TYPE_JA_NOT_MATCH, value);
+            Log.warn(ThenJ.class, __Message.ThenJ.TYPE_JA_NOT_MATCH, value);
             return Future.succeededFuture(input);
         }
     }

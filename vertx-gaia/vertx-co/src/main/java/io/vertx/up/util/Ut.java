@@ -661,130 +661,164 @@ public final class Ut extends HaS {
      * 8) ioPath
      * `input` operation
      */
+    @Deprecated
     public static String ioPath(final String folder, final String file) {
         return StringUtil.path(folder, file);
     }
 
+    @Deprecated
     public static String ioPath(final String path, final Environment environment) {
         return StringUtil.path(path, environment);
     }
 
+    @Deprecated
     public static List<String> ioPathSet(final String storePath) {
         return IOPath.ladder(storePath);
     }
 
+    @Deprecated
     public static String ioPathRoot(final String path) {
         return IOPath.first(path, VString.SLASH);
     }
 
+    @Deprecated
     public static String ioPathRoot(final String path, final String separator) {
         return IOPath.first(path, separator);
     }
 
+    @Deprecated
     public static String ioPathLeaf(final String path) {
         return IOPath.last(path, VString.SLASH);
     }
 
+    @Deprecated
     public static String ioPathLeaf(final String path, final String separator) {
         return IOPath.last(path, separator);
     }
 
+    @Deprecated
     public static List<String> ioFiles(final String folder) {
         return IODirectory.listFiles(folder, null);
     }
 
+    @Deprecated
     public static List<String> ioFiles(final String folder, final String extension) {
         return IODirectory.listFiles(folder, extension);
     }
 
+    @Deprecated
     public static List<String> ioFilesN(final String folder) {
         return IODirectory.listFilesN(folder, null, null);
     }
 
+    @Deprecated
     public static List<String> ioFilesN(final String folder, final String extension) {
         return IODirectory.listFilesN(folder, extension, null);
     }
 
+    @Deprecated
     public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
         return IODirectory.listFilesN(folder, extension, prefix);
     }
+
+    @Deprecated
 
     public static List<String> ioDirectories(final String folder) {
         return IODirectory.listDirectories(folder);
     }
 
+    @Deprecated
     public static List<String> ioDirectoriesN(final String folder) {
         return IODirectory.listDirectoriesN(folder);
     }
 
+    @Deprecated
     public static <T> T ioYaml(final String filename) {
         return IO.getYaml(filename);
     }
 
+    @Deprecated
     public static File ioFile(final String filename) {
         return IO.getFile(filename);
     }
 
+    @Deprecated
     public static boolean ioExist(final String filename) {
         return IO.isExist(filename);
     }
 
+    @Deprecated
     public static Properties ioProperties(final String filename) {
         return IO.getProp(filename);
     }
 
+    @Deprecated
     public static JsonArray ioJArray(final String filename) {
         return Jackson.sureJArray(IO.getJArray(filename));
     }
 
+    @Deprecated
     public static JsonObject ioJObject(final String filename) {
         return Jackson.sureJObject(IO.getJObject(filename));
     }
 
+    @Deprecated
     public static String ioString(final InputStream in) {
         return IO.getString(in);
     }
 
+    @Deprecated
     public static String ioString(final InputStream in, final String joined) {
         return IO.getString(in, joined);
     }
 
+    @Deprecated
     public static String ioString(final String filename) {
         return IO.getString(filename);
     }
 
+    @Deprecated
     public static String ioString(final String filename, final String joined) {
         return IO.getString(filename, joined);
     }
 
+    @Deprecated
     public static Buffer ioBuffer(final String filename) {
         return IO.getBuffer(filename);
     }
+
+    @Deprecated
 
     public static Buffer ioZip(final Set<String> fileSet) {
         return IO.zip(fileSet);
     }
 
+    @Deprecated
     public static InputStream ioStream(final File file) {
         return Stream.in(file);
     }
 
+    @Deprecated
     public static InputStream ioStream(final String filename, final Class<?> clazz) {
         return Stream.in(filename, clazz);
     }
 
+    @Deprecated
     public static InputStream ioStream(final String filename) {
         return Stream.in(filename);
     }
 
+    @Deprecated
     public static InputStream ioStreamN(final String filename) {
         return Stream.inN(filename);
     }
 
+    @Deprecated
     public static InputStream ioStreamN(final String filename, final Class<?> clazz) {
         return Stream.inN(filename, clazz);
     }
 
+    @Deprecated
     public static String ioCompress(final String filename) {
         return IO.getCompress(filename);
     }
@@ -795,34 +829,42 @@ public final class Ut extends HaS {
      * 2) ioOut ( Create folder )
      * 3) ioOutCompress
      */
+    @Deprecated
     public static boolean ioOut(final String file) {
         return Out.make(file);
     }
 
+    @Deprecated
     public static void ioOut(final String file, final String data) {
         Out.write(file, data);
     }
 
+    @Deprecated
     public static void ioOut(final String file, final JsonObject data) {
         Out.write(file, data);
     }
 
+    @Deprecated
     public static void ioOut(final String file, final JsonArray data) {
         Out.write(file, data);
     }
 
+    @Deprecated
     public static void ioOutCompress(final String file, final String data) {
         Out.writeCompress(file, data);
     }
 
+    @Deprecated
     public static void ioOutCompress(final String file, final JsonArray data) {
         Out.writeCompress(file, data);
     }
 
+    @Deprecated
     public static void ioOutCompress(final String file, final JsonObject data) {
         Out.writeCompress(file, data);
     }
 
+    @Deprecated
     public static void ioOut(final String file, final OutputStream output) {
         Out.writeBig(file, output);
     }
@@ -1272,22 +1314,6 @@ public final class Ut extends HaS {
      * 4) randomRsa
      * 5) randomCaptcha
      */
-    public static Integer randomNumber(final int length) {
-        return Numeric.randomNumber(length);
-    }
-
-    public static String randomString(final int length) {
-        return StringUtil.random(length);
-    }
-
-    public static String randomCaptcha(final int length) {
-        return StringUtil.captcha(length);
-    }
-
-    public static String randomLetter(final int length) {
-        return StringUtil.randomNoDigit(length);
-    }
-
     public static KPair randomRsa(final int length) {
         return ED.rsa(true).generate(length);
     }

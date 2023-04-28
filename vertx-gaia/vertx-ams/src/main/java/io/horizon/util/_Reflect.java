@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 /**
  * @author lang : 2023/4/28
  */
-class _Reflect extends _Parse {
+class _Reflect extends _Random {
     protected _Reflect() {
     }
 

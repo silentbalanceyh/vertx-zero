@@ -9,7 +9,6 @@ import io.vertx.up.log.DevEnv;
 import org.apache.commons.jexl3.*;
 
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,12 +18,6 @@ import java.util.regex.Pattern;
 final class StringUtil {
     private static final JexlEngine EXPR = new JexlBuilder()
         .cache(4096).silent(false).create();
-    private static final String SEED =
-        "01234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-    private static final String CAPTCHA_SEED =
-        "23456789qwertyuipasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM";
-    private static final String CHAR =
-        "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     private StringUtil() {
     }
@@ -76,47 +69,6 @@ final class StringUtil {
         }, input);
     }
 
-
-    /// Captcha related. ///
-    private static char randomCaptchaChar() {
-        return randomChar(CAPTCHA_SEED);
-    }
-
-    static String captcha(final int length) {
-        return random(length, StringUtil::randomCaptchaChar);
-    }
-
-    /// Random related. ///
-    private static char randomChar() {
-        return randomChar(SEED);
-    }
-
-    private static char randomCharNoDigit() {
-        return randomChar(CHAR);
-    }
-
-    private static char randomChar(final String seed) {
-        final Random random = new Random();
-        return seed.charAt(random.nextInt(seed.length()));
-    }
-
-    static String random(final int length) {
-        return random(length, StringUtil::randomChar);
-    }
-
-    static String randomNoDigit(final int length) {
-        return random(length, StringUtil::randomCharNoDigit);
-    }
-
-    private static String random(int length, final Supplier<Character> supplier) {
-        final StringBuilder builder = new StringBuilder();
-        while (0 < length) {
-            final char seed = supplier.get();
-            builder.append(seed);
-            length--;
-        }
-        return builder.toString();
-    }
 
     /*
      * Input Data Structure
