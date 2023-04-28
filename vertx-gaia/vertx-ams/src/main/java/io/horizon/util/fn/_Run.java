@@ -132,7 +132,7 @@ class _Run extends _Jvm {
         if (HaS.isNotNull(input)) {
             return HSupplier.runOr(defaultValue, supplier);
         } else {
-            return HSupplier.runOr(null, supplier);
+            return defaultValue; // HSupplier.runOr(null, supplier);
         }
     }
 
@@ -151,7 +151,7 @@ class _Run extends _Jvm {
         if (HaS.isNotNil(input)) {
             return HSupplier.runOr(defaultValue, supplier);
         } else {
-            return HSupplier.runOr(null, supplier);
+            return defaultValue; // return HSupplier.runOr(null, supplier);
         }
     }
 
@@ -172,8 +172,7 @@ class _Run extends _Jvm {
     public static <T> T runOr(final boolean condition, final HLogger logger,
                               final Supplier<T> trueSupplier, final Supplier<T> falseSupplier) {
         if (condition) {
-            return Objects.nonNull(trueSupplier) ?
-                jvmOr(null, trueSupplier::get, logger) : null;
+            return jvmOr(null, trueSupplier::get, logger);
         } else {
             return Objects.nonNull(falseSupplier) ?
                 jvmOr(null, falseSupplier::get, logger) : null;
@@ -239,7 +238,9 @@ class _Run extends _Jvm {
         if (condition) {
             jvmAt(trueActuator::execute, logger);
         } else {
-            jvmAt(falseActuator::execute, logger);
+            if (Objects.nonNull(falseActuator)) {
+                jvmAt(falseActuator::execute, logger);
+            }
         }
     }
 

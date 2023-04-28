@@ -14,6 +14,7 @@ public class ZeroVertxTc extends ZeroBase {
         final Node<JsonObject>
             node = Ut.singleton(ZeroVertx.class);
         final JsonObject data = node.read();
+        System.out.println(data.encodePrettily());
     }
 
     @Test
@@ -22,5 +23,4 @@ public class ZeroVertxTc extends ZeroBase {
             node = Ut.singleton(ZeroLime.class);
         final ConcurrentMap<String, String> files = node.read();
     }
-
 }

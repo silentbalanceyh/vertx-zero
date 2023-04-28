@@ -70,6 +70,8 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
+            // DEBUG:
+            // ex.printStackTrace();
             return defaultValue;
         }
     }

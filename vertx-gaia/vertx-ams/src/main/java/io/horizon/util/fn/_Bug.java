@@ -131,7 +131,9 @@ class _Bug {
         if (condition) {
             bugAt(trueActuator, logger);
         } else {
-            bugAt(falseActuator, logger);
+            if (Objects.nonNull(falseActuator)) {
+                bugAt(falseActuator, logger);
+            }
         }
     }
 

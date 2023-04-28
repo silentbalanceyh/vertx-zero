@@ -122,21 +122,23 @@ final class IO {
              * return to null reference for future usage
              */
             return null;
+        }
+        final YamlType type = getYamlType(filename);
+        if (Objects.isNull(type)) {
+            return null;
+        }
+        final String literal = getYamlNode(filename).toString();
+        if (Ut.isNil(literal)) {
+            /*
+             * If content is null or empty
+             * return to null reference for future usage
+             */
+            return null;
         } else {
-            final YamlType type = getYamlType(filename);
-            final String literal = getYamlNode(filename).toString();
-            if (Ut.isNil(literal)) {
-                /*
-                 * If content is null or empty
-                 * return to null reference for future usage
-                 */
-                return null;
+            if (YamlType.ARRAY == type) {
+                return (T) new JsonArray(literal);
             } else {
-                if (YamlType.ARRAY == type) {
-                    return (T) new JsonArray(literal);
-                } else {
-                    return (T) new JsonObject(literal);
-                }
+                return (T) new JsonObject(literal);
             }
         }
     }

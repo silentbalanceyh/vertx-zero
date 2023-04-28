@@ -14,7 +14,7 @@ class HFormat {
     }
 
     private static String formatSlf4j(final String pattern, final Object... args) {
-        return MessageFormatter.format(pattern, args).getMessage();
+        return MessageFormatter.arrayFormat(pattern, args).getMessage();
     }
 
     static String fromMessage(final String pattern, final Object... args) {
