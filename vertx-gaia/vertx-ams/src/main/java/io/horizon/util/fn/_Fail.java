@@ -93,7 +93,7 @@ class _Fail extends _Bug {
      * @return T
      */
     public static <T> T failOr(final ExceptionSupplier<T> supplier, final Object... input) {
-        return HSupplier.failOr(null, supplier, input);
+        return failOr(null, supplier, input);
     }
 
     /**
@@ -108,7 +108,11 @@ class _Fail extends _Bug {
      */
     public static <T> T failOr(final T defaultValue, final ExceptionSupplier<T> supplier,
                                final Object... input) {
-        return HSupplier.failOr(defaultValue, supplier, input);
+        if (HaS.isNotNull(input)) {
+            return HSupplier.failOr(defaultValue, supplier, (HLogger) null);
+        } else {
+            return defaultValue;
+        }
     }
 
     /**

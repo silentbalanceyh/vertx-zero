@@ -75,7 +75,7 @@ class _Jvm extends _Fail {
      * @return T
      */
     public static <T> T jvmOr(final ErrorSupplier<T> supplier, final Object... input) {
-        return HSupplier.jvmOr(null, supplier, input);
+        return jvmOr(null, supplier, input);
     }
 
     /**
@@ -90,7 +90,11 @@ class _Jvm extends _Fail {
      */
     public static <T> T jvmOr(final T defaultValue, final ErrorSupplier<T> supplier,
                               final Object... input) {
-        return HSupplier.jvmOr(defaultValue, supplier, input);
+        if (HaS.isNotNull(input)) {
+            return HSupplier.jvmOr(defaultValue, supplier, (HLogger) null);
+        } else {
+            return defaultValue;
+        }
     }
 
     /**

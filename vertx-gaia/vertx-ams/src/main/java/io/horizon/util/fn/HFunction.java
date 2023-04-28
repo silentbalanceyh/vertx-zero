@@ -63,6 +63,10 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
+            // DEBUG:
+            if (ex instanceof AbstractException) {
+                throw (AbstractException) ex;
+            }
             // 日志记录器追加
             return defaultValue;
         } catch (final Throwable ex) {
@@ -70,7 +74,6 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
-            // DEBUG:
             // ex.printStackTrace();
             return defaultValue;
         }
