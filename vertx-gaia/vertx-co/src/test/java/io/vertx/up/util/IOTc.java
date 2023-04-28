@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.horizon.util.HaS;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.ZeroBase;
 import org.junit.Test;
@@ -10,12 +11,12 @@ import java.io.FileOutputStream;
 public class IOTc extends ZeroBase {
     @Test
     public void testProp(final TestContext context) {
-        context.assertNotNull(IO.getProp(this.ioString("in.properties")));
+        context.assertNotNull(HaS.ioProperties(this.ioString("in.properties")));
     }
 
     @Test
     public void testYaml(final TestContext context) {
-        context.assertNotNull(IO.getYaml(this.ioString("test.yaml")));
+        context.assertNotNull(HaS.ioYaml(this.ioString("test.yaml")));
     }
 
     @SuppressWarnings("all")

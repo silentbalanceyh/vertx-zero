@@ -1,10 +1,13 @@
 package io.horizon.util;
 
+import io.vertx.core.buffer.Buffer;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -232,5 +235,29 @@ class _To extends _Reflect {
      */
     public static LocalTime toTime(final Instant date) {
         return HPeriod.toTime(date);
+    }
+
+
+    /**
+     * 读取所有文件信息转换成压缩文件流
+     *
+     * @param fileSet 文件集合
+     *
+     * @return 压缩文件流
+     */
+    public static Buffer toZip(final Set<String> fileSet) {
+        return Io.zip(fileSet);
+    }
+
+    /**
+     * 将传入对象转换成字节数组
+     *
+     * @param message 对象
+     * @param <T>     对象类型
+     *
+     * @return 字节数组
+     */
+    public static <T> byte[] toBytes(final T message) {
+        return IoStream.to(message);
     }
 }

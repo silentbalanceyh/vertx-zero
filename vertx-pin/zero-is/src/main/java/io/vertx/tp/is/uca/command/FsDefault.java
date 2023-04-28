@@ -134,7 +134,7 @@ public class FsDefault extends AbstractFs {
         final String root = this.configRoot();
         final Set<String> files = new HashSet<>();
         storeSet.forEach(file -> files.add(Ut.ioPath(root, file)));
-        return Ux.future(Ut.ioZip(files));
+        return Ux.future(Ut.toZip(files));
     }
 
     // ----------------- Run Private Method for Folder Calculation -----------------

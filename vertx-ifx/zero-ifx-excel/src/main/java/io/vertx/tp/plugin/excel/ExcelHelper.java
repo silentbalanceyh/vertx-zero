@@ -228,7 +228,7 @@ class ExcelHelper {
         /*
          * Here the InputStream directly from
          */
-        final InputStream in = Ut.ioStreamN(filename, getClass());
+        final InputStream in = Ut.ioStream(filename, getClass());
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
         if (filename.endsWith(VPath.SUFFIX.EXCEL_2003)) {

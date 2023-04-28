@@ -40,49 +40,24 @@ final class Io {
     private Io() {
     }
 
-    /**
-     * Read to JsonArray
-     *
-     * @param filename The filename to describe source path
-     *
-     * @return Return to JsonArray object
-     */
     static JsonArray ioJArray(final String filename) {
         final JsonArray content;
         try {
-            content = new JsonArray(ioString(filename));
+            content = new JsonArray(ioString(filename, null));
         } catch (final Throwable ex) {
             throw new JsonFormatException(Io.class, filename);
         }
         return content;
     }
 
-    /**
-     * Read to JsonObject
-     *
-     * @param filename The filename to describe source path
-     *
-     * @return Return to JsonObject
-     */
     static JsonObject ioJObject(final String filename) {
         final JsonObject content;
         try {
-            content = new JsonObject(ioString(filename));
+            content = new JsonObject(ioString(filename, null));
         } catch (final Throwable ex) {
             throw new JsonFormatException(Io.class, filename);
         }
         return content;
-    }
-
-    /**
-     * Read to String
-     *
-     * @param in input stream
-     *
-     * @return converted stream
-     */
-    static String ioString(final InputStream in) {
-        return ioString(in, null);
     }
 
     static String ioString(final InputStream in, final String joined) {
@@ -105,10 +80,6 @@ final class Io {
 
     static String ioString(final String filename, final String joined) {
         return HFn.failOr(() -> ioString(IoStream.read(filename), joined), filename);
-    }
-
-    static String ioString(final String filename) {
-        return HFn.failOr(() -> ioString(IoStream.read(filename)), filename);
     }
 
     /**
@@ -169,7 +140,7 @@ final class Io {
      * @return YamlType of the file by format
      */
     private static YamlType getYamlType(final String filename) {
-        final String content = Io.ioString(filename);
+        final String content = ioString(filename, null);
         return HFn.runOr(YamlType.OBJECT, () -> {
             if (content.trim().startsWith(VString.DASH)) {
                 return YamlType.ARRAY;

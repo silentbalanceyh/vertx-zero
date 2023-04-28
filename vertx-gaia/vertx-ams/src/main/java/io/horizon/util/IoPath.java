@@ -30,6 +30,7 @@ class IoPath {
         if (Environment.Production == environment) {
             return path;
         } else {
+            // TODO: 追加环境变量，默认用了 Maven 的
             return resolve("src/main/resources", path);
         }
     }

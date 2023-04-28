@@ -68,11 +68,11 @@ final class IoStream {
      * @return Return the InputStream object mount to source path.
      */
     static InputStream read(final String filename) {
-        InputStream in = read(filename, null);
-        if (Objects.isNull(in)) {
-            in = read(filename, IoStream.class);
-        }
-        return in;
+        return read(filename, null);
+        //        if (Objects.isNull(in)) {
+        //            in = read(filename, IoStream.class);
+        //        }
+        //        return in;
     }
 
 
@@ -103,8 +103,8 @@ final class IoStream {
      *
      * @return Return the InputStream object mount to source path.
      */
-    private static InputStream read(final String filename,
-                                    final Class<?> clazz) {
+    static InputStream read(final String filename,
+                            final Class<?> clazz) {
         final String root = IoPath.root();
         LOG.io(__Message.HStream.__FILE_ROOT, root, filename);
         /*
@@ -114,7 +114,7 @@ final class IoStream {
         final File file = new File(filename);
         if (file.exists()) {
             LOG.io(__Message.HStream.INF_CUR, file.exists());
-            return readSupplier(() -> in(file), filename);
+            return readSupplier(() -> readDirect(file), filename);
         } else {
             /*
              *  filename re-calculate with root()
@@ -122,7 +122,7 @@ final class IoStream {
             final String refile = IoPath.resolve(IoPath.root(), filename);
             final File fileResolved = new File(refile);
             if (fileResolved.exists()) {
-                return readSupplier(() -> in(fileResolved), refile);
+                return readSupplier(() -> readDirect(fileResolved), refile);
             }
         }
 
@@ -134,21 +134,21 @@ final class IoStream {
              * 1. Thread.currentThread().getContextClassLoader()
              *    loader.getResourceAsStream(filename)
              */
-            in = readSupplier(() -> in(filename), filename);
+            in = readSupplier(() -> readDirect(filename), filename);
         } else {
 
 
             /*
              * 2. clazz.getResourceAsStream(filename)
              */
-            in = readSupplier(() -> in(filename, clazz), filename);
+            in = readSupplier(() -> readDirect(filename, clazz), filename);
             if (Objects.isNull(in)) {
 
 
                 /*
                  * Switch to 1.
                  */
-                in = readSupplier(() -> in(filename), filename);
+                in = readSupplier(() -> readDirect(filename), filename);
             }
         }
 
@@ -191,6 +191,21 @@ final class IoStream {
         return in;
     }
 
+    // 直接读取文件
+    static InputStream readDirect(final File file) {
+        final String parameters = Objects.isNull(file) ? null : file.getAbsolutePath();
+        LOG.io(__Message.HStream.__FILE_INPUT_STREAM, parameters);
+        return HFn.failOr(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
+    }
+
+    static InputStream readDirect(final String filename) {
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        LOG.io(__Message.HStream.__CLASS_LOADER, filename);
+        return HFn.failOr(() -> loader.getResourceAsStream(filename), filename);
+    }
+
+    // ----------------- 私有方法
+
     private static InputStream readJar(final String filename) {
         return readSupplier(() -> {
             try {
@@ -210,6 +225,11 @@ final class IoStream {
         }, filename);
     }
 
+    private static InputStream readDirect(final String filename, final Class<?> clazz) {
+        LOG.io(__Message.HStream.__RESOURCE_AS_STREAM, clazz, filename);
+        return HFn.failOr(() -> clazz.getResourceAsStream(filename), clazz, filename);
+    }
+
     private static InputStream readSupplier(final Supplier<InputStream> supplier,
                                             final String filename) {
         final InputStream in = supplier.get();
@@ -217,55 +237,5 @@ final class IoStream {
             LOG.io(__Message.HStream.INF_PATH, filename, in);
         }
         return in;
-    }
-
-    /**
-     * Stream read from up.god.file object
-     * new FileInputStream(up.god.file)
-     *
-     * @param file The up.god.file object to describe source path
-     *
-     * @return Return the InputStream object mount to source path.
-     */
-    static InputStream in(final File file) {
-        final String parameters = Objects.isNull(file) ? null : file.getAbsolutePath();
-        LOG.io(__Message.HStream.__FILE_INPUT_STREAM, parameters);
-        return HFn.failOr(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
-    }
-
-    static InputStream inN(final String filename) {
-        return read(filename);
-    }
-
-    static InputStream inN(final String filename, final Class<?> clazz) {
-        return read(filename, clazz);
-    }
-
-    /**
-     * Stream read from clazz
-     * clazz.getResourceAsStream(filename)
-     *
-     * @param filename The filename to describe source path
-     * @param clazz    The class loader related class
-     *
-     * @return Return the InputStream object mount to source path.
-     */
-    static InputStream in(final String filename, final Class<?> clazz) {
-        LOG.io(__Message.HStream.__RESOURCE_AS_STREAM, clazz, filename);
-        return HFn.failOr(() -> clazz.getResourceAsStream(filename), clazz, filename);
-    }
-
-    /**
-     * Stream read from Thread Class Loader
-     * Thread.currentThread().getContextClassLoader()
-     *
-     * @param filename The filename to describe source path
-     *
-     * @return Return the InputStream object mount to source path.
-     */
-    static InputStream in(final String filename) {
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        LOG.io(__Message.HStream.__CLASS_LOADER, filename);
-        return HFn.failOr(() -> loader.getResourceAsStream(filename), filename);
     }
 }

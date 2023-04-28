@@ -1,5 +1,7 @@
 package io.horizon.util;
 
+import io.vertx.core.buffer.Buffer;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -120,5 +122,18 @@ class _From extends _Element {
      */
     public static String fromAdjust(final Integer seed, final Integer width) {
         return HString.fromAdjust(String.valueOf(seed), width, '0');
+    }
+
+    /**
+     * 从二进制Buffer中还原反序列化对象
+     *
+     * @param pos    位置
+     * @param buffer 二进制Buffer
+     * @param <T>    泛型
+     *
+     * @return 反序列化对象
+     */
+    public static <T> T fromBuffer(final int pos, final Buffer buffer) {
+        return IoStream.from(pos, buffer);
     }
 }

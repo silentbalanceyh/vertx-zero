@@ -6,7 +6,6 @@ import io.aeon.experiment.specification.KPair;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
-import io.horizon.eon.em.Environment;
 import io.horizon.eon.em.cloud.TypeOs;
 import io.horizon.eon.runtime.VEnv;
 import io.horizon.fn.Actuator;
@@ -16,7 +15,6 @@ import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +24,6 @@ import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
 
-import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -649,179 +645,6 @@ public final class Ut extends HaS {
         return Epsilon.vValue(item, field, clazz);
     }
 
-    /*
-     * IO method here to read file content & folder resource
-     * 1) ioFiles / ioDirectories ( Folder Reading )
-     * 2) ioYaml
-     * 3) ioFile
-     * 4) ioProperties
-     * 5) ioJArray / ioJObject
-     * 6) ioString
-     * 7) ioBuffer / ioStream
-     * 8) ioPath
-     * `input` operation
-     */
-    @Deprecated
-    public static String ioPath(final String folder, final String file) {
-        return StringUtil.path(folder, file);
-    }
-
-    @Deprecated
-    public static String ioPath(final String path, final Environment environment) {
-        return StringUtil.path(path, environment);
-    }
-
-    @Deprecated
-    public static List<String> ioPathSet(final String storePath) {
-        return IOPath.ladder(storePath);
-    }
-
-    @Deprecated
-    public static String ioPathRoot(final String path) {
-        return IOPath.first(path, VString.SLASH);
-    }
-
-    @Deprecated
-    public static String ioPathRoot(final String path, final String separator) {
-        return IOPath.first(path, separator);
-    }
-
-    @Deprecated
-    public static String ioPathLeaf(final String path) {
-        return IOPath.last(path, VString.SLASH);
-    }
-
-    @Deprecated
-    public static String ioPathLeaf(final String path, final String separator) {
-        return IOPath.last(path, separator);
-    }
-
-    @Deprecated
-    public static List<String> ioFiles(final String folder) {
-        return IODirectory.listFiles(folder, null);
-    }
-
-    @Deprecated
-    public static List<String> ioFiles(final String folder, final String extension) {
-        return IODirectory.listFiles(folder, extension);
-    }
-
-    @Deprecated
-    public static List<String> ioFilesN(final String folder) {
-        return IODirectory.listFilesN(folder, null, null);
-    }
-
-    @Deprecated
-    public static List<String> ioFilesN(final String folder, final String extension) {
-        return IODirectory.listFilesN(folder, extension, null);
-    }
-
-    @Deprecated
-    public static List<String> ioFilesN(final String folder, final String extension, final String prefix) {
-        return IODirectory.listFilesN(folder, extension, prefix);
-    }
-
-    @Deprecated
-
-    public static List<String> ioDirectories(final String folder) {
-        return IODirectory.listDirectories(folder);
-    }
-
-    @Deprecated
-    public static List<String> ioDirectoriesN(final String folder) {
-        return IODirectory.listDirectoriesN(folder);
-    }
-
-    @Deprecated
-    public static <T> T ioYaml(final String filename) {
-        return IO.getYaml(filename);
-    }
-
-    @Deprecated
-    public static File ioFile(final String filename) {
-        return IO.getFile(filename);
-    }
-
-    @Deprecated
-    public static boolean ioExist(final String filename) {
-        return IO.isExist(filename);
-    }
-
-    @Deprecated
-    public static Properties ioProperties(final String filename) {
-        return IO.getProp(filename);
-    }
-
-    @Deprecated
-    public static JsonArray ioJArray(final String filename) {
-        return Jackson.sureJArray(IO.getJArray(filename));
-    }
-
-    @Deprecated
-    public static JsonObject ioJObject(final String filename) {
-        return Jackson.sureJObject(IO.getJObject(filename));
-    }
-
-    @Deprecated
-    public static String ioString(final InputStream in) {
-        return IO.getString(in);
-    }
-
-    @Deprecated
-    public static String ioString(final InputStream in, final String joined) {
-        return IO.getString(in, joined);
-    }
-
-    @Deprecated
-    public static String ioString(final String filename) {
-        return IO.getString(filename);
-    }
-
-    @Deprecated
-    public static String ioString(final String filename, final String joined) {
-        return IO.getString(filename, joined);
-    }
-
-    @Deprecated
-    public static Buffer ioBuffer(final String filename) {
-        return IO.getBuffer(filename);
-    }
-
-    @Deprecated
-
-    public static Buffer ioZip(final Set<String> fileSet) {
-        return IO.zip(fileSet);
-    }
-
-    @Deprecated
-    public static InputStream ioStream(final File file) {
-        return Stream.in(file);
-    }
-
-    @Deprecated
-    public static InputStream ioStream(final String filename, final Class<?> clazz) {
-        return Stream.in(filename, clazz);
-    }
-
-    @Deprecated
-    public static InputStream ioStream(final String filename) {
-        return Stream.in(filename);
-    }
-
-    @Deprecated
-    public static InputStream ioStreamN(final String filename) {
-        return Stream.inN(filename);
-    }
-
-    @Deprecated
-    public static InputStream ioStreamN(final String filename, final Class<?> clazz) {
-        return Stream.inN(filename, clazz);
-    }
-
-    @Deprecated
-    public static String ioCompress(final String filename) {
-        return IO.getCompress(filename);
-    }
 
     /*
      * `output` operation
@@ -1247,10 +1070,6 @@ public final class Ut extends HaS {
         return To.toCollection(value);
     }
 
-    public static <T> byte[] toBytes(final T message) {
-        return Stream.to(message);
-    }
-
     public static <V> ConcurrentMap<String, V> toMap(final JsonObject data) {
         return To.toMap(data);
     }
@@ -1330,9 +1149,6 @@ public final class Ut extends HaS {
      * 8) fromPrefix
      * 9) fromDate
      */
-    public static <T> T fromBuffer(final int pos, final Buffer buffer) {
-        return Stream.from(pos, buffer);
-    }
 
     public static String fromObject(final Object value) {
         return StringUtil.from(value);

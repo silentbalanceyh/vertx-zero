@@ -41,7 +41,7 @@ final class IoDirectory {
                     }
                 }))
             .filter(file -> {
-                final InputStream in = IoStream.in(file);
+                final InputStream in = IoStream.readDirect(file);
                 return Objects.nonNull(in);
             })
             .collect(Collectors.toList());

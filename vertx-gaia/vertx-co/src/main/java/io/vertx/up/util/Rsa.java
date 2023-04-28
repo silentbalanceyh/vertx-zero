@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.horizon.util.HaS;
 import io.vertx.up.fn.Fn;
 import org.apache.commons.codec.binary.Base64;
 
@@ -35,7 +36,7 @@ public class Rsa {
     private static RSAPublicKey loadRSAPublicKeyByFile(final String keyPath)
         throws Exception {
         // 1. loading Public Key string by given path
-        final String publicKeyStr = IO.getString(keyPath);
+        final String publicKeyStr = HaS.ioString(keyPath);
         //2. generate Public Key Object
         final byte[] buffer = Base64.decodeBase64(publicKeyStr);
         final KeyFactory keyFactory = KeyFactory.getInstance("RSA");
