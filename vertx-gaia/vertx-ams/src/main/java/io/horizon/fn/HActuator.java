@@ -1,10 +1,6 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.Actuator;
-import io.horizon.fn.ErrorActuator;
-import io.horizon.fn.ExceptionActuator;
-import io.horizon.fn.ProgramActuator;
 import io.horizon.log.HLogger;
 
 /**

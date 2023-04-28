@@ -1,9 +1,6 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.ErrorSupplier;
-import io.horizon.fn.ExceptionSupplier;
-import io.horizon.fn.ProgramSupplier;
 import io.horizon.log.HLogger;
 
 import java.util.function.Supplier;

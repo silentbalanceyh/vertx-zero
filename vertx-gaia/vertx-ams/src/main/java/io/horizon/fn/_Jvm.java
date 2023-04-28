@@ -1,7 +1,5 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
-import io.horizon.fn.ErrorActuator;
-import io.horizon.fn.ErrorSupplier;
 import io.horizon.log.HLogger;
 import io.horizon.util.HaS;
 

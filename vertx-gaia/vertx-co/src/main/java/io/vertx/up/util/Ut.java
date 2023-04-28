@@ -133,10 +133,6 @@ public final class Ut extends HaS {
         return ArrayJ.flat(input);
     }
 
-    public static <T> T[] elementAdd(final T[] array, final T element) {
-        return ArrayJ.add(array, element);
-    }
-
     public static JsonArray elementAdd(final JsonArray array, final JsonObject jsonObject, final String field) {
         return ArrayJ.add(array, jsonObject, field);
     }

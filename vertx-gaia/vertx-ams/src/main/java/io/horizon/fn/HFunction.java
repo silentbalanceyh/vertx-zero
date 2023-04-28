@@ -1,10 +1,7 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.ErrorFunction;
-import io.horizon.fn.ExceptionFunction;
-import io.horizon.fn.ProgramFunction;
 import io.horizon.log.HLogger;
 
 import java.util.Objects;

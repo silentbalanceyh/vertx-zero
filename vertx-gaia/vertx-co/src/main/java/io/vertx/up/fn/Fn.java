@@ -51,7 +51,7 @@ import java.util.function.Supplier;
 public final class Fn extends _Out {
     private Fn() {
     }
-    
+
     public static <T> void runMonad(final Supplier<T> supplier, final Consumer<T> consumer) {
         Extension.safeT(supplier, consumer);
     }
@@ -147,7 +147,7 @@ public final class Fn extends _Out {
     }
 
     // ------ Specification for JsonFormat
-    public static <T> T outRun(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
+    public static <T> T runOut(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
         return Warning.execRun(supplier, runCls, args);
     }
 

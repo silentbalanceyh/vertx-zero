@@ -2,11 +2,12 @@ package io.horizon.util;
 
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.OperationException;
+import io.horizon.fn.HFn;
 import io.horizon.uca.cache.Cc;
-import io.horizon.util.fn.HFn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Objects;
@@ -39,6 +40,17 @@ class HInstance {
             return Arrays.stream(constructors)
                 .anyMatch(constructor -> 0 == constructor.getParameterTypes().length);
         }, clazz);
+    }
+
+    @SuppressWarnings("all")
+    static Object instanceArray(final Object array, final Class<?> newArrayComponentType) {
+        if (array != null) {
+            final int arrayLength = Array.getLength(array);
+            final Object newArray = Array.newInstance(array.getClass().getComponentType(), arrayLength + 1);
+            System.arraycopy(array, 0, newArray, 0, arrayLength);
+            return newArray;
+        }
+        return Array.newInstance(newArrayComponentType, 1);
     }
 
     static <T> T instance(final Class<?> clazz, final Object... params) {

@@ -1,9 +1,6 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.ProgramActuator;
-import io.horizon.fn.ProgramBiConsumer;
-import io.horizon.fn.ProgramSupplier;
 import io.horizon.log.HLogger;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;

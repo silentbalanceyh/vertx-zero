@@ -1,8 +1,8 @@
 package io.vertx.up.fn;
 
 import io.horizon.annotations.HLinking;
+import io.horizon.fn.HFn;
 import io.horizon.util.HaS;
-import io.horizon.util.fn.HFn;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 

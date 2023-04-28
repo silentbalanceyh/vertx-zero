@@ -78,11 +78,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <!-- Io Netty Buffer -->
+        <!-- Io Netty Buffer
+                class file for io.netty.buffer.ByteBuf not found
+        -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-buffer</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -1,8 +1,7 @@
-package io.horizon.util.fn;
+package io.horizon.fn;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.ProgramBiConsumer;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

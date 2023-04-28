@@ -1,6 +1,6 @@
 package io.horizon.specification.runtime;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.util.Arrays;
 
@@ -124,7 +124,7 @@ public interface Macrocosm {
             DBW_HOST, DBW_PORT, DBW_INSTANCE,   // DB Workflow
             DBH_HOST, DBH_PORT, DBH_INSTANCE,   // DB History
         };
-        Arrays.stream(VARS).filter(Ut::isNotNil).forEach(name -> {
+        Arrays.stream(VARS).filter(HaS::isNotNil).forEach(name -> {
             final String value = System.getenv(name);
             content.append("\n\t").append(name).append(" = ").append(value);
         });
