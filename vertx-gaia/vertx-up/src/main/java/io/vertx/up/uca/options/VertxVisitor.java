@@ -60,7 +60,7 @@ public class VertxVisitor implements NodeVisitor {
         final ConcurrentMap<String, VertxOptions> map =
             new ConcurrentHashMap<>();
         final boolean clustered = this.clusterOptions.isEnabled();
-        Fn.verifyJArray(vertxData, JsonObject.class, (item, index) -> {
+        Fn.bugIt(vertxData, JsonObject.class, (item, index) -> {
             // 1. Extract single
             final String name = item.getString(YKEY_NAME);
             // 2. Extract VertxOptions

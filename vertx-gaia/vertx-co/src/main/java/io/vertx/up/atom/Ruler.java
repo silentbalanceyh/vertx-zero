@@ -74,7 +74,7 @@ public class Ruler {
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
-            Fn.verifyJArray(data, (value, field) -> {
+            Fn.bugIt(data, (value, field) -> {
                 // 3. Value = JsonObject, identify if extension.
                 final String filename = file + VString.DOT + field;
                 if (Ut.isJObject(value)) {

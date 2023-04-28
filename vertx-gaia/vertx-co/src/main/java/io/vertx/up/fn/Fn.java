@@ -3,7 +3,10 @@ package io.vertx.up.fn;
 import io.horizon.eon.info.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.*;
+import io.horizon.fn.Actuator;
+import io.horizon.fn.ErrorSupplier;
+import io.horizon.fn.ProgramActuator;
+import io.horizon.fn.ProgramSupplier;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -181,18 +184,6 @@ public final class Fn extends _Out {
     // ------ Specification for JsonFormat
     public static <T> T outRun(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
         return Warning.execRun(supplier, runCls, args);
-    }
-
-    public static <T> void verifyJObject(final JsonObject data, final ProgramBiConsumer<T, String> fnIt) throws ProgramException {
-        Wall.execZero(data, fnIt);
-    }
-
-    public static <T> void verifyJArray(final JsonArray dataArray, final Class<T> clazz, final ProgramBiConsumer<T, Integer> fnIt) throws ProgramException {
-        Wall.execZero(dataArray, clazz, fnIt);
-    }
-
-    public static <T> void verifyJArray(final JsonArray dataArray, final ProgramBiConsumer<T, String> fnIt) throws ProgramException {
-        Wall.execZero(dataArray, fnIt);
     }
 
     // ---------------- Arrange Async Future ----------------------

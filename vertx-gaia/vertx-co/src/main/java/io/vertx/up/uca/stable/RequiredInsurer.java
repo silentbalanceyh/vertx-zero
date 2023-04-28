@@ -24,7 +24,7 @@ public class RequiredInsurer extends AbstractInsurer {
             // 2. extract rule from rule, only required accept
             if (rule.containsKey(Rules.REQUIRED)) {
                 final JsonArray fields = Ut.toJArray(rule.getValue(Rules.REQUIRED));
-                Fn.verifyJArray(fields, String.class, (field, index) -> {
+                Fn.bugIt(fields, String.class, (field, index) -> {
                     // 3.Check if data contains field.
                     // Fast throw out
                     Fn.outZero(!data.containsKey(field), this.getLogger(),

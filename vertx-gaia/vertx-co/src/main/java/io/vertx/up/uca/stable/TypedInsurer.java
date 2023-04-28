@@ -45,7 +45,7 @@ public class TypedInsurer extends AbstractInsurer {
             // 2. extract rule from rule, only required accept
             if (rule.containsKey(Rules.TYPED)) {
                 final JsonObject fields = rule.getJsonObject(Rules.TYPED);
-                Fn.verifyJObject(fields, (item, name) -> {
+                Fn.bugIt(fields, (item, name) -> {
                     // 3. extract key for field definition
                     final JsonType key = Ut.toEnum(item.toString(), JsonType.class);
                     final Function<Object, Boolean> fnTest

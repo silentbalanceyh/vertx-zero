@@ -98,7 +98,7 @@ final class Congregation {
     static <T> void exec(final JsonObject data,
                          final BiConsumer<T, String> consumer) {
         try {
-            Fn.verifyJObject(data, consumer::accept);
+            Fn.bugIt(data, consumer::accept);
         } catch (final ProgramException ex) {
             LOGGER.fatal(ex);
         }
@@ -137,7 +137,7 @@ final class Congregation {
      */
     static <T> void exec(final JsonArray dataArray, final Class<T> clazz, final BiConsumer<T, Integer> consumer) {
         try {
-            Fn.verifyJArray(dataArray, clazz, consumer::accept);
+            Fn.bugIt(dataArray, clazz, consumer::accept);
         } catch (final ProgramException ex) {
             LOGGER.fatal(ex);
         }
