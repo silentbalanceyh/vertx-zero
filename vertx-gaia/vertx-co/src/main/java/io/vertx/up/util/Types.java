@@ -1,13 +1,14 @@
 package io.vertx.up.util;
 
 import io.horizon.util.HaS;
-import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
@@ -32,30 +33,6 @@ final class Types {
         }
     }
 
-    @Deprecated
-    static boolean isJArray(final String literal) {
-        return Fn.runOr(Boolean.FALSE, () -> {
-            try {
-                new JsonArray(literal);
-                return true;
-            } catch (final DecodeException ex) {
-                return false;
-            }
-        }, literal);
-    }
-
-    @Deprecated
-    static boolean isJArray(final Object value) {
-        return Fn.runOr(null == value, LOGGER,
-            () -> false,
-            () -> isJArray(value.getClass()));
-    }
-
-    @Deprecated
-    static boolean isJArray(final Class<?> clazz) {
-        return JsonArray.class == clazz;
-    }
-
     static boolean isArrayString(final JsonArray array) {
         if (Objects.isNull(array)) {
             return false;
@@ -70,30 +47,6 @@ final class Types {
         } else {
             return array.stream().allMatch(item -> item instanceof JsonObject);
         }
-    }
-
-    @Deprecated
-    static boolean isJObject(final String literal) {
-        return Fn.runOr(Boolean.FALSE, () -> {
-            try {
-                new JsonObject(literal);
-                return true;
-            } catch (final DecodeException ex) {
-                return false;
-            }
-        }, literal);
-    }
-
-    @Deprecated
-    static boolean isJObject(final Object value) {
-        return Fn.runOr(null == value, LOGGER,
-            () -> false,
-            () -> isJObject(value.getClass()));
-    }
-
-    @Deprecated
-    static boolean isJObject(final Class<?> clazz) {
-        return JsonObject.class == clazz || LinkedHashMap.class == clazz;
     }
 
     static boolean isIn(final JsonObject input, final String... fields) {

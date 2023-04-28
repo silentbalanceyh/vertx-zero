@@ -1,6 +1,5 @@
 package io.vertx.up.util;
 
-import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -39,21 +38,6 @@ final class Numeric {
             }
             return null == returnValue ? null : (T) returnValue;
         }, source, field, clazz);
-    }
-
-    @Deprecated
-    static boolean isPositive(final String original) {
-        return StringUtil.isMatch(VString.REGEX.POSITIVE, original);
-    }
-
-    @Deprecated
-    static boolean isNegative(final String original) {
-        return StringUtil.isMatch(VString.REGEX.NEGATIVE, original);
-    }
-
-    @Deprecated
-    static boolean isInteger(final String original) {
-        return StringUtil.isMatch(VString.REGEX.INTEGER, original) || isPositive(original) || isNegative(original);
     }
 
     static boolean isRange(final Integer value, final Integer min, final Integer max) {

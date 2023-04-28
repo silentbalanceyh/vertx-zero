@@ -141,7 +141,7 @@ final class Jackson {
                     }
                 } else {
                     /* 3.2. Address the middle search **/
-                    if (Types.isJObject(curVal)) {
+                    if (HaS.isJObject(curVal)) {
                         final JsonObject continueNode = current.getJsonObject(path);
                         /* 4.Extract new key **/
                         final String[] continueKeys =
@@ -226,8 +226,8 @@ final class Jackson {
 
     // ---------------------- Jackson Advanced for Smart Serilization / DeSerialization
     private static <T> String deserializeSmart(final String literal, final Class<T> type) {
-        if (Types.isJObject(literal) || Types.isJArray(literal)) {
-            if (Types.isJArray(literal)) {
+        if (HaS.isJObject(literal) || HaS.isJArray(literal)) {
+            if (HaS.isJArray(literal)) {
                 return deserializeSmart(new JsonArray(literal), type);
             } else {
                 return deserializeSmart(new JsonObject(literal), type);
@@ -275,9 +275,9 @@ final class Jackson {
             } else if (value instanceof String) {
                 // T -> JsonObject / JsonArray
                 final String literal = (String) value;
-                if (Types.isJArray(literal)) {
+                if (HaS.isJArray(literal)) {
                     item.put(field, serializeSmart(new JsonArray(literal)));
-                } else if (Types.isJObject(literal)) {
+                } else if (HaS.isJObject(literal)) {
                     item.put(field, serializeSmart(new JsonObject(literal)));
                 }
             }
@@ -312,42 +312,6 @@ final class Jackson {
                 target.put(field, value);
             }
         }, target, source, field));
-    }
-
-    @Deprecated
-    static JsonArray sureJArray(final JsonArray array, final boolean copied) {
-        if (Ut.isNil(array)) {
-            return new JsonArray();
-        } else {
-            if (copied) {
-                return array.copy();
-            } else {
-                return array;
-            }
-        }
-    }
-
-    @Deprecated
-    static JsonArray sureJArray(final JsonArray array) {
-        return sureJArray(array, false);
-    }
-
-    @Deprecated
-    static JsonObject sureJObject(final JsonObject object, final boolean copied) {
-        if (Ut.isNil(object)) {
-            return new JsonObject();
-        } else {
-            if (copied) {
-                return object.copy();
-            } else {
-                return object;
-            }
-        }
-    }
-
-    @Deprecated
-    static JsonObject sureJObject(final JsonObject object) {
-        return sureJObject(object, false);
     }
 
     static String aiJArray(final String literal) {
