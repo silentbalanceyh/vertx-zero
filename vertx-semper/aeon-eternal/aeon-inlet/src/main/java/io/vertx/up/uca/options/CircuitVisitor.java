@@ -27,7 +27,7 @@ public class CircuitVisitor implements Visitor<CircuitBreakerOptions> {
         final JsonObject data = this.node.read();
         // 3. CircuitBreakerOptions building.
         final JsonObject config =
-            Fn.orSemi(data.containsKey(CIRCUIT) &&
+            Fn.runOr(data.containsKey(CIRCUIT) &&
                     null != data.getValue(CIRCUIT), LOGGER,
                 () -> data.getJsonObject(CIRCUIT),
                 JsonObject::new);

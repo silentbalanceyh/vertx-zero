@@ -47,7 +47,7 @@ class PathResolver {
     public static String resolve(final Path path, final String root) {
         Fn.outUp(null == path, LOGGER,
             PathAnnoEmptyException.class, PathResolver.class);
-        return Fn.orSemi(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
+        return Fn.runOr(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
             () -> {
                 final String api = calculate(root);
                 final String contextPath = calculate(path.value());

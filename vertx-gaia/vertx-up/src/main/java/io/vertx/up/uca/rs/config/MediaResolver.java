@@ -56,7 +56,7 @@ class MediaResolver {
                                               mediaCls) {
         return Fn.runOr(() -> {
             final Annotation anno = method.getAnnotation(mediaCls);
-            return Fn.orSemi(null == anno, LOGGER,
+            return Fn.runOr(null == anno, LOGGER,
                 () -> DEFAULTS,
                 () -> {
                     final String[] value = Ut.invoke(anno, "value");

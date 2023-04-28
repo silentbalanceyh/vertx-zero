@@ -25,7 +25,7 @@ class In {
     }
 
     static <T> T request(final Envelop envelop, final Class<T> clazz) {
-        return Fn.orSemi(null == envelop, null, () -> null, () -> envelop.data(clazz));
+        return Fn.runOr(null == envelop, null, () -> null, () -> envelop.data(clazz));
     }
 
     static <T> T request(final Message<Envelop> message, final Integer index, final Class<T> clazz) {
@@ -35,7 +35,7 @@ class In {
 
     static <T> T request(final Envelop envelop, final Integer index, final Class<T> clazz
     ) {
-        return Fn.orSemi(null == envelop, null, () -> null, () -> envelop.data(index, clazz));
+        return Fn.runOr(null == envelop, null, () -> null, () -> envelop.data(index, clazz));
     }
 
     static String requestUser(final Message<Envelop> message, final String field
@@ -44,7 +44,7 @@ class In {
     }
 
     static String requestUser(final Envelop envelop, final String field) {
-        return Fn.orSemi(null == envelop, null, () -> null,
+        return Fn.runOr(null == envelop, null, () -> null,
             () -> envelop.identifier(field));
     }
 
@@ -71,7 +71,7 @@ class In {
         final Envelop envelop,
         final String field
     ) {
-        return Fn.orSemi(null == envelop, null, () -> null,
+        return Fn.runOr(null == envelop, null, () -> null,
             () -> {
                 final Session session = envelop.session();
                 return null == session ? null : session.get(field);

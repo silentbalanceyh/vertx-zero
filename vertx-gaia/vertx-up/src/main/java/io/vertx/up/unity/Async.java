@@ -110,9 +110,9 @@ class Async {
         final CompletableFuture<T> completableFuture
     ) {
         final Promise<JsonObject> future = Promise.promise();
-        Fn.safeSemi(null == completableFuture, null,
+        Fn.runAt(null == completableFuture, null,
             () -> future.complete(new JsonObject()),
-            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.runAt(
                 null == item, null,
                 () -> future.complete(new JsonObject()),
                 () -> future.complete(To.toJObject(item, pojo))
@@ -130,9 +130,9 @@ class Async {
         final CompletableFuture<List<T>> completableFuture
     ) {
         final Promise<JsonArray> future = Promise.promise();
-        Fn.safeSemi(null == completableFuture, null,
+        Fn.runAt(null == completableFuture, null,
             () -> future.complete(new JsonArray()),
-            () -> completableFuture.thenAcceptAsync((item) -> Fn.safeSemi(
+            () -> completableFuture.thenAcceptAsync((item) -> Fn.runAt(
                 null == item, null,
                 () -> future.complete(new JsonArray()),
                 () -> future.complete(To.toJArray(item, pojo))

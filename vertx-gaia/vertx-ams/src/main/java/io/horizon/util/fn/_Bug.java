@@ -3,10 +3,13 @@ package io.horizon.util.fn;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.ProgramActuator;
 import io.horizon.fn.ProgramBiConsumer;
+import io.horizon.fn.ProgramSupplier;
 import io.horizon.log.HLogger;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+
+import java.util.Objects;
 
 /**
  * @author lang : 2023/4/28
@@ -111,5 +114,146 @@ class _Bug {
     public static <T> void bugIt(final JsonArray data, final Class<T> clazz,
                                  final ProgramBiConsumer<T, Integer> consumer) throws ProgramException {
         HConsumer.bugIt(data, clazz, consumer);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 bugAt 封装，保证出任何状况
+     *
+     * @param condition     条件
+     * @param logger        日志记录器
+     * @param trueActuator  条件满足时执行的 执行器
+     * @param falseActuator 条件不满足时执行的 执行器
+     *
+     * @throws ProgramException 可抛出的异常
+     */
+    public static void bugAt(final boolean condition, final HLogger logger,
+                             final ProgramActuator trueActuator, final ProgramActuator falseActuator) throws ProgramException {
+        if (condition) {
+            bugAt(trueActuator, logger);
+        } else {
+            bugAt(falseActuator, logger);
+        }
+    }
+
+    /**
+     * 带条件选择（不支持日志记录）的 执行器 版本，外层使用 bugAt 封装，保证出任何状况
+     *
+     * @param condition     条件
+     * @param trueActuator  条件满足时执行的 执行器
+     * @param falseActuator 条件不满足时执行的 执行器
+     *
+     * @throws ProgramException 可抛出的异常
+     */
+    public static void bugAt(final boolean condition,
+                             final ProgramActuator trueActuator, final ProgramActuator falseActuator) throws ProgramException {
+        bugAt(condition, null, trueActuator, falseActuator);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 bugAt 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param logger       日志记录器
+     * @param trueActuator 条件满足时执行的 执行器
+     *
+     * @throws ProgramException 可抛出的异常
+     */
+    public static void bugAt(final boolean condition, final HLogger logger,
+                             final ProgramActuator trueActuator) throws ProgramException {
+        bugAt(condition, logger, trueActuator, null);
+    }
+
+    /**
+     * 带条件选择（不支持日志记录）的 执行器 版本，外层使用 bugAt 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param trueActuator 条件满足时执行的 执行器
+     *
+     * @throws ProgramException 可抛出的异常
+     */
+    public static void bugAt(final boolean condition,
+                             final ProgramActuator trueActuator) throws ProgramException {
+        bugAt(condition, null, trueActuator, null);
+    }
+
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     * 2. 条件满足时执行 falseSupplier
+     *
+     * @param condition     条件
+     * @param logger        日志记录器
+     * @param trueSupplier  条件满足时执行的 Supplier
+     * @param falseSupplier 条件不满足时执行的 Supplier
+     * @param <T>           返回值类型
+     *
+     * @return T
+     * @throws ProgramException 可抛出的异常
+     */
+    public static <T> T bugOr(final boolean condition, final HLogger logger,
+                              final ProgramSupplier<T> trueSupplier, final ProgramSupplier<T> falseSupplier) throws ProgramException {
+        if (condition) {
+            return Objects.nonNull(trueSupplier) ?
+                HSupplier.bugOr(null, trueSupplier, logger) : null;
+        } else {
+            return Objects.nonNull(falseSupplier) ?
+                HSupplier.bugOr(null, falseSupplier, logger) : null;
+        }
+    }
+
+    /**
+     * 带条件选择（不支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     * 2. 条件满足时执行 falseSupplier
+     *
+     * @param condition     条件
+     * @param trueSupplier  条件满足时执行的 Supplier
+     * @param falseSupplier 条件不满足时执行的 Supplier
+     * @param <T>           返回值类型
+     *
+     * @return T
+     * @throws ProgramException 可抛出的异常
+     */
+    public static <T> T bugOr(final boolean condition,
+                              final ProgramSupplier<T> trueSupplier, final ProgramSupplier<T> falseSupplier) throws ProgramException {
+        return bugOr(condition, null, trueSupplier, falseSupplier);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     *
+     * @param condition    条件
+     * @param logger       日志记录器
+     * @param trueSupplier 条件满足时执行的 Supplier
+     * @param <T>          返回值类型
+     *
+     * @return T
+     * @throws ProgramException 可抛出的异常
+     */
+    public static <T> T bugOr(final boolean condition, final HLogger logger,
+                              final ProgramSupplier<T> trueSupplier) throws ProgramException {
+        return bugOr(condition, logger, trueSupplier, null);
+    }
+
+    /**
+     * 带条件选择（不支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     *
+     * @param condition    条件
+     * @param trueSupplier 条件满足时执行的 Supplier
+     * @param <T>          返回值类型
+     *
+     * @return T
+     * @throws ProgramException 可抛出的异常
+     */
+    public static <T> T bugOr(final boolean condition,
+                              final ProgramSupplier<T> trueSupplier) throws ProgramException {
+        return bugOr(condition, null, trueSupplier, null);
     }
 }

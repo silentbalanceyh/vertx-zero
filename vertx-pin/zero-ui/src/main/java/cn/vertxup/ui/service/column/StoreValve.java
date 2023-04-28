@@ -53,20 +53,20 @@ class StoreValve implements UiValve {
          * fixed
          * width
          */
-        Fn.safeSemi(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
-        Fn.safeSemi(column::getFixed, (fixed) -> {
+        Fn.runMonad(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
+        Fn.runMonad(column::getFixed, (fixed) -> {
             if (fixed) {
                 columnJson.put("fixed", "left");
             } else {
                 columnJson.put("fixed", "right");
             }
         });
-        Fn.safeSemi(column::getClassName, (className) -> columnJson.put("className", className));
-        Fn.safeSemi(column::getWidth, (width) -> columnJson.put("width", width));
+        Fn.runMonad(column::getClassName, (className) -> columnJson.put("className", className));
+        Fn.runMonad(column::getWidth, (width) -> columnJson.put("width", width));
         /*
          * If render
          */
-        Fn.safeSemi(column::getRender, (render) -> {
+        Fn.runMonad(column::getRender, (render) -> {
             columnJson.put("$render", render);
             if ("DATE".equals(render)) {
                 assert null != column.getFormat() : " $format should not be null when DATE";
@@ -77,7 +77,7 @@ class StoreValve implements UiValve {
                 columnJson.put("$datum", column.getDatum());
             }
         });
-        Fn.safeSemi(column::getFilterType, (filterType) -> {
+        Fn.runMonad(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
             Fn.ifJObject(columnJson, "$filter.config");
@@ -85,12 +85,12 @@ class StoreValve implements UiValve {
         /*
          * Zero Config
          */
-        Fn.safeSemi(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
-        Fn.safeSemi(column::getMapping, (mapping) -> {
+        Fn.runMonad(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
+        Fn.runMonad(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
             Fn.ifJObject(columnJson, "$mapping");
         });
-        Fn.safeSemi(column::getConfig, (config) -> {
+        Fn.runMonad(column::getConfig, (config) -> {
             columnJson.put("$config", config);
             Fn.ifJObject(columnJson, "$config");
         });

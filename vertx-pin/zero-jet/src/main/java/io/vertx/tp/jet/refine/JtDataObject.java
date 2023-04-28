@@ -142,13 +142,13 @@ class JtDataObject {
          * workerClass
          * workerJs
          */
-        Fn.safeSemi(Ut.isNil(api.getWorkerClass()),
+        Fn.runAt(Ut.isNil(api.getWorkerClass()),
             () -> api.setWorkerClass(JtConstant.COMPONENT_DEFAULT_WORKER.getName()));
-        Fn.safeSemi(Ut.isNil(api.getWorkerAddress()),
+        Fn.runAt(Ut.isNil(api.getWorkerAddress()),
             () -> api.setWorkerAddress(JtConstant.EVENT_ADDRESS));
-        Fn.safeSemi(Ut.isNil(api.getWorkerConsumer()),
+        Fn.runAt(Ut.isNil(api.getWorkerConsumer()),
             () -> api.setWorkerConsumer(JtConstant.COMPONENT_DEFAULT_CONSUMER.getName()));
-        Fn.safeSemi(Ut.isNil(api.getWorkerType()),
+        Fn.runAt(Ut.isNil(api.getWorkerType()),
             () -> api.setWorkerType(WorkerType.STD.name()));
     }
 }

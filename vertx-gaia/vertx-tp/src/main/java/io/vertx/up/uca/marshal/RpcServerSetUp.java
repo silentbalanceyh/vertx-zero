@@ -12,7 +12,7 @@ public class RpcServerSetUp implements JTransformer<RpcOptions> {
 
     @Override
     public RpcOptions transform(final JsonObject input) {
-        return Fn.orSemi(null == input, LOGGER,
+        return Fn.runOr(null == input, LOGGER,
             RpcOptions::new,
             () -> new RpcOptions(input));
     }

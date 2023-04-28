@@ -125,7 +125,7 @@ final class Jackson {
         /* 2. Extract current input key **/
         final String path = pathes[VValue.IDX];
         /* 3. Continue searching if key existing, otherwise terminal. **/
-        return Fn.orSemi(current.containsKey(path) && null != current.getValue(path),
+        return Fn.runOr(current.containsKey(path) && null != current.getValue(path),
             null,
             () -> {
                 final Object curVal = current.getValue(path);
@@ -245,7 +245,7 @@ final class Jackson {
 
     static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
         final String content = Jackson.serialize(t);
-        return Fn.failOr(null, () -> Fn.orSemi(content.trim().startsWith(VString.LEFT_BRACE), null,
+        return Fn.failOr(null, () -> Fn.runOr(content.trim().startsWith(VString.LEFT_BRACE), null,
             /*
              * Switch to smart serialization on the object to avoid
              * issue when met {} or []

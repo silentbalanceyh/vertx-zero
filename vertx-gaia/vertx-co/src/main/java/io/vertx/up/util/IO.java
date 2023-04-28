@@ -201,7 +201,7 @@ final class IO {
         return Fn.failOr(() -> {
             final URL url = Thread.currentThread().getContextClassLoader()
                 .getResource(filename);
-            return Fn.orSemi(null == url, null,
+            return Fn.runOr(null == url, null,
                 () -> IO.class.getResource(filename),
                 () -> url);
         }, filename);
@@ -235,7 +235,7 @@ final class IO {
     static File getFile(final String filename) {
         return Fn.failOr(() -> {
             final File file = new File(filename);
-            return Fn.orSemi(file.exists(), null,
+            return Fn.runOr(file.exists(), null,
                 () -> file,
                 () -> {
                     final URL url = getURL(filename);

@@ -31,7 +31,7 @@ public class Java8DataTimeSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType, final String literal) {
         return Fn.runOr(() ->
-                Fn.orSemi(Date.class == paramType ||
+                Fn.runOr(Date.class == paramType ||
                         Calendar.class == paramType, this.getLogger(),
                     () -> {
                         this.verifyInput(!Ut.isDate(literal), paramType, literal);

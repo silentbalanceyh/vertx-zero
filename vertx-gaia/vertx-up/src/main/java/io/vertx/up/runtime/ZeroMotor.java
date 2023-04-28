@@ -87,7 +87,7 @@ public final class ZeroMotor {
         // 1. If defined, use default
         Ut.itMap(agents, (type, list) -> {
             // 2. Defined -> You have defined
-            Fn.safeSemi(defines.containsKey(type) && defines.get(type), LOGGER,
+            Fn.runAt(defines.containsKey(type) && defines.get(type), LOGGER,
                 () -> {
                     // Use user-defined Agent instead.
                     final Class<?> found = Ut.elementFind(list,

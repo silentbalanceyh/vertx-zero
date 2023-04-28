@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.mime;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.atom.agent.Event;
@@ -7,7 +8,6 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.parse.EpsilonIncome;
 import io.vertx.up.uca.rs.mime.parse.Income;
 import io.vertx.up.util.Ut;
@@ -47,7 +47,7 @@ public class MediaAnalyzer implements Analyzer {
 
     private MediaType getMedia(final RoutingContext context) {
         final String header = context.request().getHeader(HttpHeaders.CONTENT_TYPE);
-        return Fn.orSemi(Ut.isNil(header), LOGGER,
+        return Fn.runOr(Ut.isNil(header), LOGGER,
             () -> MediaType.WILDCARD_TYPE,
             () -> MediaType.valueOf(header));
     }

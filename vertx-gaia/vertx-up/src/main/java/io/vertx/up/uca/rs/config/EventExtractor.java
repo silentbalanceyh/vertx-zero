@@ -42,7 +42,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
             this.verify(clazz);
             // 2. Check whether clazz annotated with @PATH
             final Set<Event> result = new ConcurrentHashSet<>();
-            Fn.safeSemi(clazz.isAnnotationPresent(Path.class), LOGGER,
+            Fn.runAt(clazz.isAnnotationPresent(Path.class), LOGGER,
                 () -> {
                     // 3.1. Append Root Path
                     final Path path = ZeroHelper.getPath(clazz);

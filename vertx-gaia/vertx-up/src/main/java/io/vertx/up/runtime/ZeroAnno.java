@@ -5,6 +5,7 @@ import io.aeon.atom.HSwitcher;
 import io.aeon.atom.iras.HAeon;
 import io.aeon.uca.web.origin.HQaSInquirer;
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.secure.Aegis;
@@ -13,7 +14,6 @@ import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.web.origin.*;
 import io.vertx.up.util.Ut;
 
@@ -124,7 +124,7 @@ public class ZeroAnno {
          */
         Runner.run("meditate-component",
             // @EndPoint -> Event
-            () -> Fn.safeSemi(!ENDPOINTS.isEmpty(), LOGGER, () -> {
+            () -> Fn.runAt(!ENDPOINTS.isEmpty(), LOGGER, () -> {
                 final Inquirer<Set<Event>> event = Ut.singleton(EventInquirer.class);
                 EVENTS.addAll(event.scan(ENDPOINTS));
                 /* 1.1. Put Path Uri into Set */
@@ -145,7 +145,7 @@ public class ZeroAnno {
                 FILTERS.putAll(filters.scan(CLASS_SET));
             },
             // @Queue/@QaS -> Receipt
-            () -> Fn.safeSemi(!QUEUES.isEmpty(), LOGGER, () -> {
+            () -> Fn.runAt(!QUEUES.isEmpty(), LOGGER, () -> {
                 final Inquirer<Set<Receipt>> receipt = Ut.singleton(ReceiptInquirer.class);
                 RECEIPTS.addAll(receipt.scan(QUEUES));
             }),

@@ -8,7 +8,7 @@ public class CommonSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.runOr(() ->
-                Fn.orSemi(!SaberTypes.isSupport(paramType), this.getLogger(),
+                Fn.runOr(!SaberTypes.isSupport(paramType), this.getLogger(),
                     // Turn On / Off
                     () -> Ut.deserialize(literal, paramType, true),
                     () -> null),

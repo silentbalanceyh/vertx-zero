@@ -71,7 +71,7 @@ public class Mojo implements Serializable {
      */
     public ConcurrentMap<String, String> getOut() {
         // Fix no mapping issue for empty mapping conversion.
-        Fn.safeSemi(null == this.mapping, LOGGER, () -> this.mapping = new ConcurrentHashMap<>());
+        Fn.runAt(null == this.mapping, LOGGER, () -> this.mapping = new ConcurrentHashMap<>());
         return this.mapping;
     }
 
@@ -89,7 +89,7 @@ public class Mojo implements Serializable {
      */
     @SuppressWarnings("all")
     public ConcurrentMap<String, String> getIn() {
-        Fn.safeSemi(mapping.keySet().size() != mapping.values().size(), LOGGER,
+        Fn.runAt(mapping.keySet().size() != mapping.values().size(), LOGGER,
             () -> LOGGER.warn(Info.VALUE_SAME,
                 mapping.keySet().size(), mapping.values().size()));
         final ConcurrentMap<String, String> mapper =

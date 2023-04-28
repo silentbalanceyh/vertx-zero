@@ -43,7 +43,7 @@ class Assist implements Serializable {
     String principal(final String field) {
         return Fn.failOr(VString.EMPTY, () -> {
             final JsonObject credential = this.user.principal();
-            return Fn.orSemi(null != credential && credential.containsKey(field),
+            return Fn.bugOr(null != credential && credential.containsKey(field),
                 () -> credential.getString(field),
                 () -> VString.EMPTY);
         }, this.user);

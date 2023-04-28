@@ -18,7 +18,7 @@ public class SockSetUp implements JTransformer<SockOptions> {
 
     @Override
     public SockOptions transform(final JsonObject config) {
-        return Fn.orSemi(null == config, LOGGER, SockOptions::new, () -> {
+        return Fn.runOr(null == config, LOGGER, SockOptions::new, () -> {
             /*
              * websocket:       ( SockOptions )
              * config:          ( HttpServerOptions )

@@ -148,7 +148,7 @@ public class DataEncap {
 
     public static JsonObject outJson(final IpcResponse data) {
         final String json = data.getEnvelop().getBody();
-        return Fn.orSemi(Ut.isNotNil(json), LOGGER,
+        return Fn.runOr(Ut.isNotNil(json), LOGGER,
             () -> new JsonObject(json));
     }
 }

@@ -11,7 +11,7 @@ public class BooleanSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.orSemi(boolean.class == paramType || Boolean.class == paramType, this.getLogger(),
+        return Fn.runOr(boolean.class == paramType || Boolean.class == paramType, this.getLogger(),
             () -> {
 
                 this.verifyInput(!Ut.isBoolean(literal), paramType, literal);

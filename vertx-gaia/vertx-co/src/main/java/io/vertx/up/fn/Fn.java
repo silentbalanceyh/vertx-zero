@@ -3,10 +3,8 @@ package io.vertx.up.fn;
 import io.horizon.eon.info.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.Actuator;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.fn.ProgramActuator;
-import io.horizon.fn.ProgramSupplier;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -53,7 +51,10 @@ import java.util.function.Supplier;
 public final class Fn extends _Out {
     private Fn() {
     }
-
+    
+    public static <T> void runMonad(final Supplier<T> supplier, final Consumer<T> consumer) {
+        Extension.safeT(supplier, consumer);
+    }
 
     // ---------------------------------------------------- 响应函数 ----------------------------------------------------
     // ------ ZeroException out
@@ -143,42 +144,6 @@ public final class Fn extends _Out {
 
     public static <T> void outQr(final T condition, final Class<?> clazz) {
         outOr(condition, clazz, VMessage.PROGRAM_QR);
-    }
-
-    // ------ Semi Safe
-    @Deprecated
-    public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier, final Actuator fSupplier) {
-        Wall.exec(condition, logger, tSupplier, fSupplier);
-    }
-
-    @Deprecated
-    public static void safeSemi(final boolean condition, final Annal logger, final Actuator tSupplier) {
-        Wall.exec(condition, logger, tSupplier, null);
-    }
-
-    @Deprecated
-    public static void safeSemi(final boolean condition, final Actuator tSupplier) {
-        Wall.exec(condition, null, tSupplier, null);
-    }
-
-    @Deprecated
-    public static <T> void safeSemi(final Supplier<T> supplier, final Consumer<T> consumer) {
-        Wall.safeT(supplier, consumer);
-    }
-
-    @Deprecated
-    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier, final Supplier<T> fSupplier) {
-        return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, fSupplier::get), logger);
-    }
-
-    @Deprecated
-    public static <T> T orSemi(final boolean condition, final Annal logger, final Supplier<T> tSupplier) {
-        return Wall.zeroReturn(() -> Wall.execZero(condition, tSupplier::get, null), logger);
-    }
-
-    @Deprecated
-    public static <T> T orSemi(final boolean condition, final ProgramSupplier<T> tSupplier, final ProgramSupplier<T> fSupplier) throws ProgramException {
-        return Wall.execZero(condition, tSupplier, fSupplier);
     }
 
     // ------ Specification for JsonFormat

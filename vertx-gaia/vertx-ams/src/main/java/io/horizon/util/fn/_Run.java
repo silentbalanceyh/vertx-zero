@@ -4,6 +4,7 @@ import io.horizon.fn.Actuator;
 import io.horizon.log.HLogger;
 import io.horizon.util.HaS;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -152,5 +153,127 @@ class _Run extends _Jvm {
         } else {
             return HSupplier.runOr(null, supplier);
         }
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     * 2. 条件满足时执行 falseSupplier
+     *
+     * @param condition     条件
+     * @param logger        日志记录器
+     * @param trueSupplier  条件满足时执行的 Supplier
+     * @param falseSupplier 条件不满足时执行的 Supplier
+     * @param <T>           返回值类型
+     *
+     * @return T
+     */
+    public static <T> T runOr(final boolean condition, final HLogger logger,
+                              final Supplier<T> trueSupplier, final Supplier<T> falseSupplier) {
+        if (condition) {
+            return Objects.nonNull(trueSupplier) ?
+                jvmOr(null, trueSupplier::get, logger) : null;
+        } else {
+            return Objects.nonNull(falseSupplier) ?
+                jvmOr(null, falseSupplier::get, logger) : null;
+        }
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param logger       日志记录器
+     * @param trueSupplier 条件满足时执行的 Supplier
+     * @param <T>          返回值类型
+     *
+     * @return T
+     */
+    public static <T> T runOr(final boolean condition, final HLogger logger,
+                              final Supplier<T> trueSupplier) {
+        return runOr(condition, logger, trueSupplier, null);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     * 时都可以记录相关日志
+     * 1. 条件满足时执行 trueSupplier
+     * 2. 条件满足时执行 falseSupplier
+     *
+     * @param condition     条件
+     * @param trueSupplier  条件满足时执行的 Supplier
+     * @param falseSupplier 条件不满足时执行的 Supplier
+     * @param <T>           返回值类型
+     *
+     * @return T
+     */
+    public static <T> T runOr(final boolean condition,
+                              final Supplier<T> trueSupplier, final Supplier<T> falseSupplier) {
+        return runOr(condition, null, trueSupplier, falseSupplier);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 Supplier 版本，外层使用 jvmOr 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param trueSupplier 条件满足时执行的 Supplier
+     * @param <T>          返回值类型
+     *
+     * @return T
+     */
+    public static <T> T runOr(final boolean condition, final Supplier<T> trueSupplier) {
+        return runOr(condition, null, trueSupplier, null);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 jvmAt 封装，保证出任何状况
+     *
+     * @param condition     条件
+     * @param logger        日志记录器
+     * @param trueActuator  条件满足时执行的 执行器
+     * @param falseActuator 条件不满足时执行的 执行器
+     */
+    public static void runAt(final boolean condition, final HLogger logger,
+                             final Actuator trueActuator, final Actuator falseActuator) {
+        if (condition) {
+            jvmAt(trueActuator::execute, logger);
+        } else {
+            jvmAt(falseActuator::execute, logger);
+        }
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 jvmAt 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param logger       日志记录器
+     * @param trueActuator 条件满足时执行的 执行器
+     */
+    public static void runAt(final boolean condition, final HLogger logger,
+                             final Actuator trueActuator) {
+        runAt(condition, logger, trueActuator, null);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 jvmAt 封装，保证出任何状况
+     *
+     * @param condition     条件
+     * @param trueActuator  条件满足时执行的 执行器
+     * @param falseActuator 条件不满足时执行的 执行器
+     */
+    public static void runAt(final boolean condition,
+                             final Actuator trueActuator, final Actuator falseActuator) {
+        runAt(condition, null, trueActuator, falseActuator);
+    }
+
+    /**
+     * 带条件选择（支持日志记录）的 执行器 版本，外层使用 jvmAt 封装，保证出任何状况
+     *
+     * @param condition    条件
+     * @param trueActuator 条件满足时执行的 执行器
+     */
+    public static void runAt(final boolean condition, final Actuator trueActuator) {
+        runAt(condition, null, trueActuator, null);
     }
 }

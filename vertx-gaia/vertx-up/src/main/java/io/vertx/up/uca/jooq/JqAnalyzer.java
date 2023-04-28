@@ -2,6 +2,7 @@ package io.vertx.up.uca.jooq;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
@@ -11,7 +12,6 @@ import io.vertx.up.exception.zero.JooqFieldMissingException;
 import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -348,7 +348,7 @@ public class JqAnalyzer {
     public <T> T copyEntity(final T target, final T updated) {
         Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
             UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
-        return Fn.orSemi(null == target && null == updated, LOGGER, () -> null, () -> {
+        return Fn.runOr(null == target && null == updated, LOGGER, () -> null, () -> {
             final JsonObject targetJson = null == target ? new JsonObject() : Ut.serializeJson(target);
             /*
              * Skip Primary Key

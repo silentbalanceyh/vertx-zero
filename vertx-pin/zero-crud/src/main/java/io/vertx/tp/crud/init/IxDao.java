@@ -117,26 +117,26 @@ class IxDao {
         /* Header Processing */
         final JsonObject header = Ut.valueJObject(module.getHeader());
         /* sigma -> X-Sigma */
-        Fn.safeSemi(!header.containsKey(KName.SIGMA),
+        Fn.runAt(!header.containsKey(KName.SIGMA),
             () -> header.put(KName.SIGMA, KWeb.HEADER.X_SIGMA));
         /* language -> X-Lang */
-        Fn.safeSemi(!header.containsKey(KName.LANGUAGE),
+        Fn.runAt(!header.containsKey(KName.LANGUAGE),
             () -> header.put(KName.LANGUAGE, KWeb.HEADER.X_LANG));
         module.setHeader(header);
 
         /* Auditor Processing */
         final KField field = Objects.isNull(module.getField()) ? new KField() : module.getField();
         // key -> key
-        Fn.safeSemi(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
+        Fn.runAt(Objects.isNull(field.getKey()), () -> field.setKey(KName.KEY));
         // created
         final JsonObject created = Ut.valueJObject(field.getCreated());
-        Fn.safeSemi(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
-        Fn.safeSemi(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
+        Fn.runAt(!created.containsKey(KName.AT), () -> created.put(KName.AT, KName.CREATED_AT));
+        Fn.runAt(!created.containsKey(KName.BY), () -> created.put(KName.BY, KName.CREATED_BY));
         field.setCreated(created);
         // updated
         final JsonObject updated = Ut.valueJObject(field.getUpdated());
-        Fn.safeSemi(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
-        Fn.safeSemi(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
+        Fn.runAt(!updated.containsKey(KName.AT), () -> updated.put(KName.AT, KName.UPDATED_AT));
+        Fn.runAt(!updated.containsKey(KName.BY), () -> updated.put(KName.BY, KName.UPDATED_BY));
         field.setUpdated(updated);
         // Module field setting workflow for default
         module.setField(field);

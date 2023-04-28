@@ -46,7 +46,7 @@ final class Types {
 
     @Deprecated
     static boolean isJArray(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
+        return Fn.runOr(null == value, LOGGER,
             () -> false,
             () -> isJArray(value.getClass()));
     }
@@ -73,7 +73,7 @@ final class Types {
     }
 
     static boolean isClass(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
+        return Fn.runOr(null == value, LOGGER,
             () -> false,
             () -> null != Instance.clazz(value.toString()));
     }
@@ -92,7 +92,7 @@ final class Types {
 
     @Deprecated
     static boolean isJObject(final Object value) {
-        return Fn.orSemi(null == value, LOGGER,
+        return Fn.runOr(null == value, LOGGER,
             () -> false,
             () -> isJObject(value.getClass()));
     }

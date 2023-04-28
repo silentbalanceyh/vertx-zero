@@ -42,7 +42,7 @@ class ApeakPre implements Pre {
     }
 
     protected void viewProc(final JsonObject data, final KColumn column) {
-        Fn.safeSemi(Objects.isNull(data.getValue(KName.VIEW)), () ->
+        Fn.runAt(Objects.isNull(data.getValue(KName.VIEW)), () ->
             // Vis: Fix bug of default view
             data.put(KName.VIEW, Vis.smart(column.getView())));
     }

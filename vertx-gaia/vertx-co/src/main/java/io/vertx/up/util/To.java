@@ -253,7 +253,7 @@ final class To {
         final Class<?> clazz,
         final Throwable error
     ) {
-        return Fn.orSemi(error instanceof WebException, null,
+        return Fn.runOr(error instanceof WebException, null,
             () -> (WebException) error,
             () -> new _500InternalServerException(clazz, error.getMessage()));
     }

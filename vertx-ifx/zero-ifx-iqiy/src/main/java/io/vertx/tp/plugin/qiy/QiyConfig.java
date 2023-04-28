@@ -53,12 +53,12 @@ public class QiyConfig implements Serializable {
     }
 
     public <T> T getUpApi(final Class<T> clazz) {
-        return Fn.orSemi(!DEPOT.getConfig().containsKey(URL_UPLOAD), LOGGER,
+        return Fn.runOr(!DEPOT.getConfig().containsKey(URL_UPLOAD), LOGGER,
             () -> DEPOT.build(clazz, DFT_UPLOAD));
     }
 
     public <T> T getHugeUpApi(final Class<T> clazz) {
-        return Fn.orSemi(!DEPOT.getConfig().containsKey(URL_QI_CHUAN), LOGGER,
+        return Fn.runOr(!DEPOT.getConfig().containsKey(URL_QI_CHUAN), LOGGER,
             () -> DEPOT.build(clazz, DFT_QI_CHUAN));
     }
 

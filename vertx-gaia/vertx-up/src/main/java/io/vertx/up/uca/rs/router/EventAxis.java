@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.router;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -9,7 +10,6 @@ import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.soul.UriAeon;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.rs.Sentry;
@@ -60,7 +60,7 @@ public class EventAxis implements Axis<Router> {
         /*
          * Extract Event foreach
          */
-        EVENTS.forEach(event -> Fn.safeSemi(null == event, LOGGER,
+        EVENTS.forEach(event -> Fn.runAt(null == event, LOGGER,
             () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
             () -> {
                 // 1. Verify

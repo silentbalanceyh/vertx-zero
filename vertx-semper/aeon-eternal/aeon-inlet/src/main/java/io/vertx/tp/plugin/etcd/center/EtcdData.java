@@ -228,7 +228,7 @@ public class EtcdData {
     public <T> JsonObject write(final String path, final T data, final int ttl) {
         return Fn.failOr(null, () -> {
             final EtcdKeyPutRequest request = this.client.put(path,
-                Fn.orSemi(data instanceof JsonObject || data instanceof JsonArray,
+                Fn.runOr(data instanceof JsonObject || data instanceof JsonArray,
                     LOGGER,
                     () -> Ut.invoke(data, "encode"),
                     data::toString));

@@ -26,13 +26,13 @@ class IrQr implements Qr {
 
     @SuppressWarnings("unchecked")
     private void init(final JsonObject input) {
-        Fn.safeSemi(input.containsKey(KEY_PAGER), null,
+        Fn.runAt(input.containsKey(KEY_PAGER),
             () -> this.pager = Pager.create(input.getJsonObject(KEY_PAGER)));
-        Fn.safeSemi(input.containsKey(KEY_SORTER), null,
+        Fn.runAt(input.containsKey(KEY_SORTER),
             () -> this.sorter = Sorter.create(input.getJsonArray(KEY_SORTER)));
-        Fn.safeSemi(input.containsKey(KEY_PROJECTION), null,
+        Fn.runAt(input.containsKey(KEY_PROJECTION),
             () -> this.projection = new HashSet<String>(input.getJsonArray(KEY_PROJECTION).getList()));
-        Fn.safeSemi(input.containsKey(KEY_CRITERIA), null,
+        Fn.runAt(input.containsKey(KEY_CRITERIA),
             () -> this.criteria = Criteria.create(input.getJsonObject(KEY_CRITERIA)));
     }
 

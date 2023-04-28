@@ -31,7 +31,7 @@ class To {
 
     static <T> Future<T> future(final T entity) {
         return Fn.runOr(Future.succeededFuture(),
-            () -> Fn.orSemi(entity instanceof Throwable, null,
+            () -> Fn.runOr(entity instanceof Throwable, null,
                 () -> Future.failedFuture((Throwable) entity),
                 () -> Future.succeededFuture(entity)),
             entity);
@@ -41,7 +41,7 @@ class To {
         final T entity,
         final String pojo) {
         return Fn.runOr(new JsonObject(),
-            () -> Fn.orSemi(Ut.isNil(pojo), null,
+            () -> Fn.runOr(Ut.isNil(pojo), null,
                 // Turn On Smart
                 () -> Ut.serializeJson(entity, true),
                 () -> Mirror.create(To.class).mount(pojo).connect(Ut.serializeJson(entity, true)).to().result()),
@@ -52,7 +52,7 @@ class To {
         final T entity,
         final Function<JsonObject, JsonObject> convert
     ) {
-        return Fn.orSemi(null == convert, null,
+        return Fn.runOr(null == convert, null,
             () -> toJObject(entity, ""),
             () -> convert.apply(toJObject(entity, "")));
     }
@@ -100,7 +100,7 @@ class To {
     static <T> Envelop toEnvelop(
         final T entity
     ) {
-        return Fn.runOr(Envelop.ok(), () -> Fn.orSemi(entity instanceof WebException, null,
+        return Fn.runOr(Envelop.ok(), () -> Fn.runOr(entity instanceof WebException, null,
                 () -> Envelop.failure((WebException) entity),
                 () -> {
                     if (Envelop.class == entity.getClass()) {
@@ -131,7 +131,7 @@ class To {
         final JsonArray array,
         final String pojo
     ) {
-        return Fn.orSemi(null == array || array.isEmpty(), null,
+        return Fn.runOr(null == array || array.isEmpty(), null,
             () -> toJObject(null, pojo),
             () -> toJObject(array.getValue(0), pojo));
     }

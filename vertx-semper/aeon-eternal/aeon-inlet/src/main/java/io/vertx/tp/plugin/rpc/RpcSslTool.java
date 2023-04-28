@@ -2,13 +2,13 @@ package io.vertx.tp.plugin.rpc;
 
 import io.grpc.ManagedChannel;
 import io.horizon.eon.em.secure.CertType;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.micro.ssl.TrustPipe;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
@@ -38,7 +38,7 @@ public class RpcSslTool {
             final VertxChannelBuilder builder =
                 VertxChannelBuilder
                     .forAddress(vertx, rpcHost, rpcPort);
-            Fn.safeSemi(null != config.getValue(Key.SSL), LOGGER, () -> {
+            Fn.runAt(null != config.getValue(Key.SSL), LOGGER, () -> {
                 final JsonObject sslConfig = config.getJsonObject(Key.SSL);
                 if (null != sslConfig && !sslConfig.isEmpty()) {
                     final TrustPipe<JsonObject> pipe = getPipe(sslConfig);
@@ -74,7 +74,7 @@ public class RpcSslTool {
             // Ssl Required
             final JsonObject config = node.read();
 
-            Fn.safeSemi(null != config && null != config.getValue("rpc"), LOGGER, () -> {
+            Fn.runAt(null != config && null != config.getValue("rpc"), LOGGER, () -> {
                 // Extension or Uniform
                 assert config != null;
                 final JsonObject rpcConfig = config.getJsonObject("rpc");

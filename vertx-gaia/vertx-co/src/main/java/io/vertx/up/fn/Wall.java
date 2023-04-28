@@ -7,10 +7,7 @@ import io.horizon.fn.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 
-import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -128,18 +125,6 @@ final class Wall {
             }), logger);
     }
 
-    static <T> void safeT(final Supplier<T> supplier, final Consumer<T> consumer) {
-        final T input = supplier.get();
-        if (Objects.nonNull(input)) {
-            if (input instanceof String) {
-                if (Ut.isNotNil((String) input)) {
-                    consumer.accept(input);
-                }
-            } else {
-                consumer.accept(input);
-            }
-        }
-    }
 
     @SuppressWarnings("all")
     static <T> T execZero(final boolean condition, final ProgramSupplier<T> tSupplier, final ProgramSupplier<T> fSupplier)

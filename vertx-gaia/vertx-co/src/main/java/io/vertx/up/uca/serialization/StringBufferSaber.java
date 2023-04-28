@@ -11,7 +11,7 @@ public class StringBufferSaber extends BaseSaber {
     public Object from(final Class<?> paramType,
                        final String literal) {
         return Fn.runOr(() ->
-                Fn.orSemi(StringBuilder.class == paramType
+                Fn.runOr(StringBuilder.class == paramType
                         || StringBuffer.class == paramType, this.getLogger(),
                     () -> {
                         if (StringBuffer.class == paramType) {

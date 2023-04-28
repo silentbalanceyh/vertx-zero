@@ -33,7 +33,7 @@ final class ArrayL {
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
         return Fn.runOr(() -> {
             final List<T> filtered = list.stream().filter(fnFilter).toList();
-            return Fn.orSemi(filtered.isEmpty(), LOGGER,
+            return Fn.runOr(filtered.isEmpty(), LOGGER,
                 () -> null,
                 () -> filtered.get(VValue.IDX));
         }, list, fnFilter);

@@ -58,9 +58,9 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
 
     @SuppressWarnings("all")
     private String getName(final Annotation annotation) {
-        return Fn.orSemi(null == annotation, LOGGER,
+        return Fn.runOr(null == annotation, LOGGER,
             () -> KWeb.ARGS.MIME_IGNORE,
-            () -> Fn.orSemi(!Filler.NO_VALUE.contains(annotation.annotationType()),
+            () -> Fn.runOr(!Filler.NO_VALUE.contains(annotation.annotationType()),
                 LOGGER,
                 () -> Ut.invoke(annotation, "value"),
                 () -> KWeb.ARGS.MIME_DIRECT));
@@ -78,7 +78,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
         final List<Annotation> annotationList = Arrays.stream(annotations)
             .filter(item -> item.annotationType() == DefaultValue.class)
             .collect(Collectors.toList());
-        return Fn.orSemi(annotationList.isEmpty(), LOGGER,
+        return Fn.runOr(annotationList.isEmpty(), LOGGER,
             () -> null,
             () -> {
                 final Annotation annotation = annotationList.get(VValue.IDX);

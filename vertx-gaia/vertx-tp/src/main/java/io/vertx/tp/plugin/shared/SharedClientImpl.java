@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.shared;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -12,7 +13,6 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500SharedDataModeException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;
@@ -78,7 +78,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
     public Kv<K, V> put(final K key, final V value) {
         final V reference = this.sync().get(key);
         // Add & Replace
-        Fn.safeSemi(null == reference, LOGGER,
+        Fn.runAt(null == reference, LOGGER,
             () -> this.sync().put(key, value),
             () -> this.sync().replace(key, value));
         return Kv.create(key, value);
@@ -106,7 +106,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
         this.async(map -> map.result().get(key, res -> {
             if (res.succeeded()) {
                 final V reference = res.result();
-                Fn.safeSemi(null == reference, LOGGER,
+                Fn.runAt(null == reference, LOGGER,
                     // Successed for Add
                     () -> map.result()
                         .put(key, value, added -> this.putHandler(added, key, value, handler)),
@@ -129,7 +129,7 @@ public class SharedClientImpl<K, V> implements SharedClient<K, V> {
         this.async(map -> map.result().get(key, res -> {
             if (res.succeeded()) {
                 final V reference = res.result();
-                Fn.safeSemi(null == reference, LOGGER,
+                Fn.runAt(null == reference, LOGGER,
                     // Successed for Add
                     () -> map.result()
                         .put(key, value, ms, added -> this.putHandler(added, key, value, handler)),

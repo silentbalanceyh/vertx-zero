@@ -30,7 +30,7 @@ public class ZeroHelper {
      *
      **/
     public static ServerType getAgentKey(final Class<?> clazz) {
-        return Fn.orSemi(clazz.isAnnotationPresent(Agent.class), LOGGER,
+        return Fn.runOr(clazz.isAnnotationPresent(Agent.class), LOGGER,
             () -> Ut.invoke(clazz.getDeclaredAnnotation(Agent.class), "type"),
             () -> null);
     }

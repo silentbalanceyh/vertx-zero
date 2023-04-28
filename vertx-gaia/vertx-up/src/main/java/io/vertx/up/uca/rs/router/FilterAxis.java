@@ -26,7 +26,7 @@ public class FilterAxis implements Axis<Router> {
     @Override
     public void mount(final Router router) {
         // Extract Event foreach
-        FILTERS.forEach((path, events) -> events.forEach(event -> Fn.safeSemi(null == event, LOGGER,
+        FILTERS.forEach((path, events) -> events.forEach(event -> Fn.runAt(null == event, LOGGER,
             () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
             () -> {
                 // Path for filter
