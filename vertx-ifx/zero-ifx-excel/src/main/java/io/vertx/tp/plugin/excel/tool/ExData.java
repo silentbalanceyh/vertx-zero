@@ -82,7 +82,7 @@ class ExData {
                 /*
                  * Call,  valid for region / Merged region A302 must contain 2 or more cells
                  */
-                Fn.safeJvm(() -> sheet.addMergedRegion(region));
+                Fn.jvmAt(() -> sheet.addMergedRegion(region));
             }
         };
         if (MetaAtom.isComplex()) {
@@ -148,7 +148,7 @@ class ExData {
                 /*
                  * Call,  valid for region / Merged region A302 must contain 2 or more cells
                  */
-                Fn.safeJvm(() -> sheet.addMergedRegion(region));
+                Fn.jvmAt(() -> sheet.addMergedRegion(region));
             }
         } else {
             /*

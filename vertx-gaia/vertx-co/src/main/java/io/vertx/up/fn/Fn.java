@@ -1,11 +1,9 @@
 package io.vertx.up.fn;
 
-import io.horizon.annotations.HLinking;
 import io.horizon.eon.info.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.*;
-import io.horizon.util.fn.HFn;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -143,73 +141,6 @@ public final class Fn extends _Out {
     public static <T> void outQr(final T condition, final Class<?> clazz) {
         outOr(condition, clazz, VMessage.PROGRAM_QR);
     }
-    // ------ Jvm Safe
-
-    public static void safeJvm(final ExceptionActuator actuator, final Annal logger) {
-        Wall.jvmVoid(actuator, logger);
-    }
-
-    public static void safeJvm(final ExceptionActuator actuator) {
-        Wall.jvmVoid(actuator, null);
-    }
-
-    public static <T> T safeJvm(final ExceptionSupplier<T> supplier, final Annal logger) {
-        return Wall.jvmReturn(supplier, logger);
-    }
-
-    public static <T> T safeJvm(final ExceptionSupplier<T> supplier) {
-        return Wall.jvmReturn(supplier, null);
-    }
-
-    public static <T> T orJvm(final ExceptionSupplier<T> supplier, final Object... input) {
-        return ZeroErr.getJvm(null, supplier, input);
-    }
-
-    public static <T> T orJvm(final T defaultValue, final ExceptionSupplier<T> supplier, final Object... input) {
-        return ZeroErr.getJvm(defaultValue, supplier, input);
-    }
-
-    // ------ Zero Safe
-    public static <T> T orZero(final ProgramSupplier<T> supplier, final Annal logger) {
-        return Wall.zeroReturn(supplier, logger);
-    }
-
-    public static void safeZero(final ProgramActuator actuator, final Annal logger) {
-        Wall.zeroVoid(actuator, logger);
-    }
-
-    // ------ Null Safe
-    public static void safeNull(final Actuator actuator, final Object... input) {
-        ZeroErr.exec(actuator, input);
-    }
-
-    public static <T> void safeNull(final Consumer<T> consumer, final T input) {
-        ZeroErr.exec(consumer, input);
-    }
-
-    /*
-     * 修改原 get 前缀为 or，代表有可能得情况，这部分API改动量巨大，且和if可能会有些许重复
-     * 重复部分暂时先维持原始信息，等之后合并
-     */
-    public static <T> T orNull(final Supplier<T> supplier, final Object... input) {
-        return ZeroErr.get(null, supplier, input);
-    }
-
-    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier, final Object... input) {
-        return ZeroErr.get(defaultValue, supplier, input);
-    }
-
-    public static <T> T orNull(final T defaultValue, final Supplier<T> supplier) {
-        return Wall.execReturn(supplier, defaultValue);
-    }
-
-    public static <T> T orEmpty(final Supplier<T> supplier, final String... input) {
-        return ZeroErr.getEmpty(null, supplier, input);
-    }
-
-    public static <T> T orEmpty(final T defaultValue, final Supplier<T> supplier, final String... input) {
-        return ZeroErr.getEmpty(defaultValue, supplier, input);
-    }
 
     // ------ Semi Safe
     @Deprecated
@@ -262,16 +193,6 @@ public final class Fn extends _Out {
 
     public static <T> void verifyJArray(final JsonArray dataArray, final ProgramBiConsumer<T, String> fnIt) throws ProgramException {
         Wall.execZero(dataArray, fnIt);
-    }
-
-    // ------ Must throw out exception in these two methods
-    @HLinking(HFn.class)
-    public static void runAt(final Actuator actuator, final Annal logger) {
-        HFn.runAt(actuator, logger);
-    }
-
-    public static void safeZero(final ProgramActuator actuator, final Object... input) throws ProgramException {
-        ZeroErr.execZero(actuator, input);
     }
 
     // ---------------- Arrange Async Future ----------------------

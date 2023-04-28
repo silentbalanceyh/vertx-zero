@@ -29,14 +29,14 @@ public class ReceiptInquirer implements Inquirer<Set<Receipt>> {
             thread.start();
         }
         /* 3.2. Join **/
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             for (final QueueThread item : threadReference) {
                 item.join();
             }
         }, LOGGER);
         /* 3.3. Return **/
         final Set<Receipt> receipts = new HashSet<>();
-        Fn.safeJvm(() -> threadReference.stream()
+        Fn.jvmAt(() -> threadReference.stream()
             .map(QueueThread::getReceipts)
             .forEach(receipts::addAll), LOGGER);
         /* 3.4. New Receipts replaced with Aeon System ( Enabled ) */

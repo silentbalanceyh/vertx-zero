@@ -1,10 +1,10 @@
 package io.vertx.up.atom.pojo;
 
+import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;
@@ -42,7 +42,7 @@ public class Mirror {
             final JsonObject data = Ut.ioYaml(MessageFormat.format(POJO, filename));
 
             /* Only one point to refer `pojoFile` */
-            return Fn.orNull(() -> Ut.deserialize(data, Mojo.class), data).on(filename);
+            return Fn.runOr(() -> Ut.deserialize(data, Mojo.class), data).on(filename);
         }, filename);
         return this;
     }
@@ -54,7 +54,7 @@ public class Mirror {
 
     public Mirror connect(final JsonObject data) {
         // Copy new data
-        this.data = Fn.orNull(new JsonObject(), data::copy, data);
+        this.data = Fn.runOr(new JsonObject(), data::copy, data);
         return this;
     }
 
@@ -115,7 +115,7 @@ public class Mirror {
     @SuppressWarnings("unchecked")
     public <T> T get() {
         final Object reference = Ut.deserialize(this.converted, this.mojo.getType(), true);
-        return Fn.orNull(null, () -> (T) reference, reference);
+        return Fn.runOr(() -> (T) reference, reference);
     }
 
     public JsonObject result() {

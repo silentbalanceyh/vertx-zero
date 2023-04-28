@@ -29,7 +29,7 @@ public final class Anno {
      * @return hash map that stored (name = Annotation) scanned results.
      */
     public static ConcurrentMap<String, Annotation> get(final Class<?> clazz) {
-        return Fn.orNull(() -> Ut.elementZip(clazz.getDeclaredAnnotations(),
+        return Fn.runOr(() -> Ut.elementZip(clazz.getDeclaredAnnotations(),
             (item) -> item.annotationType().getName(),
             (item) -> item), clazz);
     }
@@ -45,7 +45,7 @@ public final class Anno {
      */
     public static Annotation[] query(final Class<?> clazz,
                                      final Class<? extends Annotation> methodCls) {
-        return Fn.orNull(() -> Arrays.stream(clazz.getDeclaredMethods())
+        return Fn.runOr(() -> Arrays.stream(clazz.getDeclaredMethods())
             .filter(item -> item.isAnnotationPresent(methodCls))
             .map(item -> item.getAnnotation(methodCls))
             .filter(Objects::nonNull)

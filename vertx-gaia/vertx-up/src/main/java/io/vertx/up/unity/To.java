@@ -30,7 +30,7 @@ class To {
     }
 
     static <T> Future<T> future(final T entity) {
-        return Fn.orNull(Future.succeededFuture(),
+        return Fn.runOr(Future.succeededFuture(),
             () -> Fn.orSemi(entity instanceof Throwable, null,
                 () -> Future.failedFuture((Throwable) entity),
                 () -> Future.succeededFuture(entity)),
@@ -40,7 +40,7 @@ class To {
     static <T> JsonObject toJObject(
         final T entity,
         final String pojo) {
-        return Fn.orNull(new JsonObject(),
+        return Fn.runOr(new JsonObject(),
             () -> Fn.orSemi(Ut.isNil(pojo), null,
                 // Turn On Smart
                 () -> Ut.serializeJson(entity, true),
@@ -61,7 +61,7 @@ class To {
         final List<T> list,
         final Function<JsonObject, JsonObject> convert
     ) {
-        return Fn.orNull(new JsonArray(), () -> {
+        return Fn.runOr(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
                 .filter(Objects::nonNull)
@@ -75,7 +75,7 @@ class To {
         final List<T> list,
         final String pojo
     ) {
-        return Fn.orNull(new JsonArray(), () -> {
+        return Fn.runOr(new JsonArray(), () -> {
             final JsonArray array = new JsonArray();
             Observable.fromIterable(list)
                 .filter(Objects::nonNull)
@@ -89,7 +89,7 @@ class To {
         final List<T> list,
         final String pojo
     ) {
-        return Fn.orNull(new ArrayList<>(), () -> {
+        return Fn.runOr(new ArrayList<>(), () -> {
             final List<JsonObject> jlist = new ArrayList<>();
             Ut.itJArray(toJArray(list, pojo)).forEach(jlist::add);
             return jlist;
@@ -100,7 +100,7 @@ class To {
     static <T> Envelop toEnvelop(
         final T entity
     ) {
-        return Fn.orNull(Envelop.ok(), () -> Fn.orSemi(entity instanceof WebException, null,
+        return Fn.runOr(Envelop.ok(), () -> Fn.orSemi(entity instanceof WebException, null,
                 () -> Envelop.failure((WebException) entity),
                 () -> {
                     if (Envelop.class == entity.getClass()) {
@@ -116,7 +116,7 @@ class To {
         final T entity,
         final WebException error
     ) {
-        return Fn.orNull(Envelop.failure(error),
+        return Fn.runOr(Envelop.failure(error),
             () -> Envelop.success(entity), entity);
     }
 

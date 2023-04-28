@@ -8,6 +8,7 @@ import io.horizon.fn.ProgramFunction;
 import io.horizon.log.HLogger;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * @author lang : 2023/4/28
@@ -34,7 +35,8 @@ class HFunction {
         }
     }
 
-    static <T, R> R bugAt(final R defaultValue, final ProgramFunction<T, R> function, final HLogger logger) {
+    static <T, R> R bugAt(final R defaultValue, final ProgramFunction<T, R> function,
+                          final HLogger logger) throws ProgramException {
         try {
             final R ret = function.apply(null);
             return Objects.isNull(ret) ? defaultValue : ret;
@@ -70,5 +72,10 @@ class HFunction {
             }
             return defaultValue;
         }
+    }
+
+    static <T, R> R runAt(final R defaultValue, final Function<T, R> function) {
+        final R ret = function.apply(null);
+        return Objects.isNull(ret) ? defaultValue : ret;
     }
 }

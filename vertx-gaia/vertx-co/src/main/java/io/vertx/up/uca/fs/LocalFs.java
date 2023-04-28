@@ -20,7 +20,7 @@ public class LocalFs implements HFS {
         final File file = new File(dirName);
         if (!file.exists()) {
             LOG.Fs.info(this.getClass(), Info.IO_CMD_MKDIR, file.getAbsolutePath());
-            Fn.safeJvm(() -> FileUtils.forceMkdir(file));
+            Fn.jvmAt(() -> FileUtils.forceMkdir(file));
         }
         return true;
     }
@@ -30,7 +30,7 @@ public class LocalFs implements HFS {
         final File file = Ut.ioFile(filename);
         if (Objects.nonNull(file) && file.exists()) {
             LOG.Fs.info(this.getClass(), Info.IO_CMD_RM, file.getAbsolutePath());
-            Fn.safeJvm(() -> FileUtils.forceDelete(file));
+            Fn.jvmAt(() -> FileUtils.forceDelete(file));
         }
         return true;
     }
@@ -46,23 +46,23 @@ public class LocalFs implements HFS {
                 if (fileSrc.isFile()) {
                     // File -> Directory
                     LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFileToDirectory");
-                    Fn.safeJvm(() -> FileUtils.copyFileToDirectory(fileSrc, fileDst, true));
+                    Fn.jvmAt(() -> FileUtils.copyFileToDirectory(fileSrc, fileDst, true));
                 } else {
                     if (fileSrc.getName().equals(fileDst.getName())) {
                         // Directory -> Directory ( Overwrite )
                         LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectory");
-                        Fn.safeJvm(() -> FileUtils.copyDirectory(fileSrc, fileDst, true));
+                        Fn.jvmAt(() -> FileUtils.copyDirectory(fileSrc, fileDst, true));
                     } else {
                         // Directory -> Directory / ( Children )
                         LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectoryToDirectory");
-                        Fn.safeJvm(() -> FileUtils.copyDirectoryToDirectory(fileSrc, fileDst));
+                        Fn.jvmAt(() -> FileUtils.copyDirectoryToDirectory(fileSrc, fileDst));
                     }
                 }
             } else {
                 // File -> File
                 if (fileSrc.isFile()) {
                     LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFile");
-                    Fn.safeJvm(() -> FileUtils.copyFile(fileSrc, fileDst, true));
+                    Fn.jvmAt(() -> FileUtils.copyFile(fileSrc, fileDst, true));
                 }
             }
         } else {
@@ -80,7 +80,7 @@ public class LocalFs implements HFS {
             LOG.Fs.info(this.getClass(), Info.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileToP.getAbsolutePath());
             if (fileSrc.isDirectory()) {
                 // 目录拷贝：目录 -> 目录
-                Fn.safeJvm(() -> FileUtils.moveDirectory(fileSrc, fileTo));
+                Fn.jvmAt(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
                 // 文件拷贝（替换原始文件）
                 if (Ut.ioExist(nameTo)) {
@@ -88,7 +88,7 @@ public class LocalFs implements HFS {
                     //      File element in parameter 'null' already exists:
                     this.rm(nameTo);
                 }
-                Fn.safeJvm(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
+                Fn.jvmAt(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
             }
         }
         return true;

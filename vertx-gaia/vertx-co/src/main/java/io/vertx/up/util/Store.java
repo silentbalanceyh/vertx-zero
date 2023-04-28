@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 
 /**
  * Connect to vertx config to getNull options
@@ -28,7 +28,7 @@ final class Store {
      * @return Stored
      */
     static ConfigStoreOptions getJson(final String filename) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final JsonObject data = IO.getJObject(filename);
             return CC_STORE.pick(() -> new ConfigStoreOptions()
                 .setType(StoreType.JSON.key())
@@ -65,7 +65,7 @@ final class Store {
 
     private static ConfigStoreOptions getFile(final String filename,
                                               final StoreFormat format) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final JsonObject config = new JsonObject()
                 .put(StoreConfig.PATH.key(), IO.getPath(filename));
             return CC_STORE.pick(() -> new ConfigStoreOptions()

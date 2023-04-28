@@ -12,7 +12,7 @@ import java.util.Date;
 public class Java8DataTimeSaber extends BaseSaber {
     @Override
     public <T> Object from(final T input) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             Object reference = null;
             if (input instanceof LocalDate) {
                 final LocalDate date = (LocalDate) input;
@@ -30,7 +30,7 @@ public class Java8DataTimeSaber extends BaseSaber {
 
     @Override
     public Object from(final Class<?> paramType, final String literal) {
-        return Fn.orNull(() ->
+        return Fn.runOr(() ->
                 Fn.orSemi(Date.class == paramType ||
                         Calendar.class == paramType, this.getLogger(),
                     () -> {

@@ -41,7 +41,7 @@ public class ProfileProvider implements AuthorizationProvider {
     @SuppressWarnings("all")
     public void getAuthorizations(final User user, final Handler<AsyncResult<Void>> handler) {
         final Method method = this.aegis.getAuthorizer().getAuthorization();
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             /*
              * Future<Set<String>> fetching
              */

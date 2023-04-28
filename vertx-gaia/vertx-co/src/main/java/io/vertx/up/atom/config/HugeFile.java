@@ -30,7 +30,7 @@ public class HugeFile {
     }
 
     public HugeFile(final String fileName, final int byteBufferSize) {
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final File file = Ut.ioFile(fileName);
             if (Objects.isNull(file)) {
                 throw new EmptyIoException(this.getClass(), fileName);
@@ -77,7 +77,7 @@ public class HugeFile {
     }
 
     public void close() {
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             this.fileChannel.close();
             this.inputStream.close();
             for (final MappedByteBuffer byteBuffer : this.mappedByteBuffers) {

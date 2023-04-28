@@ -76,7 +76,7 @@ public class QiyConfig implements Serializable {
     }
 
     public void setToken(final JsonObject response) {
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             this.accessToken = response.getString(KName.ACCESS_TOKEN);
             this.refreshToken = response.getString("refresh_token");
             // Fix Expire Field issue.

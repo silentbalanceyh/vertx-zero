@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.shell.atom;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -7,7 +8,6 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class Terminal {
                  * When click terminal operation here
                  */
                 final ConcurrentMap<Integer, Scanner> cdScanner = CC_SCANNER.store();
-                cdScanner.values().forEach(scanner -> Fn.safeJvm(scanner::close));
+                cdScanner.values().forEach(scanner -> Fn.jvmAt(scanner::close));
                 System.exit(0);
                 // handler.handle(Future.failedFuture(ERROR_ARG_MISSING));
             }

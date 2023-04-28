@@ -47,7 +47,7 @@ public class IPHost {
     }
 
     private String searchNetworkInterfaces(final IPFilter ipFilter) {
-        return Fn.orJvm(VString.EMPTY, () -> {
+        return Fn.failOr(VString.EMPTY, () -> {
             final Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
             while (enumeration.hasMoreElements()) {
                 final NetworkInterface networkInterface = enumeration.nextElement();

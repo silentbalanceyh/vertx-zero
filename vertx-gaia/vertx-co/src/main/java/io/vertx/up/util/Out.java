@@ -22,7 +22,7 @@ final class Out {
 
     @SuppressWarnings("all")
     static void write(final String path, final String data) {
-        Fn.safeNull(() -> Fn.safeJvm(() -> {
+        Fn.runAt(() -> Fn.jvmAt(() -> {
             final File file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
@@ -44,7 +44,7 @@ final class Out {
     }
 
     static boolean make(final String path) {
-        return Fn.orNull(() -> Fn.orJvm(() -> {
+        return Fn.runOr(() -> Fn.failOr(() -> {
             final File file = new File(path);
             boolean created = false;
             if (!file.exists()) {
@@ -67,7 +67,7 @@ final class Out {
     static void writeCompress(final String path, final String data) {
         final byte[] dataBytes = data.getBytes(io.horizon.eon.VValue.DFT.CHARSET);
         final byte[] output = Compressor.compress(dataBytes, CompressLevel.BEST_COMPRESSION);
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final FileOutputStream fos = new FileOutputStream(path);
             fos.write(output);
             fos.close();
@@ -79,7 +79,7 @@ final class Out {
      */
     static void writeBig(final String filename, final OutputStream output) {
         final HugeFile file = new HugeFile(filename);
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             while (file.read() != VValue.RANGE) {
                 final byte[] bytes = file.getCurrentBytes();
                 output.write(bytes);

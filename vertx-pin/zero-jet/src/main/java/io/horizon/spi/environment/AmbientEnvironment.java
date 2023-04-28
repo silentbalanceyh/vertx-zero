@@ -146,7 +146,7 @@ public class AmbientEnvironment {
     }
 
     public Connection getConnection() {
-        return Fn.orJvm(() -> this.pool.getDataSource().getConnection(), this.pool);
+        return Fn.failOr(() -> this.pool.getDataSource().getConnection(), this.pool);
     }
 
     public DataPool getPool() {

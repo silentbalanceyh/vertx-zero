@@ -38,7 +38,7 @@ public class AuthorizationResourceImpl implements AuthorizationResource {
     public void requestResource(final RoutingContext context, final Handler<AsyncResult<Authorization>> handler) {
         final JsonObject params = AuthorizationResource.parameters(context);
         final Method method = this.aegis.getAuthorizer().getResource();
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final Future<Object> future = (Future<Object>) method.invoke(this.aegis.getProxy(), params);
             future.onComplete(res -> {
                 if (res.succeeded()) {

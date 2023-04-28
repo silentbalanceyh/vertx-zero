@@ -69,7 +69,7 @@ class AresDynamic extends AbstractAres {
             dynamic.mount(router, configRouter);
         } else {
             if (VValue.ONE == LOG_FLAG_END.getAndIncrement()) {
-                final String className = Fn.orNull(null, () -> null == clazz ? null : clazz.getName(), clazz);
+                final String className = Fn.runOr(null, () -> null == clazz ? null : clazz.getName(), clazz);
                 this.logger().info(Info.DYNAMIC_SKIP, name, className);
             }
         }

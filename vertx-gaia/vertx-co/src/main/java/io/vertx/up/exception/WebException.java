@@ -27,32 +27,33 @@ public abstract class WebException extends AbstractException {
     public WebException(final String message) {
         super(message);
         this.message = message;
-        status = HttpStatusCode.BAD_REQUEST;
-        target = null;      // Target;
+        this.status = HttpStatusCode.BAD_REQUEST;
+        this.target = null;      // Target;
     }
 
     public WebException(final Class<?> clazz, final Object... args) {
         super(VString.EMPTY);
-        message = Errors.normalizeWeb(clazz, getCode(), args);
-        params = args;
-        status = HttpStatusCode.BAD_REQUEST;
-        target = clazz;     // Target;
+        this.message = Errors.normalizeWeb(clazz, this.getCode(), args);
+        this.params = args;
+        this.status = HttpStatusCode.BAD_REQUEST;
+        this.target = clazz;     // Target;
     }
 
+    @Override
     public abstract int getCode();
 
     @Override
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public Class<?> getTarget() {
-        return target;
+        return this.target;
     }
 
     public HttpStatusCode getStatus() {
         // Default exception for 400
-        return status;
+        return this.status;
     }
 
     public void setStatus(final HttpStatusCode status) {
@@ -60,25 +61,25 @@ public abstract class WebException extends AbstractException {
     }
 
     public String getReadible() {
-        return readible;
+        return this.readible;
     }
 
     public void setReadible(final String readible) {
-        Fn.safeNull(() -> {
-            if (null == params) {
+        Fn.runAt(() -> {
+            if (null == this.params) {
                 this.readible = readible;
             } else {
-                this.readible = MessageFormat.format(readible, params);
+                this.readible = MessageFormat.format(readible, this.params);
             }
         }, readible);
     }
 
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();
-        data.put(CODE, getCode());
-        data.put(MESSAGE, getMessage());
-        if (Ut.isNotNil(readible)) {
-            data.put(INFO, readible);
+        data.put(CODE, this.getCode());
+        data.put(MESSAGE, this.getMessage());
+        if (Ut.isNotNil(this.readible)) {
+            data.put(INFO, this.readible);
         }
         return data;
     }

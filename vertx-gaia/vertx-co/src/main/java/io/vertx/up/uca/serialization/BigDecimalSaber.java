@@ -22,7 +22,7 @@ public class BigDecimalSaber extends DecimalSaber {
 
     @Override
     public <T> Object from(final T input) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final BigDecimal decimal = (BigDecimal) input;
             return decimal.doubleValue();
         }, input);

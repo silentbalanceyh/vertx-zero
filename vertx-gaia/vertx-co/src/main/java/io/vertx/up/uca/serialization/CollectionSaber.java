@@ -10,7 +10,7 @@ import io.vertx.up.util.Ut;
 public class CollectionSaber extends BaseSaber {
     @Override
     public <T> Object from(final T input) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final String literal = Ut.serialize(input);
             return new JsonArray(literal);
         }, input);

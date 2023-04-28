@@ -30,7 +30,7 @@ public class AuthenticateBuiltInProvider implements AuthenticationProvider {
         // @AuthorizedUser method process user data
         final Method method = aegis.getAuthorizer().getUser();
         if (Objects.nonNull(method)) {
-            this.userFn = (json) -> (Future<User>) Fn.orJvm(() -> method.invoke(aegis.getProxy(), json));
+            this.userFn = (json) -> (Future<User>) Fn.failOr(() -> method.invoke(aegis.getProxy(), json));
         }
     }
 

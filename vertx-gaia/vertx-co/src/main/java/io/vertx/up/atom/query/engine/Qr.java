@@ -100,7 +100,7 @@ public interface Qr {
                            final String key, final Class<?> type,
                            final Predicate<Object> predicate,
                            final Class<?> target) {
-        Fn.safeNull(() -> Fn.safeNull(() -> Fn.safeSemi(checkJson.containsKey(key), Annal.get(target), () -> {
+        Fn.runAt(() -> Fn.runAt(() -> Fn.safeSemi(checkJson.containsKey(key), Annal.get(target), () -> {
             // Throw type exception
             final Object check = checkJson.getValue(key);
             Fn.outWeb(!predicate.test(check), Annal.get(target), _400QueryKeyTypeException.class, target, key, type, check.getClass());

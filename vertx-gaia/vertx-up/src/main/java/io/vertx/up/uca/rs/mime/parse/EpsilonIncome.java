@@ -1,6 +1,7 @@
 package io.vertx.up.uca.rs.mime.parse;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.cache.Cc;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.atom.agent.Event;
@@ -9,7 +10,6 @@ import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.DefaultValue;
@@ -51,7 +51,7 @@ public class EpsilonIncome implements Income<List<Epsilon<Object>>> {
             /* Epsilon income -> outcome **/
             final Atomic<Object> atomic = CC_ATOMIC.pick(MimeAtomic::new); // Fn.po?lThread(POOL_ATOMIC, MimeAtomic::new);
             final Epsilon<Object> outcome = atomic.ingest(context, epsilon);
-            args.add(Fn.orNull(() -> outcome, outcome));
+            args.add(Fn.runOr(() -> outcome, outcome));
         }
         return args;
     }

@@ -2,7 +2,6 @@ package io.vertx.up.fn;
 
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.Actuator;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._412NullValueException;
@@ -136,26 +135,6 @@ final class Warning {
         if (null != target) {
             final Annal logger = Annal.get(target);
             logger.warn(message.get());
-        }
-    }
-
-    /**
-     * Execut actuator and throw ZeroRunException out
-     *
-     * @param actuator Executor of zero defined interface
-     * @param logger   Zero logger
-     */
-    static void outRun(final Actuator actuator, final Annal logger) {
-        try {
-            actuator.execute();
-        } catch (final AbstractException ex) {
-            logger.fatal(ex);
-            //            Annal.sure(logger, () -> logger.runtime(ex));
-            throw ex;
-        } catch (final Throwable ex) {
-            logger.fatal(ex);
-            ex.printStackTrace();
-            //            Annal.sure(logger, () -> logger.jvm(ex));
         }
     }
 

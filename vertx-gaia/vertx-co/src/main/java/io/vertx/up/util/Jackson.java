@@ -159,18 +159,18 @@ final class Jackson {
     static JsonArray mergeZip(final JsonArray source, final JsonArray target,
                               final String sourceKey, final String targetKey) {
         final JsonArray result = new JsonArray();
-        Fn.safeJvm(() -> Observable.fromIterable(source)
+        Fn.jvmAt(() -> Observable.fromIterable(source)
             .filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
             .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
-            .subscribe(result::add).dispose(), null);
+            .subscribe(result::add).dispose());
         return result;
     }
 
     private static JsonObject findByKey(final JsonArray source,
                                         final String key,
                                         final Object value) {
-        return Fn.orJvm(() -> Observable.fromIterable(source)
+        return Fn.failOr(() -> Observable.fromIterable(source)
             .filter(Objects::nonNull)
             .map(item -> (JsonObject) item)
             .filter(item -> null != item.getValue(key))
@@ -180,7 +180,7 @@ final class Jackson {
 
     static JsonArray toJArray(final Object value) {
         final JsonArray result = new JsonArray();
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             if (Types.isJArray(value)) {
                 result.addAll((JsonArray) value);
             } else {
@@ -201,7 +201,7 @@ final class Jackson {
 
     static JsonObject toJObject(final Object value) {
         final JsonObject result = new JsonObject();
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             if (Types.isJObject(value)) {
                 result.mergeIn((JsonObject) value, true);
             } else {
@@ -212,40 +212,40 @@ final class Jackson {
     }
 
     static <T> String serialize(final T t) {
-        return Fn.orNull(null, () -> Fn.orJvm(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
+        return Fn.runOr(null, () -> Fn.failOr(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
     }
 
     static <T> T deserialize(final JsonObject value, final Class<T> type, final boolean isSmart) {
-        return Fn.orNull(null,
+        return Fn.runOr(null,
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
     static <T> T deserialize(final JsonArray value, final Class<T> type, final boolean isSmart) {
-        return Fn.orNull(null,
+        return Fn.runOr(null,
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
     static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
-        return Fn.orNull(new ArrayList<>(),
+        return Fn.runOr(new ArrayList<>(),
             () -> Jackson.deserialize(value.encode(), type), value);
     }
 
     static <T> T deserialize(final String value, final Class<T> type, final boolean isSmart) {
         final String smart = isSmart ? deserializeSmart(value, type) : value;
-        return Fn.orNull(null,
-            () -> Fn.orJvm(() -> Jackson.MAPPER.readValue(smart, type)), value);
+        return Fn.runOr(null,
+            () -> Fn.failOr(() -> Jackson.MAPPER.readValue(smart, type)), value);
     }
 
     static <T> T deserialize(final String value, final TypeReference<T> type) {
         // Turn Off Smart Json when TypeReference<T>
         // final String smart = deserializeSmart(value, (Class<T>) type.getType());
-        return Fn.orNull(null,
-            () -> Fn.orJvm(() -> Jackson.MAPPER.readValue(value, type)), value);
+        return Fn.runOr(null,
+            () -> Fn.failOr(() -> Jackson.MAPPER.readValue(value, type)), value);
     }
 
     static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
         final String content = Jackson.serialize(t);
-        return Fn.orJvm(null, () -> Fn.orSemi(content.trim().startsWith(VString.LEFT_BRACE), null,
+        return Fn.failOr(null, () -> Fn.orSemi(content.trim().startsWith(VString.LEFT_BRACE), null,
             /*
              * Switch to smart serialization on the object to avoid
              * issue when met {} or []
@@ -338,7 +338,7 @@ final class Jackson {
     }
 
     static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        Arrays.stream(fields).forEach(field -> Fn.safeNull(() -> {
+        Arrays.stream(fields).forEach(field -> Fn.runAt(() -> {
             final Object value = source.getValue(field);
             if (Objects.nonNull(value)) {
                 target.put(field, value);

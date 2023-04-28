@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.init;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.exception.zero.DynamicConfigTypeException;
 import io.vertx.up.exception.zero.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 
 import java.io.Serializable;
@@ -45,11 +45,11 @@ public class TpConfig implements Serializable {
 
         // Extract config information.
         final JsonObject raw = config.getJsonObject(key);
-        this.endpoint = Fn.orNull(null, () -> raw.getString(KEY_ENDPOINT), raw.getValue(KEY_ENDPOINT));
-        this.config = Fn.orNull(new JsonObject(), () -> raw.getJsonObject(KEY_CONFIG), raw.getValue(KEY_CONFIG));
+        this.endpoint = Fn.runOr(null, () -> raw.getString(KEY_ENDPOINT), raw.getValue(KEY_ENDPOINT));
+        this.config = Fn.runOr(new JsonObject(), () -> raw.getJsonObject(KEY_CONFIG), raw.getValue(KEY_CONFIG));
         // Verify the config data.
         if (null != rule) {
-            Fn.outUp(() -> Fn.safeZero(() -> Ruler.verify(rule, this.config), this.config), LOGGER);
+            Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(rule, this.config), this.config), LOGGER);
         }
     }
 

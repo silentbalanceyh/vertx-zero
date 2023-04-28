@@ -69,11 +69,11 @@ class Atomic {
             .compose(nil -> {
                 // 2. nativeBridge first
                 final JsonArray bridges = Ut.valueJArray(initConfig, KName.LifeCycle.COMPILE);
-                if(0 < bridges.size()) {
+                if (0 < bridges.size()) {
                     // JooqConfigurationException
                     JooqInfix.init(vertx);
                     return nativeBridge(bridges, vertx);
-                }else{
+                } else {
                     return Ux.futureT();
                 }
             });
@@ -119,12 +119,12 @@ class Atomic {
                 continue;
             }
             final int counter = method.getParameterTypes().length;
-            if(1 < counter){
+            if (1 < counter) {
                 continue;
             }
-            if(1 == counter){
+            if (1 == counter) {
                 final Class<?> type = method.getParameterTypes()[0];
-                if(Vertx.class != type){
+                if (Vertx.class != type) {
                     continue;
                 }
             }
@@ -177,10 +177,10 @@ class Atomic {
             final boolean isAsync = 0 < counter;
             if (isAsync) {
                 // Async:  Future<Boolean> init(Vertx vertx) | init()
-                return Fn.orJvm(() -> (Future<Boolean>) methodInit.invoke(null, vertx));
+                return Fn.failOr(() -> (Future<Boolean>) methodInit.invoke(null, vertx));
             } else {
                 // Sync:   void init(Vertx vertx) | init()
-                return Fn.orJvm(() -> {
+                return Fn.failOr(() -> {
                     methodInit.invoke(null);
                     return Future.succeededFuture(Boolean.TRUE);
                 });

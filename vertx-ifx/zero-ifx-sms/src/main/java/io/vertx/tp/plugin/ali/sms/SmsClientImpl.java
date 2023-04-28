@@ -34,7 +34,7 @@ public class SmsClientImpl implements SmsClient {
     private void initClient() {
         // Extract data from config
         final JsonObject params = this.config.getConfig();
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             // Set default timeout
             final String connect = params.containsKey(SmsConfig.TIMEOUT_CONN) ?
                 params.getInteger(SmsConfig.TIMEOUT_CONN).toString() : "10000";

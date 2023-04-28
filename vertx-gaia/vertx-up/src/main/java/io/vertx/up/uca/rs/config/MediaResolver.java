@@ -54,7 +54,7 @@ class MediaResolver {
     private static Set<MediaType> resolve(final Method method,
                                           final Class<? extends Annotation>
                                               mediaCls) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final Annotation anno = method.getAnnotation(mediaCls);
             return Fn.orSemi(null == anno, LOGGER,
                 () -> DEFAULTS,

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentMap;
 public class UnityAmbient implements UnityApp {
 
     @Override
-    public Future<JsonObject> synchro(String appId) {
+    public Future<JsonObject> synchro(final String appId) {
         final ConcurrentMap<String, JsonObject> stored = H2H.CC_META_APP.store();
         return UnityAsker.synchro(appId).compose(nil -> {
             final ConcurrentMap<String, XApp> apps = UnityAsker.getApps();
@@ -39,7 +39,7 @@ public class UnityAmbient implements UnityApp {
          * Initialize Unity Pool, Checking for Environment
          */
         final ConcurrentMap<String, JsonObject> stored = H2H.CC_META_APP.store();
-        if(!stored.isEmpty()){
+        if (!stored.isEmpty()) {
             /*
              * 截断运行，如果加载过就不再运行一次 initialize 方法，若要刷新则可调用
              * synchro接口针对单系统执行调用
@@ -65,7 +65,7 @@ public class UnityAmbient implements UnityApp {
 
     @Override
     public ConcurrentMap<String, JsonObject> connect() {
-//        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
+        //        final Cd<String, JsonObject> stored = H2H.CC_META_APP.store();
         return H2H.CC_META_APP.store(); // stored.data();
     }
 
@@ -154,9 +154,9 @@ public class UnityAmbient implements UnityApp {
              */
             final JsonObject auditor = new JsonObject();
             auditor.put(KName.CREATED_BY, app.getCreatedBy());
-            Fn.safeNull(() -> auditor.put(KName.CREATED_AT, Ut.parse(app.getCreatedAt()).toInstant()), app.getCreatedAt());
+            Fn.runAt(() -> auditor.put(KName.CREATED_AT, Ut.parse(app.getCreatedAt()).toInstant()), app.getCreatedAt());
             auditor.put(KName.UPDATED_BY, app.getUpdatedBy());
-            Fn.safeNull(() -> auditor.put(KName.UPDATED_AT, Ut.parse(app.getUpdatedAt()).toInstant()), app.getUpdatedAt());
+            Fn.runAt(() -> auditor.put(KName.UPDATED_AT, Ut.parse(app.getUpdatedAt()).toInstant()), app.getUpdatedAt());
             normalized.put("auditor", auditor);
         }
         /* Database information */

@@ -3,6 +3,7 @@ package io.vertx.tp.jet.refine;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.horizon.eon.em.MappingMode;
 import io.horizon.spi.environment.Ambient;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
@@ -13,7 +14,6 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,7 +30,7 @@ class JtBusiness {
     private static final Cc<String, Identity> CC_IDENTITY = Cc.open();
 
     static DSetting toDict(final IService service) {
-        return Fn.orNull(null, () -> CC_DICT.pick(() -> {
+        return Fn.runOr(null, () -> CC_DICT.pick(() -> {
             /*
              * Dict Config for service
              */
@@ -59,7 +59,7 @@ class JtBusiness {
     }
 
     static BTree toMapping(final IService service) {
-        return Fn.orNull(null, () -> CC_MAPPING.pick(() -> {
+        return Fn.runOr(null, () -> CC_MAPPING.pick(() -> {
             /*
              * DualMapping
              */
@@ -79,7 +79,7 @@ class JtBusiness {
     }
 
     static Identity toIdentify(final IService service) {
-        return Fn.orNull(null, () -> CC_IDENTITY.pick(() -> {
+        return Fn.runOr(null, () -> CC_IDENTITY.pick(() -> {
             /*
              * Identity for `identifier` processing
              */

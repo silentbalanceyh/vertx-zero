@@ -2,6 +2,7 @@ package io.vertx.up.fn;
 
 import io.horizon.annotations.HLinking;
 import io.horizon.util.HaS;
+import io.horizon.util.fn.HFn;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -17,7 +18,7 @@ import java.util.function.Supplier;
 /**
  * @author lang : 2023/4/27
  */
-class _Atomic {
+class _Atomic extends HFn {
     protected _Atomic() {
     }
 

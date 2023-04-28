@@ -3,11 +3,11 @@ package io.vertx.up.atom;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.ProgramException;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.stable.ForbiddenInsurer;
 import io.vertx.up.uca.stable.Insurer;
 import io.vertx.up.uca.stable.RequiredInsurer;
@@ -37,14 +37,14 @@ public class Ruler {
      * @throws ProgramException Error when verified failure.
      */
     public static void verify(final String file, final JsonObject data) throws ProgramException {
-        Fn.safeZero(() -> {
+        Fn.bugAt(() -> {
             // 1. Rule for json object
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
             // 2. For json item
             for (final String field : data.fieldNames()) {
                 final Object value = data.getValue(field);
-                Fn.safeZero(() -> {
+                Fn.bugAt(() -> {
                     if (Ut.isJObject(value) || Ut.isJArray(value)) {
                         final String filename = file + VString.DOT + field;
                         if (Ut.isJObject(value)) {
@@ -69,7 +69,7 @@ public class Ruler {
      * @throws ProgramException Whether here throw validated exception
      */
     public static void verify(final String file, final JsonArray data) throws ProgramException {
-        Fn.safeZero(() -> {
+        Fn.bugAt(() -> {
             // 1. Rule for json array
             final JsonObject rule = getRule(file);
             verifyItem(data, rule);
@@ -89,7 +89,7 @@ public class Ruler {
     }
 
     private static <T> void verifyItem(final T input, final JsonObject rule) throws ProgramException {
-        Fn.safeZero(() -> {
+        Fn.bugAt(() -> {
 
             if (Ut.isJArray(input)) {
                 final JsonArray data = (JsonArray) input;

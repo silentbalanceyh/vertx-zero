@@ -2,6 +2,7 @@ package io.vertx.tp.plugin.etcd.center;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,6 @@ import io.vertx.up.exception.zero.EtcdConfigEmptyException;
 import io.vertx.up.exception.zero.EtcdNetworkException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -70,7 +70,7 @@ public class EtcdData {
         if (config.containsKey(KEY)) {
             final JsonObject root = config.getJsonObject(KEY);
             // Verify the data
-            Fn.outUp(() -> Fn.safeZero(() -> Ruler.verify(KEY, root), root),
+            Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(KEY, root), root),
                 LOGGER);
             if (root.containsKey(TIMEOUT)) {
                 this.timeout = root.getLong(TIMEOUT);
@@ -115,7 +115,7 @@ public class EtcdData {
         if (enabled()) {
             LOGGER.info(Info.ETCD_ENABLE);
         }
-        return CC_ETCD_DATA.pick(() -> Fn.orNull(null, () -> new EtcdData(clazz), clazz), clazz);
+        return CC_ETCD_DATA.pick(() -> Fn.runOr(null, () -> new EtcdData(clazz), clazz), clazz);
         // return Fn.po?l(POOL, clazz, () -> Fn.getNull(null, () -> new EtcdData(clazz), clazz));
     }
 
@@ -147,9 +147,9 @@ public class EtcdData {
         /*
          * Ensure Path created when read exception
          */
-        return Fn.orJvm(new ConcurrentHashMap<>(), () -> {
+        return Fn.failOr(new ConcurrentHashMap<>(), () -> {
             final EtcdKeysResponse.EtcdNode node = this.readNode(path, this.client::getDir);
-            return Fn.orJvm(new ConcurrentHashMap<>(), () -> {
+            return Fn.failOr(new ConcurrentHashMap<>(), () -> {
                 final ConcurrentMap<String, String> result = new ConcurrentHashMap<>();
                 /*
                  * Read all nodes information
@@ -189,7 +189,7 @@ public class EtcdData {
     public String readData(
         final String path
     ) {
-        return Fn.orJvm(VString.EMPTY,
+        return Fn.failOr(VString.EMPTY,
             () -> this.readNode(path, this.client::get).getValue(), path);
     }
 
@@ -197,7 +197,7 @@ public class EtcdData {
         final String path,
         final Function<String, EtcdKeyGetRequest> executor) {
 
-        return Fn.orJvm(null, () -> {
+        return Fn.failOr(null, () -> {
             final EtcdKeyGetRequest request = executor.apply(path);
             /*
              * Set timeout parameters
@@ -217,7 +217,7 @@ public class EtcdData {
     }
 
     public boolean delete(final String path) {
-        return Fn.orJvm(Boolean.FALSE, () -> {
+        return Fn.failOr(Boolean.FALSE, () -> {
             final EtcdKeyDeleteRequest request = this.client.delete(path);
             final EtcdResponsePromise<EtcdKeysResponse> promise = request.send();
             final EtcdKeysResponse response = promise.get();
@@ -226,7 +226,7 @@ public class EtcdData {
     }
 
     public <T> JsonObject write(final String path, final T data, final int ttl) {
-        return Fn.orJvm(null, () -> {
+        return Fn.failOr(null, () -> {
             final EtcdKeyPutRequest request = this.client.put(path,
                 Fn.orSemi(data instanceof JsonObject || data instanceof JsonArray,
                     LOGGER,

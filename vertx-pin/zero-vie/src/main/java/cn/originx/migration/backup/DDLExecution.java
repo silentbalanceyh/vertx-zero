@@ -47,12 +47,12 @@ public class DDLExecution extends AbstractStep {
                     /*
                      * 执行 DDL 语句
                      */
-                    Fn.safeJvm(() -> {
+                    Fn.jvmAt(() -> {
                         final DataPool pool = DataPool.create();
                         final Connection connection = pool.getDataSource().getConnection();
                         Ut.itJArray(statements, String.class, (item, index) -> {
                             if (Ut.isNotNil(item)) {
-                                Fn.safeJvm(() -> {
+                                Fn.jvmAt(() -> {
                                     final PreparedStatement stmt = connection.prepareStatement(item);
                                     final boolean result = stmt.execute();
                                     LOG.Shell.info(this.getClass(), "执行语句：{0}，结果：{1}", item, result);
@@ -63,7 +63,7 @@ public class DDLExecution extends AbstractStep {
                 }
             }
 
-            final boolean locked = Fn.orJvm(() -> {
+            final boolean locked = Fn.failOr(() -> {
                 final File created = new File(lockPath);
                 return created.createNewFile();
             });

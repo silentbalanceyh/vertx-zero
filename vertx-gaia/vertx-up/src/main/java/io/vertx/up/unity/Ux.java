@@ -667,11 +667,11 @@ public final class Ux {
     // --------------- Record processing -----------------
 
     public static Future<JsonObject> futureJ(final HRecord record) {
-        return Fn.orNull(futureJ(), () -> To.future(record.toJson()), record);
+        return Fn.runOr(futureJ(), () -> To.future(record.toJson()), record);
     }
 
     public static Future<JsonArray> futureA(final HRecord[] records) {
-        return Fn.orNull(futureA(), () -> To.future(Ut.toJArray(records)), records);
+        return Fn.runOr(futureA(), () -> To.future(Ut.toJArray(records)), records);
     }
 
     // --------------- Future of Map -----------------

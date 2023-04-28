@@ -20,7 +20,7 @@ public class MoveOnStart extends AbstractMoveOn {
 
         if (wTransition.isStarted()) {
             // Error-80604: The wTransition has been started, could not call current divert
-            return Fn.failure(_409InValidStartException.class, this.getClass(), definition.getKey());
+            return Fn.failWeb(_409InValidStartException.class, this.getClass(), definition.getKey());
         }
         return wTransition.start().compose(started -> {
             /*

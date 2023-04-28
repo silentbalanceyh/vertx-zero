@@ -53,7 +53,7 @@ class Verticles {
         final String name = clazz.getName();
         final String flag = option.isWorker() ? "Worker" : "Agent";
         final String id = INSTANCES.get(clazz);
-        Fn.safeNull(() -> vertx.undeploy(id, result -> {
+        Fn.runAt(() -> vertx.undeploy(id, result -> {
             if (result.succeeded()) {
                 logger.info(VMessage.VERTX_STOPPED, name, id, flag);
                 DevOps.on(vertx).remove(clazz, option);

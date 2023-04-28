@@ -38,5 +38,17 @@
  * - jvm: 来自于JVM级别的异常，异常顶层类 Throwable（范围最大）
  * - fail: 来自于JVM级别的检查异常，异常顶层类 Exception（范围中等）
  * - bug: 来自于程序级别的异常，异常顶层类 ProgramException（范围最小）
+ * =====================
+ * 根据实际定义可以知道：
+ * 1. bug 前缀方法是 ProgramException 引起的，它和 jvm / fail 的区别在于
+ * -- bug 类的方法需要抛出检查异常 ProgramException
+ * -- fail / jvm 类的方法只是需要在后台打印堆栈信息，不需要抛出异常
+ * 2. fail 和 jvm 类的方法一个是用于处理 Exception，一个用于处理 Throwable，二者在定义时
+ * || 都会抛出检查性方法，最终结果会引起不一样的结果，但走 HFn 都属于安全类调用
+ * 3. 参数的排序如：
+ * -- 不带条件 Boolean 的，重载版本
+ * || (T, Fn) 或 (Fn)
+ * -- 带条件的日志需要前置，因为条件部分会有两个 Supplier 出现
+ * || (boolean, logger, Fn) 的模式
  */
 package io.horizon.fn;

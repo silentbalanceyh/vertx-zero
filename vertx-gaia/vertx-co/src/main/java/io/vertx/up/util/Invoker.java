@@ -41,7 +41,7 @@ final class Invoker {
             return null;
         }
         final Method invoker = found;
-        return (T) Fn.orJvm(null, () -> invoker.invoke(null, args));
+        return (T) Fn.failOr(null, () -> invoker.invoke(null, args));
     }
 
     private static Method methodSeek(final Object instance, final String name, final Object... args) {

@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 class Debug {
 
     static void monitorTc(final ClusterSerializable cluster) {
-        if (cluster instanceof JsonObject clusterJ) {
+        if (cluster instanceof final JsonObject clusterJ) {
             System.out.println(clusterJ.encodePrettily());
-        } else if (cluster instanceof JsonArray clusterA) {
+        } else if (cluster instanceof final JsonArray clusterA) {
             System.out.println(clusterA.encodePrettily());
         } else {
             System.out.println(cluster.toString());
@@ -46,7 +46,7 @@ class Debug {
     }
 
     static <T> Future<T> debug(final T item) {
-        Fn.safeNull(() -> Debug.monitor(item), item);
+        Fn.runAt(() -> Debug.monitor(item), item);
         return Future.succeededFuture(item);
     }
 

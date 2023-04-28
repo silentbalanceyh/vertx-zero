@@ -1,5 +1,6 @@
 package io.horizon.util.fn;
 
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.Actuator;
 import io.horizon.fn.ErrorActuator;
 import io.horizon.fn.ExceptionActuator;
@@ -20,7 +21,7 @@ class HActuator {
         }, logger);
     }
 
-    static void bugAt(final ProgramActuator actuator, final HLogger logger) {
+    static void bugAt(final ProgramActuator actuator, final HLogger logger) throws ProgramException {
         HFunction.bugAt(null, (t) -> {
             actuator.execute();
             return null;

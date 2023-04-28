@@ -20,7 +20,7 @@ import java.util.Set;
 public class QuinnViews implements Quinn {
     @Override
     public <T> Future<T> saveAsync(final String resourceId, final ScOwner owner, final JsonObject data) {
-        return Fn.failure(_501NotSupportException.class, this.getClass());
+        return Fn.failWeb(_501NotSupportException.class, this.getClass());
     }
 
     @Override

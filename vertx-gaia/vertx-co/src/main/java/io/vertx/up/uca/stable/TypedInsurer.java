@@ -41,7 +41,7 @@ public class TypedInsurer extends AbstractInsurer {
     public void flumen(final JsonObject data, final JsonObject rule)
         throws ProgramException {
         // 1. If rule is null, skip
-        Fn.safeZero(() -> {
+        Fn.bugAt(() -> {
             // 2. extract rule from rule, only required accept
             if (rule.containsKey(Rules.TYPED)) {
                 final JsonObject fields = rule.getJsonObject(Rules.TYPED);

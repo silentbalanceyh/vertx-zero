@@ -41,9 +41,9 @@ final class ClusterOptionsConverter {
             obj.setOptions(json.getJsonObject(KName.OPTIONS));
         }
         final Object managerObj = json.getValue("manager");
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             final Class<?> clazz = Ut.clazz(managerObj.toString());
-            Fn.safeNull(() -> {
+            Fn.runAt(() -> {
                 // If null, keep default
                 final ClusterManager manager = Ut.instance(clazz);
                 obj.setManager(manager);

@@ -27,12 +27,12 @@ final class Net {
     }
 
     static boolean isReach(final String host, final int port, final Integer timeOut) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             // 1.Check whether host is reachalbe
             final Boolean hostOk =
-                Fn.orJvm(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
+                Fn.failOr(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
             // 2.Check whether host/port could be connected.
-            return hostOk ? (Fn.orJvm(Boolean.FALSE, () -> {
+            return hostOk ? (Fn.failOr(Boolean.FALSE, () -> {
                 final Socket socket = new Socket();
                 socket.connect(new InetSocketAddress(host, port));
                 final boolean reached = socket.isConnected();
@@ -50,7 +50,7 @@ final class Net {
     }
 
     static String getHostName() {
-        return Fn.orJvm(() -> (InetAddress.getLocalHost()).getHostName(), true);
+        return Fn.failOr(() -> (InetAddress.getLocalHost()).getHostName(), true);
     }
 
     /**

@@ -38,7 +38,7 @@ class ScImage {
         }
         drawText(graphics, code);
         // To InputStream
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(image, VPath.SUFFIX.IMG_PNG, baos);
             return Ux.future(Buffer.buffer(baos.toByteArray()));

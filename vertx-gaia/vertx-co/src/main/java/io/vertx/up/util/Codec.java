@@ -26,7 +26,7 @@ final class Codec {
      * @return The encoded string with MD5
      */
     static String md5(final String input) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final MessageDigest digest = MessageDigest.getInstance("MD5");
             final byte[] source = input.getBytes(io.horizon.eon.VValue.DFT.CHARSET);
             digest.update(source);
@@ -66,7 +66,7 @@ final class Codec {
 
     @SuppressWarnings("all")
     private static String sha(final String strText, final String strType) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final MessageDigest messageDigest = MessageDigest.getInstance(strType);
             messageDigest.update(strText.getBytes());
             final byte[] byteBuffer = messageDigest.digest();
@@ -86,7 +86,7 @@ final class Codec {
      * Base-64
      */
     static String base64(final String input, final boolean encript) {
-        return Fn.orNull(null, () -> {
+        return Fn.runOr(() -> {
             if (encript) {
                 return Base64.getEncoder().encodeToString(input.getBytes());
             } else {
@@ -96,7 +96,7 @@ final class Codec {
     }
 
     static String url(final String input, final boolean encript) {
-        return Fn.orJvm(null, () -> {
+        return Fn.failOr(() -> {
             if (encript) {
                 return URLEncoder.encode(input, StandardCharsets.UTF_8);
             } else {

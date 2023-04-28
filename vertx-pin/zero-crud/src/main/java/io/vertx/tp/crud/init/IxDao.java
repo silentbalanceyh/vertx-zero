@@ -53,7 +53,7 @@ class IxDao {
             final JsonObject configDao = Ut.ioJObject(path);
             final String identifierDefault = file.replace(VString.DOT + VPath.SUFFIX.JSON, VString.EMPTY);
 
-            Fn.safeNull(() -> addModule(configDao, identifierDefault), configDao);
+            Fn.runAt(() -> addModule(configDao, identifierDefault), configDao);
         });
         /*
          * Boot: Secondary founding to pick up default configuration
@@ -66,7 +66,7 @@ class IxDao {
             final ConcurrentMap<String, JsonObject> modules = boot.module();
             modules.forEach((moduleKey, json) -> {
                 if (!CONFIG_MAP.containsKey(moduleKey) && !ALIAS_MAP.containsKey(moduleKey)) {
-                    Fn.safeNull(() -> addModule(json, moduleKey), json);
+                    Fn.runAt(() -> addModule(json, moduleKey), json);
                 }
             });
         });

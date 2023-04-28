@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -18,7 +19,6 @@ import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -232,10 +232,10 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, filename);
         final Workbook workbook;
         if (filename.endsWith(VPath.SUFFIX.EXCEL_2003)) {
-            workbook = CC_WORKBOOK.pick(() -> Fn.orJvm(() -> new HSSFWorkbook(in)), filename);
+            workbook = CC_WORKBOOK.pick(() -> Fn.failOr(() -> new HSSFWorkbook(in)), filename);
             // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         } else {
-            workbook = CC_WORKBOOK.pick(() -> Fn.orJvm(() -> new XSSFWorkbook(in)), filename);
+            workbook = CC_WORKBOOK.pick(() -> Fn.failOr(() -> new XSSFWorkbook(in)), filename);
             // Fn.po?l(Pool.WORKBOOKS, filename, () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         }
         return workbook;
@@ -246,10 +246,10 @@ class ExcelHelper {
         Fn.outWeb(null == in, _404ExcelFileNullException.class, this.target, "Stream");
         final Workbook workbook;
         if (isXlsx) {
-            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.orJvm(() -> new XSSFWorkbook(in)), in.hashCode());
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.failOr(() -> new XSSFWorkbook(in)), in.hashCode());
             // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new XSSFWorkbook(in)));
         } else {
-            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.orJvm(() -> new HSSFWorkbook(in)), in.hashCode());
+            workbook = CC_WORKBOOK_STREAM.pick(() -> Fn.failOr(() -> new HSSFWorkbook(in)), in.hashCode());
             // Fn.po?l(Pool.WORKBOOKS_STREAM, in.hashCode(), () -> Fn.getJvm(() -> new HSSFWorkbook(in)));
         }
         /* Force to recalculation for evaluator */
@@ -261,7 +261,7 @@ class ExcelHelper {
      * Get Set<ExSheet> collection based on workbook
      */
     Set<ExTable> getExTables(final Workbook workbook, final TypeAtom MetaAtom) {
-        return Fn.orNull(new HashSet<>(), () -> {
+        return Fn.runOr(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 

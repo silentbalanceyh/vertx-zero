@@ -22,7 +22,7 @@ public class Rule implements Serializable {
     }
 
     public static Rule create(final JsonObject data) {
-        return Fn.orNull(null, () -> new Rule(data), data);
+        return Fn.runOr(null, () -> new Rule(data), data);
     }
 
     public String getMessage() {

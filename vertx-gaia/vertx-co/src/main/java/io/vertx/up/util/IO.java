@@ -83,7 +83,7 @@ final class IO {
 
     static String getString(final InputStream in, final String joined) {
         final StringBuilder buffer = new StringBuilder();
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             // Character stream
             String line;
@@ -100,11 +100,11 @@ final class IO {
     }
 
     static String getString(final String filename, final String joined) {
-        return Fn.orJvm(() -> getString(Stream.read(filename), joined), filename);
+        return Fn.failOr(() -> getString(Stream.read(filename), joined), filename);
     }
 
     static String getString(final String filename) {
-        return Fn.orJvm(() -> getString(Stream.read(filename)), filename);
+        return Fn.failOr(() -> getString(Stream.read(filename)), filename);
     }
 
     /**
@@ -143,12 +143,12 @@ final class IO {
 
     private static JsonNode getYamlNode(final String filename) {
         final InputStream in = Stream.read(filename);
-        final JsonNode node = Fn.safeJvm(() -> {
+        final JsonNode node = Fn.failOr(() -> {
             if (null == in) {
                 throw new EmptyIoException(IO.class, filename);
             }
             return YAML.readTree(in);
-        }, null);
+        });
         if (null == node) {
             throw new EmptyIoException(IO.class, filename);
         }
@@ -164,7 +164,7 @@ final class IO {
      */
     private static YamlType getYamlType(final String filename) {
         final String content = IO.getString(filename);
-        return Fn.orNull(YamlType.OBJECT, () -> {
+        return Fn.runOr(YamlType.OBJECT, () -> {
             if (content.trim().startsWith(VString.DASH)) {
                 return YamlType.ARRAY;
             } else {
@@ -181,7 +181,7 @@ final class IO {
      * @return Properties that will be returned
      */
     static Properties getProp(final String filename) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final Properties prop = new Properties();
             final InputStream in = Stream.read(filename);
             prop.load(in);
@@ -198,7 +198,7 @@ final class IO {
      * @return URL of this filename include ZIP/JAR url
      */
     static URL getURL(final String filename) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final URL url = Thread.currentThread().getContextClassLoader()
                 .getResource(filename);
             return Fn.orSemi(null == url, null,
@@ -217,7 +217,7 @@ final class IO {
     @SuppressWarnings("all")
     static Buffer getBuffer(final String filename) {
         final InputStream in = Stream.read(filename);
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final byte[] bytes = new byte[in.available()];
             in.read(bytes);
             in.close();
@@ -233,7 +233,7 @@ final class IO {
      * @return File object by filename that input
      */
     static File getFile(final String filename) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final File file = new File(filename);
             return Fn.orSemi(file.exists(), null,
                 () -> file,
@@ -270,9 +270,9 @@ final class IO {
      * @return file content that converted to String
      */
     static String getPath(final String filename) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final File file = getFile(filename);
-            return Fn.orJvm(() -> {
+            return Fn.failOr(() -> {
                 Log.info(LOGGER, Info.INF_APATH, file.getAbsolutePath());
                 return file.getAbsolutePath();
             }, file);
@@ -287,13 +287,13 @@ final class IO {
 
     static Buffer zip(final Set<String> fileSet) {
         // Create Tpl zip file path
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final ByteArrayOutputStream fos = new ByteArrayOutputStream();
             final ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(fos));
 
             // Buffer Size
             final byte[] buffers = new byte[VValue.DFT.SIZE_BYTE_ARRAY];
-            fileSet.forEach(filename -> Fn.safeJvm(() -> {
+            fileSet.forEach(filename -> Fn.jvmAt(() -> {
                 // create .zip and put file here
                 final File file = new File(filename);
                 final ZipEntry zipEntry = new ZipEntry(file.getName());

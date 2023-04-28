@@ -10,11 +10,11 @@ public class FileSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String filename) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final File file = new File(filename);
             // Throw 400 Error
-            Fn.outWeb(!file.exists() || !file.canRead(), getLogger(),
-                _400FilePathMissingException.class, getClass(), filename);
+            Fn.outWeb(!file.exists() || !file.canRead(), this.getLogger(),
+                _400FilePathMissingException.class, this.getClass(), filename);
             return file;
         }, paramType, filename);
     }

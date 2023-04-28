@@ -19,14 +19,14 @@ final class Numeric {
     }
 
     static Integer mathMultiply(final Integer left, final Integer right) {
-        final Integer leftValue = Fn.orNull(0, () -> left, left);
-        final Integer rightValue = Fn.orNull(0, () -> right, right);
+        final Integer leftValue = Fn.runOr(0, () -> left, left);
+        final Integer rightValue = Fn.runOr(0, () -> right, right);
         return Math.multiplyExact(leftValue, rightValue);
     }
 
     @SuppressWarnings("unchecked")
     static <T> T mathJSum(final JsonArray source, final String field, final Class<T> clazz) {
-        return Fn.orNull(null, () -> {
+        return Fn.runOr(null, () -> {
             Object returnValue = null;
             if (Double.class == clazz || BigDecimal.class == clazz) {
                 final double result = source.stream().mapToDouble(item -> JsonObject.mapFrom(item).getDouble(field)).sum();

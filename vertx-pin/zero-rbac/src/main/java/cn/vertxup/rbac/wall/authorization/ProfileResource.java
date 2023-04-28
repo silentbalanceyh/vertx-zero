@@ -37,7 +37,7 @@ public class ProfileResource implements AuthorizationResource {
     public void requestResource(final RoutingContext context, final Handler<AsyncResult<Authorization>> handler) {
         final JsonObject params = AuthorizationResource.parameters(context);
         final Method method = this.aegis.getAuthorizer().getResource();
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final Future<JsonObject> future = (Future<JsonObject>) method.invoke(this.aegis.getProxy(), params);
             future.onComplete(res -> {
                 if (res.succeeded()) {

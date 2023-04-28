@@ -10,7 +10,7 @@ public class BufferSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.orNull(() ->
+        return Fn.runOr(() ->
                 Fn.orSemi(Buffer.class == paramType, this.getLogger(),
                     () -> {
                         final Buffer buffer = Buffer.buffer();

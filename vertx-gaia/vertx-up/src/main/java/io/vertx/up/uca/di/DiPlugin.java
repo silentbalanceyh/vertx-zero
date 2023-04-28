@@ -2,6 +2,7 @@ package io.vertx.up.uca.di;
 
 import com.google.inject.Injector;
 import io.horizon.eon.info.VMessage;
+import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.fn.Fn;
@@ -9,7 +10,6 @@ import io.vertx.up.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Named;
@@ -83,7 +83,7 @@ public class DiPlugin {
         Observable.fromIterable(infixes)
             .filter(Infix.class::isAssignableFrom)
             .subscribe(item -> {
-                final Method method = Fn.orJvm(() -> item.getDeclaredMethod("get"), item);
+                final Method method = Fn.failOr(() -> item.getDeclaredMethod("get"), item);
                 final Class<?> type = method.getReturnType();
                 binds.put(type, item);
             })

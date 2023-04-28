@@ -50,7 +50,7 @@ public class InfixScatter implements Scatter<Vertx> {
                 Fn.outUp(null == method, LOGGER,
                     PluginSpecificationException.class,
                     getClass(), item.getName());
-                Fn.safeJvm(() -> method.invoke(null, vertx), LOGGER);
+                Fn.failAt(() -> method.invoke(null, vertx), LOGGER);
             }
         });
         /* Scan all extension Infix **/
@@ -64,7 +64,7 @@ public class InfixScatter implements Scatter<Vertx> {
                 Fn.outUp(null == method, LOGGER,
                     PluginSpecificationException.class,
                     getClass(), item.getName());
-                Fn.safeJvm(() -> method.invoke(null, vertx), LOGGER);
+                Fn.failAt(() -> method.invoke(null, vertx), LOGGER);
             })
             .dispose();
         /* After infix inject plugins **/
@@ -81,7 +81,7 @@ public class InfixScatter implements Scatter<Vertx> {
      * Check whether clazz has the method of name
      */
     private Method findInit(final Class<?> clazz) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final Method[] methods = clazz.getDeclaredMethods();
             final List<Method> found = Arrays.stream(methods)
                 .filter(item -> "init".equals(item.getName()) && this.validMethod(item))

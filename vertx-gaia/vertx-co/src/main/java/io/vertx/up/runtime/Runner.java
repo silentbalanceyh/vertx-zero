@@ -36,7 +36,7 @@ public final class Runner {
             final Runnable hooker = hookers[idx];
             threads.add(run(hooker, threadName));
         }
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             for (final Thread thread : threads) {
                 thread.join();
             }
@@ -50,7 +50,7 @@ public final class Runner {
             thread.start();
             threads.add(thread);
         });
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             for (final Thread thread : threads) {
                 thread.join();
             }
@@ -75,7 +75,7 @@ public final class Runner {
         for (final MeanThread<T> meanThread : meanThreads) {
             final String key = meanThread.getKey();
             final T value = meanThread.get();
-            Fn.safeNull(() -> {
+            Fn.runAt(() -> {
                 result.put(key, value);
             }, key, value);
         }

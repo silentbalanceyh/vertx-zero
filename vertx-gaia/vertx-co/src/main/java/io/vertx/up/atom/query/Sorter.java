@@ -23,7 +23,7 @@ public class Sorter implements Serializable {
 
     private Sorter(final String field,
                    final Boolean asc) {
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             this.field.add(field);
             this.asc.add(asc);
         }, field);

@@ -94,7 +94,7 @@ final class To {
     }
 
     static String toString(final Object reference) {
-        return Fn.orNull("null", () -> {
+        return Fn.runOr("null", () -> {
             final String literal;
             if (Types.isJObject(reference)) {
                 // Fix issue for serialization
@@ -197,7 +197,7 @@ final class To {
     }
 
     static Collection<?> toCollection(final Object value) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             // Collection
             if (value instanceof Collection) {
                 return ((Collection<?>) value);
@@ -218,19 +218,19 @@ final class To {
 
     static JsonObject toJObject(final Map<String, Object> map) {
         final JsonObject params = new JsonObject();
-        Fn.safeNull(() -> map.forEach(params::put), map);
+        Fn.runAt(() -> map.forEach(params::put), map);
         return params;
     }
 
     static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
         final JsonObject params = new JsonObject();
-        Fn.safeNull(() -> map.forEach(params::put), map);
+        Fn.runAt(() -> map.forEach(params::put), map);
         return params;
     }
 
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
-        Fn.safeNull(() -> multiMap.forEach(
+        Fn.runAt(() -> multiMap.forEach(
             item -> params.put(item.getKey(), item.getValue())
         ), multiMap);
         return params;

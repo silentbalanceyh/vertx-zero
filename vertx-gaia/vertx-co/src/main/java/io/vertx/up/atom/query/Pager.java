@@ -88,7 +88,7 @@ public class Pager implements Serializable {
         this.page = page;
         // Default Size is 10
         this.size = 0 < size ? size : 10;
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             // Caculate
             this.start = (this.page - 1) * this.size;
             this.end = this.page * this.size;

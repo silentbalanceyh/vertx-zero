@@ -78,11 +78,11 @@ public class MongoReadOpts {
         final Sorter sorter
     ) {
         final FindOptions options = new FindOptions();
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             options.setLimit(pager.getSize());
             options.setSkip(pager.getStart());
         }, pager);
-        Fn.safeNull(() -> options.setSort(sorter.toJson((mode) -> mode ? 1 : -1)), sorter);
+        Fn.runAt(() -> options.setSort(sorter.toJson((mode) -> mode ? 1 : -1)), sorter);
         return options;
     }
 }

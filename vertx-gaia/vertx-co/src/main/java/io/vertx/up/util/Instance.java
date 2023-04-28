@@ -3,6 +3,7 @@ package io.vertx.up.util;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.exception.internal.OperationException;
+import io.horizon.uca.cache.Cc;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.UpException;
@@ -11,7 +12,6 @@ import io.vertx.up.exception.web._500InvokeErrorException;
 import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
-import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,9 +63,9 @@ final class Instance {
 
     static <T> T instance(final Class<?> clazz,
                           final Object... params) {
-        final Object created = Fn.orJvm(
+        final Object created = Fn.failOr(
             () -> construct(clazz, params), clazz);
-        return Fn.orJvm(() -> (T) created, created);
+        return Fn.failOr(() -> (T) created, created);
     }
 
     static WebException errorWeb(final Throwable ex) {
@@ -85,7 +85,7 @@ final class Instance {
      * Generic type
      */
     static Class<?> genericT(final Class<?> target) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final Type type = target.getGenericSuperclass();
             return (Class<?>) (((ParameterizedType) type).getActualTypeArguments()[0]);
         }, target);
@@ -122,7 +122,7 @@ final class Instance {
      * @return Class<?>
      */
     static Class<?> clazz(final String name) {
-        return CC_CLASSES.pick(() -> Fn.orJvm(() -> Thread.currentThread()
+        return CC_CLASSES.pick(() -> Fn.failOr(() -> Thread.currentThread()
             .getContextClassLoader().loadClass(name), name), name);
         //        return Fn.po?l(Storage.CLASSES, name, () -> Fn.getJvm(() -> Thread.currentThread()
         //            .getContextClassLoader().loadClass(name), name));
@@ -235,7 +235,7 @@ final class Instance {
      * Whether the class contains no-arg constructor
      */
     static boolean noarg(final Class<?> clazz) {
-        return Fn.orNull(Boolean.FALSE, () -> {
+        return Fn.runOr(Boolean.FALSE, () -> {
             final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
             boolean noarg = false;
             for (final Constructor<?> constructor : constructors) {
@@ -252,7 +252,7 @@ final class Instance {
      * Find the unique implementation for interfaceCls
      */
     static Class<?> child(final Class<?> interfaceCls) {
-        return Fn.orNull(null, () -> {
+        return Fn.runOr(null, () -> {
             final Set<Class<?>> classes = ZeroPack.getClasses();
             final List<Class<?>> filtered = classes.stream()
                 .filter(item -> interfaceCls.isAssignableFrom(item)
@@ -307,20 +307,20 @@ final class Instance {
                     .filter(item -> length == item.getParameterTypes().length)
                     .findAny().orElseThrow(() -> new OperationException(Instance.class, "Constructor / 0 / 1", clazz));
                 constructor.setAccessible(Boolean.TRUE);
-                return Fn.orJvm(() -> ((T) constructor.newInstance(params)), constructor);
+                return Fn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
             } else {
                 // 大于 1 深度构造
                 final Class<?>[] types = types(params);
                 try {
                     final Constructor<?> constructor = clazz.getDeclaredConstructor(types);
-                    return Fn.orJvm(() -> ((T) constructor.newInstance(params)), constructor);
+                    return Fn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
                 } catch (final NoSuchMethodException ex) {
                     final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
                         .filter(item -> length == item.getParameterTypes().length)
                         .filter(item -> typeMatch(item.getParameterTypes(), types))
                         .findAny().orElseThrow(() -> new OperationException(Instance.class, "Constructor / N", clazz));
                     constructor.setAccessible(Boolean.TRUE);
-                    return Fn.orJvm(() -> ((T) constructor.newInstance(params)), constructor);
+                    return Fn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
                 }
             }
         } else {

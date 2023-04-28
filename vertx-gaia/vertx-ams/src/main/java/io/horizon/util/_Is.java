@@ -138,8 +138,9 @@ class _Is extends _From {
      * @return 是否全部为非null
      */
     public static boolean isNotNull(final Object... args) {
-        return 0 == args.length || Arrays.stream(args)
-            .allMatch(Objects::nonNull);
+        // Avoid Null Pointer
+        return Objects.nonNull(args)
+            && (0 == args.length || Arrays.stream(args).allMatch(Objects::nonNull));
     }
 
     /**

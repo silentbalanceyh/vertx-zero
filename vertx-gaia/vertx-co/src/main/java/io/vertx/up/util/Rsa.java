@@ -20,12 +20,12 @@ public class Rsa {
      * @return The encoded string with rsa
      */
     static String encryptRSALegacy(final String strText, final String keyPath) {
-        return Fn.orJvm(() ->
+        return Fn.failOr(() ->
             encryptRSALegacy(strText, loadRSAPublicKeyByFile(keyPath)), strText);
     }
 
     static String encryptRSALegacy(final String strText, final RSAPublicKey publicKey) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final Cipher cipher = Cipher.getInstance("RSA");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeBase64String(cipher.doFinal(strText.getBytes()));

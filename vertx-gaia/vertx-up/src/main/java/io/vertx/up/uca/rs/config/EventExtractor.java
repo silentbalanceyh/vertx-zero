@@ -37,7 +37,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
 
     @Override
     public Set<Event> extract(final Class<?> clazz) {
-        return Fn.orNull(new ConcurrentHashSet<>(), () -> {
+        return Fn.runOr(new ConcurrentHashSet<>(), () -> {
             // 1. Class verify
             this.verify(clazz);
             // 2. Check whether clazz annotated with @PATH

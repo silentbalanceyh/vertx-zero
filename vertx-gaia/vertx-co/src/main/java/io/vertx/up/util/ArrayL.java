@@ -31,7 +31,7 @@ final class ArrayL {
      * @return Found type for target generic type.
      */
     static <T> T find(final List<T> list, final Predicate<T> fnFilter) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             final List<T> filtered = list.stream().filter(fnFilter).toList();
             return Fn.orSemi(filtered.isEmpty(), LOGGER,
                 () -> null,
@@ -156,7 +156,7 @@ final class ArrayL {
     }
 
     static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {
-        return Fn.orNull(new JsonArray(), () -> {
+        return Fn.runOr(new JsonArray(), () -> {
             final JsonArray subset = new JsonArray();
             It.itJArray(array).filter(fnFilter::apply).forEach(subset::add);
             return subset;

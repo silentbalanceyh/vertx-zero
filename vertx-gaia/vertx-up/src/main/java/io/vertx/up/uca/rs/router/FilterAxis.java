@@ -52,7 +52,7 @@ public class FilterAxis implements Axis<Router> {
     }
 
     private void execute(final RoutingContext context, final Object proxy, final Method method) {
-        Fn.safeNull(() -> Fn.safeJvm(() -> {
+        Fn.runAt(() -> Fn.jvmAt(() -> {
             // Init context;
             Ut.invoke(proxy, "init", context);
             // Extract Request/Response

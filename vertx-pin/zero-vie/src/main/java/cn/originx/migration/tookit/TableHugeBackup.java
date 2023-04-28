@@ -53,7 +53,7 @@ public class TableHugeBackup extends AbstractStatic {
             .append(" --result-file=").append(file)
             .append(" --skip-comments")
             .append(" --default-character-set=utf8 ");
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             LOG.Shell.info(this.getClass(), "执行命令：{0}", cmd.toString());
             final Process process = Runtime.getRuntime().exec(cmd.toString());
             return process.waitFor() == 0;

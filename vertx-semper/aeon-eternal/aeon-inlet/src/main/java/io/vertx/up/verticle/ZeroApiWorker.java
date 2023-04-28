@@ -66,7 +66,7 @@ public class ZeroApiWorker extends AbstractVerticle {
             final ConcurrentMap<Flag, Set<String>> resultMap = this.calculateServices(services);
 
             // Do the modification with thread.
-            Fn.safeJvm(() -> {
+            Fn.jvmAt(() -> {
                 final CountDownLatch counter = new CountDownLatch(3);
                 final Set<String> deleted = resultMap.get(Flag.DELETE);
                 final Set<String> updated = resultMap.get(Flag.UPDATE);

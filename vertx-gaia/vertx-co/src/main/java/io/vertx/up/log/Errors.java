@@ -32,7 +32,7 @@ public final class Errors {
                                     final int code,
                                     final String tpl,
                                     final Object... args) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final String key = ("E" + Math.abs(code)).intern();
             final Node<JsonObject> node = Node.infix(ZeroYml._error);
             final JsonObject data = node.read();

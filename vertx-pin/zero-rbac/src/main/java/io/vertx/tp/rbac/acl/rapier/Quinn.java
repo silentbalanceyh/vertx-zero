@@ -70,7 +70,7 @@ public interface Quinn {
 
     default <T> Future<T> saveAsync(final SResource resource, final ScOwner owner, final JsonObject data) {
         Objects.requireNonNull(resource);
-        return Fn.failure(_501NotSupportException.class, this.getClass());
+        return Fn.failWeb(_501NotSupportException.class, this.getClass());
     }
 
 
@@ -82,10 +82,10 @@ public interface Quinn {
      * 新接口中直接替换原始流程生成完整的 DataBound，移除掉原始的 ViewStub / VisitStub 以及 MatrixStub 部分逻辑
      */
     default <T> Future<T> saveAsync(final String resourceId, final ScOwner owner, final JsonObject data) {
-        return Fn.failure(_501NotSupportException.class, this.getClass());
+        return Fn.failWeb(_501NotSupportException.class, this.getClass());
     }
 
     default <T> Future<T> fetchAsync(final String resourceId, final ScOwner owner) {
-        return Fn.failure(_501NotSupportException.class, this.getClass());
+        return Fn.failWeb(_501NotSupportException.class, this.getClass());
     }
 }

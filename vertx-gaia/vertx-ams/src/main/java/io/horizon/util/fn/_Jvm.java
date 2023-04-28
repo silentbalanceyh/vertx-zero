@@ -3,6 +3,7 @@ package io.horizon.util.fn;
 import io.horizon.fn.ErrorActuator;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.log.HLogger;
+import io.horizon.util.HaS;
 
 /**
  * @author lang : 2023/4/28
@@ -109,5 +110,33 @@ class _Jvm extends _Fail {
      */
     public static void jvmAt(final ErrorActuator actuator) {
         HActuator.jvmAt(actuator, null);
+    }
+
+    /**
+     * 纯执行器版本（支持日志记录器），可定义抛 Throwable 异常
+     * 针对参数非空检查的执行器版本
+     *
+     * @param actuator 执行器
+     * @param logger   日志记录器
+     * @param input    待检查的输入信息
+     */
+    public static void jvmAt(final ErrorActuator actuator, final HLogger logger,
+                             final Object... input) {
+        if (HaS.isNotNull(input)) {
+            HActuator.jvmAt(actuator, logger);
+        }
+    }
+
+    /**
+     * 纯执行器版本（不支持日志记录器），可定义抛 Throwable 异常
+     * 针对参数非空检查的执行器版本
+     *
+     * @param actuator 执行器
+     * @param input    待检查的输入信息
+     */
+    public static void jvmAt(final ErrorActuator actuator, final Object... input) {
+        if (HaS.isNotNull(input)) {
+            HActuator.jvmAt(actuator, null);
+        }
     }
 }

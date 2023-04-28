@@ -88,7 +88,7 @@ public class PermService implements PermStub {
 
     @Override
     public Future<JsonArray> syncAsync(final JsonArray permissions, final String roleId) {
-        return Fn.orEmpty(Ux.futureA(), () -> {
+        return Fn.runOr(Ux.futureA(), () -> {
             final JsonObject condition = new JsonObject();
             condition.put(KName.Rbac.ROLE_ID, roleId);
             /*

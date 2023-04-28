@@ -78,15 +78,15 @@ class IrQr implements Qr {
     @Override
     public JsonObject toJson() {
         final JsonObject result = new JsonObject();
-        Fn.safeNull(() -> result.put(KEY_PAGER, this.pager.toJson()), this.pager);
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> result.put(KEY_PAGER, this.pager.toJson()), this.pager);
+        Fn.runAt(() -> {
             final JsonObject sorters = this.sorter.toJson();
             final JsonArray array = new JsonArray();
             Ut.<Boolean>itJObject(sorters, (value, key) -> array.add(key + "," + (value ? "ASC" : "DESC")));
             result.put(KEY_SORTER, array);
         }, this.sorter);
-        Fn.safeNull(() -> result.put(KEY_PROJECTION, Ut.toJArray(this.projection)), this.projection);
-        Fn.safeNull(() -> result.put(KEY_CRITERIA, this.criteria.toJson()), this.criteria);
+        Fn.runAt(() -> result.put(KEY_PROJECTION, Ut.toJArray(this.projection)), this.projection);
+        Fn.runAt(() -> result.put(KEY_CRITERIA, this.criteria.toJson()), this.criteria);
         return result;
     }
 }

@@ -20,7 +20,7 @@ public class AsyncAim extends BaseAim implements Aim<RoutingContext> {
 
     @Override
     public Handler<RoutingContext> attack(final Event event) {
-        return Fn.orNull(() -> (context) -> this.exec(() -> {
+        return Fn.runOr(() -> (context) -> this.exec(() -> {
             /*
              * Build future ( data handler )
              */

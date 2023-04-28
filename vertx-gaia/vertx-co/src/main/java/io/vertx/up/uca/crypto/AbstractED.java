@@ -33,7 +33,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     @Override
     @SuppressWarnings("unchecked")
     public KPair generate(final int size) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final KeyPairGenerator generate = KeyPairGenerator.getInstance(VValue.DFT.ALGORITHM_RSA);
             generate.initialize(size);
             final KeyPair pair = generate.generateKeyPair();
@@ -79,7 +79,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     }
 
     protected String runEncrypt(final String source, final Key key) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final Cipher cipher = Cipher.getInstance(this.algorithm);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return Base64.encodeBase64String(cipher.doFinal(source.getBytes()));
@@ -92,7 +92,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
      * at java.base/com.sun.crypto.provider.RSACipher.doFinal(RSACipher.java:348)
      */
     protected String runDecrypt(final String source, final Key key) {
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             // RSA Decrypt
             final Cipher cipher = Cipher.getInstance(this.algorithm);
             cipher.init(Cipher.DECRYPT_MODE, key);
@@ -121,7 +121,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
     protected PublicKey x509(final String keyContent) {
         // Generate Public Key Object
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final byte[] buffer = Base64.decodeBase64(keyContent);
             final KeyFactory keyFactory = KeyFactory.getInstance(this.algorithm);
             final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
@@ -131,7 +131,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
     protected PrivateKey pKCS8(final String keyContent) {
         // Generate Private Key Object
-        return Fn.orJvm(() -> {
+        return Fn.failOr(() -> {
             final byte[] buffer = Base64.decodeBase64(keyContent);
             final KeyFactory keyFactory = KeyFactory.getInstance(this.algorithm);
             final PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);

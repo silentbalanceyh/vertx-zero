@@ -69,7 +69,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
             // 7. Record for different invokers
             INVOKER_MAP.put(receipt.hashCode(), invoker);
 
-            Fn.safeNull(() -> bus.<Envelop>consumer(address, message -> {
+            Fn.runAt(() -> bus.<Envelop>consumer(address, message -> {
                 if (method.isAnnotationPresent(Ipc.class)) {
                     // Rpc continue replying
                     invoker.next(reference, method, message, this.vertx);

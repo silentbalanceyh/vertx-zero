@@ -14,7 +14,7 @@ public class ContextFiller implements Filler {
                         final RoutingContext context) {
         final Map<String, Object> data = context.data();
         final Object value = data.get(name);
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             if (paramType == value.getClass()) {
                 return value;
             } else {

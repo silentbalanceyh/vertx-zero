@@ -52,7 +52,7 @@ public class ElasticSearchClientImpl implements ElasticSearchClient {
     @Override
     public boolean connected() {
         // Check connection
-        return Fn.orJvm(Boolean.FALSE, () -> this.getClient().ping(RequestOptions.DEFAULT));
+        return Fn.failOr(Boolean.FALSE, () -> this.getClient().ping(RequestOptions.DEFAULT));
     }
 
     @Override

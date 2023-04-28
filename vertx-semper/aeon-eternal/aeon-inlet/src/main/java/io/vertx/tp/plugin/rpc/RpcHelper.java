@@ -24,7 +24,7 @@ class RpcHelper {
 
     static Record getRecord(final JsonObject config) {
         /* Config Verify **/
-        Fn.outUp(() -> Fn.safeZero(() -> Ruler.verify(Key.RULE_KEY, config), config),
+        Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(Key.RULE_KEY, config), config),
             LOGGER);
         // Connect remote etcd to check service
         final ConcurrentMap<String, Record> registryData = ORIGIN.getRegistryData();
@@ -83,7 +83,7 @@ class RpcHelper {
 
     static JsonObject getSslConfig(final String name,
                                    final JsonObject rpcConfig) {
-        return Fn.orNull(new JsonObject(), () -> {
+        return Fn.runOr(new JsonObject(), () -> {
             final JsonObject sslConfig = new JsonObject();
             if (rpcConfig.containsKey(Key.SSL) &&
                 Boolean.parseBoolean(rpcConfig.getValue(Key.SSL).toString())) {

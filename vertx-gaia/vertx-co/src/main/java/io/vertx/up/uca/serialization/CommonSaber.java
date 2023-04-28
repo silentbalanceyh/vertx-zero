@@ -7,7 +7,7 @@ public class CommonSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.orNull(() ->
+        return Fn.runOr(() ->
                 Fn.orSemi(!SaberTypes.isSupport(paramType), this.getLogger(),
                     // Turn On / Off
                     () -> Ut.deserialize(literal, paramType, true),
@@ -17,7 +17,7 @@ public class CommonSaber extends BaseSaber {
 
     @Override
     public <T> Object from(final T input) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             Object reference = null;
             if (!SaberTypes.isSupport(input.getClass())) {
                 // final String literal = Ut.serialize(input);

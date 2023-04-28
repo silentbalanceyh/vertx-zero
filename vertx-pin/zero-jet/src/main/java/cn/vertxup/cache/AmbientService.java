@@ -36,7 +36,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Fn.failure(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.failWeb(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtJob combining
@@ -75,7 +75,7 @@ public class AmbientService implements AmbientStub {
             /*
              * 500 XHeader Exception, could not be found
              */
-            return Fn.failure(_500EnvironmentException.class, this.getClass(), sigma);
+            return Fn.failWeb(_500EnvironmentException.class, this.getClass(), sigma);
         } else {
             /*
              * JtUri combining

@@ -18,7 +18,7 @@ public abstract class AbstractInsurer implements Insurer {
     public void flumen(final JsonArray array,
                        final JsonObject elementRule)
         throws ProgramException {
-        Fn.safeZero(() -> {
+        Fn.bugAt(() -> {
             // 1. Verify the element must be json object for each
             final int size = array.size();
             for (int idx = VValue.IDX; idx < size; idx++) {

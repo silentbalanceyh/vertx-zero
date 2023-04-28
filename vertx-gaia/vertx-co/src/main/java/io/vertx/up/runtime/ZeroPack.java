@@ -117,7 +117,7 @@ public final class ZeroPack {
     @SuppressWarnings("all")
     private static Set<Class<?>> getClassesInternal() {
         final Set<Class<?>> classSet = new HashSet<>();
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final ClassPath cp = ClassPath.from(Thread.currentThread().getContextClassLoader());
             final ImmutableSet<ClassPath.ClassInfo> set = cp.getTopLevelClasses();
             final ConcurrentMap<String, Set<String>> packageMap = new ConcurrentHashMap<>();

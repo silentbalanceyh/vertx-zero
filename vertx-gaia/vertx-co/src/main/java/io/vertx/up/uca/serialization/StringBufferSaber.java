@@ -10,7 +10,7 @@ public class StringBufferSaber extends BaseSaber {
     @Override
     public Object from(final Class<?> paramType,
                        final String literal) {
-        return Fn.orNull(() ->
+        return Fn.runOr(() ->
                 Fn.orSemi(StringBuilder.class == paramType
                         || StringBuffer.class == paramType, this.getLogger(),
                     () -> {
@@ -25,7 +25,7 @@ public class StringBufferSaber extends BaseSaber {
 
     @Override
     public <T> Object from(final T input) {
-        return Fn.orNull(() -> {
+        return Fn.runOr(() -> {
             Object reference = null;
             if (input instanceof StringBuilder
                 || input instanceof StringBuffer) {

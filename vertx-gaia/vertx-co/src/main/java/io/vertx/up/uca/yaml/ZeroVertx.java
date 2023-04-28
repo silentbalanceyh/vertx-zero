@@ -20,7 +20,7 @@ public class ZeroVertx implements Node<JsonObject> {
         // Not null because execNil
         final JsonObject config = ZeroTool.read(null, true);
         // Injection Lime
-        final JsonObject zero = Fn.orJvm(new JsonObject(),
+        final JsonObject zero = Fn.failOr(new JsonObject(),
             () -> config.getJsonObject(KName.Internal.ZERO), config);
         if (null != zero && zero.containsKey(KName.Internal.LIME)) {
             this.processLime(zero);
@@ -30,7 +30,7 @@ public class ZeroVertx implements Node<JsonObject> {
     }
 
     private void processLime(final JsonObject data) {
-        Fn.safeNull(() -> {
+        Fn.runAt(() -> {
             final String limeStr = data.getString(KName.Internal.LIME);
             final Set<String> sets = Ut.toSet(limeStr, VString.COMMA);
             /*

@@ -102,7 +102,7 @@ class PathResolver {
         }
         // Uri must begin with SLASH
         final String processed = uri;
-        final String finalUri = Fn.orNull(() -> processed.startsWith(VString.SLASH)
+        final String finalUri = Fn.runOr(() -> processed.startsWith(VString.SLASH)
             ? processed : VString.SLASH + processed, uri);
         if (!path.equals(finalUri) && DevEnv.devWebUri()) {
             LOGGER.warn("[ Path ] The original uri is `{0}`, recommend/detected uri is `{1}`.", path, finalUri);

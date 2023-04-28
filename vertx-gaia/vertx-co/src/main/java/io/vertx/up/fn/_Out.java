@@ -27,7 +27,7 @@ class _Out extends _Combine {
      *
      * @return Future<T>
      */
-    public static <T> Future<T> failure(final Class<? extends WebException> clazz, final Object... args) {
+    public static <T> Future<T> failWeb(final Class<? extends WebException> clazz, final Object... args) {
         return Other.otherwise(clazz, args);
     }
 }

@@ -34,7 +34,7 @@ final class Types {
 
     @Deprecated
     static boolean isJArray(final String literal) {
-        return Fn.orNull(Boolean.FALSE, () -> {
+        return Fn.runOr(Boolean.FALSE, () -> {
             try {
                 new JsonArray(literal);
                 return true;
@@ -80,7 +80,7 @@ final class Types {
 
     @Deprecated
     static boolean isJObject(final String literal) {
-        return Fn.orNull(Boolean.FALSE, () -> {
+        return Fn.runOr(Boolean.FALSE, () -> {
             try {
                 new JsonObject(literal);
                 return true;

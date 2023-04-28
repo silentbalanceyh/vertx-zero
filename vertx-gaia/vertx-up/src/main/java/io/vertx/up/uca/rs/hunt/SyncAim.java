@@ -14,7 +14,7 @@ import io.vertx.up.uca.rs.Aim;
 public class SyncAim extends BaseAim implements Aim<RoutingContext> {
     @Override
     public Handler<RoutingContext> attack(final Event event) {
-        return Fn.orNull(() -> (context) -> this.exec(() -> {
+        return Fn.runOr(() -> (context) -> this.exec(() -> {
             /*
              * Build arguments
              */

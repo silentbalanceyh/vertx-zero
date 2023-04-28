@@ -152,7 +152,7 @@ public final class InOut {
         /*
          * Body processing
          */
-        Fn.safeJvm(() -> {
+        Fn.jvmAt(() -> {
             final InputStream in = clientResponse.getEntity().getContent();
             // No performance considering
             final byte[] bytes = new byte[in.available()];

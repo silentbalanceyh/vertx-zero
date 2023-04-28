@@ -1,12 +1,12 @@
 package io.vertx.up.uca.yaml;
 
 import io.horizon.eon.VString;
+import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -43,7 +43,7 @@ public class ZeroLime implements Node<ConcurrentMap<String, String>> {
     private ConcurrentMap<String, String> build(final String literal) {
         final Set<String> sets = Ut.toSet(literal, VString.COMMA);
         LOGGER.debug("Lime node parsing \"{0}\" and size is = {1}", literal, sets.size());
-        Fn.safeNull(() -> Observable.fromIterable(sets)
+        Fn.runAt(() -> Observable.fromIterable(sets)
             .subscribe(item -> CC_INTERNAL.pick(() -> ZeroTool.nameZero(item), item)
                 // Fn.po?l(INTERNALS, item, () -> ZeroTool.produce(item))\
             ).dispose(), literal);

@@ -1,10 +1,13 @@
 package io.horizon.util.fn;
 
+import io.horizon.exception.ProgramException;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.fn.ExceptionSupplier;
 import io.horizon.fn.ProgramSupplier;
 import io.horizon.log.HLogger;
 import io.horizon.util.HaS;
+
+import java.util.function.Supplier;
 
 /**
  * @author lang : 2023/4/28
@@ -42,7 +45,11 @@ class HSupplier {
     }
 
     public static <T> T bugOr(final T defaultValue, final ProgramSupplier<T> supplier,
-                              final HLogger logger) {
+                              final HLogger logger) throws ProgramException {
         return HFunction.bugAt(defaultValue, (t) -> supplier.get(), logger);
+    }
+
+    public static <T> T runOr(final T defaultValue, final Supplier<T> supplier) {
+        return HFunction.runAt(defaultValue, (t) -> supplier.get());
     }
 }

@@ -32,7 +32,7 @@ public class NamesVisitor extends AbstractSVisitor implements ServerVisitor<Stri
             if (this.isServer(item)) {
                 // 1. Extract port
                 final int port = this.serverPort(item.getJsonObject(KName.CONFIG));
-                Fn.safeNull(() -> {
+                Fn.runAt(() -> {
                     // 3. Add to map;
                     map.put(port, item.getString(KName.NAME));
                 }, port);

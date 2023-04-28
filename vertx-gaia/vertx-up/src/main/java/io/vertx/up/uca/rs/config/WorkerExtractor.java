@@ -1,11 +1,11 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 
@@ -25,7 +25,7 @@ public class WorkerExtractor implements Extractor<DeploymentOptions> {
 
     @Override
     public DeploymentOptions extract(final Class<?> clazz) {
-        Fn.safeNull(() -> LOGGER.info(Info.WORKER_HIT, clazz.getName()), clazz);
+        Fn.runAt(() -> LOGGER.info(Info.WORKER_HIT, clazz.getName()), clazz);
         final Rotate rotate = Ut.singleton(DeployRotate.class);
 
         return CC_OPTIONS.pick(() -> rotate.spinWorker(clazz), clazz);

@@ -55,7 +55,7 @@ public class RpcServerVisitor implements ServerVisitor<RpcOptions> {
                 final int port = this.serverPort(item.getJsonObject(KName.CONFIG));
                 // 2. Convert JsonObject to HttpServerOptions
                 final RpcOptions options = this.transformer.transform(item);
-                Fn.safeNull(() -> {
+                Fn.runAt(() -> {
                     // 3. Add to map;
                     map.put(port, options);
                 }, port, options);
