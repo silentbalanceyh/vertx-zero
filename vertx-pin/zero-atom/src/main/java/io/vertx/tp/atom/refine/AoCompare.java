@@ -1,12 +1,12 @@
 package io.vertx.tp.atom.refine;
 
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.atom.Kv;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.compare.Vs;
@@ -104,8 +104,8 @@ class AoCompare {
         final JsonArray queueO = new JsonArray().add(recordO);
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPure(queueO, queueN, atom, ignoreSet);
         final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
-        final ChangeFlag flag = changed.getKey();
-        LOG.Uca.info(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.getValue());
+        final ChangeFlag flag = changed.key();
+        LOG.Uca.info(AoCompare.class, "（Pure）计算变更结果：{0} = {1}", flag, changed.value());
         if (ChangeFlag.UPDATE == flag) {
             return recordN;
         } else {
@@ -429,8 +429,8 @@ class AoCompare {
         final JsonArray queueO = new JsonArray().add(recordO);
         final ConcurrentMap<ChangeFlag, JsonArray> processed = diffPull(queueO, queueN, atom, ignoreSet);
         final Kv<ChangeFlag, JsonObject> changed = updateKv(processed);
-        final ChangeFlag flag = changed.getKey();
-        LOG.Uca.info(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.getValue());
+        final ChangeFlag flag = changed.key();
+        LOG.Uca.info(AoCompare.class, "（Pull）计算变更结果：{0} = {1}", flag, changed.value());
         if (ChangeFlag.UPDATE == flag) {
             return recordN;
         } else {

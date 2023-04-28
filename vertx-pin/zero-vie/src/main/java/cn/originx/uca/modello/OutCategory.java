@@ -1,10 +1,10 @@
 package cn.originx.uca.modello;
 
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -20,9 +20,9 @@ public class OutCategory extends OutDpmExpr implements OComponent {
 
     @Override
     public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
-        final Object translated = this.translateTo(kv.getValue(), combineData);
-        final Object expressed = this.express(Kv.create(kv.getKey(), translated), record, combineData);
-        return this.normalize(Kv.create(kv.getKey(), expressed), record, combineData);
+        final Object translated = this.translateTo(kv.value(), combineData);
+        final Object expressed = this.express(Kv.create(kv.key(), translated), record, combineData);
+        return this.normalize(Kv.create(kv.key(), expressed), record, combineData);
     }
 
     /**
@@ -38,7 +38,7 @@ public class OutCategory extends OutDpmExpr implements OComponent {
         final JsonObject cat3Record;
         final JsonObject cat2Record;
         String normalized;
-        final Object value0 = kv.getValue(); //category key
+        final Object value0 = kv.value(); //category key
         if (Objects.nonNull(value0)) {
             cat3Key = (String) value0;
             final JsonObject sourceNorm = Ut.valueJObject(combineData.getJsonObject(KName.SOURCE_NORM));

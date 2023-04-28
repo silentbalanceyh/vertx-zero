@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.shared;
 
+import io.horizon.atom.Kv;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.up.atom.Kv;
 
 import java.util.Set;
 

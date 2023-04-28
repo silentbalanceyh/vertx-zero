@@ -1,11 +1,11 @@
 package io.vertx.tp.crud.uca.next;
 
+import io.horizon.atom.Kv;
 import io.horizon.eon.VValue;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -64,7 +64,7 @@ class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
         final Set<String> fieldSet = new HashSet<>();
         columns.stream().map(Ix::onColumn)
             .filter(Objects::nonNull)
-            .map(Kv::getKey)
+            .map(Kv::key)
             .forEach(fieldSet::add);
         return fieldSet;
     }
@@ -72,9 +72,9 @@ class OkAApeak implements Co<JsonObject, JsonArray, Object, JsonArray> {
     private void add(final JsonArray columns, final Object value, final Set<String> fieldSet) {
         final Kv<String, String> kv = Ix.onColumn(value);
         if (Objects.nonNull(kv)) {
-            if (!fieldSet.contains(kv.getKey())) {
+            if (!fieldSet.contains(kv.key())) {
                 columns.add(value);
-                fieldSet.add(kv.getKey());
+                fieldSet.add(kv.key());
             }
         }
     }

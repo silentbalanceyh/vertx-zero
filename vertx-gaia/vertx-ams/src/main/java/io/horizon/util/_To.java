@@ -1,5 +1,6 @@
 package io.horizon.util;
 
+import io.horizon.eon.VString;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -286,6 +287,52 @@ class _To extends _Reflect {
     }
 
     /**
+     * 将 String 转换成 List<String>，默认逗号分割
+     *
+     * @param literal 字符串字面量
+     *
+     * @return List<String>
+     */
+    public static List<String> toList(final String literal) {
+        return TString.split(literal, VString.COMMA);
+    }
+
+    /**
+     * 将 String 转换成 List<String>，默认逗号分割
+     *
+     * @param literal   字符串字面量
+     * @param separator 分隔符
+     *
+     * @return List<String>
+     */
+    public static List<String> toList(final String literal, final String separator) {
+        return TString.split(literal, separator);
+    }
+
+    /**
+     * 将 String 转换成 Set<String>，默认逗号分割
+     *
+     * @param literal 字符串字面量
+     *
+     * @return Set<String>
+     */
+    public static Set<String> toSet(final String literal) {
+        return new HashSet<>(TString.split(literal, VString.COMMA));
+    }
+
+    /**
+     * 将 String 转换成 Set<String>，默认逗号分割
+     *
+     * @param literal   字符串字面量
+     * @param separator 分隔符
+     *
+     * @return Set<String>
+     */
+    public static Set<String> toSet(final String literal, final String separator) {
+        return new HashSet<>(TString.split(literal, separator));
+    }
+
+    /**
      * 将字符串字面量转换成 JsonArray
      *
      * @param literal 字符串字面量
@@ -387,5 +434,27 @@ class _To extends _Reflect {
      */
     public static JsonObject toJObject(final Object value) {
         return HJson.toJObject(value);
+    }
+
+    /**
+     * 智能转换，将对象转换成 String 类型
+     *
+     * @param value 对象
+     *
+     * @return String
+     */
+    public static String toString(final Object value) {
+        return TTo.toString(value);
+    }
+
+    /**
+     * 只能转换，将对象转换成 Collection 类型
+     *
+     * @param value 对象
+     *
+     * @return Collection
+     */
+    public static Collection<?> toCollection(final Object value) {
+        return TTo.toCollection(value);
     }
 }

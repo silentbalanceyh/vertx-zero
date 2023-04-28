@@ -1,6 +1,7 @@
 package io.vertx.tp.is.uca.command;
 
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
+import io.horizon.atom.Kv;
 import io.horizon.cloud.app.HFS;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -10,7 +11,6 @@ import io.vertx.tp.is.atom.IsConfig;
 import io.vertx.tp.is.cv.IsFolder;
 import io.vertx.tp.is.cv.em.TypeDirectory;
 import io.vertx.tp.is.init.IsPin;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -103,7 +103,7 @@ public class FsDefault extends AbstractFs {
 
     @Override
     public Future<Boolean> rename(final Kv<String, String> kv) {
-        return this.rename(kv.getKey(), kv.getValue());
+        return this.rename(kv.key(), kv.value());
     }
 
     @Override

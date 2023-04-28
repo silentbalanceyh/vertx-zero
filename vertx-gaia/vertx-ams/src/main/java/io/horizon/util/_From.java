@@ -1,17 +1,21 @@
 package io.horizon.util;
 
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lang : 2023/4/27
  */
-class _From extends _Element {
+class _From extends _Env {
     /**
      * 针对 LocalDate 类型的日期执行格式化
      *
@@ -135,5 +139,127 @@ class _From extends _Element {
      */
     public static <T> T fromBuffer(final int pos, final Buffer buffer) {
         return IoStream.from(pos, buffer);
+    }
+
+    /**
+     * 将集合转换成字符串，默认使用逗号分隔符
+     *
+     * @param input 集合
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final Set<String> input) {
+        return TString.join(input, null);
+    }
+
+    /**
+     * 将集合转换成字符串
+     *
+     * @param input     集合
+     * @param separator 分隔符
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final Set<String> input, final String separator) {
+        return TString.join(input, separator);
+    }
+
+    /**
+     * 将集合转换成字符串
+     *
+     * @param input     集合
+     * @param separator 分隔符
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final List<String> input, final String separator) {
+        return TString.join(input, separator);
+    }
+
+    /**
+     * 将集合转换成字符串，默认使用逗号分隔符
+     *
+     * @param input 集合
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final List<String> input) {
+        return TString.join(input, null);
+    }
+
+    /**
+     * 将数组转换成字符串，默认使用逗号分隔符
+     *
+     * @param input 数组
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final Object[] input) {
+        return fromJoin(input, null);
+    }
+
+    /**
+     * 将数组转换成字符串
+     *
+     * @param input     数组
+     * @param separator 分隔符
+     *
+     * @return 字符串
+     */
+    public static String fromJoin(final Object[] input, final String separator) {
+        return TString.join(input, separator);
+    }
+
+    /**
+     * 解析表达式转换，转换成想要的类型，参数使用 params 模式传入
+     * 表达式如：`Hello ${name}` 这种格式
+     *
+     * @param expr   表达式
+     * @param params 参数
+     * @param <T>    泛型
+     *
+     * @return 转换后的对象
+     */
+    public static <T> T fromExpressionT(final String expr, final JsonObject params) {
+        return HExpression.expressionT(expr, params);
+    }
+
+    /**
+     * 解析表达式转换，转换成想要的类型，参数使用 params 模式传入
+     * 表达式如：`Hello ${name}` 这种格式
+     *
+     * @param expr   表达式
+     * @param params 参数
+     *
+     * @return 转换后的字符串
+     */
+    public static String fromExpression(final String expr, final JsonObject params) {
+        return (String) HExpression.expressionWith(expr, params);
+    }
+
+    /**
+     * 解析表达式转换（集合），转换成想要的类型，参数使用 params 模式传入
+     * 表达式如：`Hello ${name}` 这种格式，递归转换所有格式
+     *
+     * @param exprObject 表达式
+     * @param params     参数
+     *
+     * @return 转换后的字符串
+     */
+    public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
+        return HExpression.expression(exprObject, params);
+    }
+
+    /**
+     * 解析表达式转换（集合），转换成想要的类型，参数使用 params 模式传入
+     * 表达式如：`Hello ${name}` 这种格式，递归转换所有格式
+     *
+     * @param exprArray 表达式
+     * @param params    参数
+     *
+     * @return 转换后的字符串
+     */
+    public static JsonArray fromExpression(final JsonArray exprArray, final JsonObject params) {
+        return HExpression.expression(exprArray, params);
     }
 }

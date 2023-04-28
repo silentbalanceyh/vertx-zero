@@ -1,11 +1,11 @@
 package cn.originx.uca.modello;
 
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.tp.modular.plugin.OExpression;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.log.Annal;
 import io.vertx.up.util.Ut;
@@ -51,6 +51,6 @@ public class OutCopy implements OComponent {
                 }
             });
         }
-        return kv.getValue();
+        return kv.value();
     }
 }

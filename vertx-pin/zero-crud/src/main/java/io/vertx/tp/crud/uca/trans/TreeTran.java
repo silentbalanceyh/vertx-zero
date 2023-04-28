@@ -3,13 +3,13 @@ package io.vertx.tp.crud.uca.trans;
 import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KTransform;
 import io.aeon.experiment.specification.KTree;
+import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -88,7 +88,7 @@ class TreeTran implements Tran {
                                                             final JsonArray values,
                                                             final Kv<String, String> keyValue) {
         final JsonObject criteria = tree.region(in.parameters());
-        final String keyField = keyValue.getKey();
+        final String keyField = keyValue.key();
         criteria.put(keyField + ",i", values);
         criteria.put(VString.EMPTY, Boolean.TRUE);
         LOG.Web.info(this.getClass(), "Tree Transform Condition: {0}", criteria.encode());
@@ -100,8 +100,8 @@ class TreeTran implements Tran {
                                                final Kv<String, String> keyValue) {
         final ConcurrentMap<String, String> data = new ConcurrentHashMap<>();
         Ut.itJArray(source).forEach(record -> {
-            final String fromValue = record.getString(keyValue.getKey());
-            final String toValue = record.getString(keyValue.getValue());
+            final String fromValue = record.getString(keyValue.key());
+            final String toValue = record.getString(keyValue.value());
             if (Objects.nonNull(fromValue) && Objects.nonNull(toValue)) {
                 data.put(fromValue, toValue);
             }

@@ -1,11 +1,11 @@
 package io.vertx.tp.modular.reference;
 
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.JAmb;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -64,7 +64,7 @@ class RayRuler {
     private static String joinedKey(final JsonObject item, final List<Kv<String, String>> joined) {
         final StringBuilder key = new StringBuilder();
         joined.forEach(kv -> {
-            final Object value = item.getValue(kv.getKey());
+            final Object value = item.getValue(kv.key());
             if (Objects.nonNull(value)) {
                 key.append(value);
             }
@@ -75,7 +75,7 @@ class RayRuler {
     static String joinedKey(final HRecord record, final List<Kv<String, String>> joined) {
         final StringBuilder key = new StringBuilder();
         joined.forEach(kv -> {
-            final Object value = record.get(kv.getValue());
+            final Object value = record.get(kv.value());
             if (Objects.nonNull(value)) {
                 key.append(value);
             }

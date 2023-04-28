@@ -1,11 +1,11 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.horizon.atom.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Codex;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
@@ -60,13 +60,13 @@ class Flower {
         if (null == error) {
             // Check if annotated with @Codex
             final Kv<Integer, Class<?>> found = findParameter(depot.getEvent().getAction());
-            if (null == found.getValue()) {
+            if (null == found.value()) {
                 // Verify here.
                 context.next();
             } else {
                 // @Codex validation for different types
-                final Class<?> type = found.getValue();
-                final Object value = args[found.getKey()];
+                final Class<?> type = found.value();
+                final Object value = args[found.key()];
                 verifyCodex(context, rulers, depot, type, value);
             }
         } else {

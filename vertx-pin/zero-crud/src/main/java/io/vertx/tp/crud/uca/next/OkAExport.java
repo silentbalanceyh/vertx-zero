@@ -31,8 +31,8 @@ class OkAExport implements Co<JsonObject, JsonArray, JsonArray, JsonArray> {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
-            if (this.columns.contains(kv.getKey())) {
-                headers.put(kv.getKey(), kv.getValue());
+            if (this.columns.contains(kv.key())) {
+                headers.put(kv.key(), kv.value());
             }
         });
         return Ke.combineAsync(data, headers, this.columns);

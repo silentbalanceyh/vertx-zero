@@ -2,6 +2,7 @@ package io.vertx.tp.crud.refine;
 
 import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KModule;
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.TypeAtom;
 import io.horizon.specification.modeler.TypeField;
 import io.vertx.core.http.HttpMethod;
@@ -9,7 +10,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
@@ -130,7 +130,7 @@ class IxData {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
-            headers.put(kv.getKey(), kv.getValue());
+            headers.put(kv.key(), kv.value());
         });
         /*
          * First module for calculation

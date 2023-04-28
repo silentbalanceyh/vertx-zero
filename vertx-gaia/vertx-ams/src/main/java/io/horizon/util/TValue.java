@@ -3,10 +3,12 @@ package io.horizon.util;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -107,20 +109,45 @@ class TValue {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
-        if (TIs.isNil(item)) {
+    static <T> T vT(final String literal, final Class<?> type) {
+        if (TIs.isNil(literal)) {
             return null;
+        }
+        if (type == Integer.class || type == int.class) {
+            return (T) Integer.valueOf(literal);
+        } else if (type == Long.class || type == long.class) {
+            return (T) Long.valueOf(literal);
+        } else if (type == Float.class || type == float.class) {
+            return (T) Float.valueOf(literal);
+        } else if (type == Double.class || type == double.class) {
+            return (T) Double.valueOf(literal);
+        } else if (type == Boolean.class || type == boolean.class) {
+            return (T) Boolean.valueOf(literal);
+        } else if (type == String.class) {
+            return (T) literal;
+        } else if (type == BigDecimal.class) {
+            return (T) new BigDecimal(literal);
+        } else if (type == BigInteger.class) {
+            return (T) new BigInteger(literal);
+        } else if (type == LocalDate.class) {
+            return (T) LocalDate.parse(literal);
+        } else if (type == LocalDateTime.class) {
+            return (T) LocalDateTime.parse(literal);
+        } else if (type == LocalTime.class) {
+            return (T) LocalTime.parse(literal);
+        } else if (type == JsonArray.class) {
+            return (T) HJson.toJArray(literal);
+        } else if (type == JsonObject.class) {
+            return (T) HJson.toJObject(literal);
+        } else if (type == List.class || type == ArrayList.class) {
+            return (T) Arrays.asList(literal.split("\\s*,\\s*"));
+        } else if (type == Set.class || type == HashSet.class) {
+            return (T) new HashSet<>(Arrays.asList(literal.split("\\s*,\\s*")));
+        } else if (type == String[].class) {
+            return (T) Arrays.stream(literal.split("\\s*,\\s*")).toArray(String[]::new);
         } else {
-            final Object value = item.getValue(field);
-            if (Objects.isNull(value)) {
-                return null;
-            } else {
-                if (clazz == value.getClass()) {
-                    return (T) value;
-                } else {
-                    return null;
-                }
-            }
+            throw new IllegalArgumentException("Unsupported type: " + type);
         }
     }
+
 }

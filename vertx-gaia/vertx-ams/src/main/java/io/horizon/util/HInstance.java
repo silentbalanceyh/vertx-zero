@@ -156,7 +156,8 @@ class HInstance {
     @SuppressWarnings("unchecked")
     static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
         final int length = params.length;
-        final ConcurrentMap<Integer, Integer> map = BUILD_IN.get(clazz);
+        // Fix:Cannot invoke "java.util.concurrent.ConcurrentMap.getOrDefault(Object, Object)" because "map" is null
+        final ConcurrentMap<Integer, Integer> map = BUILD_IN.getOrDefault(clazz, new ConcurrentHashMap<>());
         final Integer counter = map.getOrDefault(length, 0);
         Constructor<T> constructor;
         if (1 >= counter) {
@@ -271,6 +272,18 @@ class HInstance {
             }
         }
         return type;
+    }
+
+    static boolean isImplement(final Class<?> implCls, final Class<?> interfaceCls) {
+        final Class<?>[] interfaces = implCls.getInterfaces();
+        boolean match = Arrays.asList(interfaces).contains(interfaceCls);
+        if (!match) {
+            /* continue to check parent */
+            if (Objects.nonNull(implCls.getSuperclass())) {
+                match = isImplement(implCls.getSuperclass(), interfaceCls);
+            }
+        }
+        return match;
     }
 
     private static class NULL {

@@ -1,9 +1,8 @@
-package io.vertx.up.atom.config;
+package io.horizon.atom.config;
 
 import io.horizon.eon.em.modeler.MetaSource;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,7 +14,6 @@ import java.util.function.Function;
  * 2) __content__
  */
 public class Metadata implements Serializable {
-    private static final Annal LOGGER = Annal.get(Metadata.class);
 
     private static final String KEY_TYPE = "__type__";
     private static final String KEY_CONTENT = "__content__";
@@ -31,7 +29,7 @@ public class Metadata implements Serializable {
              * Source parsed here.
              */
             final MetaSource source =
-                Ut.toEnum(input.getString(KEY_TYPE), MetaSource.class);
+                HaS.toEnum(input.getString(KEY_TYPE), MetaSource.class);
             final JsonObject content = input.getJsonObject(KEY_CONTENT);
             /*
              * Parser applying
@@ -63,13 +61,12 @@ public class Metadata implements Serializable {
 
     private JsonObject fromFile(final JsonObject content) {
         final String path = content.getString("path");
-        if (Ut.isNil(path)) {
+        if (HaS.isNil(path)) {
             return new JsonObject();
         } else {
             try {
-                return Ut.ioJObject(path);
+                return HaS.ioJObject(path);
             } catch (final Throwable ex) {
-                LOGGER.fatal(ex);
                 return new JsonObject();
             }
         }

@@ -2,12 +2,12 @@ package io.vertx.tp.crud.uca.input;
 
 import io.aeon.experiment.specification.KColumn;
 import io.aeon.experiment.specification.KModule;
+import io.horizon.atom.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
 
@@ -45,7 +45,7 @@ class ApeakMyPre extends ApeakPre {
          */
         final Kv<String, HttpMethod> impactUri = Ix.onImpact(in);
         return Ux.future(data
-            .put(KName.URI, impactUri.getKey())
-            .put(KName.METHOD, impactUri.getValue().name()));
+            .put(KName.URI, impactUri.key())
+            .put(KName.METHOD, impactUri.value().name()));
     }
 }

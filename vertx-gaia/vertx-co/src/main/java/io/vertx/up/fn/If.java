@@ -1,9 +1,9 @@
 package io.vertx.up.fn;
 
+import io.horizon.atom.config.Metadata;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
-import io.vertx.up.atom.config.Metadata;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 

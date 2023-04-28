@@ -1,6 +1,7 @@
 package io.vertx.tp.crud.uca.input;
 
 import io.aeon.experiment.specification.KModule;
+import io.horizon.atom.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +10,6 @@ import io.vertx.tp.error._409ModuleConflictException;
 import io.vertx.tp.error._409MultiModuleException;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -53,11 +53,11 @@ class ExcelPre implements Pre {
         /* Data Processing */
         final KModule module = in.module();
         final String expected = module.getTable();
-        final String actual = content.getKey();
+        final String actual = content.key();
         Fn.out(!expected.equals(actual), _409ModuleConflictException.class, this.getClass(), actual, expected);
 
         /* Tenant Information */
-        return this.client.extractAsync(content.getValue());
+        return this.client.extractAsync(content.value());
     }
 
     private Kv<String, Set<ExTable>> readFile(final File file) {

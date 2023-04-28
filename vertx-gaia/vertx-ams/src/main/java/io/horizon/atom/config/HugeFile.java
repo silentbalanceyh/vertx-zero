@@ -1,8 +1,8 @@
-package io.vertx.up.atom.config;
+package io.horizon.atom.config;
 
 import io.horizon.exception.internal.EmptyIoException;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
+import io.horizon.fn.HFn;
+import io.horizon.util.HaS;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +30,8 @@ public class HugeFile {
     }
 
     public HugeFile(final String fileName, final int byteBufferSize) {
-        Fn.jvmAt(() -> {
-            final File file = Ut.ioFile(fileName);
+        HFn.jvmAt(() -> {
+            final File file = HaS.ioFile(fileName);
             if (Objects.isNull(file)) {
                 throw new EmptyIoException(this.getClass(), fileName);
             } else {
@@ -77,7 +77,7 @@ public class HugeFile {
     }
 
     public void close() {
-        Fn.jvmAt(() -> {
+        HFn.jvmAt(() -> {
             this.fileChannel.close();
             this.inputStream.close();
             for (final MappedByteBuffer byteBuffer : this.mappedByteBuffers) {

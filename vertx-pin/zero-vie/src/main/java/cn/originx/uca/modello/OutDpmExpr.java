@@ -1,12 +1,12 @@
 package cn.originx.uca.modello;
 
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.plugin.OComponent;
 import io.vertx.tp.modular.plugin.OExpression;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -25,20 +25,20 @@ public class OutDpmExpr extends ExAttributeComponent implements OComponent {
      */
     @Override
     public Object after(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
-        final Object translated = this.translateTo(kv.getValue(), combineData);
-        return this.express(Kv.create(kv.getKey(), translated), record, combineData);
+        final Object translated = this.translateTo(kv.value(), combineData);
+        return this.express(Kv.create(kv.key(), translated), record, combineData);
     }
 
 
     public Object express(final Kv<String, Object> kv, final HRecord record, final JsonObject combineData) {
         final List<OExpression> exprChain = new ArrayList<>();
-        final String field = kv.getKey();
+        final String field = kv.key();
         final JsonArray sourceExpressionChain = Ut.valueJArray(combineData.getJsonArray(KName.SOURCE_EXPR_CHAIN));
         sourceExpressionChain.forEach(o -> {
             final String sourceExpr = (String) o;
             exprChain.add(Ut.singleton(sourceExpr));
         });
-        Object expressed = kv.getValue();
+        Object expressed = kv.value();
         for (final OExpression expression : exprChain) {
             expressed = expression.after(Kv.create(field, expressed));
             record.attach(field, expressed);

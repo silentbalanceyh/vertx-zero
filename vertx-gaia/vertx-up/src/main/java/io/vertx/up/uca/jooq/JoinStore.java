@@ -1,9 +1,9 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.atom.Kv;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
@@ -84,7 +84,7 @@ class JoinStore {
          */
         {
             final JqEdge edge = new JqEdge();
-            edge.setFrom(this.first.getKey(), this.first.getValue());
+            edge.setFrom(this.first.key(), this.first.value());
             edge.setTo(toTable, field);
             this.edgeList.add(edge);
         }
@@ -212,12 +212,12 @@ class JoinStore {
     }
 
     Field field(final String field) {
-        final String prefix = this.tablePrefix.get(this.first.getKey());
+        final String prefix = this.tablePrefix.get(this.first.key());
         return this.alias.field(field, prefix);
     }
 
     Field field() {
-        return this.field(this.first.getValue());
+        return this.field(this.first.value());
     }
 
     JqEdge edge(final int index) {
@@ -229,7 +229,7 @@ class JoinStore {
     }
 
     Table<org.jooq.Record> tableRecord() {
-        return this.tableRecord(this.first.getKey());
+        return this.tableRecord(this.first.key());
     }
 
     Table<org.jooq.Record> tableRecord(final int index) {
@@ -252,7 +252,7 @@ class JoinStore {
     JsonObject dataJoin(final JsonObject record) {
         Objects.requireNonNull(record);
         final JsonObject joined = new JsonObject();
-        final String firstField = this.first.getValue();
+        final String firstField = this.first.value();
         final Object value = record.getValue(firstField);
         if (Objects.nonNull(value)) {
             this.edgeList.forEach(edge -> {

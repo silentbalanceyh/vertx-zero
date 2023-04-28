@@ -1,6 +1,4 @@
-package io.vertx.up.atom;
-
-import io.vertx.core.Future;
+package io.horizon.atom;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,16 +26,12 @@ public final class Kv<K, V> {
         return new Kv<>(key, value);
     }
 
-    public K getKey() {
+    public K key() {
         return this.key;
     }
 
-    public V getValue() {
+    public V value() {
         return this.value;
-    }
-
-    public Future<V> value() {
-        return Future.succeededFuture(this.value);
     }
 
     public void set(final K key, final V value) {

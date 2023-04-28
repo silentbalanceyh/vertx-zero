@@ -3,10 +3,7 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.experiment.specification.KPair;
-import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
-import io.horizon.eon.em.cloud.TypeOs;
-import io.horizon.eon.runtime.VEnv;
 import io.horizon.specification.runtime.HService;
 import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
@@ -15,13 +12,11 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
 
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -585,53 +580,6 @@ public final class Ut extends HaS {
         return Epsilon.vValue(item, field, clazz);
     }
 
-
-    /*
-     * `output` operation
-     * 1) ioOut ( JsonObject / JsonArray / String ) writing method
-     * 2) ioOut ( Create folder )
-     * 3) ioOutCompress
-     */
-    @Deprecated
-    public static boolean ioOut(final String file) {
-        return Out.make(file);
-    }
-
-    @Deprecated
-    public static void ioOut(final String file, final String data) {
-        Out.write(file, data);
-    }
-
-    @Deprecated
-    public static void ioOut(final String file, final JsonObject data) {
-        Out.write(file, data);
-    }
-
-    @Deprecated
-    public static void ioOut(final String file, final JsonArray data) {
-        Out.write(file, data);
-    }
-
-    @Deprecated
-    public static void ioOutCompress(final String file, final String data) {
-        Out.writeCompress(file, data);
-    }
-
-    @Deprecated
-    public static void ioOutCompress(final String file, final JsonArray data) {
-        Out.writeCompress(file, data);
-    }
-
-    @Deprecated
-    public static void ioOutCompress(final String file, final JsonObject data) {
-        Out.writeCompress(file, data);
-    }
-
-    @Deprecated
-    public static void ioOut(final String file, final OutputStream output) {
-        Out.writeBig(file, output);
-    }
-
     /*
      * Serialization method operation method here.
      * 1) serialize / serializeJson
@@ -743,14 +691,6 @@ public final class Ut extends HaS {
         return Numeric.isRange(value, min, max);
     }
 
-    public static boolean isArrayString(final JsonArray array) {
-        return Types.isArrayString(array);
-    }
-
-    public static boolean isArrayJson(final JsonArray array) {
-        return Types.isArrayJson(array);
-    }
-
     public static boolean isIn(final JsonObject input, final String... fields) {
         return Types.isIn(input, fields);
     }
@@ -775,20 +715,20 @@ public final class Ut extends HaS {
         return isSame(left, right, new HashSet<>());
     }
 
-    public static boolean isSameStrict(final JsonArray left, final JsonArray right, final Set<String> fields) {
+    public static boolean isSameBy(final JsonArray left, final JsonArray right, final Set<String> fields) {
         return ArrayJ.isSame(left, right, fields, true);
     }
 
-    public static boolean isSameStrict(final JsonArray left, final JsonArray right) {
-        return isSameStrict(left, right, new HashSet<>());
+    public static boolean isSameBy(final JsonArray left, final JsonArray right) {
+        return isSameBy(left, right, new HashSet<>());
     }
 
-    public static boolean isDiffStrict(final JsonArray left, final JsonArray right, final Set<String> fields) {
+    public static boolean isDiffBy(final JsonArray left, final JsonArray right, final Set<String> fields) {
         return !ArrayJ.isSame(left, right, fields, true);
     }
 
-    public static boolean isDiffStrict(final JsonArray left, final JsonArray right) {
-        return isDiffStrict(left, right, new HashSet<>());
+    public static boolean isDiffBy(final JsonArray left, final JsonArray right) {
+        return isDiffBy(left, right, new HashSet<>());
     }
 
     /*
@@ -877,9 +817,6 @@ public final class Ut extends HaS {
      * 11) toMap
      * 12) toMatched
      */
-    public static Set<String> toSet(final String input, final String separator) {
-        return StringUtil.split(input, separator);
-    }
 
     public static Set<String> toMatched(final String input, final String regex) {
         return StringUtil.matched(input, regex);
@@ -908,14 +845,6 @@ public final class Ut extends HaS {
 
     public static HttpMethod toMethod(final String value) {
         return To.toMethod(() -> value, HttpMethod.GET);
-    }
-
-    public static String toString(final Object reference) {
-        return To.toString(reference);
-    }
-
-    public static Collection toCollection(final Object value) {
-        return To.toCollection(value);
     }
 
     public static <V> ConcurrentMap<String, V> toConcurrentMap(final JsonObject data) {
@@ -1004,46 +933,6 @@ public final class Ut extends HaS {
 
     public static String fromJObject(final JsonObject value) {
         return StringUtil.from(value);
-    }
-
-    public static String fromJoin(final Set<String> input) {
-        return StringUtil.join(input, null);
-    }
-
-    public static String fromJoin(final List<String> input, final String separator) {
-        return StringUtil.join(input, separator);
-    }
-
-    public static String fromJoin(final List<String> input) {
-        return StringUtil.join(input, null);
-    }
-
-    public static String fromJoin(final Set<String> input, final String separator) {
-        return StringUtil.join(input, separator);
-    }
-
-    public static String fromJoin(final Object[] input) {
-        return fromJoin(input, ",");
-    }
-
-    public static String fromJoin(final Object[] input, final String separator) {
-        return StringUtil.join(input, separator);
-    }
-
-    public static <T> T fromExpressionT(final String expr, final JsonObject params) {
-        return StringUtil.expressionT(expr, params);
-    }
-
-    public static String fromExpression(final String expr, final JsonObject params) {
-        return (String) StringUtil.expressionWith(expr, params);
-    }
-
-    public static JsonObject fromExpression(final JsonObject exprObject, final JsonObject params) {
-        return StringUtil.expression(exprObject, params);
-    }
-
-    public static JsonArray fromExpression(final JsonArray exprArray, final JsonObject params) {
-        return StringUtil.expression(exprArray, params);
     }
 
     public static JsonObject fromPrefix(final JsonObject data, final String prefix) {
@@ -1147,40 +1036,5 @@ public final class Ut extends HaS {
 
     public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
         return Epsilon.vFrom(input, mapping, true, itFn);
-    }
-    // --------------------- 环境相关方法 ----------------------
-
-    /**
-     * 判断当前操作系统类型
-     *
-     * @return {@link TypeOs}
-     */
-    public static TypeOs envOs() {
-        // os.name
-        return TypeOs.from(System.getProperty(VEnv.PROP.OS_NAME));
-    }
-
-    public static String env(final String name) {
-        return Env.readEnv(name, VString.EMPTY);
-    }
-
-    public static <T> T env(final String name, final Class<T> clazz) {
-        return Env.readEnv(name, clazz);
-    }
-
-    public static String envWith(final String name, final String defaultValue) {
-        return Env.readEnv(name, defaultValue);
-    }
-
-    public static <T> T envWith(final String name, final T defaultValue, final Class<T> clazz) {
-        return Env.readEnv(name, defaultValue, clazz);
-    }
-
-    public static ConcurrentMap<String, String> envOut(final Properties properties) {
-        return Env.writeEnv(properties);
-    }
-
-    public static Kv<String, String> envOut(final String name, final String value) {
-        return Env.writeEnv(name, value);
     }
 }

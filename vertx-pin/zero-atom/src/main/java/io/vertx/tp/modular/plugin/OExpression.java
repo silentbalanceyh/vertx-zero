@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.plugin;
 
-import io.vertx.up.atom.Kv;
+import io.horizon.atom.Kv;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

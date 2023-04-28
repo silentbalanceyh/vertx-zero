@@ -270,4 +270,17 @@ class _Value extends _To {
                                    final Class<?> interfaceCls, final Class<?> defaultClass) {
         return TValue.vClass(json, field, interfaceCls, defaultClass);
     }
+
+    /**
+     * （带非空检查）将 String 属性值，并转换成 Class<?>，且该 Class<?>
+     *
+     * @param literal 字符串
+     * @param type    类型
+     * @param <T>     T
+     *
+     * @return Class<?>
+     */
+    public static <T> T valueT(final String literal, final Class<?> type) {
+        return TValue.vT(literal, type);
+    }
 }

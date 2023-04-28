@@ -85,10 +85,6 @@
         </dependency>
         <!-- Expression -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-jexl3</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>${jetbrains.version}</version>
@@ -132,10 +128,6 @@
         <dependency>
             <groupId>com.google.j2objc</groupId>
             <artifactId>j2objc-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>

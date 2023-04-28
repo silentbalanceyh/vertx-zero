@@ -1,9 +1,9 @@
 package io.vertx.up.unity;
 
+import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.log.Annal;
@@ -123,8 +123,8 @@ final class Query {
                 // L AND R
                 final JsonObject result = new JsonObject();
                 result.put(VString.EMPTY, Boolean.TRUE);
-                result.put(kv.getKey(), originalJ);
-                result.put(kv.getValue(), criteriaJ);
+                result.put(kv.key(), originalJ);
+                result.put(kv.value(), criteriaJ);
                 return result;
             }
         }

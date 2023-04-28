@@ -73,45 +73,9 @@ final class To {
         }
     }
 
-    static String toString(final Object reference) {
-        return Fn.runOr("null", () -> {
-            final String literal;
-            if (HaS.isJObject(reference)) {
-                // Fix issue for serialization
-                literal = ((JsonObject) reference).encode();
-            } else if (HaS.isJArray(reference)) {
-                // Fix issue for serialization
-                literal = ((JsonArray) reference).encode();
-            } else {
-                literal = reference.toString();
-            }
-            return literal;
-        }, reference);
-    }
-
     static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
         final JsonObject parsed = HaS.toJObject(literal);
         return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
-    }
-
-    static Collection<?> toCollection(final Object value) {
-        return Fn.runOr(() -> {
-            // Collection
-            if (value instanceof Collection) {
-                return ((Collection<?>) value);
-            }
-            // JsonArray
-            if (HaS.isJArray(value)) {
-                return ((JsonArray) value).getList();
-            }
-            // Object[]
-            if (Types.isArray(value)) {
-                // Array
-                final Object[] values = (Object[]) value;
-                return Arrays.asList(values);
-            }
-            return null;
-        }, value);
     }
 
     static JsonObject toJObject(final MultiMap multiMap) {

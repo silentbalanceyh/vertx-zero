@@ -1,13 +1,13 @@
 package io.vertx.tp.modular.reference;
 
 import io.aeon.experiment.reference.RResult;
+import io.horizon.atom.Kv;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HRecord;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.commune.element.JAmb;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -164,11 +164,11 @@ class RayResult {
     }
 
     private static String keyReference(final JsonObject item, final List<Kv<String, String>> joined) {
-        return keyJoin(item::getValue, Kv::getKey, joined);
+        return keyJoin(item::getValue, Kv::key, joined);
     }
 
     private static String keyRecord(final HRecord record, final List<Kv<String, String>> joined) {
-        return keyJoin(record::get, Kv::getValue, joined);
+        return keyJoin(record::get, Kv::value, joined);
     }
 
     private static String keyJoin(final Function<String, Object> function,

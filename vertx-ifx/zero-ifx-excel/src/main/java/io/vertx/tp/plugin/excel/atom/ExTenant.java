@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.excel.atom;
 
+import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.unity.UTenant;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -93,7 +93,7 @@ public class ExTenant implements Serializable {
             final ConcurrentMap<String, JsonObject> dataResult = new ConcurrentHashMap<>();
             if (Objects.nonNull(result)) {
                 result.stream().filter(Objects::nonNull)
-                    .forEach(kv -> dataResult.put(kv.getKey(), kv.getValue()));
+                    .forEach(kv -> dataResult.put(kv.key(), kv.value()));
             }
             return Ux.future(dataResult);
         });

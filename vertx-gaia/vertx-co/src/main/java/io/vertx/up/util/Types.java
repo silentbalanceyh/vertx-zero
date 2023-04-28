@@ -1,7 +1,6 @@
 package io.vertx.up.util;
 
 import io.horizon.util.HaS;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.log.Annal;
 
@@ -30,22 +29,6 @@ final class Types {
              */
             final Object value = record.getValue(field);
             return HaS.isSame(value, expected);
-        }
-    }
-
-    static boolean isArrayString(final JsonArray array) {
-        if (Objects.isNull(array)) {
-            return false;
-        } else {
-            return array.stream().allMatch(item -> item instanceof String);
-        }
-    }
-
-    static boolean isArrayJson(final JsonArray array) {
-        if (Objects.isNull(array)) {
-            return false;
-        } else {
-            return array.stream().allMatch(item -> item instanceof JsonObject);
         }
     }
 

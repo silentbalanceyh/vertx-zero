@@ -6,13 +6,14 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * @author lang : 2023/4/27
  */
-class _Is extends _IoIn {
+class _Is extends _Io {
     protected _Is() {
     }
 
@@ -218,6 +219,28 @@ class _Is extends _IoIn {
      */
     public static boolean isPrimary(final Class<?> clazz) {
         return VEnv.SPEC.TYPES.containsValue(clazz);
+    }
+
+    /**
+     * 检查传入类型是否集合类型（默认不包含 [] 数组）
+     *
+     * @param value 对象
+     *
+     * @return 是否集合类型
+     */
+    public static boolean isCollection(final Object value) {
+        return value instanceof Collection<?>;
+    }
+
+    /**
+     * 检查传入类型是否数组类型
+     *
+     * @param value 对象
+     *
+     * @return 是否数组类型
+     */
+    public static boolean isArray(final Object value) {
+        return TType.isArray(value);
     }
 
     /**

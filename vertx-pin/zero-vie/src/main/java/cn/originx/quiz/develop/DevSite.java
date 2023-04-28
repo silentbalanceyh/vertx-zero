@@ -2,9 +2,9 @@ package cn.originx.quiz.develop;
 
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import cn.vertxup.ambient.domain.tables.pojos.XMenu;
+import io.horizon.atom.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -103,7 +103,7 @@ public class DevSite {
                zero.desktop.my.task:
                zero.desktop.my.report:
          */
-        final Integer defaultLevel = Objects.isNull(parent) ? 1 : parent.getValue() + 1;
+        final Integer defaultLevel = Objects.isNull(parent) ? 1 : parent.value() + 1;
         final Integer defaultOrder = SEQ_STORE.get(defaultLevel);
         final Integer defaultStep = SEQ_STEP.get(defaultLevel);
 
@@ -116,7 +116,7 @@ public class DevSite {
             // 解析当前节点
             final JsonObject menuJ = planParse(field, step);
             if (Objects.nonNull(parent)) {
-                final String parentKey = mapped.get(parent.getKey());
+                final String parentKey = mapped.get(parent.key());
                 menuJ.put(KName.PARENT_ID, parentKey);
             }
             menuJ.put(KName.LEVEL, defaultLevel);

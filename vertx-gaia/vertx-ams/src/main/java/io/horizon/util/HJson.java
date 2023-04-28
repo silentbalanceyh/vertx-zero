@@ -17,8 +17,12 @@ class HJson {
     }
 
     static boolean isJArray(final Object value) {
-        return Objects.nonNull(value)
-            && isJArray(value.toString());
+        // 只有 JsonArray 会去掉集合类型
+        if (TType.isArray(value) || value instanceof Collection<?>) {
+            return false;
+        }
+        return (value instanceof JsonArray)
+            || (Objects.nonNull(value) && isJArray(value.toString()));
     }
 
     static boolean isJArray(final String literal) {
@@ -35,8 +39,15 @@ class HJson {
     }
 
     static boolean isJObject(final Object value) {
-        return Objects.nonNull(value)
-            && isJObject(value.toString());
+        if (Objects.isNull(value)) {
+            return false;
+        }
+        // 去掉 Map 类型
+        if (LinkedHashMap.class.isAssignableFrom(value.getClass())) {
+            return false;
+        }
+        return (value instanceof JsonObject)
+            || isJObject(value.toString());
     }
 
     static boolean isJObject(final String literal) {

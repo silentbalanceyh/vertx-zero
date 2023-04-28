@@ -1,7 +1,7 @@
 package cn.originx.uca.modello;
 
+import io.horizon.atom.Kv;
 import io.vertx.tp.modular.plugin.OExpression;
-import io.vertx.up.atom.Kv;
 
 import java.util.Objects;
 
@@ -11,10 +11,10 @@ import java.util.Objects;
 public class ExprUUID implements OExpression {
     @Override
     public Object after(final Kv<String, Object> kv) {
-        if (Objects.isNull(kv.getValue())) {
+        if (Objects.isNull(kv.value())) {
             return null;
         } else {
-            return kv.getValue().toString().replaceAll("-", "");
+            return kv.value().toString().replaceAll("-", "");
         }
     }
 }

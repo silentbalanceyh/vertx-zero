@@ -3,11 +3,11 @@ package io.vertx.tp.workflow.uca.conformity;
 import cn.vertxup.workflow.cv.em.PassWay;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.horizon.atom.Kv;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -73,7 +73,7 @@ public interface Gear {
             return gear;
         }
         final Kv<String, Supplier<Gear>> kv = Gateway.SUPPLIERS.get(type);
-        gear = CC_GEAR.pick(kv.getValue(), kv.getKey());
+        gear = CC_GEAR.pick(kv.value(), kv.key());
         LOG.Move.info(Gear.class,
             "( Gear ) Component Initialized: {0}, Mode = {1}", gear.getClass(), type);
         return gear;

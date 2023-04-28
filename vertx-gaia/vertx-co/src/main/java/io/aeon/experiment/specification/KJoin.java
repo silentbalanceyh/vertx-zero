@@ -104,15 +104,11 @@ public class KJoin implements Serializable {
     }
 
     public KPoint point(final JsonArray data) {
-        if (Ut.isArrayJson(data)) {
-            final Set<String> idSet = new HashSet<>();
-            Ut.itJArray(data).map(this::identifier).filter(Objects::nonNull).forEach(idSet::add);
-            Fn.out(1 != idSet.size(), _412IndentUnknownException.class, this.getClass(), this.targetIndent);
-            final String identifier = idSet.iterator().next();
-            return this.point(identifier);
-        } else {
-            return null;  // Keys: [] ignored
-        }
+        final Set<String> idSet = new HashSet<>();
+        Ut.itJArray(data).map(this::identifier).filter(Objects::nonNull).forEach(idSet::add);
+        Fn.out(1 != idSet.size(), _412IndentUnknownException.class, this.getClass(), this.targetIndent);
+        final String identifier = idSet.iterator().next();
+        return this.point(identifier);
     }
 
     /**

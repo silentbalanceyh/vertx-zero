@@ -1,11 +1,11 @@
 package io.aeon.experiment.reference;
 
+import io.horizon.atom.Kv;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRule;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 

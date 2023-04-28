@@ -2,12 +2,12 @@ package io.vertx.tp.modular.reference;
 
 import io.aeon.experiment.reference.RDao;
 import io.aeon.experiment.reference.RQuote;
+import io.horizon.atom.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.specification.modeler.HRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.cache.Rapid;
@@ -67,8 +67,8 @@ class RaySource {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<Integer, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
-                final JsonObject condition = kv.getKey();
-                final RDao dao = kv.getValue();
+                final JsonObject condition = kv.key();
+                final RDao dao = kv.value();
                 futureMap.put(hashCode,
                     Rapid.<String, JsonArray>t(RapidKey.REFERENCE, KWeb.ARGS.V_DATA_EXPIRED)
                         .cached(String.valueOf(hashCode), () -> {
@@ -94,8 +94,8 @@ class RaySource {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
-                final JsonObject condition = kv.getKey();
-                final RDao dao = kv.getValue();
+                final JsonObject condition = kv.key();
+                final RDao dao = kv.value();
                 final JsonArray queried = dao.fetchBy(condition);
                 /* 反向运算 */
                 LOG.Uca.info(this.getClass(), "Batch condition building: {0}, size = {1}",

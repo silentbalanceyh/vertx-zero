@@ -1,6 +1,7 @@
 package io.vertx.up.unity;
 
 import io.aeon.experiment.rule.RuleTerm;
+import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
@@ -17,7 +18,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.query.Pagination;
 import io.vertx.up.atom.record.Apt;
@@ -824,7 +824,7 @@ public final class Ux {
     // ---------------------- Qr Modification --------------------------
     public static JsonObject irAndQH(final JsonObject qr, final Kv<String, Object> kv) {
         Objects.requireNonNull(kv);
-        return Query.irQH(qr, kv.getKey(), kv.getValue());
+        return Query.irQH(qr, kv.key(), kv.value());
     }
 
     public static JsonObject irAndQH(final JsonObject qr, final String field, final Object value) {
@@ -845,7 +845,7 @@ public final class Ux {
 
     public static JsonObject irAndH(final JsonObject original, final Kv<String, Object> kv) {
         Objects.requireNonNull(kv);
-        return Query.irH(original, kv.getKey(), kv.getValue());
+        return Query.irH(original, kv.key(), kv.value());
     }
 
     // Qr Combine ( projection + projection )

@@ -3,7 +3,6 @@ package io.vertx.up.uca.cache;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.log.Annal;
@@ -43,12 +42,11 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
     @Override
     public Future<T> write(final K key, final T value) {
         if (0 < this.expired) {
-            return this.pool.put(key, value, this.expired).compose(kv -> {
-
-                return kv.value();
-            });
+            return this.pool.put(key, value, this.expired)
+                .compose(kv -> Ux.future(kv.value()));
         } else {
-            return this.pool.put(key, value).compose(Kv::value);
+            return this.pool.put(key, value)
+                .compose(kv -> Ux.future(kv.value()));
         }
     }
 
@@ -68,7 +66,8 @@ public class AbstractRapid<K, T> implements Rapid<K, T> {
 
     @Override
     public Future<T> clear(final K key) {
-        return this.pool.<K, T>remove(key).compose(Kv::value);
+        return this.pool.<K, T>remove(key)
+            .compose(kv -> Ux.future(kv.value()));
     }
 
     @Override

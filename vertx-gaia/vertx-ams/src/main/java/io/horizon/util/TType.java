@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonObject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.temporal.Temporal;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -78,15 +77,10 @@ final class TType {
         return JsonArray.class.isAssignableFrom(clazz);
     }
 
-    static boolean isImplement(final Class<?> implCls, final Class<?> interfaceCls) {
-        final Class<?>[] interfaces = implCls.getInterfaces();
-        boolean match = Arrays.asList(interfaces).contains(interfaceCls);
-        if (!match) {
-            /* continue to check parent */
-            if (Objects.nonNull(implCls.getSuperclass())) {
-                match = isImplement(implCls.getSuperclass(), interfaceCls);
-            }
+    static boolean isArray(final Object value) {
+        if (null == value) {
+            return false;
         }
-        return match;
+        return value.getClass().isArray();
     }
 }

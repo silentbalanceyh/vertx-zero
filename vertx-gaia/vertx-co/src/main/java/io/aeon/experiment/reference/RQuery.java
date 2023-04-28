@@ -1,9 +1,9 @@
 package io.aeon.experiment.reference;
 
+import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.util.Ut;
 
@@ -62,8 +62,8 @@ public class RQuery implements Serializable {
     public ConcurrentMap<String, JsonArray> fetchQuery(final JsonArray data) {
         final ConcurrentMap<String, JsonArray> query = new ConcurrentHashMap<>();
         this.joined.forEach(kv -> {
-            final String name = kv.getValue();
-            final String extract = kv.getKey();
+            final String name = kv.value();
+            final String extract = kv.key();
 
             final JsonArray compress = Ut.toJArray(Ut.valueSetString(data, extract));
             query.put(name, compress);

@@ -8,13 +8,14 @@ import io.vertx.core.json.JsonObject;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
 /**
  * @author lang : 2023/4/28
  */
-class _IoIn extends _From {
+class _Io extends _From {
     /**
      * 文件夹和文件拼接，去掉多余字符的版本，如多个 // 或 \\
      *
@@ -360,5 +361,86 @@ class _IoIn extends _From {
      */
     public static String ioCompress(final String filename) {
         return Io.ioCompress(filename);
+    }
+
+    /**
+     * 创建目录
+     *
+     * @param file 目录路径
+     *
+     * @return 是否创建成功
+     */
+    public static boolean ioOut(final String file) {
+        return IoOut.make(file);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 String
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOut(final String file, final String data) {
+        IoOut.write(file, data);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 JsonObject
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOut(final String file, final JsonObject data) {
+        IoOut.write(file, data);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 JsonArray
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOut(final String file, final JsonArray data) {
+        IoOut.write(file, data);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 String
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOutCompress(final String file, final String data) {
+        IoOut.writeCompress(file, data);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 JsonObject
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOutCompress(final String file, final JsonArray data) {
+        IoOut.writeCompress(file, data);
+    }
+
+    /**
+     * 将数据写入到文件 file 中，数据类型为 JsonArray
+     *
+     * @param file 文件路径
+     * @param data 数据
+     */
+    public static void ioOutCompress(final String file, final JsonObject data) {
+        IoOut.writeCompress(file, data);
+    }
+
+    /**
+     * 将数据文件中的数据写入到输出流，拷贝时专用
+     *
+     * @param file   文件路径
+     * @param output 输出流
+     */
+    public static void ioOut(final String file, final OutputStream output) {
+        IoOut.writeBig(file, output);
     }
 }

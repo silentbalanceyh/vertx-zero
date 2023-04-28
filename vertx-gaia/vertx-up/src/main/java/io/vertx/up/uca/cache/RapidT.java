@@ -1,7 +1,6 @@
 package io.vertx.up.uca.cache;
 
 import io.vertx.core.Future;
-import io.vertx.up.atom.Kv;
 import io.vertx.up.unity.Ux;
 
 import java.util.Objects;
@@ -28,7 +27,7 @@ class RapidT<T> extends AbstractRapid<String, T> {
                         this.pool.put(key, actual, this.expired) :
                         this.pool.put(key, actual)
                     )
-                    .compose(Kv::value);
+                    .compose(kv -> Ux.future(kv.value()));
             } else {
                 this.logger().info("[ Cache ] \u001b[0;37mK = `{1}`, P = `{0}`\u001b[m", this.pool.name(), key);
                 return Ux.future(queried);
