@@ -27,7 +27,7 @@ class RunEngine implements RunOn {
         final TaskService service = WfPin.camundaTask();
         final Task task = transition.from();
         Objects.requireNonNull(task);
-        service.complete(task.getId(), Ut.toMapExpr(params));
+        service.complete(task.getId(), Ut.toMap(params));
         final ProcessInstance instance = transition.instance();
         LOG.Move.info(this.getClass(), "[ Move ] Ended = {0}, `instance = {1}` moving with params = {2} !!!",
             instance.isEnded(), instance.getId(), params.encode());
@@ -39,7 +39,7 @@ class RunEngine implements RunOn {
         final ProcessDefinition definition = transition.definition();
         final RuntimeService service = WfPin.camundaRuntime();
         final ProcessInstantiationBuilder builder = service.createProcessInstanceByKey(definition.getKey());
-        builder.setVariables(Ut.toMapExpr(params));
+        builder.setVariables(Ut.toMap(params));
         final ProcessInstance instance = builder.execute();
         LOG.Move.info(this.getClass(), "[ Start ] `instance = {0}` has been started with params = {1}!!!",
             instance.getId(), params.encode());

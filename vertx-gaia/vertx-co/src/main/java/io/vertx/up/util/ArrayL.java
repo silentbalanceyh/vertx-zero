@@ -150,7 +150,7 @@ final class ArrayL {
     static ConcurrentMap<String, Integer> count(final JsonArray array, final Set<String> fields) {
         final ConcurrentMap<String, Integer> counter = new ConcurrentHashMap<>();
         fields.forEach(field -> {
-            final Set<String> set = Epsilon.vStringSet(array, field);
+            final Set<String> set = HaS.valueSetString(array, field);
             counter.put(field, set.size());
         });
         return counter;

@@ -3,7 +3,7 @@ package io.horizon.util;
 /**
  * @author lang : 2023/4/28
  */
-class _Element extends _Color {
+class _Element extends _EDS {
     /**
      * 针对数组执行拷贝，支持泛型数组的拷贝动作
      *

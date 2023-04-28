@@ -37,7 +37,7 @@ class InletData extends AbstractInlet {
             this.console("[ Script ] ( Data O-N ) The variable `{0}` has been empty", zo);
         } else {
             final JsonObject valueO = Ut.aiDataO(data);
-            context.set(zo, Ut.toMapExpr(valueO));
+            context.set(zo, Ut.toMap(valueO));
             this.console("[ Script ] ( Data OLD ) The variable `{0}` has been bind: {1}", zo, valueO.encode());
         }
 
@@ -47,7 +47,7 @@ class InletData extends AbstractInlet {
             this.console("[ Script ] ( Data N-N ) The variable `{0}` has been empty", zn);
         } else {
             final JsonObject valueN = Ut.aiDataN(data);
-            context.set(zn, Ut.toMapExpr(valueN));
+            context.set(zn, Ut.toMap(valueN));
             this.console("[ Script ] ( Data NEW ) The variable `{0}` has been bind: {1}", zn, valueN.encode());
         }
     }

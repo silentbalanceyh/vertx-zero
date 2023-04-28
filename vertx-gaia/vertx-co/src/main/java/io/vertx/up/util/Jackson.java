@@ -422,4 +422,28 @@ final class Jackson {
             return copy;
         }
     }
+
+    static String encodeJ(final Object value) {
+        if (value instanceof JsonObject) {
+            return ((JsonObject) value).encode();
+        }
+        if (value instanceof JsonArray) {
+            return ((JsonArray) value).encode();
+        }
+        return Objects.isNull(value) ? VString.EMPTY : value.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> T decodeJ(final String literal) {
+        if (HaS.isNil(literal)) {
+            return null;
+        }
+        final String trimInput = literal.trim();
+        if (trimInput.startsWith(VString.LEFT_BRACE)) {
+            return (T) HaS.toJObject(literal);
+        } else if (trimInput.startsWith(VString.LEFT_SQUARE)) {
+            return (T) HaS.toJArray(literal);
+        }
+        return null;
+    }
 }

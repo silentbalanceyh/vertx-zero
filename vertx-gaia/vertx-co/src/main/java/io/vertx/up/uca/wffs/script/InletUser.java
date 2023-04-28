@@ -30,7 +30,7 @@ class InletUser extends AbstractInlet {
 
         final JsonObject loData = Ut.valueJObject(userN, KName.UPDATED_BY);
         final String lo = this.variable("lo");
-        context.set(lo, Ut.toMapExpr(loData));
+        context.set(lo, Ut.toMap(loData));
         this.console("[ Script ] ( User Now ) The variable `{0}` has been bind: {1}",
             lo, loData.encode());
     }
@@ -51,7 +51,7 @@ class InletUser extends AbstractInlet {
             final String childKey = name + VString.DOT + field;
             final JsonObject childJ = Ut.valueJObject(user, field);
 
-            context.set(childKey, Ut.toMapExpr(childJ));
+            context.set(childKey, Ut.toMap(childJ));
         });
     }
 

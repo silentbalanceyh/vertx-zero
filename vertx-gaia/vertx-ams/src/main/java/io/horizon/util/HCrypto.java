@@ -1,32 +1,20 @@
-package io.vertx.up.util;
+package io.horizon.util;
 
-import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.util.HaS;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
+import io.horizon.fn.HFn;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
-import java.util.Objects;
 
-final class Codec {
-    private Codec() {
+final class HCrypto {
+    private HCrypto() {
     }
 
-    /**
-     * MD5 encript for input string.
-     *
-     * @param input input string that will be encoded
-     *
-     * @return The encoded string with MD5
-     */
     static String md5(final String input) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final MessageDigest digest = MessageDigest.getInstance("MD5");
             final byte[] source = input.getBytes(io.horizon.eon.VValue.DFT.CHARSET);
             digest.update(source);
@@ -42,13 +30,6 @@ final class Codec {
         }, input);
     }
 
-    /**
-     * SHA-256
-     *
-     * @param input input string that will be encoded
-     *
-     * @return The encoded string with sha256
-     */
     static String sha256(final String input) {
         return sha(input, "SHA-256");
     }
@@ -66,7 +47,7 @@ final class Codec {
 
     @SuppressWarnings("all")
     private static String sha(final String strText, final String strType) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final MessageDigest messageDigest = MessageDigest.getInstance(strType);
             messageDigest.update(strText.getBytes());
             final byte[] byteBuffer = messageDigest.digest();
@@ -82,11 +63,8 @@ final class Codec {
         }, strText, strType);
     }
 
-    /**
-     * Base-64
-     */
     static String base64(final String input, final boolean encript) {
-        return Fn.runOr(() -> {
+        return HFn.runOr(() -> {
             if (encript) {
                 return Base64.getEncoder().encodeToString(input.getBytes());
             } else {
@@ -96,36 +74,12 @@ final class Codec {
     }
 
     static String url(final String input, final boolean encript) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             if (encript) {
                 return URLEncoder.encode(input, StandardCharsets.UTF_8);
             } else {
                 return URLDecoder.decode(input, StandardCharsets.UTF_8);
             }
         }, input);
-    }
-
-    static String encodeJ(final Object value) {
-        if (value instanceof JsonObject) {
-            return ((JsonObject) value).encode();
-        }
-        if (value instanceof JsonArray) {
-            return ((JsonArray) value).encode();
-        }
-        return Objects.isNull(value) ? VString.EMPTY : value.toString();
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> T decodeJ(final String literal) {
-        if (HaS.isNil(literal)) {
-            return null;
-        }
-        final String trimInput = literal.trim();
-        if (trimInput.startsWith(VString.LEFT_BRACE)) {
-            return (T) HaS.toJObject(literal);
-        } else if (trimInput.startsWith(VString.LEFT_SQUARE)) {
-            return (T) HaS.toJArray(literal);
-        }
-        return null;
     }
 }

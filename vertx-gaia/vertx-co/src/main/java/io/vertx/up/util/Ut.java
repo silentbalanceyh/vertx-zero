@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.aeon.experiment.specification.KPair;
 import io.horizon.eon.VString;
-import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.cloud.TypeOs;
 import io.horizon.eon.runtime.VEnv;
@@ -335,52 +334,19 @@ public final class Ut extends HaS {
      * 6.1) encryptRSAP / decryptRSAV ( Mode 1 )
      * 6.2) encryptRSAV / decryptRSAP ( Mode 2 )
      */
-    public static String encryptMD5(final String input) {
-        return Codec.md5(input);
-    }
-
-    public static String encryptSHA256(final String input) {
-        return Codec.sha256(input);
-    }
-
-    public static String encryptSHA512(final String input) {
-        return Codec.sha512(input);
-    }
-
-    public static String encryptBase64(final String input) {
-        return Codec.base64(input, true);
-    }
 
     public static String encryptBase64(final String username, final String password) {
         final String input = username + ":" + password;
-        return Codec.base64(input, true);
-    }
-
-    public static String decryptBase64(final String input) {
-        return Codec.base64(input, false);
-    }
-
-    public static String encryptUrl(final String input) {
-        return Codec.url(input, true);
-    }
-
-    public static String encryptUrl(final JsonObject input) {
-        final JsonObject sure = Jackson.sureJObject(input);
-        return Codec.url(input.encode(), true);
-    }
-
-    public static String decryptUrl(final String input) {
-        return Codec.url(input, false);
+        return HaS.encryptBase64(input);
     }
 
     public static String encryptJ(final Object value) {
-        return Codec.encodeJ(value);
+        return Jackson.encodeJ(value);
     }
 
     public static <T> T decryptJ(final String literal) {
-        return Codec.decodeJ(literal);
+        return Jackson.decodeJ(literal);
     }
-
 
     // This is usage in case1 for integration, that's why keep here
     //    public static String encryptRSAPIo(final String input, final String keyPath) {
@@ -952,11 +918,11 @@ public final class Ut extends HaS {
         return To.toCollection(value);
     }
 
-    public static <V> ConcurrentMap<String, V> toMap(final JsonObject data) {
+    public static <V> ConcurrentMap<String, V> toConcurrentMap(final JsonObject data) {
         return To.toMap(data);
     }
 
-    public static Map<String, Object> toMapExpr(final JsonObject data) {
+    public static Map<String, Object> toMap(final JsonObject data) {
         return To.toMapExpr(data);
     }
 
@@ -1123,17 +1089,6 @@ public final class Ut extends HaS {
      *
      * - valueTime(LocalTime, LocalDateTime)
      */
-    public static Set<String> valueSetString(final JsonArray array, final String field) {
-        return Epsilon.vStringSet(array, field);
-    }
-
-    public static <T> Set<String> valueSetString(final List<T> list, final Function<T, String> executor) {
-        return Epsilon.vStringSet(list, executor);
-    }
-
-    public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
-        return Epsilon.vArraySet(array, field);
-    }
 
     // Qr Field Processing
     public static String valueQrIn(final String field) {
@@ -1141,48 +1096,6 @@ public final class Ut extends HaS {
     }
 
     // Single Processing
-    public static String valueString(final JsonArray array, final String field) {
-        return Epsilon.vString(array, field);
-    }
-
-    public static String valueString(final JsonObject json, final String field) {
-        return Epsilon.vString(json, field, null);
-    }
-
-    public static Integer valueInt(final JsonObject json, final String field) {
-        return Epsilon.vInt(json, field, VValue.RANGE);
-    }
-
-    public static String valueString(final JsonObject json, final String field, final String defaultValue) {
-        return Epsilon.vString(json, field, defaultValue);
-    }
-
-    public static Class<?> valueC(final JsonObject json, final String field) {
-        return Epsilon.vClass(json, field, null);
-    }
-
-    public static Class<?> valueC(final JsonObject json, final String field,
-                                  final Class<?> defaultClass) {
-        return Epsilon.vClass(json, field, defaultClass);
-    }
-
-    public static Class<?> valueCI(final JsonObject json, final String field,
-                                   final Class<?> interfaceCls) {
-        return Epsilon.vClass(json, field, interfaceCls, null);
-    }
-
-    public static Class<?> valueCI(final JsonObject json, final String field,
-                                   final Class<?> interfaceCls, final Class<?> defaultClass) {
-        return Epsilon.vClass(json, field, interfaceCls, defaultClass);
-    }
-
-    public static <T> String valueString(final List<T> list, final Function<T, String> stringFn) {
-        return list.stream().map(stringFn).findFirst().orElse(null);
-    }
-
-    public static JsonArray valueJArray(final JsonArray array, final String field) {
-        return HaS.toJArray(valueSetString(array, field));
-    }
 
     // mapping + replace/append
     /*

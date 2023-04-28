@@ -1,19 +1,13 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VString;
-import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.eon.KName;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /*
  * Mapping data to List / JsonArray here
@@ -22,98 +16,8 @@ import java.util.stream.Collectors;
  */
 class Epsilon {
 
-    static <T> Set<String> vStringSet(final Collection<T> list, final Function<T, String> supplier) {
-        return list.stream()
-            .filter(Objects::nonNull)
-            .map(supplier)
-            .filter(Ut::isNotNil)
-            .collect(Collectors.toSet());
-    }
-
-    static Set<String> vStringSet(final JsonArray array, final String field) {
-        Set<String> set = new HashSet<>();
-        if (Objects.nonNull(array)) {
-            set = array.stream()
-                .filter(item -> item instanceof JsonObject)
-                .map(item -> (JsonObject) item)
-                .filter(item -> item.getValue(field) instanceof String)
-                .map(item -> item.getString(field))
-                .filter(Ut::isNotNil)
-                .collect(Collectors.toSet());
-        }
-        return set;
-    }
-
-    static String vString(final JsonArray array, final String field) {
-        final Set<String> set = new HashSet<>();
-        HaS.itJArray(array).map(json -> json.getString(field))
-            .filter(Objects::nonNull)
-            .forEach(set::add);
-        if (1 == set.size()) {
-            return set.iterator().next();
-        } else {
-            return null;
-        }
-    }
-
-    static Set<JsonArray> vArraySet(final JsonArray array, final String field) {
-        Set<JsonArray> set = new HashSet<>();
-        if (Objects.nonNull(array)) {
-            set = array.stream()
-                .filter(item -> item instanceof JsonObject)
-                .map(item -> (JsonObject) item)
-                .filter(item -> item.getValue(field) instanceof JsonArray)
-                .map(item -> item.getJsonArray(field))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-        }
-        return set;
-    }
-
-    static String vString(final JsonObject json, final String field, final String defaultValue) {
-        final JsonObject inputJ = Jackson.sureJObject(json);
-        final Object valueS = inputJ.getValue(field, defaultValue);
-        return Objects.isNull(valueS) ? null : valueS.toString();
-    }
-
-    static Integer vInt(final JsonObject json, final String field, final Integer defaultInt) {
-        final String literal = vString(json, field, String.valueOf(defaultInt));
-        if (Objects.isNull(literal) || !Numeric.isInteger(literal)) {
-            return defaultInt;
-        }
-        return Integer.valueOf(literal);
-    }
-
-    static Class<?> vClass(final JsonObject json, final String field, final Class<?> defaultValue) {
-        final String clsStr = vString(json, field, null);
-        if (Ut.isNil(clsStr)) {
-            return defaultValue;
-        }
-        return HaS.clazz(clsStr, defaultValue);
-    }
-
     static String vQrField(final String field, final String strOp) {
         return Ut.isNil(strOp) ? field : field + VString.COMMA + strOp;
-    }
-
-    static Class<?> vClass(final JsonObject json, final String field,
-                           final Class<?> interfaceCls,
-                           final Class<?> defaultValue) {
-        final String clsStr = vString(json, field, null);
-        final Class<?> implCls;
-        if (Ut.isNil(clsStr)) {
-            implCls = defaultValue;
-        } else {
-            implCls = HaS.clazz(clsStr, defaultValue);
-        }
-        if (Objects.isNull(implCls)) {
-            return null;
-        }
-        if (HaS.isImplement(implCls, interfaceCls)) {
-            return implCls;
-        } else {
-            return null;
-        }
     }
 
     @SuppressWarnings("unchecked")
