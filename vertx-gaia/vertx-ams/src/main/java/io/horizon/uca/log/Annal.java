@@ -1,6 +1,5 @@
 package io.horizon.uca.log;
 
-import io.horizon.uca.log.HLogger;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.internal.BridgeAnnal;
 import io.horizon.uca.log.internal.Log4JAnnal;
