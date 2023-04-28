@@ -12,7 +12,7 @@ class Verifier {
 
     static void noArg(final Class<?> clazz, final Class<?> target) {
         final Annal logger = Annal.get(target);
-        Fn.outUp(!Ut.withNoArgConstructor(clazz), logger,
+        Fn.outUp(!Ut.isDefaultConstructor(clazz), logger,
             NoArgConstructorException.class,
             logger, clazz);
     }

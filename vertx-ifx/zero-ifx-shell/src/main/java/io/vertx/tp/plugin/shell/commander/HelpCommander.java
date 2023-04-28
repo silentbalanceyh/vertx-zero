@@ -76,9 +76,9 @@ public class HelpCommander extends AbstractCommander {
         final StringBuilder content = new StringBuilder();
         content.append(Sl.message("help", () -> "Command List: ")).append("\n");
         content.append("------------------------------------------------------\n");
-        content.append(Ut.flagBYellow("%-32s", name));
-        content.append(Ut.flagBYellow("%-26s", simple));
-        content.append(Ut.flagBYellow("%-16s", description)).append("\n");
+        content.append(Ut.rgbYellowB("%-32s", name));
+        content.append(Ut.rgbYellowB("%-26s", simple));
+        content.append(Ut.rgbYellowB("%-16s", description)).append("\n");
         content.append("------------------------------------------------------\n");
 
         /* Defined Map */
@@ -108,8 +108,8 @@ public class HelpCommander extends AbstractCommander {
             "\tCommand Name: {0}, Command Type: {1}" +
             "\tOptions Format: [-opt1 value1 -opt2 value2]");
         usage = MessageFormat.format(usage,
-            Ut.flagBCyan(atom.getName()),
-            Ut.flagBCyan(atom.getType().name()));
+            Ut.rgbCyanB(atom.getName()),
+            Ut.rgbCyanB(atom.getType().name()));
 
         /* Help */
         final HelpFormatter formatter = new HelpFormatter();

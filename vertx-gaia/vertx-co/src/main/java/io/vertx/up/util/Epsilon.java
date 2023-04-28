@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VString;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
@@ -88,7 +89,7 @@ class Epsilon {
         if (Ut.isNil(clsStr)) {
             return defaultValue;
         }
-        return Instance.clazz(clsStr, defaultValue);
+        return HaS.clazz(clsStr, defaultValue);
     }
 
     static String vQrField(final String field, final String strOp) {
@@ -103,12 +104,12 @@ class Epsilon {
         if (Ut.isNil(clsStr)) {
             implCls = defaultValue;
         } else {
-            implCls = Instance.clazz(clsStr, defaultValue);
+            implCls = HaS.clazz(clsStr, defaultValue);
         }
         if (Objects.isNull(implCls)) {
             return null;
         }
-        if (Instance.isMatch(implCls, interfaceCls)) {
+        if (HaS.isImplement(implCls, interfaceCls)) {
             return implCls;
         } else {
             return null;

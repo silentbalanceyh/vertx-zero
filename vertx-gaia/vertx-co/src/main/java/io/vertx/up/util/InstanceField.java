@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.util.HaS;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.exception.web._412ContractFieldException;
 import io.vertx.up.fn.Fn;
@@ -132,7 +133,7 @@ final class InstanceField {
             return Arrays.stream(fields)
                 .filter(field -> fieldType == field.getType() ||          // Direct match
                     fieldType == field.getType().getSuperclass() ||  // Super
-                    Instance.isMatch(field.getType(), fieldType));
+                    HaS.isImplement(field.getType(), fieldType));
         });
     }
 

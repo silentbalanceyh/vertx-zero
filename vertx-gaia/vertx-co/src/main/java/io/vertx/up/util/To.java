@@ -77,17 +77,17 @@ final class To {
     }
 
     static List<Class<?>> toClass(final JsonArray names) {
-        final JsonArray keysData = Jackson.sureJArray(names);
+        final JsonArray keysData = HaS.valueJArray(names);
         final List<Class<?>> classList = new ArrayList<>();
         It.itJString(keysData)
-            .map(name -> Instance.clazz(name, null))
+            .map(name -> HaS.clazz(name, null))
             .filter(Objects::nonNull)
             .forEach(classList::add);
         return classList;
     }
 
     static List<String> toList(final JsonArray keys) {
-        final JsonArray keysData = Jackson.sureJArray(keys);
+        final JsonArray keysData = HaS.valueJArray(keys);
         final List<String> keyList = new ArrayList<>();
         It.itJString(keysData).forEach(keyList::add);
         return keyList;
@@ -96,10 +96,10 @@ final class To {
     static String toString(final Object reference) {
         return Fn.runOr("null", () -> {
             final String literal;
-            if (Types.isJObject(reference)) {
+            if (HaS.isJObject(reference)) {
                 // Fix issue for serialization
                 literal = ((JsonObject) reference).encode();
-            } else if (Types.isJArray(reference)) {
+            } else if (HaS.isJArray(reference)) {
                 // Fix issue for serialization
                 literal = ((JsonArray) reference).encode();
             } else {

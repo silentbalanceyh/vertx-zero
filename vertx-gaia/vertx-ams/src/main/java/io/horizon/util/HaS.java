@@ -42,7 +42,19 @@ public class HaS extends _Value {
      * @return 格式化后的字符串
      */
     public static String fromMessage(final String pattern, final Object... args) {
-        return HFormat.format(pattern, args);
+        return HFormat.fromMessage(pattern, args);
+    }
+
+    /**
+     * 加粗版本的格式化，用于日志部分的专用处理
+     *
+     * @param pattern 格式化模板
+     * @param args    参数
+     *
+     * @return 格式化后的字符串
+     */
+    public static String fromMessageB(final String pattern, final Object... args) {
+        return HFormat.formatBold(pattern, args);
     }
 
     // ---------------- 池化函数

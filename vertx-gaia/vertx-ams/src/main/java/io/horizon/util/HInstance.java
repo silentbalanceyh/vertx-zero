@@ -1,19 +1,25 @@
 package io.horizon.util;
 
+import io.horizon.eon.VString;
 import io.horizon.exception.internal.OperationException;
 import io.horizon.uca.cache.Cc;
 import io.horizon.util.fn.HFn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 
 /**
  * @author lang : 2023/4/28
  */
+@SuppressWarnings("all")
 class HInstance {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(HInstance.class);
 
     private static final Cc<String, Object> CC_SINGLETON = Cc.open();
 
@@ -27,8 +33,103 @@ class HInstance {
     private static final ConcurrentMap<Class<?>, ConcurrentMap<Integer, Integer>> BUILD_IN =
         new ConcurrentHashMap<>();
 
-    static Class<?> clazz(final String name) {
-        return null;
+    static boolean isDefaultConstructor(final Class<?> clazz) {
+        return HFn.runOr(Boolean.FALSE, () -> {
+            final Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            return Arrays.stream(constructors)
+                .anyMatch(constructor -> 0 == constructor.getParameterTypes().length);
+        }, clazz);
+    }
+
+    static <T> T instance(final Class<?> clazz, final Object... params) {
+        // 截断构造，如果clazz为null则不构造
+        if (Objects.isNull(clazz)) {
+            return null;
+        }
+        return HFn.failOr(() -> construct(clazz, params), clazz);
+    }
+
+    static <T> T singleton(final Class<?> clazz, final Object... params) {
+        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
+    }
+
+    static <T> T singleton(final Class<?> clazz, final Function<Class<?>, T> instanceFn, final String key) {
+        if (HIs.isNil(key)) {
+            /*
+             * 如果key为空，则直接返回，等价于原始 singleton
+             * 并且其构造函数的参数是无参的，只是切换了 instanceFn 的实现
+             */
+            return (T) CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName());
+        } else {
+            /*
+             * 池化，键值：className/key
+             */
+            return (T) CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName() + VString.SLASH + key);
+        }
+    }
+
+    static Class<?> clazz(final String name, final Class<?> instanceCls, final ClassLoader loader) {
+        if (HIs.isNil(name)) {
+            return instanceCls;
+        } else {
+
+            /*
+             * Here must capture 'ClassNotFound` issue instead of
+             * Throw exception out for null reference returned.
+             * Specific situation usage.
+             *
+             * Here we could not call `clazz(name)` because of
+             * getJvm will throw out exception here. in current method, we should
+             * catch `ClassNotFoundException` and return null directly.
+             */
+            final ConcurrentMap<String, Class<?>> cData = CC_CLASSES.store();
+            Class<?> clazz = cData.get(name);
+            if (Objects.isNull(clazz)) {
+                /* 优先从传入的类加载器中加载 */
+                try {
+                    if (Objects.nonNull(loader)) {
+                        clazz = loader.loadClass(name);
+                    }
+                } catch (final Throwable ex) {
+                    LOGGER.error("[T] (Module) Error occurs in reflection, details: {}",
+                        ex.getMessage());
+                }
+                /* 再从当前线程中加载 */
+                if (Objects.isNull(clazz)) {
+                    try {
+                        clazz = Thread.currentThread().getContextClassLoader().loadClass(name);
+                    } catch (final Throwable ex) {
+                        LOGGER.error("[T] (Program) Error occurs in reflection, details: {}",
+                            ex.getMessage());
+                    }
+                }
+                /* 最后从当前类加载器中加载 */
+                if (Objects.isNull(clazz)) {
+                    try {
+                        clazz = ClassLoader.getSystemClassLoader().loadClass(name);
+                    } catch (final Throwable ex) {
+                        LOGGER.error("[T] (System) Error occurs in reflection, details: {}",
+                            ex.getMessage());
+                    }
+                }
+                /* 平台类加载器 */
+                if (Objects.isNull(clazz)) {
+                    try {
+                        clazz = ClassLoader.getPlatformClassLoader().loadClass(name);
+                    } catch (final Throwable ex) {
+                        LOGGER.error("[T] (Platform) Error occurs in reflection, details: {}",
+                            ex.getMessage());
+                    }
+                }
+                if (Objects.isNull(clazz)) {
+                    clazz = instanceCls;
+                } else {
+                    // 缓存填充
+                    cData.put(name, clazz);
+                }
+            }
+            return clazz;
+        }
     }
 
     /*
@@ -40,37 +141,50 @@ class HInstance {
      * 4. 出现重载时（长度多个），则直接根据半群计算笛卡尔匹配级（上三角匹配）得到最终构造函数
      * 5. 解开 Accessible 提高构造效率并可访问私有
      */
+    @SuppressWarnings("unchecked")
+    static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
+        final int length = params.length;
+        final ConcurrentMap<Integer, Integer> map = BUILD_IN.get(clazz);
+        final Integer counter = map.getOrDefault(length, 0);
+        Constructor<T> constructor;
+        if (1 >= counter) {
+            // 0, 1 直接构造
+            constructor = Arrays.stream(clazz.getDeclaredConstructors())
+                .filter(item -> length == item.getParameterTypes().length)
+                .map(item -> (Constructor<T>) item)
+                .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / 0 / 1", clazz));
+            constructor.setAccessible(Boolean.TRUE);
+            //            return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
+        } else {
+            // 大于 1 深度构造
+            final Class<?>[] types = types(params);
+            try {
+                constructor = (Constructor<T>) clazz.getDeclaredConstructor(types);
+                constructor.setAccessible(Boolean.TRUE);
+                //                return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
+            } catch (final NoSuchMethodException ex) {
+                constructor = Arrays.stream(clazz.getDeclaredConstructors())
+                    .filter(item -> length == item.getParameterTypes().length)
+                    .filter(item -> typeMatch(item.getParameterTypes(), types))
+                    .map(item -> (Constructor<T>) item)
+                    .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / N", clazz));
+                constructor.setAccessible(Boolean.TRUE);
+                //                return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
+            } finally {
+                constructor = null;
+            }
+        }
+        return constructor;
+    }
+
     private static <T> T construct(final Class<?> clazz,
                                    final Object... params) {
         /*
          * 计算是否存在重载的函数
          */
-        final int length = params.length;
         if (BUILD_IN.containsKey(clazz)) {
-            final ConcurrentMap<Integer, Integer> map = BUILD_IN.get(clazz);
-            final Integer counter = map.getOrDefault(length, 0);
-            if (1 >= counter) {
-                // 0, 1 直接构造
-                final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
-                    .filter(item -> length == item.getParameterTypes().length)
-                    .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / 0 / 1", clazz));
-                constructor.setAccessible(Boolean.TRUE);
-                return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
-            } else {
-                // 大于 1 深度构造
-                final Class<?>[] types = types(params);
-                try {
-                    final Constructor<?> constructor = clazz.getDeclaredConstructor(types);
-                    return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
-                } catch (final NoSuchMethodException ex) {
-                    final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
-                        .filter(item -> length == item.getParameterTypes().length)
-                        .filter(item -> typeMatch(item.getParameterTypes(), types))
-                        .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / N", clazz));
-                    constructor.setAccessible(Boolean.TRUE);
-                    return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
-                }
-            }
+            final Constructor<T> constructor = constructor(clazz, params);
+            return HFn.failOr(() -> constructor.newInstance(params), constructor);
         } else {
             // 填充数据后递归
             final Constructor<?>[] constructors = clazz.getDeclaredConstructors();

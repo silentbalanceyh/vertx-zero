@@ -72,12 +72,6 @@ final class Types {
         }
     }
 
-    static boolean isClass(final Object value) {
-        return Fn.runOr(null == value, LOGGER,
-            () -> false,
-            () -> null != Instance.clazz(value.toString()));
-    }
-
     @Deprecated
     static boolean isJObject(final String literal) {
         return Fn.runOr(Boolean.FALSE, () -> {

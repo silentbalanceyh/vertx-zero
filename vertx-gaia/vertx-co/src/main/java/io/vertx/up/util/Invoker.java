@@ -1,5 +1,6 @@
 package io.vertx.up.util;
 
+import io.horizon.util.HaS;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -196,7 +197,7 @@ final class Invoker {
     }
 
     private static boolean isEqualAnd(final Class<?> clazz, final Class<?> interfaceCls) {
-        return clazz == interfaceCls || Instance.isMatch(clazz, interfaceCls);
+        return clazz == interfaceCls || HaS.isImplement(clazz, interfaceCls);
     }
 
     private static boolean isMatch(final Method method, final String name, final Class<?>[] arguments) {

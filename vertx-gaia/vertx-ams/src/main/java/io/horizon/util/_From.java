@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @author lang : 2023/4/27
  */
-class _From {
+class _From extends _Color {
     /**
      * 针对 LocalDate 类型的日期执行格式化
      *

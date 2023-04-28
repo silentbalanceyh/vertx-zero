@@ -26,7 +26,7 @@ class SlMessage {
     static TermStatus failError(final Throwable ex) {
         final String error = Objects.isNull(ex) ? "Error" : ex.getMessage();
         Sl.output(message("error",
-            () -> Ut.flagBRed("[ ERROR ]") + " " + Ut.flagNRed(" {0} ")), error);
+            () -> Ut.rgbRedB("[ ERROR ]") + " " + Ut.rgbRedN(" {0} ")), error);
         if (SlConfig.isDebug()) {
             ex.printStackTrace();
         }
@@ -34,7 +34,7 @@ class SlMessage {
     }
 
     static void failWarn(final String message, final Object... args) {
-        Sl.output(Ut.flagBYellow("[ WARN  ]") + " " + Ut.flagNGray(message), args);
+        Sl.output(Ut.rgbYellowB("[ WARN  ]") + " " + Ut.rgbGrayN(message), args);
     }
 
     static String message(final String key, final Supplier<String> defaultSupplier) {
@@ -48,11 +48,11 @@ class SlMessage {
     }
 
     static void output(final String message, final Object... args) {
-        stream(message, Ut.flagBBlue("[ μηδέν ]"), args);
+        stream(message, Ut.rgbBlueB("[ μηδέν ]"), args);
     }
 
     static void outputOpt(final String message, final String name, final Object... args) {
-        stream(message, Ut.flagBBlue("[ μηδέν ]") + " (" + name + ")", args);
+        stream(message, Ut.rgbBlueB("[ μηδέν ]") + " (" + name + ")", args);
     }
 
     private static void stream(final String message, final String flag, final Object... args) {

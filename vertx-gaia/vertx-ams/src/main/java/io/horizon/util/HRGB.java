@@ -1,11 +1,9 @@
-package io.vertx.up.util;
-
-import io.horizon.util.HaS;
+package io.horizon.util;
 
 /**
  * @author lang : 2023/4/24
  */
-class Format {
+class HRGB {
 
     /*
      * The color for console output
@@ -23,7 +21,7 @@ class Format {
     private static final String SUFFIX = "m";
     private static final char SEPARATOR = ';';
     private static final String END_COLOUR = PREFIX + SUFFIX;
-    private static final String BOLD_FLAG = PREFIX + WEIGHT + SEPARATOR + COLOR_BLANK + SUFFIX + "[ μηδέν ] " + END_COLOUR;
+    static final String BOLD_FLAG = PREFIX + WEIGHT + SEPARATOR + COLOR_BLANK + SUFFIX + "[ μηδέν ] " + END_COLOUR;
 
     private static String color(final String flag, final int color, final boolean bold) {
         final int weight = bold ? WEIGHT : NORMAL;
@@ -35,14 +33,6 @@ class Format {
             return color(flag, color, bold);
         } else {
             return String.format(pattern, color(flag, color, bold));
-        }
-    }
-
-    static String formatBold(final String message, final Object... args) {
-        if (0 < args.length) {
-            return BOLD_FLAG + HaS.fromMessage(message, args);
-        } else {
-            return BOLD_FLAG + message;
         }
     }
 }

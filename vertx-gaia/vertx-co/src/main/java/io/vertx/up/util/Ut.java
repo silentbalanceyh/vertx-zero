@@ -29,7 +29,6 @@ import io.vertx.up.uca.crypto.ED;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -41,132 +40,6 @@ import java.util.stream.Collectors;
 @SuppressWarnings("all")
 public final class Ut extends HaS {
     private Ut() {
-    }
-
-    /*
-     * flag(N|B)(Color)       String.format （只支持单参）
-     */
-    // color = blank
-    public static String flagBBlank(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_BLANK, true);
-    }
-
-    public static String flagBBlank(final String flag) {
-        return Format.color(null, flag, Format.COLOR_BLANK, true);
-    }
-
-    public static String flagNBlank(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_BLANK, false);
-    }
-
-    public static String flagNBlank(final String flag) {
-        return Format.color(null, flag, Format.COLOR_BLANK, false);
-    }
-
-    // color = blue
-    public static String flagBBlue(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_BLUE, true);
-    }
-
-    public static String flagBBlue(final String flag) {
-        return Format.color(null, flag, Format.COLOR_BLUE, true);
-    }
-
-    public static String flagNBlue(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_BLUE, false);
-    }
-
-    public static String flagNBlue(final String flag) {
-        return Format.color(null, flag, Format.COLOR_BLUE, false);
-    }
-
-    // color = red
-    public static String flagBRed(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_RED, true);
-    }
-
-    public static String flagBRed(final String flag) {
-        return Format.color(null, flag, Format.COLOR_RED, true);
-    }
-
-    public static String flagNRed(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_RED, false);
-    }
-
-    public static String flagNRed(final String flag) {
-        return Format.color(null, flag, Format.COLOR_RED, false);
-    }
-
-    // color = green
-
-    public static String flagBGreen(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_GREEN, true);
-    }
-
-    public static String flagBGreen(final String flag) {
-        return Format.color(null, flag, Format.COLOR_GREEN, true);
-    }
-
-    public static String flagNGreen(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_GREEN, false);
-    }
-
-    public static String flagNGreen(final String flag) {
-        return Format.color(null, flag, Format.COLOR_GREEN, false);
-    }
-
-    // color = yellow
-
-    public static String flagBYellow(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_YELLOW, true);
-    }
-
-    public static String flagBYellow(final String flag) {
-        return Format.color(null, flag, Format.COLOR_YELLOW, true);
-    }
-
-    public static String flagNYellow(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_YELLOW, false);
-    }
-
-    public static String flagNYellow(final String flag) {
-        return Format.color(null, flag, Format.COLOR_YELLOW, false);
-    }
-
-    // color = cyan
-
-    public static String flagBCyan(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_CYAN, true);
-    }
-
-    public static String flagBCyan(final String flag) {
-        return Format.color(null, flag, Format.COLOR_CYAN, true);
-    }
-
-    public static String flagNCyan(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_CYAN, false);
-    }
-
-    public static String flagNCyan(final String flag) {
-        return Format.color(null, flag, Format.COLOR_CYAN, false);
-    }
-
-    // color = gray
-
-    public static String flagBGray(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_GRAY, true);
-    }
-
-    public static String flagBGray(final String flag) {
-        return Format.color(null, flag, Format.COLOR_GRAY, true);
-    }
-
-    public static String flagNGray(final String pattern, final String flag) {
-        return Format.color(pattern, flag, Format.COLOR_GRAY, false);
-    }
-
-    public static String flagNGray(final String flag) {
-        return Format.color(null, flag, Format.COLOR_GRAY, false);
     }
 
     public static JsonMapper mapper() {
@@ -707,34 +580,6 @@ public final class Ut extends HaS {
         return Instance.plugin(options, pluginKey, interfaceCls);
     }
 
-    public static <T> T instance(final String name, final Object... params) {
-        return Instance.instance(clazz(name), params);
-    }
-
-    public static <T> T instance(final Class<?> clazz, final Object... params) {
-        return Instance.instance(clazz, params);
-    }
-
-    public static <T> T singleton(final String name, final Object... params) {
-        return Instance.singleton(clazz(name), params);
-    }
-
-    public static <T> T singleton(final Class<?> clazz, final Object... params) {
-        return Instance.singleton(clazz, params);
-    }
-
-    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier) {
-        return Instance.singleton(clazz, supplier);
-    }
-
-    public static <T> T singleton(final Class<?> clazz, final Supplier<T> supplier, final String extensionKey) {
-        return Instance.singleton(clazz, supplier, extensionKey);
-    }
-
-    public static <T> Constructor<T> constructor(final Class<?> clazz, final Object... params) {
-        return Instance.constructor(clazz, params);
-    }
-
     public static <T> T invoke(final Object instance, final String name, final Object... args) {
         return Invoker.invokeObject(instance, name, args);
     }
@@ -745,22 +590,6 @@ public final class Ut extends HaS {
 
     public static <T> Future<T> invokeAsync(final Object instance, final Method method, final Object... args) {
         return Invoker.invokeAsync(instance, method, args);
-    }
-
-    public static Class<?> clazz(final String name) {
-        return Instance.clazz(name);
-    }
-
-    public static Class<?> clazz(final String name, final Class<?> defaultCls) {
-        return Instance.clazz(name, defaultCls);
-    }
-
-    public static boolean isImplement(final Class<?> clazz, final Class<?> interfaceCls) {
-        return Instance.isMatch(clazz, interfaceCls);
-    }
-
-    public static boolean withNoArgConstructor(final Class<?> clazz) {
-        return Instance.noarg(clazz);
     }
 
     public static Class<?> child(final Class<?> clazz) {
@@ -1152,10 +981,6 @@ public final class Ut extends HaS {
         return Types.isArrayJson(array);
     }
 
-    public static boolean isClass(final Object value) {
-        return Types.isClass(value);
-    }
-
     public static boolean isIn(final JsonObject input, final String... fields) {
         return Types.isIn(input, fields);
     }
@@ -1517,11 +1342,6 @@ public final class Ut extends HaS {
 
     public static String fromJoin(final Object[] input, final String separator) {
         return StringUtil.join(input, separator);
-    }
-
-
-    public static String fromMessageB(final String pattern, final Object... args) {
-        return Format.formatBold(pattern, args);
     }
 
     public static <T> T fromExpressionT(final String expr, final JsonObject params) {

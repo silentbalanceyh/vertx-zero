@@ -58,13 +58,13 @@ public class AdjustUiInstruction extends AbstractInstruction {
 
         /* Format Table */
         content.append(this.atom.getConfig().getString("identifier")).append(" : ");
-        content.append(Ut.flagBCyan(identifier));
+        content.append(Ut.rgbCyanB(identifier));
         content.append("--------------------------------------------------");
         content.append("----------------------------------------------------------\n");
-        content.append(Ut.flagBBlank("%-40s", config.getString("control")));
-        content.append(Ut.flagBBlank("%-26s", config.getString("status")));
-        content.append(Ut.flagBBlank("%-32s", config.getString("expected")));
-        content.append(Ut.flagBBlank("%-32s", config.getString("actual"))).append("\n");
+        content.append(Ut.rgbBlankB("%-40s", config.getString("control")));
+        content.append(Ut.rgbBlankB("%-26s", config.getString("status")));
+        content.append(Ut.rgbBlankB("%-32s", config.getString("expected")));
+        content.append(Ut.rgbBlankB("%-32s", config.getString("actual"))).append("\n");
         content.append("--------------------------------------------------");
         content.append("----------------------------------------------------------\n");
     }
@@ -73,9 +73,9 @@ public class AdjustUiInstruction extends AbstractInstruction {
         final String status = item.getString(KName.STATUS);
         content.append(String.format("%-32s", item.getString("control")));
         if ("INVALID".equals(status)) {
-            content.append(Ut.flagBRed("%-28s", status));
+            content.append(Ut.rgbRedB("%-28s", status));
         } else {
-            content.append(Ut.flagBYellow("%-28s", status));
+            content.append(Ut.rgbYellowB("%-28s", status));
         }
         content.append(String.format("%-24s", item.getString("attribute")));
         content.append(String.format("%-32s", item.getString("uiField")));
@@ -142,7 +142,7 @@ public class AdjustUiInstruction extends AbstractInstruction {
         });
         if (noError.get()) {
             Sl.output("所有的表单和列表配置都正确！Form / List，--> {0}",
-                Ut.flagBGreen("Successfully"));
+                Ut.rgbGreenB("Successfully"));
         }
         System.out.println(content.toString());
     }

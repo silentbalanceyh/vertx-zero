@@ -17,11 +17,19 @@ class HFormat {
         return MessageFormatter.format(pattern, args).getMessage();
     }
 
-    static String format(final String pattern, final Object... args) {
+    static String fromMessage(final String pattern, final Object... args) {
         if (pattern.contains("{}")) {
             return formatSlf4j(pattern, args);
         } else {
             return formatJava(pattern, args);
+        }
+    }
+
+    static String formatBold(final String message, final Object... args) {
+        if (0 < args.length) {
+            return HRGB.BOLD_FLAG + fromMessage(message, args);
+        } else {
+            return HRGB.BOLD_FLAG + message;
         }
     }
 }

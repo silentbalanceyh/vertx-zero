@@ -18,7 +18,7 @@ public abstract class DiGuiceModule extends AbstractModule {
 
     protected <T> String bindConstructor(final Class<T> clazz) {
         // Standalone, Non-Constructor
-        if (Ut.withNoArgConstructor(clazz)) {
+        if (Ut.isDefaultConstructor(clazz)) {
             final Constructor<T> constructor = Ut.constructor(clazz);
             this.bind(clazz).toConstructor(constructor).asEagerSingleton();
             this.logger().info("[ DI ] Constructor Bind: `{0}`", clazz);

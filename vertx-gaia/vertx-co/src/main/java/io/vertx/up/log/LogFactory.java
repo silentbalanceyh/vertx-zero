@@ -24,19 +24,19 @@ public class LogFactory {
     }
 
     public LogModule program(final String type) {
-        return this.extension(type, Ut::flagNBlue);
+        return this.extension(type, Ut::rgbBlueN);
     }
 
     public LogModule configure(final String type) {
-        return this.extension(type, Ut::flagNGreen);
+        return this.extension(type, Ut::rgbGreenN);
     }
 
     public LogModule infix(final String type) {
-        return this.extension(type, Ut::flagNCyan);
+        return this.extension(type, Ut::rgbCyanN);
     }
 
     public LogModule cloud(final String type) {
-        return this.extension(type, Ut::flagBBlue);
+        return this.extension(type, Ut::rgbBlueB);
     }
 
     private LogModule extension(final String type, final Function<String, String> colorFn) {

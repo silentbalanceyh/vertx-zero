@@ -76,7 +76,7 @@ public class AegisItem implements Serializable {
         if (Ut.isNil(authenticate)) {
             this.providerAuthenticate = null;
         } else {
-            this.providerAuthenticate = Ut.clazz(authenticate, null);
+            this.providerAuthenticate = Ut.clazz(authenticate);
         }
         // 403
         final String authorization = provider.getString("authorization");

@@ -16,7 +16,7 @@ class SlWelcome {
         final String version = WELCOME.getString("version");
         System.out.println("----------------------------------------------------------------");
         System.out.println("|                                                              |");
-        System.out.println("|         " + Ut.flagBCyan(banner) + "              |");
+        System.out.println("|         " + Ut.rgbCyanB(banner) + "              |");
         System.out.println("|                                                              |");
         System.out.println("----------------------------------------------------------------");
         System.out.println("                                   ---- Version." + version + "   ");
@@ -24,15 +24,15 @@ class SlWelcome {
 
     static void welcomeCommand(final Environment environment) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlMessage.output("------------->>>> " + Ut.flagNBlue("Command Begin"));
-        SlMessage.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
+        SlMessage.output("------------->>>> " + Ut.rgbBlueN("Command Begin"));
+        SlMessage.output(Ut.rgbBlankB(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
     static void welcomeSub(final Environment environment, final CommandAtom option) {
         final JsonObject message = WELCOME.getJsonObject("message");
-        SlMessage.outputOpt("------>>>> " + Ut.flagNGreen("Sub System") + ": {0}", option.getName(), option.getDescription());
-        SlMessage.output(Ut.flagBBlank(message.getString("environment")) + " " + message.getString("wait"), environment);
+        SlMessage.outputOpt("------>>>> " + Ut.rgbGreenN("Sub System") + ": {0}", option.getName(), option.getDescription());
+        SlMessage.output(Ut.rgbBlankB(message.getString("environment")) + " " + message.getString("wait"), environment);
         System.out.print(">> ");
     }
 
