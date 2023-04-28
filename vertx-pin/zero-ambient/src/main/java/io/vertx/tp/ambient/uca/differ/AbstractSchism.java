@@ -65,7 +65,7 @@ public abstract class AbstractSchism implements Schism {
     @Override
     public Future<JsonObject> diffAsync(final JsonObject recordO, final JsonObject recordN, final Supplier<Future<XActivity>> activityFn) {
         // Default should be 501
-        return Fn.error(_501NotSupportException.class, this.getClass());
+        return Fn.failure(_501NotSupportException.class, this.getClass());
     }
 
 }

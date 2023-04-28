@@ -36,7 +36,7 @@ class _Jvm extends _Fail {
      * @return T
      */
     public static <T> T jvmOr(final T defaultValue, final ErrorSupplier<T> supplier) {
-        return HSupplier.jvmOr(defaultValue, supplier, null);
+        return HSupplier.jvmOr(defaultValue, supplier, (HLogger) null);
     }
 
     /**
@@ -61,7 +61,7 @@ class _Jvm extends _Fail {
      * @return T
      */
     public static <T> T jvmOr(final ErrorSupplier<T> supplier) {
-        return HSupplier.jvmOr(null, supplier, null);
+        return HSupplier.jvmOr(null, supplier, (HLogger) null);
     }
 
     /**
@@ -73,8 +73,8 @@ class _Jvm extends _Fail {
      *
      * @return T
      */
-    public static <T> T jvmNOr(final ErrorSupplier<T> supplier, final Object... input) {
-        return HSupplier.jvmNOr(null, supplier, input);
+    public static <T> T jvmOr(final ErrorSupplier<T> supplier, final Object... input) {
+        return HSupplier.jvmOr(null, supplier, input);
     }
 
     /**
@@ -87,9 +87,9 @@ class _Jvm extends _Fail {
      *
      * @return T
      */
-    public static <T> T jvmNOr(final T defaultValue, final ErrorSupplier<T> supplier,
-                               final Object... input) {
-        return HSupplier.jvmNOr(defaultValue, supplier, input);
+    public static <T> T jvmOr(final T defaultValue, final ErrorSupplier<T> supplier,
+                              final Object... input) {
+        return HSupplier.jvmOr(defaultValue, supplier, input);
     }
 
     /**

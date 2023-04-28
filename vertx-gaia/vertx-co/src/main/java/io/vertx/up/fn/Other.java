@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.log.DevEnv;
+import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
  */
 final class Other {
 
-    static <T> Function<Throwable, T> otherwiseOr(final Supplier<T> supplier) {
+    static <T> Function<Throwable, T> otherwise(final Supplier<T> supplier) {
         return error -> {
             if (Objects.nonNull(error)) {
                 error.printStackTrace();
@@ -25,7 +26,7 @@ final class Other {
         };
     }
 
-    static <T> Future<T> otherwiseWeb(final Class<?> target, final Throwable error) {
+    static <T> Future<T> otherwise(final Class<?> target, final Throwable error) {
         final WebException failure;
         if (Objects.isNull(error)) {
             // 异常为 null
@@ -43,5 +44,10 @@ final class Other {
             }
         }
         return Future.failedFuture(failure);
+    }
+
+    static <T> Future<T> otherwise(final Class<? extends WebException> clazz, final Object... args) {
+        final WebException error = Ut.toError(clazz, args);
+        return Future.failedFuture(error);
     }
 }

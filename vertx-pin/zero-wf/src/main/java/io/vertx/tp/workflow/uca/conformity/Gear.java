@@ -3,13 +3,13 @@ package io.vertx.tp.workflow.uca.conformity;
 import cn.vertxup.workflow.cv.em.PassWay;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WTask;
 import io.vertx.up.atom.Kv;
 import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
@@ -89,10 +89,10 @@ public interface Gear {
     Future<WTask> taskAsync(ProcessInstance instance, Task from);
 
     default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask wTask, final WTicket ticket) {
-        return Fn.error(_501NotSupportException.class, this.getClass());
+        return Fn.failure(_501NotSupportException.class, this.getClass());
     }
 
     default Future<List<WTodo>> todoAsync(final JsonObject parameters, final WTask wTask, final WTicket ticket, final WTodo todo) {
-        return Fn.error(_501NotSupportException.class, this.getClass());
+        return Fn.failure(_501NotSupportException.class, this.getClass());
     }
 }

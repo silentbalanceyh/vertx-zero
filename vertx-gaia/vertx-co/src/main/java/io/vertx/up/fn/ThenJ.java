@@ -41,7 +41,7 @@ final class ThenJ {
             });
         } else {
             // 什么都不做
-            Log.warn(War.class, VFn.TYPE_JA_NOT_MATCH, value);
+            Log.warn(ThenJ.class, VFn.TYPE_JA_NOT_MATCH, value);
             return Future.succeededFuture(input);
         }
     }
@@ -53,7 +53,7 @@ final class ThenJ {
                 Ut.itList(finished.list(), (item, index) -> resultMap.put(index.toString(), item));
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Other.otherwiseOr(JsonObject::new));
+        }).otherwise(Other.otherwise(JsonObject::new));
     }
 
     static Future<JsonObject> combineJ(
@@ -67,6 +67,6 @@ final class ThenJ {
                 Ut.itList(secondary, (item, index) -> operatorFun[index].accept(first, item));
             }
             return Future.succeededFuture(first);
-        })).otherwise(Other.otherwiseOr(JsonObject::new));
+        })).otherwise(Other.otherwise(JsonObject::new));
     }
 }

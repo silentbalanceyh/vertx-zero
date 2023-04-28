@@ -41,7 +41,7 @@ final class ThenM {
                 }
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Other.otherwiseOr(ConcurrentHashMap::new));
+        }).otherwise(Other.otherwise(ConcurrentHashMap::new));
     }
 
     /*
@@ -96,7 +96,7 @@ final class ThenM {
                     }));
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Other.otherwiseOr(ConcurrentHashMap::new));
+        }).otherwise(Other.otherwise(ConcurrentHashMap::new));
     }
 
 }

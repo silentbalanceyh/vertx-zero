@@ -18,7 +18,7 @@ public interface Tie<ID, T> {
      * JsonObject -> T
      */
     default Future<T> identAsync(final JsonObject condition) {
-        return Fn.error(_501NotSupportException.class, this.getClass());
+        return Fn.failure(_501NotSupportException.class, this.getClass());
     }
 
     /*

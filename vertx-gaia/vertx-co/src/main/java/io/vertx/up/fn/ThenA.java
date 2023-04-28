@@ -36,8 +36,8 @@ final class ThenA {
                 // 拉平后执行组合
                 final List<JsonObject> completed = Ut.elementZip(first.getList(), secondary, combinerOf);
                 return Future.succeededFuture(new JsonArray(completed));
-            }).otherwise(Other.otherwiseOr(JsonArray::new));
-        }).otherwise(Other.otherwiseOr(JsonArray::new));
+            }).otherwise(Other.otherwise(JsonArray::new));
+        }).otherwise(Other.otherwise(JsonArray::new));
     }
 
     static Future<JsonArray> combineA(final List<Future<JsonObject>> futures) {
@@ -45,7 +45,7 @@ final class ThenA {
             final JsonArray result = Objects.isNull(finished)
                 ? new JsonArray() : new JsonArray(finished.list());
             return Future.succeededFuture(result);
-        }).otherwise(Other.otherwiseOr(JsonArray::new));
+        }).otherwise(Other.otherwise(JsonArray::new));
     }
 
     static Future<JsonArray> compressA(final List<Future<JsonArray>> futures) {
@@ -60,6 +60,6 @@ final class ThenA {
                 });
             }
             return Future.succeededFuture(resultMap);
-        }).otherwise(Other.otherwiseOr(JsonArray::new));
+        }).otherwise(Other.otherwise(JsonArray::new));
     }
 }

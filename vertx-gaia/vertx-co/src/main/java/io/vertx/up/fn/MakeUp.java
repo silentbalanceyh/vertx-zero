@@ -12,8 +12,8 @@ import java.util.function.Function;
 /**
  * @author lang : 2023/4/27
  */
-final class Atomic {
-    private Atomic() {
+final class MakeUp {
+    private MakeUp() {
     }
 
     /*

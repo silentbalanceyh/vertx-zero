@@ -33,7 +33,7 @@ class IoEventEnd extends AbstractIo<EndEvent> {
         final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
         final Collection<EndEvent> ends = instance.getModelElementsByType(EndEvent.class);
         if (ends.isEmpty()) {
-            return Fn.error(_501EventEndMissingException.class, this.getClass(), definitionId);
+            return Fn.failure(_501EventEndMissingException.class, this.getClass(), definitionId);
         }
         return Ux.future(new ArrayList<>(ends));
     }
@@ -47,7 +47,7 @@ class IoEventEnd extends AbstractIo<EndEvent> {
             if (VValue.ONE == size) {
                 return Ux.future(list.get(VValue.IDX));
             } else {
-                return Fn.error(_409EventEndUniqueException.class, this.getClass(), size, definitionId);
+                return Fn.failure(_409EventEndUniqueException.class, this.getClass(), size, definitionId);
             }
         });
     }

@@ -30,6 +30,6 @@ final class ThenL {
                 });
             }
             return Future.succeededFuture(result);
-        }).otherwise(Other.otherwiseOr(ArrayList::new));
+        }).otherwise(Other.otherwise(ArrayList::new));
     }
 }

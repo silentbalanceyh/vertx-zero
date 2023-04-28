@@ -13,10 +13,10 @@ class HSupplier {
     private HSupplier() {
     }
 
-    public static <T> T jvmNOr(final T defaultValue, final ErrorSupplier<T> supplier,
-                               final Object... input) {
+    public static <T> T jvmOr(final T defaultValue, final ErrorSupplier<T> supplier,
+                              final Object... input) {
         if (HaS.isNotNull(input)) {
-            return jvmOr(defaultValue, supplier, null);
+            return jvmOr(defaultValue, supplier, (HLogger) null);
         } else {
             return defaultValue;
         }
@@ -27,10 +27,10 @@ class HSupplier {
         return HFunction.jvmAt(defaultValue, (t) -> supplier.get(), logger);
     }
 
-    public static <T> T failNOr(final T defaultValue, final ExceptionSupplier<T> supplier,
-                                final Object... input) {
+    public static <T> T failOr(final T defaultValue, final ExceptionSupplier<T> supplier,
+                               final Object... input) {
         if (HaS.isNotNull(input)) {
-            return failOr(defaultValue, supplier, null);
+            return failOr(defaultValue, supplier, (HLogger) null);
         } else {
             return defaultValue;
         }

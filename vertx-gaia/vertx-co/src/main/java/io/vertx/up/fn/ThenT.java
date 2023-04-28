@@ -26,7 +26,7 @@ final class ThenT {
             final List<T> result = res.list();
             return Future.succeededFuture(result);
         } else {
-            return Other.otherwiseWeb(ThenT.class, res.cause());
+            return Other.otherwise(ThenT.class, res.cause());
         }
     }
 
@@ -37,7 +37,7 @@ final class ThenT {
             Ut.itList(finished.list(),
                 (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
-        }).otherwise(Other.otherwiseOr(ArrayList::new));
+        }).otherwise(Other.otherwise(ArrayList::new));
     }
 
     static <T> Future<Set<T>> combineT(final Set<Future<T>> futures) {
@@ -47,7 +47,7 @@ final class ThenT {
             Ut.itList(finished.list(),
                 (item, index) -> result.add((T) item));
             return Future.succeededFuture(result);
-        }).otherwise(Other.otherwiseOr(HashSet::new));
+        }).otherwise(Other.otherwise(HashSet::new));
     }
 
 

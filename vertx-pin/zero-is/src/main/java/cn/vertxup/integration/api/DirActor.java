@@ -29,7 +29,7 @@ public class DirActor {
         // isFileName Checking
         final String name = data.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Fn.error(_400FileNameInValidException.class, this.getClass());
+            return Fn.failure(_400FileNameInValidException.class, this.getClass());
         }
         return this.stub.create(data);
     }
@@ -40,7 +40,7 @@ public class DirActor {
         // isFileName Checking
         final String name = data.getString(KName.NAME);
         if (!Ut.isFileName(name)) {
-            return Fn.error(_400FileNameInValidException.class, this.getClass());
+            return Fn.failure(_400FileNameInValidException.class, this.getClass());
         }
         return this.stub.update(key, data);
     }

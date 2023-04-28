@@ -4,12 +4,8 @@ package io.vertx.up.fn;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.fn.ProgramActuator;
-import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.up.log.Annal;
-
-import java.util.function.Consumer;
 
 final class Wait {
     private static final Annal LOGGER = Annal.get(Wait.class);
@@ -17,22 +13,6 @@ final class Wait {
     private Wait() {
     }
 
-    @SuppressWarnings("all")
-    static <T> Future<T> then(final Object asyncResult, final Promise<T> promise, final Throwable error) {
-        final AsyncResult<T> result = (AsyncResult<T>) asyncResult;
-        if (result.succeeded()) {
-            promise.complete(result.result());
-        } else {
-            promise.fail(error);
-        }
-        return promise.future();
-    }
-
-    static <T> Future<T> then(final Consumer<Promise<T>> consumer) {
-        final Promise<T> promise = Promise.promise();
-        consumer.accept(promise);
-        return promise.future();
-    }
 
     /*
      * JvmSupplier -> Supplier

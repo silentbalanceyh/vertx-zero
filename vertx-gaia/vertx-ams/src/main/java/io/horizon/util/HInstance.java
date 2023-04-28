@@ -55,20 +55,20 @@ class HInstance {
                     .filter(item -> length == item.getParameterTypes().length)
                     .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / 0 / 1", clazz));
                 constructor.setAccessible(Boolean.TRUE);
-                return HFn.failNOr(() -> ((T) constructor.newInstance(params)), constructor);
+                return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
             } else {
                 // 大于 1 深度构造
                 final Class<?>[] types = types(params);
                 try {
                     final Constructor<?> constructor = clazz.getDeclaredConstructor(types);
-                    return HFn.failNOr(() -> ((T) constructor.newInstance(params)), constructor);
+                    return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
                 } catch (final NoSuchMethodException ex) {
                     final Constructor<?> constructor = Arrays.stream(clazz.getDeclaredConstructors())
                         .filter(item -> length == item.getParameterTypes().length)
                         .filter(item -> typeMatch(item.getParameterTypes(), types))
                         .findAny().orElseThrow(() -> new OperationException(HInstance.class, "Constructor / N", clazz));
                     constructor.setAccessible(Boolean.TRUE);
-                    return HFn.failNOr(() -> ((T) constructor.newInstance(params)), constructor);
+                    return HFn.failOr(() -> ((T) constructor.newInstance(params)), constructor);
                 }
             }
         } else {

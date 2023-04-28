@@ -17,8 +17,8 @@ import java.util.function.*;
  * @author lang : 2023/4/27
  */
 @SuppressWarnings("all")
-class _Then extends _Atomic {
-    protected _Then() {
+class _Combine extends _Atomic {
+    protected _Combine() {
     }
 
     // ---------------------------------------------------- 编排函数 ----------------------------------------------------

@@ -34,7 +34,7 @@ class IoEventStart extends AbstractIo<StartEvent> {
         final BpmnModelInstance instance = service.getBpmnModelInstance(definitionId);
         final Collection<StartEvent> starts = instance.getModelElementsByType(StartEvent.class);
         if (starts.isEmpty()) {
-            return Fn.error(_501EventStartMissingException.class, this.getClass(), definitionId);
+            return Fn.failure(_501EventStartMissingException.class, this.getClass(), definitionId);
         }
         return Ux.future(new ArrayList<>(starts));
     }
@@ -48,7 +48,7 @@ class IoEventStart extends AbstractIo<StartEvent> {
             if (VValue.ONE == size) {
                 return Ux.future(list.get(VValue.IDX));
             } else {
-                return Fn.error(_409EventStartUniqueException.class, this.getClass(), size, definitionId);
+                return Fn.failure(_409EventStartUniqueException.class, this.getClass(), size, definitionId);
             }
         });
     }

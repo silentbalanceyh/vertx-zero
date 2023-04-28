@@ -18,8 +18,8 @@ class _Fail extends _Bug {
      *
      * @return T
      */
-    public static <T> T failNOr(final ExceptionSupplier<T> supplier, final Object... input) {
-        return HSupplier.failNOr(null, supplier, input);
+    public static <T> T failOr(final ExceptionSupplier<T> supplier, final Object... input) {
+        return HSupplier.failOr(null, supplier, input);
     }
 
     /**
@@ -32,8 +32,8 @@ class _Fail extends _Bug {
      *
      * @return T
      */
-    public static <T> T failNOr(final T defaultValue, final ExceptionSupplier<T> supplier,
-                                final Object... input) {
-        return HSupplier.failNOr(defaultValue, supplier, input);
+    public static <T> T failOr(final T defaultValue, final ExceptionSupplier<T> supplier,
+                               final Object... input) {
+        return HSupplier.failOr(defaultValue, supplier, input);
     }
 }

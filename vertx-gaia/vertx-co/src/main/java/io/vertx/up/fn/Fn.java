@@ -7,7 +7,6 @@ import io.horizon.exception.ProgramException;
 import io.horizon.fn.*;
 import io.horizon.util.fn.HFn;
 import io.vertx.core.Future;
-import io.vertx.core.Promise;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -50,7 +49,7 @@ import java.util.function.Supplier;
  * - Predicate  |
  */
 @SuppressWarnings("all")
-public final class Fn extends _Then {
+public final class Fn extends _Out {
     private Fn() {
     }
 
@@ -273,22 +272,6 @@ public final class Fn extends _Then {
 
     public static void safeZero(final ProgramActuator actuator, final Object... input) throws ProgramException {
         ZeroErr.execZero(actuator, input);
-    }
-
-
-    // ------- War ( New Version )
-
-
-    public static <T> Future<T> unbox(final Consumer<Promise<T>> consumer) {
-        return Wait.then(consumer);
-    }
-
-    public static <T> Future<T> unbox(final Object result, final Promise<T> future, final Throwable ex) {
-        return Wait.then(result, future, ex);
-    }
-
-    public static <T> Future<T> error(final Class<? extends WebException> clazz, final Object... args) {
-        return War.thenError(clazz, args);
     }
 
     // ---------------- Arrange Async Future ----------------------
