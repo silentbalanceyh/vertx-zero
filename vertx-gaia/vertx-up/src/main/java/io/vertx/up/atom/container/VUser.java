@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 /**
  * Talk holder for set default user.

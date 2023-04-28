@@ -4,7 +4,7 @@ import io.github.jklingsporn.vertx.jooq.classic.VertxDAO;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.jooq.*;

@@ -17,7 +17,7 @@ import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceReference;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.multipart.Pipe;
 import io.vertx.up.uca.micro.discovery.multipart.UploadPipe;
 import io.vertx.up.uca.micro.matcher.Arithmetic;

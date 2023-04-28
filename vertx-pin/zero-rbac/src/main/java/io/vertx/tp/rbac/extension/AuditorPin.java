@@ -10,7 +10,7 @@ import io.vertx.tp.ke.cv.KeIpc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.extension.PlugAuditor;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.unity.Ux;
 

@@ -5,7 +5,7 @@ import io.horizon.exception.ProgramException;
 import io.vertx.up.exception.UpException;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._412NullValueException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

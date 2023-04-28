@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;

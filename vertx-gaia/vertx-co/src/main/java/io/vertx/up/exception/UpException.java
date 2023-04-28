@@ -2,7 +2,7 @@ package io.vertx.up.exception;
 
 import io.horizon.eon.VString;
 import io.horizon.exception.AbstractException;
-import io.vertx.up.log.Errors;
+import io.horizon.uca.log.Errors;
 
 /**
  * Top Exception for error code mapping ( Runtime )

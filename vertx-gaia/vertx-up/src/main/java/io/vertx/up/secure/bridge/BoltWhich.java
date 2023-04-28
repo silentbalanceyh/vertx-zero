@@ -10,7 +10,7 @@ import io.vertx.tp.error.WallProviderConflictException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.Lee;
 import io.horizon.uca.cache.Cc;
 

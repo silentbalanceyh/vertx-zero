@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.cell.ExValue;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Sheet;

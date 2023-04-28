@@ -189,7 +189,7 @@ detail implementation of logging system.
 // Zero Logger initialized, connect to vert.x logging system directly 
 // but uniform managed by zero.
 
-import io.vertx.up.log.Annal;
+import io.horizon.log.Annal;
 
 // Then in your class
 public final class Statute {

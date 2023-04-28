@@ -12,7 +12,7 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BMapping;
 import io.vertx.up.commune.exchange.BTree;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

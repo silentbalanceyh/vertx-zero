@@ -1,6 +1,7 @@
 package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
+import io.horizon.uca.log.Annal;
 import io.horizon.spi.extension.Init;
 import io.horizon.spi.extension.Prerequisite;
 import io.vertx.core.Future;
@@ -10,7 +11,6 @@ import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -28,7 +28,7 @@ import static io.vertx.tp.ambient.refine.At.LOG;
  */
 public class InitService implements InitStub {
     /**
-     * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
+     * Zero standard logger of {@link Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(InitService.class);
     /**

@@ -11,7 +11,7 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
 import io.vertx.tp.plugin.redis.RedisInfix;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.ArrayList;
 import java.util.List;

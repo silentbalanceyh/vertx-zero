@@ -6,7 +6,7 @@ import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;

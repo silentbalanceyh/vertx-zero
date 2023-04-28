@@ -4,7 +4,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.exception.web._500InternalServerException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
 

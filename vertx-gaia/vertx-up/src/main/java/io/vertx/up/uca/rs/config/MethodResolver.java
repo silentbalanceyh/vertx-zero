@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.config;
 
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.zero.exception.MethodNullException;
 import jakarta.ws.rs.*;
 

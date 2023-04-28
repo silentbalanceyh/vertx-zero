@@ -10,7 +10,7 @@ import io.vertx.core.impl.future.PromiseImpl;
 import io.vertx.up.exception.zero.JooqClassInvalidException;
 import io.vertx.up.exception.zero.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;

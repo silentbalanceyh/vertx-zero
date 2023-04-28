@@ -3,8 +3,8 @@ package io.vertx.up.runtime;
 import io.horizon.exception.ProgramException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.internal.LimeMissingException;
-import io.vertx.up.log.Annal;
-import io.vertx.up.log.internal.Log4JAnnal;
+import io.horizon.uca.log.Annal;
+import io.horizon.uca.log.internal.Log4JAnnal;
 import io.vertx.up.uca.options.Opts;
 import io.vertx.up.util.Ut;
 
@@ -46,7 +46,7 @@ public final class ZeroAmbient {
         Ut.itJObject(injectOpt, (item, field) -> {
             final String plugin = item.toString();
             if (!plugin.equals(Log4JAnnal.class.getName())) {
-                // Skip class "io.vertx.up.log.internal.Log4JAnnal"
+                // Skip class "io.horizon.log.internal.Log4JAnnal"
                 LOGGER.info(Info.PLUGIN_LOAD, KEY, field, plugin);
             }
             INJECTIONS.put(field, Ut.clazz(plugin));

@@ -7,7 +7,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtConfig;
 import io.vertx.tp.ke.refine.Ke;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;

@@ -12,7 +12,7 @@ import io.vertx.ext.web.sstore.LocalSessionStore;
 import io.vertx.ext.web.sstore.SessionStore;
 import io.vertx.up.exception.web._500SessionClientInitException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.concurrent.atomic.AtomicBoolean;

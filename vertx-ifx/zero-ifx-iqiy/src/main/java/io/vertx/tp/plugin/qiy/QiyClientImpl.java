@@ -9,7 +9,7 @@ import io.vertx.tp.error._401QiyTokenException;
 import io.vertx.tp.plugin.qiy.api.QiyAuthorize;
 import io.vertx.tp.plugin.qiy.api.QiyUpload;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 public class QiyClientImpl implements QiyClient {
 

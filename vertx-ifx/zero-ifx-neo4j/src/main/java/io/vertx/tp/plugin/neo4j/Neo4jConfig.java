@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.neo4j;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import org.neo4j.driver.AuthToken;
 import org.neo4j.driver.AuthTokens;

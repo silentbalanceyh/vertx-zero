@@ -9,7 +9,7 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.VertxCallbackException;
 

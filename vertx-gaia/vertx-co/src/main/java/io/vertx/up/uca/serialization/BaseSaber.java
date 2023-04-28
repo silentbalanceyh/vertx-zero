@@ -2,7 +2,7 @@ package io.vertx.up.uca.serialization;
 
 import io.vertx.up.exception.web._400ParameterFromStringException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 public abstract class BaseSaber implements Saber {
 

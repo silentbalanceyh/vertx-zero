@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.init.IxPin;
 import io.vertx.tp.crud.uca.desk.IxMod;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.uca.jooq.UxJooq;

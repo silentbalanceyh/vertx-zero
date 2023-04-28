@@ -16,8 +16,8 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.element.JBag;
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;
 

@@ -22,7 +22,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

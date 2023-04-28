@@ -9,7 +9,7 @@ import io.vertx.up.exception.internal.JexlExpressionException;
 import io.vertx.up.exception.web._500RequestConfigException;
 import io.vertx.up.exception.web._501HttpClientNullException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
 import org.apache.http.HttpEntity;

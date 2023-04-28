@@ -9,7 +9,7 @@ import io.vertx.tp.error._500InitSpecificationException;
 import io.vertx.tp.error._500PrerequisiteSpecException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -46,7 +46,7 @@ import static io.vertx.tp.ambient.refine.At.LOG;
  */
 public class AtPin {
     /**
-     * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
+     * Zero standard logger of {@link Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(AtPin.class);
 

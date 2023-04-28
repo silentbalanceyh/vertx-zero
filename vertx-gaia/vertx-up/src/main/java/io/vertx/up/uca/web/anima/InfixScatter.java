@@ -7,7 +7,7 @@ import io.vertx.tp.error.PluginSpecificationException;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.KPlugin;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;

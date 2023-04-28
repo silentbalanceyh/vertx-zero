@@ -1,6 +1,6 @@
 package io.horizon.fn;
 
-import io.horizon.log.HLogger;
+import io.horizon.uca.log.HLogger;
 
 /**
  * HFn采用了Java中的静态原型链结构

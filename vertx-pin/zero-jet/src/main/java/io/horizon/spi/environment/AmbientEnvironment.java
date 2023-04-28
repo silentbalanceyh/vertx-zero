@@ -15,7 +15,7 @@ import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

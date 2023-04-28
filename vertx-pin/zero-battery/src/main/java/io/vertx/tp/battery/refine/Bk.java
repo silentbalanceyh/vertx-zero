@@ -1,7 +1,7 @@
 package io.vertx.tp.battery.refine;
 
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

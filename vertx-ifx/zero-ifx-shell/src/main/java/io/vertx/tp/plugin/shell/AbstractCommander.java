@@ -7,7 +7,7 @@ import io.vertx.tp.plugin.shell.atom.CommandAtom;
 import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.util.Ut;
 

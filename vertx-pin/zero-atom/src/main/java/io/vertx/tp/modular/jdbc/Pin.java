@@ -6,7 +6,7 @@ import io.vertx.tp.error._501PinNotFoundException;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 /**

@@ -12,7 +12,7 @@ import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlTypeProvider;
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

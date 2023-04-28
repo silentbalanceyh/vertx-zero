@@ -9,7 +9,7 @@ import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

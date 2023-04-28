@@ -12,7 +12,7 @@ import io.vertx.up.eon.em.EtcdPath;
 import io.vertx.up.exception.zero.EtcdNetworkException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.registry.UddiRegistry;
 import io.vertx.up.util.Ut;

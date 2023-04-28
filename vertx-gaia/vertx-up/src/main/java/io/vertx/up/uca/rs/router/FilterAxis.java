@@ -7,7 +7,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;

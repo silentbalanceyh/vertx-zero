@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.thread;
 
 import io.vertx.up.atom.agent.Event;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.EventExtractor;
 import io.vertx.up.util.Ut;

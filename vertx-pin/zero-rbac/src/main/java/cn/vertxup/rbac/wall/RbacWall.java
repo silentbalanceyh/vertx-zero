@@ -11,7 +11,7 @@ import io.vertx.up.annotations.Authorized;
 import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import javax.inject.Inject;
 

@@ -8,7 +8,7 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;
 import io.horizon.uca.cache.Cc;

@@ -3,7 +3,7 @@ package io.vertx.up.uca.failure;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.InputStream;

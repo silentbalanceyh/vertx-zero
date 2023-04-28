@@ -13,7 +13,7 @@ import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.config.EventExtractor;
 import io.vertx.up.util.Ut;

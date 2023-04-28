@@ -4,7 +4,7 @@ import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AgentDuplicatedException;
 import jakarta.ws.rs.Path;

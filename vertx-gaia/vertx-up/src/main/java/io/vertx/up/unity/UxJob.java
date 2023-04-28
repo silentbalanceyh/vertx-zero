@@ -3,7 +3,7 @@ package io.vertx.up.unity;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;
 

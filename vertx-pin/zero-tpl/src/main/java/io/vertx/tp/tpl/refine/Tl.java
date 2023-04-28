@@ -1,7 +1,7 @@
 package io.vertx.tp.tpl.refine;
 
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 
 /*
  * Tool class available in current service only

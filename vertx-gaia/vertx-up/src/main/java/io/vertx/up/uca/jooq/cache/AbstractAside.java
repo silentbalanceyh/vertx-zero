@@ -3,7 +3,7 @@ package io.vertx.up.uca.jooq.cache;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.hit.*;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.ActionQr;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.uca.jooq.UxJooq;

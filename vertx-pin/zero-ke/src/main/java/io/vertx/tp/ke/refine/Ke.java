@@ -8,8 +8,8 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 

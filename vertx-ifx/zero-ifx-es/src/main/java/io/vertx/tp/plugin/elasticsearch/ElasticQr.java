@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404IndexNameMissingExceptionn;
 import io.vertx.tp.error._404SearchTextMissingExceptionn;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;

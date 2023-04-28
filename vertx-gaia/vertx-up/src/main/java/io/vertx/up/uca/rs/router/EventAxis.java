@@ -7,7 +7,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.runtime.soul.UriAeon;
 import io.vertx.up.uca.rs.Aim;

@@ -10,7 +10,7 @@ import io.vertx.ext.web.sstore.SessionStore;
 import io.vertx.redis.client.*;
 import io.vertx.tp.error._409SessionVersionException;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.*;

@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.regular;
 import io.vertx.up.atom.Rule;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._400ValidationRuleException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 public abstract class BaseRuler implements Ruler {
 

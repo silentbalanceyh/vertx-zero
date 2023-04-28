@@ -11,7 +11,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;

@@ -11,7 +11,7 @@ import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.exception.zero.JooqFieldMissingException;
 import io.vertx.up.exception.zero.JooqMergeException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
 import org.jooq.impl.DSL;

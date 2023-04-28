@@ -6,7 +6,7 @@ import io.vertx.core.net.OpenSSLEngineOptions;
 import io.vertx.core.net.PemKeyCertOptions;
 import io.vertx.core.net.TCPSSLOptions;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ssl.CertPipe;
 import io.vertx.up.uca.micro.ssl.tls.Cert;
 

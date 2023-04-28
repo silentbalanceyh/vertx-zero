@@ -4,7 +4,7 @@ This configuration up.god.file provide extension system especially for vert.x na
 as following:
 
 ```yaml
-logger: io.vertx.up.log.internal.Log4JAnnal
+logger: io.horizon.log.internal.Log4JAnnal
 ```
 
 It's the only one component that enabled by default, you can replace this component by yourself when you want to use ELK

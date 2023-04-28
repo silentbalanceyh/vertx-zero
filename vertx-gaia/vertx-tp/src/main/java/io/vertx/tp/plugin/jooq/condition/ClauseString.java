@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.jooq.condition;
 
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.jooq.Condition;
 import org.jooq.Field;
 

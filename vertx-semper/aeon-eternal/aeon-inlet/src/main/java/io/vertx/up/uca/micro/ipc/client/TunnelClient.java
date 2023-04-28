@@ -10,7 +10,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._501RpcAddressWrongException;
 import io.vertx.up.exception.web._501RpcImplementException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.IpcOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.uca.micro.ipc.DataEncap;

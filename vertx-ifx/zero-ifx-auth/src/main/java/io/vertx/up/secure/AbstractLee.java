@@ -18,7 +18,7 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.authenticate.AuthenticateBuiltInProvider;
 import io.vertx.up.secure.authenticate.ChainHandler;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;

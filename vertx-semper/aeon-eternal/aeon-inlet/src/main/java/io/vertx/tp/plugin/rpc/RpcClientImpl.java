@@ -12,7 +12,7 @@ import io.vertx.tp.plugin.rpc.client.RpcStub;
 import io.vertx.tp.plugin.rpc.client.UnityStub;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ipc.DataEncap;
 import io.vertx.up.util.Ut;
 

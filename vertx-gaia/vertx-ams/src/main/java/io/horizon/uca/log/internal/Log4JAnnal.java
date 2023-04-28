@@ -1,9 +1,10 @@
-package io.vertx.up.log.internal;
+package io.horizon.uca.log.internal;
 
-import io.horizon.exception.ProgramException;
 import io.horizon.exception.AbstractException;
-import io.vertx.up.log.Annal;
-import io.vertx.up.log.DevEnv;
+import io.horizon.exception.ProgramException;
+import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.util.HaS;
+import io.horizon.uca.log.Annal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,8 @@ public class Log4JAnnal extends AbstractAnnal implements Annal {
             this.logger.warn(ex.getMessage());
         } else {
             this.logger.error(ex.getMessage());
-            if (DevEnv.devJvmStack()) {
+            final Boolean isDebug = HaS.envWith(Macrocosm.DEV_JVM_STACK, Boolean.FALSE, Boolean.class);
+            if (isDebug) {
                 /*
                  * 堆栈信息打印条件
                  * 1. 开启了 DEV_JVM_STACK 环境变量

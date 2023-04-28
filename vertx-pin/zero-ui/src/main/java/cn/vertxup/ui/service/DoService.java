@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.init.UiPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

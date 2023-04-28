@@ -23,8 +23,8 @@ import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.demon.ServerConfigException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.util.Ut;

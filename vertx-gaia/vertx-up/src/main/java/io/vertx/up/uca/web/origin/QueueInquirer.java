@@ -6,7 +6,7 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.zero.exception.WorkerConflictException;
 
 import java.util.Set;

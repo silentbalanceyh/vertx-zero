@@ -1,12 +1,14 @@
-package io.vertx.up.log;
+package io.horizon.uca.log;
 
 import io.horizon.exception.internal.ErrorMissingException;
+import io.horizon.exception.internal.SPINullException;
+import io.horizon.fn.HFn;
+import io.horizon.spi.HorizonIo;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.runtime.ZeroYml;
-import io.vertx.up.uca.yaml.Node;
 
 import java.text.MessageFormat;
+import java.util.Objects;
 
 /**
  *
@@ -32,10 +34,15 @@ public final class Errors {
                                     final int code,
                                     final String tpl,
                                     final Object... args) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final String key = ("E" + Math.abs(code)).intern();
-            final Node<JsonObject> node = Node.infix(ZeroYml._error);
-            final JsonObject data = node.read();
+            final HorizonIo io = HaS.service(HorizonIo.class);
+            if (Objects.isNull(io)) {
+                throw new SPINullException(Errors.class);
+            }
+            final JsonObject data = io.ofError();
+            //            final Node<JsonObject> node = Node.infix(ZeroYml._error);
+            //            final JsonObject data = node.read();
             if (null != data && data.containsKey(key)) {
                 // 1. Read pattern
                 final String pattern = data.getString(key);

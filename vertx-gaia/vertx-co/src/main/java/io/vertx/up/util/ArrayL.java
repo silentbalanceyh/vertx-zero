@@ -5,7 +5,7 @@ import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

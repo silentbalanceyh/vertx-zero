@@ -3,7 +3,7 @@ package io.vertx.up.extension.pointer;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.unity.Ux;

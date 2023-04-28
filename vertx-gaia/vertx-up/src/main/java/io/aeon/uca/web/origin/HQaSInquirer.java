@@ -3,7 +3,7 @@ package io.aeon.uca.web.origin;
 import io.aeon.annotations.QaS;
 import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.Address;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.web.origin.Inquirer;
 import io.vertx.up.util.Ut;

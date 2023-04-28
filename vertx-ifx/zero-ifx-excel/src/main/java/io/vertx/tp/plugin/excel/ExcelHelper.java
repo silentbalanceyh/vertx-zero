@@ -18,7 +18,7 @@ import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.tp.plugin.excel.ranger.RowBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

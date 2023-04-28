@@ -5,7 +5,7 @@ import io.vertx.core.http.*;
 import io.vertx.ext.web.FileUpload;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.servicediscovery.ServiceReference;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.InOut;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;

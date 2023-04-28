@@ -5,7 +5,7 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.zero.exception.ChannelMultiException;
 

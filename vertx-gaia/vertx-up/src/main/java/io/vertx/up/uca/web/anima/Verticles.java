@@ -4,7 +4,7 @@ import io.horizon.eon.info.VMessage;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevOps;
 
 import java.util.concurrent.ConcurrentHashMap;

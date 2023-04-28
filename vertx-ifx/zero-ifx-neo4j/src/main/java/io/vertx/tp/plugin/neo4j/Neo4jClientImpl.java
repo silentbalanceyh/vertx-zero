@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.neo4j.refine.N4J;
 import io.vertx.tp.plugin.neo4j.sync.GraphicAnalyzer;
 import io.vertx.tp.plugin.neo4j.sync.N4JSession;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.neo4j.driver.Driver;

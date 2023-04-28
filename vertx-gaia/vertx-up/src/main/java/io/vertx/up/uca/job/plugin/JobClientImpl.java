@@ -6,7 +6,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

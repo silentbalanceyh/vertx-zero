@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiClient;
 import io.vertx.up.unity.Ux;

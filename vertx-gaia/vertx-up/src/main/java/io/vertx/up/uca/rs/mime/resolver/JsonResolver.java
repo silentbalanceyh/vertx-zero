@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.mime.resolver;
 
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.util.Ut;

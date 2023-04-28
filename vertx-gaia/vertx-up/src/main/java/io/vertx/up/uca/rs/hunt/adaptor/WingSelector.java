@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Objects;

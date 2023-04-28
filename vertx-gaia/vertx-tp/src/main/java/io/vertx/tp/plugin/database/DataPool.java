@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.database;
 
 import io.vertx.up.commune.config.Database;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
 import org.jooq.Configuration;
 import org.jooq.ConnectionProvider;

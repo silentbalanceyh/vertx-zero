@@ -14,7 +14,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.rs.announce.Rigor;
 

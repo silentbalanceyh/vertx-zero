@@ -5,7 +5,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

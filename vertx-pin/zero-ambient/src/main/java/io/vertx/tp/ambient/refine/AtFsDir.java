@@ -11,7 +11,7 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.tp.ke.cv.em.BizInternal;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

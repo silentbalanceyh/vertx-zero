@@ -6,7 +6,7 @@ import io.vertx.tp.plugin.shared.MapInfix;
 import io.vertx.tp.plugin.shared.SharedClient;
 import io.vertx.up.exception.web._500PoolInternalException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;

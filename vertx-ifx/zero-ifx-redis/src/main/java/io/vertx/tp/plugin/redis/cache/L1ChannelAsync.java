@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

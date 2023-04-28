@@ -3,7 +3,7 @@ package io.vertx.tp.ambient.init;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtFolder;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import static io.vertx.tp.ambient.refine.At.LOG;
@@ -44,7 +44,7 @@ import static io.vertx.tp.ambient.refine.At.LOG;
  */
 final class AtConfiguration {
     /**
-     * Zero standard logger of {@link io.vertx.up.log.Annal} instance.
+     * Zero standard logger of {@link Annal} instance.
      */
     private static final Annal LOGGER = Annal.get(AtConfiguration.class);
     /**

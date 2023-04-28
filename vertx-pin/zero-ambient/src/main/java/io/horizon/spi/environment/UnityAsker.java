@@ -9,7 +9,7 @@ import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.cv.AtMsg;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;

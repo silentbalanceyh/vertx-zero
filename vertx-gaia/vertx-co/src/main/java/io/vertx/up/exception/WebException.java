@@ -5,7 +5,7 @@ import io.horizon.exception.AbstractException;
 import io.vertx.core.http.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Errors;
+import io.horizon.uca.log.Errors;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

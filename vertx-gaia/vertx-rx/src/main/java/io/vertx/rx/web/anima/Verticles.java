@@ -4,7 +4,7 @@ import io.horizon.eon.info.VMessage;
 import io.reactivex.Single;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.reactivex.core.Vertx;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 class Verticles {
 

@@ -13,7 +13,7 @@ import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.tp.rbac.init.ScPin;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.exception.WebException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import java.time.LocalDateTime;

@@ -5,7 +5,7 @@ import io.horizon.exception.ProgramException;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.fn.ProgramActuator;
 import io.vertx.core.Future;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 final class Wait {
     private static final Annal LOGGER = Annal.get(Wait.class);

@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.tp.plugin.neo4j.Neo4jClient;
 import io.vertx.tp.plugin.neo4j.Neo4jInfix;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.function.Function;
 

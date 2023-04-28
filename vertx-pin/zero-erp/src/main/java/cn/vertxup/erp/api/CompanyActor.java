@@ -7,7 +7,7 @@ import io.vertx.tp.erp.cv.Addr;
 import io.vertx.tp.erp.cv.ErpMsg;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import javax.inject.Inject;
 

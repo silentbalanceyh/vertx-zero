@@ -1,4 +1,4 @@
-package io.horizon.log;
+package io.horizon.uca.log;
 
 /**
  * @author lang : 2023/4/28

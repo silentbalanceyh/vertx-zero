@@ -18,8 +18,8 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;

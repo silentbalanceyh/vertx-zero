@@ -11,7 +11,7 @@ import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

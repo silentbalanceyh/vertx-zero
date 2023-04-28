@@ -1,7 +1,7 @@
 package io.aeon.refine;
 
-import io.vertx.up.log.Log;
-import io.vertx.up.log.LogModule;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 
 /**
  * @author lang : 2023/4/26

@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchClient;
 import io.vertx.tp.plugin.elasticsearch.ElasticSearchInfix;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.function.Supplier;
 

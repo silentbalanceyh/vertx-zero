@@ -1,9 +1,9 @@
-package io.vertx.up.log;
+package io.horizon.uca.log;
 
-import io.horizon.log.HLogger;
+import io.horizon.uca.log.HLogger;
 import io.horizon.uca.cache.Cc;
-import io.vertx.up.log.internal.BridgeAnnal;
-import io.vertx.up.log.internal.Log4JAnnal;
+import io.horizon.uca.log.internal.BridgeAnnal;
+import io.horizon.uca.log.internal.Log4JAnnal;
 
 import java.util.Objects;
 

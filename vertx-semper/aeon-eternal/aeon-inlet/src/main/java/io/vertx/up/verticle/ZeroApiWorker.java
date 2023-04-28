@@ -9,7 +9,7 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.micro.discovery.ApiOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;

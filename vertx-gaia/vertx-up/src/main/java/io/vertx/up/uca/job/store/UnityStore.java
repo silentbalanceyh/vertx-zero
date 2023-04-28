@@ -4,7 +4,7 @@ import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
 import io.horizon.eon.info.VMessage;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;
 

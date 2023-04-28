@@ -1,6 +1,6 @@
 package io.vertx.up.secure.validation;
 
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.hibernate.validator.internal.util.CollectionHelper;
 import org.hibernate.validator.internal.util.Contracts;
 import org.hibernate.validator.internal.util.logging.Messages;

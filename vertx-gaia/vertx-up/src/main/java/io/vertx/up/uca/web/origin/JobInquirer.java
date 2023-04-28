@@ -3,7 +3,7 @@ package io.vertx.up.uca.web.origin;
 import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.JobExtractor;
 import io.vertx.up.util.Ut;

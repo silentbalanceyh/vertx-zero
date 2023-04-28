@@ -2,7 +2,7 @@ package io.vertx.up.uca.web.origin;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.di.DiGuice;
 import io.vertx.up.uca.di.DiGuiceConstructor;
 import io.vertx.up.uca.di.DiGuiceField;

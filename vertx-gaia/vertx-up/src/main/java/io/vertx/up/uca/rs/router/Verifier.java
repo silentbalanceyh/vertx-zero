@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.router;
 
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AnnotationRepeatException;

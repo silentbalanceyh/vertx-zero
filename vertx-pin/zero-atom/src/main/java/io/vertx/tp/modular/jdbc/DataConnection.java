@@ -7,7 +7,7 @@ import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Record;
 import org.jooq.*;

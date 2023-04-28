@@ -8,7 +8,7 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.plugin.JobIncome;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

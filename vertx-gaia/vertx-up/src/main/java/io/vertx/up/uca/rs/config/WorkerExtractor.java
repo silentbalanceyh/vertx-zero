@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.config;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;
 import io.vertx.up.uca.rs.Extractor;

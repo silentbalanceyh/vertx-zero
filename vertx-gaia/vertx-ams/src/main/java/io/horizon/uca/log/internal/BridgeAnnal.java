@@ -1,9 +1,10 @@
-package io.vertx.up.log.internal;
+package io.horizon.uca.log.internal;
 
-import io.vertx.up.log.Annal;
-import io.vertx.up.runtime.ZeroAmbient;
-import io.vertx.up.util.Ut;
+import io.horizon.spi.HorizonIo;
+import io.horizon.util.HaS;
+import io.horizon.uca.log.Annal;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,12 +21,14 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
     private transient final Annal logger;
 
     public BridgeAnnal(final Class<?> clazz) {
-        Class<?> inject = ZeroAmbient.getPlugin("logger");
+        // Class<?> inject = ZeroAmbient.getPlugin("logger");
+        final HorizonIo io = HaS.service(HorizonIo.class);
+        Class<?> inject = Objects.isNull(io) ? null : io.ofAnnal();
         if (null == inject) {
             inject = Log4JAnnal.class;
         }
         final Class<?> cacheKey = inject;
-        this.logger = OUTED.computeIfAbsent(clazz, (key) -> Ut.instance(cacheKey, key));
+        this.logger = OUTED.computeIfAbsent(clazz, (key) -> HaS.instance(cacheKey, key));
     }
 
     public BridgeAnnal(final Annal logger) {

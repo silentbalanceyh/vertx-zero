@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import io.vertx.up.Launcher;
 import io.vertx.up.annotations.Up;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.web.ZeroLauncher;
 import io.vertx.up.uca.web.anima.*;
 import io.vertx.up.util.Ut;

@@ -1,7 +1,5 @@
 package io.horizon.util;
 
-import io.horizon.exception.internal.SPINullException;
-
 import java.util.*;
 
 /**
@@ -48,9 +46,9 @@ final class HSPI {
         } else {
             service = null;
         }
-        if (Objects.isNull(service)) {
-            throw new SPINullException(HSPI.class);
-        }
+        //        if (Objects.isNull(service)) {
+        //            throw new SPINullException(HSPI.class);
+        //        }
         return service;
     }
 

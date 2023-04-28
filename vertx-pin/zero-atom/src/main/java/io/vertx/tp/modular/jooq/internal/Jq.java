@@ -3,7 +3,7 @@ package io.vertx.tp.modular.jooq.internal;
 import io.horizon.eon.VValue;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.jooq.Record;
 import org.jooq.*;
 

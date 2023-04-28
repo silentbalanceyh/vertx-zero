@@ -1,7 +1,7 @@
-package io.vertx.up.log;
+package io.horizon.uca.log;
 
 import io.horizon.uca.cache.Cc;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.util.function.Function;
 
@@ -24,19 +24,19 @@ public class LogFactory {
     }
 
     public LogModule program(final String type) {
-        return this.extension(type, Ut::rgbBlueN);
+        return this.extension(type, HaS::rgbBlueN);
     }
 
     public LogModule configure(final String type) {
-        return this.extension(type, Ut::rgbGreenN);
+        return this.extension(type, HaS::rgbGreenN);
     }
 
     public LogModule infix(final String type) {
-        return this.extension(type, Ut::rgbCyanN);
+        return this.extension(type, HaS::rgbCyanN);
     }
 
     public LogModule cloud(final String type) {
-        return this.extension(type, Ut::rgbBlueB);
+        return this.extension(type, HaS::rgbBlueB);
     }
 
     private LogModule extension(final String type, final Function<String, String> colorFn) {

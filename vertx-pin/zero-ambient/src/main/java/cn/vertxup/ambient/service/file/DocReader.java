@@ -10,7 +10,7 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

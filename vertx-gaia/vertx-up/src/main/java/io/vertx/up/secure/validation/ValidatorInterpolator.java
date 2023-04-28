@@ -1,6 +1,6 @@
 package io.vertx.up.secure.validation;
 
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import jakarta.el.ELManager;
 import jakarta.el.ExpressionFactory;
 import org.hibernate.validator.internal.engine.messageinterpolation.InterpolationTerm;

@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.InputStream;

@@ -7,7 +7,7 @@ import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.ranger.*;
 import io.vertx.tp.plugin.excel.tool.ExFn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.apache.poi.ss.usermodel.*;

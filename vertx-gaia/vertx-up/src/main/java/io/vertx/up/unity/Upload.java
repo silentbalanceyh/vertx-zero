@@ -2,7 +2,7 @@ package io.vertx.up.unity;
 
 import io.vertx.core.buffer.Buffer;
 import io.vertx.ext.web.FileUpload;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 
 import java.io.File;

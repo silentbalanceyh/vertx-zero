@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.util.JqCond;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.uca.jooq.util.JqTool;

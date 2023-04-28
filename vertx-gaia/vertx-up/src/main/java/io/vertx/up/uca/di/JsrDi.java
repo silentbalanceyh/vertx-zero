@@ -2,7 +2,7 @@ package io.vertx.up.uca.di;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import javax.inject.Named;

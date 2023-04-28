@@ -5,7 +5,7 @@ import io.horizon.util.HaS;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.exception.web._412ContractFieldException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

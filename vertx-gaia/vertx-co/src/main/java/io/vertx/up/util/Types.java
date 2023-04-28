@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.Arrays;
 import java.util.Collection;

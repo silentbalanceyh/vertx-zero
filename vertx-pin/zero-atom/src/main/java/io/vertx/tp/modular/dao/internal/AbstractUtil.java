@@ -10,7 +10,7 @@ import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.function.Function;
 

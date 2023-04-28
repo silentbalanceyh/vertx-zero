@@ -8,7 +8,7 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.exception.web._424RpcServiceException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.IpcOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.util.Ut;

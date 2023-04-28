@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.atom;
 
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**

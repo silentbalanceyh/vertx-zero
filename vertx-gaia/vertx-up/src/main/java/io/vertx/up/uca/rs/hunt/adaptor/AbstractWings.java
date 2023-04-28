@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.hunt.adaptor;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroVertx;

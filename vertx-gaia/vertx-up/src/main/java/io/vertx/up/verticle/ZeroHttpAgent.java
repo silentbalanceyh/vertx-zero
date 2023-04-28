@@ -12,7 +12,7 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.extension.Ares;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.uca.monitor.MeasureAxis;

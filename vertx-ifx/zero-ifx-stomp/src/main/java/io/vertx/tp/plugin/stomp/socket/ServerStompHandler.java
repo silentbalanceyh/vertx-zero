@@ -9,7 +9,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.stomp.*;
 import io.vertx.ext.stomp.impl.*;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.vertx.up.log;
+package io.horizon.uca.log;
 
 interface Info {
     /**

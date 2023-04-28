@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.rbac.atom.ScConfig;
 import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.init.ScPin;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.cache.Rapid;

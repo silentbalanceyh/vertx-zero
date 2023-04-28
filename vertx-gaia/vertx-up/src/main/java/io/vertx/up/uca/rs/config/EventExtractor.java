@@ -11,7 +11,7 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;

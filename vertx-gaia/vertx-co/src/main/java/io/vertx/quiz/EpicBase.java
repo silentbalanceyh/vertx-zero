@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 /**

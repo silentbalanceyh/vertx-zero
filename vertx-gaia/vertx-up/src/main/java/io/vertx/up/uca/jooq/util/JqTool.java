@@ -9,7 +9,7 @@ import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

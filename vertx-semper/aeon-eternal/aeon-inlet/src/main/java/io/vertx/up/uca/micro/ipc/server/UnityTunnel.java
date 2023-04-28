@@ -11,7 +11,7 @@ import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._501RpcMethodMissingException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ipc.DataEncap;
 import io.vertx.up.uca.micro.ipc.tower.FinalTransit;
 import io.vertx.up.uca.micro.ipc.tower.NodeTransit;

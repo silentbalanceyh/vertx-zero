@@ -4,7 +4,7 @@ import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.web.thread.SockThread;
 
 import java.lang.reflect.Method;

@@ -6,7 +6,7 @@ import io.vertx.up.atom.query.engine.QrDo;
 import io.vertx.up.atom.query.engine.QrItem;
 import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;

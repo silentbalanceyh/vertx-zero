@@ -12,7 +12,7 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417RelatedFieldMissingException;
 import io.vertx.tp.error._417RelatedSchemaMissingException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;

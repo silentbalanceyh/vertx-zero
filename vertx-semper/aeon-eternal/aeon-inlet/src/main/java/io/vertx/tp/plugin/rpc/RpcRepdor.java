@@ -7,7 +7,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ipc.eon.IpcResponse;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._500UnexpectedRpcException;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ipc.DataEncap;
 
 public class RpcRepdor {

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.di;
 
 import com.google.inject.AbstractModule;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Constructor;

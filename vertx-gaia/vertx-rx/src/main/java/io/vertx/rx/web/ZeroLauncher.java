@@ -4,7 +4,7 @@ import io.reactivex.Single;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.up.Launcher;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroMotor;
 
 import java.util.concurrent.ConcurrentHashMap;

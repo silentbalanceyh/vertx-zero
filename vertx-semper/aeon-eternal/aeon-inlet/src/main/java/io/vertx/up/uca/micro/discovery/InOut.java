@@ -20,7 +20,7 @@ import io.vertx.up.exception.web._404ServiceNotFoundException;
 import io.vertx.up.exception.web._405MethodForbiddenException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.hunt.Answer;
 import io.vertx.up.util.Ut;
 import org.apache.http.Header;

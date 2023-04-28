@@ -2,7 +2,7 @@ package io.vertx.up.uca.web.origin;
 
 import io.horizon.eon.info.VMessage;
 import io.vertx.up.annotations.EndPoint;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.Set;
 import java.util.stream.Collectors;

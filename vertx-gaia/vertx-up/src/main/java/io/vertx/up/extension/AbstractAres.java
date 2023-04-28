@@ -3,7 +3,7 @@ package io.vertx.up.extension;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -5,7 +5,7 @@ import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.*;
 

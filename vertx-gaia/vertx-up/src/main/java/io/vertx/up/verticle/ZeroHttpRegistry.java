@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 

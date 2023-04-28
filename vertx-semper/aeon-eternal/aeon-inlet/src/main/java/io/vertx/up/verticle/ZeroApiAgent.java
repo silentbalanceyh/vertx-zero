@@ -8,7 +8,7 @@ import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.rs.Axis;

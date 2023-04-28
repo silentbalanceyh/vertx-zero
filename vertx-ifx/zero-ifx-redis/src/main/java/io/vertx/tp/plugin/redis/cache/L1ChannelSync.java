@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.redis.cache;
 
 import io.vertx.tp.plugin.redis.RedisInfix;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import redis.clients.jedis.Jedis;
 

@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.agent.IpcData;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ssl.TrustPipe;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;

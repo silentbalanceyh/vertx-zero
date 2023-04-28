@@ -1,7 +1,7 @@
 package io.aeon.experiment.channel;
 
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package io.vertx.up.uca.web;
 import io.vertx.core.Vertx;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.up.Launcher;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroMotor;
 
 import java.util.concurrent.ConcurrentHashMap;

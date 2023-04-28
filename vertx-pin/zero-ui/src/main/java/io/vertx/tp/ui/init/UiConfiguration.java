@@ -9,7 +9,7 @@ import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.tp.ui.atom.UiConfig;
 import io.vertx.tp.ui.cv.UiCv;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;

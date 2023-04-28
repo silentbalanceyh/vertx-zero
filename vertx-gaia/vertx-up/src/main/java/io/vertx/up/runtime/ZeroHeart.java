@@ -5,7 +5,7 @@ import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;
 import io.vertx.up.uca.yaml.Node;

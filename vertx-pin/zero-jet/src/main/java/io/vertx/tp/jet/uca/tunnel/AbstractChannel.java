@@ -16,7 +16,7 @@ import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

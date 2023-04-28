@@ -6,7 +6,7 @@ import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.exception.web._400QueryKeyTypeException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.HashSet;
 import java.util.Set;

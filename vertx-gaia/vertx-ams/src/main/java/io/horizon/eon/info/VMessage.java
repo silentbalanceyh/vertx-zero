@@ -4,7 +4,7 @@ package io.horizon.eon.info;
  * @author lang : 2023/4/24
  */
 public interface VMessage {
-    // ---------- io.vertx.up.log.Annal
+    // ---------- io.horizon.log.Annal
     String ANNAL_INTERNAL = "[ZERO] The inject Annal has not been configured, will select internal for {0}.";
     String ANNAL_CONFIGURED = "[ZERO] The logger ( Annal = {0} ) has been selected for {1} to record logs.";
 

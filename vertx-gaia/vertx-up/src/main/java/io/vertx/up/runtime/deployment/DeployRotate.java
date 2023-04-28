@@ -8,7 +8,7 @@ import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.agent.Arrange;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DeployMode;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;

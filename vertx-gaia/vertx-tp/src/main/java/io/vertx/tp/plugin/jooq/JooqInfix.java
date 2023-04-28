@@ -6,7 +6,7 @@ import io.vertx.up.annotations.Plugin;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.exception.zero.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroYml;
 import org.jooq.Configuration;

@@ -8,7 +8,7 @@ import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.invoker.Invoker;
 import io.vertx.up.uca.invoker.InvokerUtil;

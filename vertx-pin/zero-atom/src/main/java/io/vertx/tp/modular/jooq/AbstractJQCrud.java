@@ -11,7 +11,7 @@ import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.up.exception.WebException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;

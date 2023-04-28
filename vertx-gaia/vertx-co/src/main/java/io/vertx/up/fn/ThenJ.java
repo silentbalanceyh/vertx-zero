@@ -4,7 +4,7 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.log.Log;
+import io.horizon.uca.log.Log;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.stomp.websocket;
 
 import io.vertx.core.Vertx;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 
 import java.util.Objects;
 

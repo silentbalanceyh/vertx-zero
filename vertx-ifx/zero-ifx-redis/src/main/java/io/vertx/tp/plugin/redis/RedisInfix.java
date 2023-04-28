@@ -6,7 +6,7 @@ import io.vertx.redis.client.Redis;
 import io.vertx.redis.client.RedisOptions;
 import io.vertx.tp.plugin.cache.Harp;
 import io.vertx.up.annotations.Plugin;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.util.Ut;

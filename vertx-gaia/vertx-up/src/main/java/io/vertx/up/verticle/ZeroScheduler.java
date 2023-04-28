@@ -8,7 +8,7 @@ import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.uca.job.store.JobConfig;

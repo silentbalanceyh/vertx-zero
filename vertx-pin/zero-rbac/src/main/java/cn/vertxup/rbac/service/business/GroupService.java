@@ -11,7 +11,7 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.Annal;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 
