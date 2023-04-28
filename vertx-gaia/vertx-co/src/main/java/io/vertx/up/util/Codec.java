@@ -122,9 +122,9 @@ final class Codec {
         }
         final String trimInput = literal.trim();
         if (trimInput.startsWith(VString.LEFT_BRACE)) {
-            return (T) To.toJObject(literal);
+            return (T) HaS.toJObject(literal);
         } else if (trimInput.startsWith(VString.LEFT_SQUARE)) {
-            return (T) To.toJArray(literal);
+            return (T) HaS.toJArray(literal);
         }
         return null;
     }

@@ -1,7 +1,6 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.Environment;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -231,40 +230,6 @@ final class StringUtil {
             matchSet.add(found);
         }
         return matchSet;
-    }
-
-    static String path(final String path, final Environment environment) {
-        if (Ut.isNil(path) || path.startsWith(VString.SLASH)) {
-            return path;
-        }
-        if (Environment.Production == environment) {
-            return path;
-        } else {
-            return path("src/main/resources", path);
-        }
-    }
-
-    static String path(final String folder, final String file) {
-        Objects.requireNonNull(file);
-        final String valueFolder;
-        if (Ut.isNil(folder)) {
-            valueFolder = "/";
-        } else {
-            if (folder.endsWith("/")) {
-                // Fix issue of deployment on production environment data loading
-                valueFolder = folder.substring(0, folder.lastIndexOf("/"));
-            } else {
-                valueFolder = folder;
-            }
-        }
-        final String valueFile;
-        if (file.startsWith("/")) {
-            valueFile = file;
-        } else {
-            valueFile = "/" + file;
-        }
-        // Convert `//` to `/`
-        return (valueFolder + valueFile).replace("//", "/");
     }
 
     @Deprecated

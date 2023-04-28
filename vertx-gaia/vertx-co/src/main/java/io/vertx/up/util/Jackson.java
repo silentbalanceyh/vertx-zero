@@ -178,38 +178,6 @@ final class Jackson {
             .first(new JsonObject()).blockingGet(), source, key);
     }
 
-    static JsonArray toJArray(final Object value) {
-        final JsonArray result = new JsonArray();
-        Fn.runAt(() -> {
-            if (Types.isJArray(value)) {
-                result.addAll((JsonArray) value);
-            } else {
-                final JsonArray direct = To.toJArray(value.toString());
-                // Fix issue of ["[]"] String literal
-                if (!direct.isEmpty()) {
-                    result.addAll(direct);
-                }
-/*                if (direct.isEmpty()) {
-                    result.add(value.toString());
-                } else {
-                    result.addAll(direct);
-                }*/
-            }
-        }, value);
-        return result;
-    }
-
-    static JsonObject toJObject(final Object value) {
-        final JsonObject result = new JsonObject();
-        Fn.runAt(() -> {
-            if (Types.isJObject(value)) {
-                result.mergeIn((JsonObject) value, true);
-            } else {
-                result.mergeIn(To.toJObject(value.toString()), true);
-            }
-        }, value);
-        return result;
-    }
 
     static <T> String serialize(final T t) {
         return Fn.runOr(null, () -> Fn.failOr(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
@@ -293,7 +261,7 @@ final class Jackson {
     }
 
     private static <T> String deserializeSmart(final JsonArray item, final Class<T> type) {
-        It.itJArray(item).forEach(json -> deserializeSmart(json, type));
+        HaS.itJArray(item).forEach(json -> deserializeSmart(json, type));
         return item.encode();
     }
 
@@ -318,7 +286,7 @@ final class Jackson {
     }
 
     private static <T, R extends Iterable> R serializeSmart(final JsonArray item) {
-        It.itJArray(item).forEach(json -> serializeSmart(json));
+        HaS.itJArray(item).forEach(json -> serializeSmart(json));
         return (R) item;
     }
 

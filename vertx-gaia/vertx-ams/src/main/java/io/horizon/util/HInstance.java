@@ -66,7 +66,7 @@ class HInstance {
     }
 
     static <T> T singleton(final Class<?> clazz, final Function<Class<?>, T> instanceFn, final String key) {
-        if (HIs.isNil(key)) {
+        if (TIs.isNil(key)) {
             /*
              * 如果key为空，则直接返回，等价于原始 singleton
              * 并且其构造函数的参数是无参的，只是切换了 instanceFn 的实现
@@ -81,7 +81,7 @@ class HInstance {
     }
 
     static Class<?> clazz(final String name, final Class<?> instanceCls, final ClassLoader loader) {
-        if (HIs.isNil(name)) {
+        if (TIs.isNil(name)) {
             return instanceCls;
         } else {
 

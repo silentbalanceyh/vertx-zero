@@ -14,6 +14,6 @@ class _Element extends _Color {
      * @return 拷贝后的数组
      */
     public static <T> T[] elementAdd(final T[] array, final T element) {
-        return HArray.elementAdd(array, element);
+        return TArray.elementAdd(array, element);
     }
 }

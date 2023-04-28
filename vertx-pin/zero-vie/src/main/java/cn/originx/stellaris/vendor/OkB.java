@@ -3,7 +3,7 @@ package cn.originx.stellaris.vendor;
 import cn.originx.stellaris.OkA;
 import cn.originx.stellaris.OkX;
 import io.horizon.eon.VString;
-import io.horizon.specification.meta.typed.TCopy;
+import io.horizon.specification.typed.TCopy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

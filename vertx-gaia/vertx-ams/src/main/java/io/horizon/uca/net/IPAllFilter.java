@@ -1,4 +1,4 @@
-package io.vertx.up.util.net;
+package io.horizon.uca.net;
 
 public class IPAllFilter implements IPFilter {
     private static IPFilter instance = null;

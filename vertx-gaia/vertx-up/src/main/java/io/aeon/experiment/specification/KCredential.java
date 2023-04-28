@@ -1,6 +1,6 @@
 package io.aeon.experiment.specification;
 
-import io.horizon.specification.meta.typed.TJson;
+import io.horizon.specification.typed.TJson;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;

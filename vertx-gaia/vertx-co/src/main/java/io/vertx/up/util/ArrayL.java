@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -158,7 +159,7 @@ final class ArrayL {
     static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {
         return Fn.runOr(new JsonArray(), () -> {
             final JsonArray subset = new JsonArray();
-            It.itJArray(array).filter(fnFilter::apply).forEach(subset::add);
+            HaS.itJArray(array).filter(fnFilter::apply).forEach(subset::add);
             return subset;
         }, array, fnFilter);
     }
@@ -302,7 +303,7 @@ final class ArrayL {
 
     static ConcurrentMap<String, JsonObject> map(final JsonArray data, final String field) {
         final ConcurrentMap<String, JsonObject> mapped = new ConcurrentHashMap<>();
-        It.itJArray(data).forEach(json -> {
+        HaS.itJArray(data).forEach(json -> {
             final String key = json.getString(field);
             if (Ut.isNotNil(key)) {
                 mapped.put(key, json);
@@ -314,7 +315,7 @@ final class ArrayL {
     @SuppressWarnings("unchecked")
     static <T> ConcurrentMap<String, T> map(final JsonArray data, final String field, final String to) {
         final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
-        It.itJArray(data).forEach(json -> {
+        HaS.itJArray(data).forEach(json -> {
             final String key = json.getString(field);
             /*
              * Fix Issue:

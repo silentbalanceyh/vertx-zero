@@ -1,17 +1,17 @@
-package io.vertx.up.util;
+package io.horizon.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.fn.HFn;
+import io.horizon.uca.net.IPHost;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.net.IPHost;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Locale;
 
-final class Net {
-    private Net() {
+final class HNet {
+    private HNet() {
     }
 
     /**
@@ -27,12 +27,12 @@ final class Net {
     }
 
     static boolean isReach(final String host, final int port, final Integer timeOut) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             // 1.Check whether host is reachalbe
             final Boolean hostOk =
-                Fn.failOr(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
+                HFn.failOr(Boolean.FALSE, () -> InetAddress.getByName(host).isReachable(timeOut), host, timeOut);
             // 2.Check whether host/port could be connected.
-            return hostOk ? (Fn.failOr(Boolean.FALSE, () -> {
+            return hostOk ? (HFn.failOr(Boolean.FALSE, () -> {
                 final Socket socket = new Socket();
                 socket.connect(new InetSocketAddress(host, port));
                 final boolean reached = socket.isConnected();
@@ -50,7 +50,7 @@ final class Net {
     }
 
     static String getHostName() {
-        return Fn.failOr(() -> (InetAddress.getLocalHost()).getHostName(), true);
+        return HFn.failOr(() -> (InetAddress.getLocalHost()).getHostName(), true);
     }
 
     /**

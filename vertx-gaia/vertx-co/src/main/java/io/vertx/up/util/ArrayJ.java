@@ -1,6 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -104,7 +105,7 @@ final class ArrayJ {
     }
 
     static JsonObject find(final JsonArray array, final String field, final Object value) {
-        return It.itJArray(array).filter(item -> {
+        return HaS.itJArray(array).filter(item -> {
             if (Objects.isNull(value)) {
                 return Objects.isNull(item.getValue(field));
             } else {
@@ -114,7 +115,7 @@ final class ArrayJ {
     }
 
     static JsonObject find(final JsonArray array, final JsonObject subsetQ) {
-        return It.itJArray(array).filter(item -> {
+        return HaS.itJArray(array).filter(item -> {
             final Set<String> keys = subsetQ.fieldNames();
             final JsonObject subset = ArrayL.subset(item, keys);
             return subset.equals(subsetQ);
@@ -129,7 +130,7 @@ final class ArrayJ {
     static JsonArray save(final JsonArray array, final JsonObject json, final String field) {
         return Fn.runOr(new JsonArray(), () -> {
             final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
-            It.itJArray(array).forEach(each -> {
+            HaS.itJArray(array).forEach(each -> {
                 final boolean isSame = isSameBy(each, json, field);
                 if (isSame) {
                     each.mergeIn(json, true);

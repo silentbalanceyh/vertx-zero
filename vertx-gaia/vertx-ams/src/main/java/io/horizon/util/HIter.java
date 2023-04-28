@@ -1,47 +1,48 @@
-package io.vertx.up.util;
+package io.horizon.util;
 
-import io.horizon.util.HaS;
+import io.horizon.fn.Actuator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-class It {
-    static <T> java.util.stream.Stream<T> itSet(final Set<T> set) {
+class HIter {
+    static <T> Stream<T> itSet(final Set<T> set) {
         final Set<T> source = Objects.isNull(set) ? new HashSet<>() : set;
         return itCollection(source);
     }
 
-    static <T> java.util.stream.Stream<T> itList(final List<T> list) {
+    static <T> Stream<T> itList(final List<T> list) {
         final List<T> source = Objects.isNull(list) ? new ArrayList<>() : list;
         return itCollection(source);
     }
 
-    private static <T> java.util.stream.Stream<T> itCollection(final Collection<T> source) {
+    private static <T> Stream<T> itCollection(final Collection<T> source) {
         // 并行
         return source.stream().filter(Objects::nonNull);
     }
 
-    static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
+    static Stream<JsonObject> itJArray(final JsonArray array) {
         final JsonArray source = HaS.valueJArray(array);
         // 并行
         return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
 
-    static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array, final Predicate<JsonObject> predicate) {
+    static Stream<JsonObject> itJArray(final JsonArray array, final Predicate<JsonObject> predicate) {
         return itJArray(array).filter(predicate);
     }
 
-    static java.util.stream.Stream<String> itJString(final JsonArray array) {
+    static Stream<String> itJString(final JsonArray array) {
         final JsonArray source = HaS.valueJArray(array);
         // 并行
         return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
     }
 
-    static java.util.stream.Stream<String> itJString(final JsonArray array, final Predicate<String> predicate) {
-        return itJString(array, predicate);
+    static Stream<String> itJString(final JsonArray array, final Predicate<String> predicate) {
+        return itJString(array).filter(predicate);
     }
 
     @SuppressWarnings("unchecked")
@@ -60,6 +61,14 @@ class It {
             } else {
                 return data;
             }
+        }
+    }
+
+    static void itRepeat(final Integer times, final Actuator actuator) {
+        int start = 0;
+        while (start < times) {
+            actuator.execute();
+            start++;
         }
     }
 }

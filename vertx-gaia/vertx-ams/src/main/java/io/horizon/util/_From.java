@@ -21,7 +21,7 @@ class _From extends _Element {
      * @return 格式化后的字符串
      */
     public static String fromDate(final LocalDate date, final String pattern) {
-        return HPeriod.fromPattern(date, pattern);
+        return TPeriod.fromPattern(date, pattern);
     }
 
     /**
@@ -33,7 +33,7 @@ class _From extends _Element {
      * @return 格式化后的字符串
      */
     public static String fromDate(final LocalDateTime datetime, final String pattern) {
-        return HPeriod.fromPattern(datetime, pattern);
+        return TPeriod.fromPattern(datetime, pattern);
     }
 
     /**
@@ -45,7 +45,7 @@ class _From extends _Element {
      * @return 格式化后的字符串
      */
     public static String fromDate(final LocalTime time, final String pattern) {
-        return HPeriod.fromPattern(time, pattern);
+        return TPeriod.fromPattern(time, pattern);
     }
 
     /**
@@ -57,7 +57,7 @@ class _From extends _Element {
      * @return 格式化后的字符串
      */
     public static String fromDate(final Date date, final String pattern) {
-        return HPeriod.fromPattern(HPeriod.toDateTime(date), pattern);
+        return TPeriod.fromPattern(TPeriod.toDateTime(date), pattern);
     }
 
     /**
@@ -69,7 +69,7 @@ class _From extends _Element {
      * @return 格式化后的字符串
      */
     public static String fromDate(final Instant instant, final String pattern) {
-        return HPeriod.fromPattern(HPeriod.toDateTime(instant), pattern);
+        return TPeriod.fromPattern(TPeriod.toDateTime(instant), pattern);
     }
 
     /**
@@ -83,7 +83,7 @@ class _From extends _Element {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final Integer seed, final Integer width, final char fill) {
-        return HString.fromAdjust(String.valueOf(seed), width, fill);
+        return TString.fromAdjust(String.valueOf(seed), width, fill);
     }
 
     /**
@@ -97,7 +97,7 @@ class _From extends _Element {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final String seed, final Integer width, final char fill) {
-        return HString.fromAdjust(seed, width, fill);
+        return TString.fromAdjust(seed, width, fill);
     }
 
     /**
@@ -109,7 +109,7 @@ class _From extends _Element {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final String seed, final Integer width) {
-        return HString.fromAdjust(seed, width, ' ');
+        return TString.fromAdjust(seed, width, ' ');
     }
 
     /**
@@ -121,7 +121,7 @@ class _From extends _Element {
      * @return 补充后的字符串
      */
     public static String fromAdjust(final Integer seed, final Integer width) {
-        return HString.fromAdjust(String.valueOf(seed), width, '0');
+        return TString.fromAdjust(String.valueOf(seed), width, '0');
     }
 
     /**

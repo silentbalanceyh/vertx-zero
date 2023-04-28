@@ -1,28 +1,28 @@
-package io.vertx.up.util.net;
+package io.horizon.uca.net;
 
-public class IPv6Filter implements IPFilter {
+public class IPv4Filter implements IPFilter {
     private static IPFilter instance = null;
 
     /**
      * Access Control
      */
-    private IPv6Filter() {
+    private IPv4Filter() {
     }
 
     /**
      * Ignore multiple thread sync problem in extreme case
      *
-     * @return Get IPv6Filter of instance for singleton
+     * @return Get IPv4Filter of instance for singleton
      */
     public static IPFilter getInstance() {
         if (instance == null) {
-            instance = new IPv6Filter();
+            instance = new IPv4Filter();
         }
         return instance;
     }
 
     @Override
     public boolean accept(final String ipAddress) {
-        return ipAddress != null && ipAddress.contains(IPv6KeyWord);
+        return ipAddress != null && !ipAddress.contains(IPv6KeyWord);
     }
 }

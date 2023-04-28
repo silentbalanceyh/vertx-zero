@@ -2,7 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.runtime.VEnv;
-import io.horizon.specification.meta.typed.TJson;
+import io.horizon.specification.typed.TJson;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

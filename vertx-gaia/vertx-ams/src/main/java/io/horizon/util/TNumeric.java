@@ -7,13 +7,13 @@ import java.util.Objects;
 /**
  * @author lang : 2023/4/27
  */
-final class HNumeric {
-    private HNumeric() {
+final class TNumeric {
+    private TNumeric() {
     }
 
     static boolean isPositive(final String literal) {
         return Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.POSITIVE);
+            && TIs.isMatch(literal, VString.REGEX.POSITIVE);
     }
 
     static boolean isPositive(final int number) {
@@ -22,7 +22,7 @@ final class HNumeric {
 
     static boolean isNegative(final String literal) {
         return Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.NEGATIVE);
+            && TIs.isMatch(literal, VString.REGEX.NEGATIVE);
     }
 
     static boolean isNegative(final int number) {
@@ -31,14 +31,14 @@ final class HNumeric {
 
     static boolean isInteger(final String literal) {
         return (Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.INTEGER))
+            && TIs.isMatch(literal, VString.REGEX.INTEGER))
             || isPositive(literal)
             || isNegative(literal);
     }
 
     static boolean isDecimal(final String literal) {
         return Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.DECIMAL);
+            && TIs.isMatch(literal, VString.REGEX.DECIMAL);
     }
 
     static boolean isReal(final String literal) {
@@ -47,11 +47,11 @@ final class HNumeric {
 
     static boolean isDecimalPositive(final String literal) {
         return Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.DECIMAL_POSITIVE);
+            && TIs.isMatch(literal, VString.REGEX.DECIMAL_POSITIVE);
     }
 
     static boolean isDecimalNegative(final String literal) {
         return Objects.nonNull(literal)
-            && HIs.isMatch(literal, VString.REGEX.DECIMAL_NEGATIVE);
+            && TIs.isMatch(literal, VString.REGEX.DECIMAL_NEGATIVE);
     }
 }

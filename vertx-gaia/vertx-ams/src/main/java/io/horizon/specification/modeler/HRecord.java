@@ -1,7 +1,7 @@
 package io.horizon.specification.modeler;
 
 import io.horizon.eon.VValue;
-import io.horizon.specification.meta.typed.TJson;
+import io.horizon.specification.typed.TJson;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;

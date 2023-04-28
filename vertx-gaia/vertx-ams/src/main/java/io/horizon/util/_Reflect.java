@@ -46,7 +46,7 @@ class _Reflect extends _Random {
      * @return 是否实现
      */
     public static boolean isImplement(final Class<?> implCls, final Class<?> interfaceCls) {
-        return HType.isImplement(implCls, interfaceCls);
+        return TType.isImplement(implCls, interfaceCls);
     }
 
     /**
@@ -57,7 +57,7 @@ class _Reflect extends _Random {
      * @return 是否是类
      */
     public static boolean isClass(final Object value) {
-        return HType.isClass(value);
+        return TType.isClass(value);
     }
 
     /**

@@ -1,7 +1,7 @@
-package io.horizon.specification.meta.typed;
+package io.horizon.specification.typed;
 
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 /**
  * Json data extract from object, there are three method for using
@@ -31,7 +31,7 @@ public interface TJson {
      * @param jsonFile input file
      */
     default void fromFile(final String jsonFile) {
-        final JsonObject data = Ut.ioJObject(jsonFile);
+        final JsonObject data = HaS.ioJObject(jsonFile);
         this.fromJson(data);
     }
 }

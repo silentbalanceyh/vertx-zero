@@ -2,7 +2,6 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
-import io.horizon.fn.Actuator;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -80,14 +79,6 @@ final class Congregation {
         firsts.forEach(first -> seconds.apply(first)
             .stream().filter(second -> predicate.test(first, second))
             .forEach(second -> consumer.accept(first, second)));
-    }
-
-    static void exec(final Integer times, final Actuator actuator) {
-        int start = 0;
-        while (start < times) {
-            actuator.execute();
-            start++;
-        }
     }
 
     /**

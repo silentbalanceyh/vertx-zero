@@ -17,7 +17,7 @@ final class HPool {
     static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn, final String key) {
         final String threadName = Thread.currentThread().getName();
         final String keyPool;
-        if (HIs.isNil(key)) {
+        if (TIs.isNil(key)) {
             keyPool = threadName;
         } else {
             keyPool = key + VString.SLASH + threadName;

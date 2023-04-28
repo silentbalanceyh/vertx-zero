@@ -14,8 +14,8 @@ import java.util.Objects;
 /**
  * @author lang : 2023/4/27
  */
-final class HType {
-    private HType() {
+final class TType {
+    private TType() {
     }
 
     // （反射专用）Type类型处理部分

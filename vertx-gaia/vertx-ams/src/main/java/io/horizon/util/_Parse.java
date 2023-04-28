@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author lang : 2023/4/27
  */
-class _Parse extends _It {
+class _Parse extends _Net {
     /**
      * 将字符串literal转换成 Date类型（和JDK老版本对接）
      *
@@ -17,7 +17,7 @@ class _Parse extends _It {
      * @return Date
      */
     public static Date parse(final String literal) {
-        return HPeriod.parse(literal);
+        return TPeriod.parse(literal);
     }
 
     /**
@@ -28,7 +28,7 @@ class _Parse extends _It {
      * @return Date
      */
     public static Date parse(final LocalTime time) {
-        return HPeriod.parse(time);
+        return TPeriod.parse(time);
     }
 
     /**
@@ -39,7 +39,7 @@ class _Parse extends _It {
      * @return Date
      */
     public static Date parse(final LocalDateTime datetime) {
-        return HPeriod.parse(datetime);
+        return TPeriod.parse(datetime);
     }
 
     /**
@@ -50,7 +50,7 @@ class _Parse extends _It {
      * @return Date
      */
     public static Date parse(final LocalDate date) {
-        return HPeriod.parse(date);
+        return TPeriod.parse(date);
     }
 
     /**
@@ -61,6 +61,6 @@ class _Parse extends _It {
      * @return Date
      */
     public static Date parseFull(final String literal) {
-        return HPeriod.parseFull(literal);
+        return TPeriod.parseFull(literal);
     }
 }

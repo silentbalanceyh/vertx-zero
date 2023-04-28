@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * @author lang : 2023/4/27
  */
-class HIs {
+class TIs {
     static boolean isNil(final String str) {
         return Objects.isNull(str) || str.trim().isEmpty();
     }
@@ -93,9 +93,9 @@ class HIs {
         }
 
         if (value instanceof Class<?>) {
-            return HType.isDate((Class<?>) value);
+            return TType.isDate((Class<?>) value);
         } else {
-            return HPeriod.isValid(value.toString());
+            return TPeriod.isValid(value.toString());
         }
     }
 }

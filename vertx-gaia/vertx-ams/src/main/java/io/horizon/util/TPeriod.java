@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * @author lang : 2023/4/27
  */
-final class HPeriod {
+final class TPeriod {
     private static final List<DateTimeFormatter> DATES = new ArrayList<>() {
         {
             this.add(Iso.DATE);
@@ -44,7 +44,7 @@ final class HPeriod {
         }
     };
 
-    private HPeriod() {
+    private TPeriod() {
     }
 
     /**
@@ -64,7 +64,7 @@ final class HPeriod {
 
     private static <T> T parseEach(final String literal, final DateTimeFormatter formatter,
                                    final BiFunction<String, DateTimeFormatter, T> executor) {
-        if (HIs.isNil(literal)) {
+        if (TIs.isNil(literal)) {
             return null;
         } else {
             try {

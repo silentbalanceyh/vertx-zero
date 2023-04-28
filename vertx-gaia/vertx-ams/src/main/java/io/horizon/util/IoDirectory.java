@@ -32,7 +32,7 @@ final class IoDirectory {
         return folders.stream()
             .flatMap(single -> list(single, extension, false)
                 .stream()
-                .filter(file -> HIs.isNil(prefix) || file.contains(prefix))
+                .filter(file -> TIs.isNil(prefix) || file.contains(prefix))
                 .map(file -> {
                     if (single.endsWith("/")) {
                         return single + file;
@@ -178,7 +178,7 @@ final class IoDirectory {
                  */
                 final String replaced = entryName.substring(0, entryName.lastIndexOf('/'));
                 final String found = replaced.substring(replaced.lastIndexOf('/') + 1);
-                if (!HIs.isNil(found)) {
+                if (!TIs.isNil(found)) {
                     retList.add(found);
                 }
             }
@@ -201,7 +201,7 @@ final class IoDirectory {
                      * No Extension
                      */
                     final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
-                    if (!HIs.isNil(foundFile)) {
+                    if (!TIs.isNil(foundFile)) {
                         retList.add(foundFile);
                     }
                 } else {
@@ -210,7 +210,7 @@ final class IoDirectory {
                          * Extension enabled
                          */
                         final String foundFile = entryName.substring(entryName.lastIndexOf('/') + 1);
-                        if (!HIs.isNil(foundFile)) {
+                        if (!TIs.isNil(foundFile)) {
                             retList.add(foundFile);
                         }
                     }

@@ -68,7 +68,7 @@ final class Io {
             String line;
             while (null != (line = reader.readLine())) {
                 buffer.append(line);
-                if (!HIs.isNil(joined)) {
+                if (!TIs.isNil(joined)) {
                     buffer.append(joined);
                 }
             }
@@ -91,7 +91,7 @@ final class Io {
      */
     @SuppressWarnings("unchecked")
     static <T> T ioYaml(final String filename) {
-        if (HIs.isNil(filename)) {
+        if (TIs.isNil(filename)) {
             /*
              * If filename is null or empty
              * return to null reference for future usage
@@ -103,7 +103,7 @@ final class Io {
             return null;
         }
         final String literal = getYamlNode(filename).toString();
-        if (HIs.isNil(literal)) {
+        if (TIs.isNil(literal)) {
             /*
              * If content is null or empty
              * return to null reference for future usage

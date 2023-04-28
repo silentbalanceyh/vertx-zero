@@ -28,7 +28,7 @@ class _Is extends _IoIn {
      * @return 是否空字符串
      */
     public static boolean isNil(final String input) {
-        return HIs.isNil(input);
+        return TIs.isNil(input);
     }
 
     /**
@@ -39,7 +39,7 @@ class _Is extends _IoIn {
      * @return 是否空Json对象
      */
     public static boolean isNil(final JsonObject input) {
-        return HIs.isNil(input);
+        return TIs.isNil(input);
     }
 
     /**
@@ -50,7 +50,7 @@ class _Is extends _IoIn {
      * @return 是否空Json数组
      */
     public static boolean isNil(final JsonArray input) {
-        return HIs.isNil(input);
+        return TIs.isNil(input);
     }
 
     /**
@@ -97,7 +97,7 @@ class _Is extends _IoIn {
      * @return 是否全部为空字符串
      */
     public static boolean isNil(final String... args) {
-        return 0 == args.length || Arrays.stream(args).allMatch(HIs::isNil);
+        return 0 == args.length || Arrays.stream(args).allMatch(TIs::isNil);
     }
 
     /**
@@ -109,7 +109,7 @@ class _Is extends _IoIn {
      * @return 是否全部为空Json对象
      */
     public static boolean isNotNil(final String... args) {
-        return 0 != args.length && Arrays.stream(args).noneMatch(HIs::isNil);
+        return 0 != args.length && Arrays.stream(args).noneMatch(TIs::isNil);
     }
 
     /**
@@ -153,7 +153,7 @@ class _Is extends _IoIn {
      */
     public static boolean isPositive(final int... numbers) {
         return Arrays.stream(numbers)
-            .allMatch(HNumeric::isPositive);
+            .allMatch(TNumeric::isPositive);
     }
 
     /**
@@ -166,7 +166,7 @@ class _Is extends _IoIn {
      */
     public static boolean isPositive(final Integer... numbers) {
         return Arrays.stream(numbers)
-            .allMatch(item -> Objects.nonNull(item) && HNumeric.isPositive(item));
+            .allMatch(item -> Objects.nonNull(item) && TNumeric.isPositive(item));
     }
 
 
@@ -180,7 +180,7 @@ class _Is extends _IoIn {
      * @return 是否为UUID格式
      */
     public static boolean isUUID(final String input) {
-        return HIs.isUUID(input);
+        return TIs.isUUID(input);
     }
 
     /**
@@ -192,7 +192,7 @@ class _Is extends _IoIn {
      * @return 是否相等
      */
     public static boolean isSame(final Object left, final Object right) {
-        return HIs.isSame(left, right);
+        return TIs.isSame(left, right);
     }
 
     /**
@@ -230,7 +230,7 @@ class _Is extends _IoIn {
      * @return 是否时间类型
      */
     public static boolean isDate(final Class<?> clazz) {
-        return HType.isDate(clazz);
+        return TType.isDate(clazz);
     }
 
 
@@ -242,7 +242,7 @@ class _Is extends _IoIn {
      * @return 是否布尔类型
      */
     public static boolean isBoolean(final Class<?> clazz) {
-        return HType.isBoolean(clazz);
+        return TType.isBoolean(clazz);
     }
 
     /**
@@ -253,7 +253,7 @@ class _Is extends _IoIn {
      * @return 是否void类型
      */
     public static boolean isVoid(final Class<?> clazz) {
-        return HType.isVoid(clazz);
+        return TType.isVoid(clazz);
     }
 
     /**
@@ -264,7 +264,7 @@ class _Is extends _IoIn {
      * @return 是否整数类型
      */
     public static boolean isInteger(final Class<?> clazz) {
-        return HType.isInteger(clazz);
+        return TType.isInteger(clazz);
     }
 
     /**
@@ -275,7 +275,7 @@ class _Is extends _IoIn {
      * @return 是否浮点数类型
      */
     public static boolean isDecimal(final Class<?> clazz) {
-        return HType.isDecimal(clazz);
+        return TType.isDecimal(clazz);
     }
 
     /**
@@ -286,7 +286,7 @@ class _Is extends _IoIn {
      * @return 是否数值类型
      */
     public static boolean isNumber(final Class<?> clazz) {
-        return HType.isNumber(clazz);
+        return TType.isNumber(clazz);
     }
 
     /**
@@ -297,7 +297,7 @@ class _Is extends _IoIn {
      * @return 是否 JsonObject 类型
      */
     public static boolean isJObject(final Class<?> clazz) {
-        return HType.isJObject(clazz);
+        return TType.isJObject(clazz);
     }
 
     /**
@@ -330,7 +330,7 @@ class _Is extends _IoIn {
      * @return 是否 JsonArray 类型
      */
     public static boolean isJArray(final Class<?> clazz) {
-        return HType.isJArray(clazz);
+        return TType.isJArray(clazz);
     }
 
     /**
@@ -377,7 +377,7 @@ class _Is extends _IoIn {
      * @return 是否合法Boolean值
      */
     public static boolean isBoolean(final String literal) {
-        return HIs.isBoolean(literal, false);
+        return TIs.isBoolean(literal, false);
     }
 
     /**
@@ -391,7 +391,7 @@ class _Is extends _IoIn {
      * @return 是否合法Boolean值
      */
     public static boolean isBoolean(final String literal, final boolean widely) {
-        return HIs.isBoolean(literal, widely);
+        return TIs.isBoolean(literal, widely);
     }
 
     /**
@@ -402,7 +402,7 @@ class _Is extends _IoIn {
      * @return 是否正整数
      */
     public static boolean isPositive(final String literal) {
-        return HNumeric.isPositive(literal);
+        return TNumeric.isPositive(literal);
     }
 
     /**
@@ -413,7 +413,7 @@ class _Is extends _IoIn {
      * @return 是否正整数
      */
     public static boolean isPositive(final int number) {
-        return HNumeric.isPositive(number);
+        return TNumeric.isPositive(number);
     }
 
     /**
@@ -425,7 +425,7 @@ class _Is extends _IoIn {
      */
     public static boolean isPositive(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isPositive(input.toString().trim().intern());
+            && TNumeric.isPositive(input.toString().trim().intern());
     }
 
     /**
@@ -436,7 +436,7 @@ class _Is extends _IoIn {
      * @return 是否负整数
      */
     public static boolean isNegative(final String literal) {
-        return HNumeric.isNegative(literal);
+        return TNumeric.isNegative(literal);
     }
 
     /**
@@ -447,7 +447,7 @@ class _Is extends _IoIn {
      * @return 是否负整数
      */
     public static boolean isNegative(final int number) {
-        return HNumeric.isNegative(number);
+        return TNumeric.isNegative(number);
     }
 
     /**
@@ -459,7 +459,7 @@ class _Is extends _IoIn {
      */
     public static boolean isNegative(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isNegative(input.toString().trim().intern());
+            && TNumeric.isNegative(input.toString().trim().intern());
     }
 
     /**
@@ -470,7 +470,7 @@ class _Is extends _IoIn {
      * @return 是否整数
      */
     public static boolean isInteger(final String literal) {
-        return HNumeric.isInteger(literal);
+        return TNumeric.isInteger(literal);
     }
 
     /**
@@ -482,7 +482,7 @@ class _Is extends _IoIn {
      */
     public static boolean isInteger(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isInteger(input.toString().trim().intern());
+            && TNumeric.isInteger(input.toString().trim().intern());
     }
 
 
@@ -494,7 +494,7 @@ class _Is extends _IoIn {
      * @return 是否数值
      */
     public static boolean isReal(final String literal) {
-        return HNumeric.isReal(literal);
+        return TNumeric.isReal(literal);
     }
 
     /**
@@ -506,7 +506,7 @@ class _Is extends _IoIn {
      */
     public static boolean isReal(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isReal(input.toString().trim().intern());
+            && TNumeric.isReal(input.toString().trim().intern());
     }
 
     /**
@@ -517,7 +517,7 @@ class _Is extends _IoIn {
      * @return 是否浮点数
      */
     public static boolean isDecimal(final String literal) {
-        return HNumeric.isDecimal(literal);
+        return TNumeric.isDecimal(literal);
     }
 
     /**
@@ -529,7 +529,7 @@ class _Is extends _IoIn {
      */
     public static boolean isDecimal(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isDecimal(input.toString().trim().intern());
+            && TNumeric.isDecimal(input.toString().trim().intern());
     }
 
     /**
@@ -540,7 +540,7 @@ class _Is extends _IoIn {
      * @return 是否正浮点数
      */
     public static boolean isDecimalPositive(final String literal) {
-        return HNumeric.isDecimalPositive(literal);
+        return TNumeric.isDecimalPositive(literal);
     }
 
     /**
@@ -552,7 +552,7 @@ class _Is extends _IoIn {
      */
     public static boolean isDecimalPositive(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isDecimalPositive(input.toString().trim().intern());
+            && TNumeric.isDecimalPositive(input.toString().trim().intern());
     }
 
     /**
@@ -563,7 +563,7 @@ class _Is extends _IoIn {
      * @return 是否负浮点数
      */
     public static boolean isDecimalNegative(final String literal) {
-        return HNumeric.isDecimalNegative(literal);
+        return TNumeric.isDecimalNegative(literal);
     }
 
     /**
@@ -575,7 +575,7 @@ class _Is extends _IoIn {
      */
     public static boolean isDecimalNegative(final Object input) {
         return Objects.nonNull(input)
-            && HNumeric.isDecimalNegative(input.toString().trim().intern());
+            && TNumeric.isDecimalNegative(input.toString().trim().intern());
     }
 
     /**
@@ -586,7 +586,7 @@ class _Is extends _IoIn {
      * @return 是否是一个操作系统的合法文件名
      */
     public static boolean isFileName(final String filename) {
-        return HIs.isFileName(filename);
+        return TIs.isFileName(filename);
     }
 
     /**
@@ -597,7 +597,7 @@ class _Is extends _IoIn {
      * @return 是否是一个合法时间格式
      */
     public static boolean isDate(final Object value) {
-        return HIs.isDate(value);
+        return TIs.isDate(value);
     }
 
     /**
@@ -610,7 +610,7 @@ class _Is extends _IoIn {
      * @return 是否位于某个区间内
      */
     public static boolean isDuration(final LocalDateTime current, final LocalDateTime start, final LocalDateTime end) {
-        return HPeriod.isDuration(current, start, end);
+        return TPeriod.isDuration(current, start, end);
     }
 
     /**
@@ -622,6 +622,6 @@ class _Is extends _IoIn {
      * @return 是否相等
      */
     public static boolean isSame(final Date left, final Date right) {
-        return HPeriod.isSame(left, right);
+        return TPeriod.isSame(left, right);
     }
 }

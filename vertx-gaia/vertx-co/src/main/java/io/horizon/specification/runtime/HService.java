@@ -1,7 +1,8 @@
-package io.horizon.specification.runtime.internal;
+package io.horizon.specification.runtime;
 
 import io.aeon.runtime.H1H;
 import io.horizon.eon.VValue;
+import io.horizon.util.HaS;
 import io.vertx.up.util.Ut;
 
 import java.io.BufferedReader;
@@ -65,39 +66,39 @@ public class HService {
             return Ut.instance(implCls);
         }
         // Load: /META-INF/services
-        T reference = this.service((Class<T>) this.serviceCls, this.loader);
+        T reference = HaS.service((Class<T>) this.serviceCls, this.loader);
         if (Objects.isNull(reference)) {
             // Fix Liquibase Issue:
             /*
              * [ HED ] Missed `HED` component in service loader: META-INF/services/io.vertx.up.experiment.mixture.HED
              * This issue happened only when run `mvn liquibase:update`, because the class runtime is standalone
              */
-            reference = this.service((Class<T>) this.serviceCls, this.serviceCls.getClassLoader());
+            reference = HaS.service((Class<T>) this.serviceCls, this.serviceCls.getClassLoader());
         }
         return reference;
     }
 
-    private <T> T service(final Class<T> serviceCls, final ClassLoader classLoader) {
-        /*
-         * Service Loader for lookup input interface implementation
-         * This configuration must be configured in
-         * META-INF/services/<interfaceCls Name> file
-         */
-        final ServiceLoader<T> loader = ServiceLoader.load(serviceCls, classLoader);
-        /*
-         * New data structure to put interface class into LEXEME_MAP
-         * In current version, it support one to one only
-         *
-         * 1) The key is interface class name
-         * 2) The found class is implementation name
-         */
-        T reference = null;
-        for (final T t : loader) {
-            reference = t;
-            break;
-        }
-        return reference;
-    }
+    //    private <T> T service(final Class<T> serviceCls, final ClassLoader classLoader) {
+    //        /*
+    //         * Service Loader for lookup input interface implementation
+    //         * This configuration must be configured in
+    //         * META-INF/services/<interfaceCls Name> file
+    //         */
+    //        final ServiceLoader<T> loader = ServiceLoader.load(serviceCls, classLoader);
+    //        /*
+    //         * New data structure to put interface class into LEXEME_MAP
+    //         * In current version, it support one to one only
+    //         *
+    //         * 1) The key is interface class name
+    //         * 2) The found class is implementation name
+    //         */
+    //        T reference = null;
+    //        for (final T t : loader) {
+    //            reference = t;
+    //            break;
+    //        }
+    //        return reference;
+    //    }
 
     private void aeonConfigure() {
         try {

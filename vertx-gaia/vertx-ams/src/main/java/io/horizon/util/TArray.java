@@ -3,7 +3,7 @@ package io.horizon.util;
 /**
  * @author lang : 2023/4/28
  */
-class HArray {
+class TArray {
     static <T> T[] elementAdd(final T[] array, final T element) {
         final Class<?> type;
         if (array != null) {

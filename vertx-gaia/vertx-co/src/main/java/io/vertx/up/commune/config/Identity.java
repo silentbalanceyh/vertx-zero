@@ -1,6 +1,6 @@
 package io.vertx.up.commune.config;
 
-import io.horizon.specification.meta.typed.TCopy;
+import io.horizon.specification.typed.TCopy;
 
 import java.io.Serializable;
 import java.util.Objects;

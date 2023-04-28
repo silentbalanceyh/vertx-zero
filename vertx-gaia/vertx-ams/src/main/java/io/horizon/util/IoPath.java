@@ -24,7 +24,7 @@ class IoPath {
     }
 
     static String resolve(final String path, final Environment environment) {
-        if (HIs.isNil(path) || path.startsWith(VString.SLASH)) {
+        if (TIs.isNil(path) || path.startsWith(VString.SLASH)) {
             return path;
         }
         if (Environment.Production == environment) {
@@ -38,7 +38,7 @@ class IoPath {
     static String resolve(final String folder, final String file) {
         Objects.requireNonNull(file);
         final String valueFolder;
-        if (HIs.isNil(folder)) {
+        if (TIs.isNil(folder)) {
             valueFolder = "/";
         } else {
             if (folder.endsWith("/")) {
@@ -60,7 +60,7 @@ class IoPath {
 
 
     static List<String> ladder(final String path) {
-        if (HIs.isNil(path)) {
+        if (TIs.isNil(path)) {
             return new ArrayList<>();
         }
         final String[] splitArr = path.split(VString.SLASH);
@@ -72,7 +72,7 @@ class IoPath {
             }
             item.append(splitArr[idx]);
             final String itemStr = item.toString();
-            if (!HIs.isNil(itemStr)) {
+            if (!TIs.isNil(itemStr)) {
                 itemList.add(itemStr);
             }
         }

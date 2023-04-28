@@ -46,7 +46,7 @@ class Epsilon {
 
     static String vString(final JsonArray array, final String field) {
         final Set<String> set = new HashSet<>();
-        It.itJArray(array).map(json -> json.getString(field))
+        HaS.itJArray(array).map(json -> json.getString(field))
             .filter(Objects::nonNull)
             .forEach(set::add);
         if (1 == set.size()) {

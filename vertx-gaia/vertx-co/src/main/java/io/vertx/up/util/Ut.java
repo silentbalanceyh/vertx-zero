@@ -8,9 +8,7 @@ import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.eon.em.cloud.TypeOs;
 import io.horizon.eon.runtime.VEnv;
-import io.horizon.fn.Actuator;
-import io.horizon.specification.modeler.HRecord;
-import io.horizon.specification.runtime.internal.HService;
+import io.horizon.specification.runtime.HService;
 import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -468,18 +466,10 @@ public final class Ut extends HaS {
         Congregation.exec(list, fnEach);
     }
 
-    public static <V> java.util.stream.Stream<V> itSet(final Set<V> set) {
-        return It.itSet(set);
-    }
-
-
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
         Congregation.exec(list, fnEach);
     }
 
-    public static <V> java.util.stream.Stream<V> itList(final List<V> list) {
-        return It.itList(list);
-    }
 
     public static <V> void itArray(final V[] array, final BiConsumer<V, Integer> fnEach) {
         Congregation.exec(Arrays.asList(array), fnEach);
@@ -497,10 +487,6 @@ public final class Ut extends HaS {
         Congregation.exec(firsts, seconds, consumer, predicate);
     }
 
-    public static void itRepeat(final Integer times, final Actuator actuator) {
-        Congregation.exec(times, actuator);
-    }
-
     public static <T> void itJObject(final JsonObject data, final BiConsumer<T, String> fnEach) {
         Congregation.exec(data, fnEach);
     }
@@ -511,26 +497,6 @@ public final class Ut extends HaS {
 
     public static void itJArray(final JsonArray array, final BiConsumer<JsonObject, Integer> fnEach) {
         Congregation.exec(array, JsonObject.class, fnEach);
-    }
-
-    public static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array) {
-        return It.itJArray(array);
-    }
-
-    public static java.util.stream.Stream<JsonObject> itJArray(final JsonArray array, final Predicate<JsonObject> predicate) {
-        return It.itJArray(array, predicate);
-    }
-
-    public static java.util.stream.Stream<String> itJString(final JsonArray array) {
-        return It.itJString(array);
-    }
-
-    public static java.util.stream.Stream<String> itJString(final JsonArray array, final Predicate<String> predicate) {
-        return It.itJString(array, predicate);
-    }
-
-    public static <T> T itJson(final T data, final Function<JsonObject, T> executor) {
-        return It.itJson(data, executor);
     }
 
     public static <T> void itStart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
@@ -563,6 +529,14 @@ public final class Ut extends HaS {
      * 10) service ( By Service Loader )
      */
 
+    /**
+     * 该方法会隐藏掉继承过来的方法
+     *
+     * @param interfaceCls
+     * @param <T>
+     *
+     * @return
+     */
     public static <T> T service(final Class<T> interfaceCls) {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         return HService.load(interfaceCls, classLoader);
@@ -770,37 +744,6 @@ public final class Ut extends HaS {
      * 5) netUri
      *
      */
-    public static boolean netOk(final String host, final int port) {
-        return Net.isReach(host, port);
-    }
-
-    public static boolean netOk(final String host, final int port, final int timeout) {
-        return Net.isReach(host, port, timeout);
-    }
-
-    public static String netIPv4() {
-        return Net.getIPv4();
-    }
-
-    public static String netHostname() {
-        return Net.getHostName();
-    }
-
-    public static String netIPv6() {
-        return Net.getIPv6();
-    }
-
-    public static String netIP() {
-        return Net.getIP();
-    }
-
-    public static JsonObject netStatus(final String line) {
-        return Net.netStatus(line);
-    }
-
-    public static String netUri(final String url) {
-        return Net.netUri(url);
-    }
 
     /*
      * Map reduce method here
@@ -976,69 +919,8 @@ public final class Ut extends HaS {
         return StringUtil.matched(input, regex);
     }
 
-    public static Set<String> toSet(final JsonArray keys) {
-        return new HashSet<>(To.toList(keys));
-    }
-
-    public static List<String> toList(final JsonArray keys) {
-        return To.toList(keys);
-    }
-
-
-    public static List<Class<?>> toClass(final JsonArray names) {
-        return To.toClass(names);
-    }
-
-    public static JsonArray toJArray(final Object value) {
-        return Jackson.toJArray(value);
-    }
-
-    public static JsonArray toJArray(final String literal) {
-        return To.toJArray(literal);
-    }
-
-    public static JsonArray toJArray(final String literal, final Function<JsonObject, JsonObject> itemFn) {
-        return To.toJArray(literal, itemFn);
-    }
-
-    public static <T> JsonArray toJArray(final T value, final int repeat) {
-        return To.toJArray(value, repeat);
-    }
-
-    public static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {
-        return To.toJArray(array, executor);
-    }
-
-    public static <T> JsonArray toJArray(final Set<T> set) {
-        return To.toJArray(set);
-    }
-
-    public static <T> JsonArray toJArray(final List<T> list) {
-        return To.toJArray(list);
-    }
-
-    public static JsonArray toJArray(final HRecord[] records) {
-        return To.toJArray(records);
-    }
-
-    public static JsonObject toJObject(final String literal) {
-        return To.toJObject(literal);
-    }
-
     public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
         return To.toJObject(literal, itemFn);
-    }
-
-    public static JsonObject toJObject(final Object value) {
-        return Jackson.toJObject(value);
-    }
-
-    public static <T> JsonObject toJObject(final ConcurrentMap<String, T> map) {
-        return To.toJObject(map);
-    }
-
-    public static JsonObject toJObject(final Map<String, Object> map) {
-        return To.toJObject(map);
     }
 
     public static JsonObject toJObject(final MultiMap map) {
@@ -1299,7 +1181,7 @@ public final class Ut extends HaS {
     }
 
     public static JsonArray valueJArray(final JsonArray array, final String field) {
-        return To.toJArray(valueSetString(array, field));
+        return HaS.toJArray(valueSetString(array, field));
     }
 
     // mapping + replace/append

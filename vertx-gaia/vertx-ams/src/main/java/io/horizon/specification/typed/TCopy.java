@@ -1,4 +1,4 @@
-package io.horizon.specification.meta.typed;
+package io.horizon.specification.typed;
 
 /**
  * 对象拷贝包专用封装接口，不同于 clone() 方法是该接口支持泛型拷贝，您可提供自定义的拷贝实现

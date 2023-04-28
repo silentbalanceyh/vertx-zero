@@ -1,8 +1,7 @@
-package io.vertx.up.util.net;
+package io.horizon.uca.net;
 
 import io.horizon.eon.VString;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.log.Annal;
+import io.horizon.fn.HFn;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -12,8 +11,6 @@ import java.util.Enumeration;
  *
  */
 public class IPHost {
-
-    private final static Annal LOGGER = Annal.get(IPHost.class);
     /**
      * Singleton instance
      */
@@ -47,7 +44,7 @@ public class IPHost {
     }
 
     private String searchNetworkInterfaces(final IPFilter ipFilter) {
-        return Fn.failOr(VString.EMPTY, () -> {
+        return HFn.failOr(VString.EMPTY, () -> {
             final Enumeration<NetworkInterface> enumeration = NetworkInterface.getNetworkInterfaces();
             while (enumeration.hasMoreElements()) {
                 final NetworkInterface networkInterface = enumeration.nextElement();

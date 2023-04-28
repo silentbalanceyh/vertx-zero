@@ -16,7 +16,7 @@ class _Value extends _To {
      * @return Date
      */
     public static Date valueNow() {
-        return HPeriod.parse(LocalDateTime.now());
+        return TPeriod.parse(LocalDateTime.now());
     }
 
     /**

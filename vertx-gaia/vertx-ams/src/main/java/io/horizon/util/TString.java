@@ -3,8 +3,8 @@ package io.horizon.util;
 /**
  * @author lang : 2023/4/27
  */
-class HString {
-    private HString() {
+class TString {
+    private TString() {
     }
 
     private static String repeat(final Integer times, final char fill) {
