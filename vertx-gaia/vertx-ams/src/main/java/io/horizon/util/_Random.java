@@ -1,5 +1,8 @@
 package io.horizon.util;
 
+import io.horizon.atom.secure.KPair;
+import io.horizon.uca.crypto.ED;
+
 /**
  * @author lang : 2023/4/28
  */
@@ -46,5 +49,16 @@ class _Random extends _Parse {
      */
     public static String randomLetter(final int length) {
         return HRandom.randomLetter(length);
+    }
+
+    /**
+     * 密钥生成专用，生成公私钥对
+     *
+     * @param length 公私钥对算法长度
+     *
+     * @return 公私钥对
+     */
+    public static KPair randomRsa(final int length) {
+        return ED.rsa(true).generate(length);
     }
 }

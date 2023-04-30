@@ -2,11 +2,11 @@ package io.vertx.tp.plugin.git;
 
 import io.aeon.atom.iras.HRepo;
 import io.horizon.eon.VString;
+import io.horizon.exception.WebException;
+import io.horizon.exception.web._500InternalServerException;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.horizon.exception.WebException;
-import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.plugin.TpClient;
 import io.vertx.up.util.Ut;
 import org.eclipse.jgit.api.Git;

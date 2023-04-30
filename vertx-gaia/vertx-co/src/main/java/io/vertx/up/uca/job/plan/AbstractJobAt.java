@@ -2,7 +2,7 @@ package io.vertx.up.uca.job.plan;
 
 import io.horizon.atom.Kv;
 import io.horizon.eon.VString;
-import io.vertx.up.exception.web._501NotSupportException;
+import io.horizon.exception.web._501NotSupportException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 

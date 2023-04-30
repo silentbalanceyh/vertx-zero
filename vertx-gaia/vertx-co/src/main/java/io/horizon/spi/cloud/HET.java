@@ -2,9 +2,9 @@ package io.horizon.spi.cloud;
 
 import io.aeon.atom.secure.Hoi;
 import io.horizon.cloud.action.HCommand;
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 
 /**
  * 「以太」上下文专用接口

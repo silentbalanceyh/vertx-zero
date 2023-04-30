@@ -1,9 +1,9 @@
 package cn.originx.uca.concrete;
 
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 
 /*
  * 单操作专用接口

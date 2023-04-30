@@ -1,5 +1,6 @@
 package io.horizon.exception.internal;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
 import io.horizon.util.HaS;
@@ -12,5 +13,10 @@ public class JsonFormatException extends InternalException {
     @Override
     protected int getCode() {
         return ErrorCode._11004.V();
+    }
+
+    @HDevelop("IDE视图专用")
+    private int __11004() {
+        return this.getCode();
     }
 }

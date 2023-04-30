@@ -1,8 +1,9 @@
 package io.horizon.spi.cloud;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VString;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -20,8 +21,9 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HED {
-    static void sourceGen(final String className, final int length) {
-        System.out.println(T.generate(className, length));
+    @HDevelop("生成代码专用，负责生成HED代码")
+    static void sourceGen(final String packageName, final String className, final int length) {
+        System.out.println(T.generate(packageName, className, length));
     }
 
     /*
@@ -48,14 +50,14 @@ class T {
         return source;
     }
 
-    static String generate(final String className, final int length) {
-        final KPair pair = Ut.randomRsa(length);
+    static String generate(final String packageName, final String className, final int length) {
+        final KPair pair = HaS.randomRsa(length);
         // PRIVATE_KEY
         final List<String> source = new ArrayList<>();
-        source.add("package cn.vertxup.uca.extension;");
+        source.add("package " + packageName + ";");
         source.add(VString.EMPTY);
-        source.add("import io.vertx.up.experiment.mixture.HED;");
-        source.add("import io.vertx.up.experiment.specification.KPair;");
+        source.add("import " + HED.class.getName() + ";");
+        source.add("import " + KPair.class.getName() + ";");
         source.add(VString.EMPTY);
         source.add(MessageFormat.format("public class {0} implements HED", className) + " {");
         {
@@ -88,6 +90,6 @@ class T {
         source.add("        return new KPair(PUBLIC_KEY, PRIVATE_KEY);");
         source.add("    }");
         source.add("}");
-        return Ut.fromJoin(source, "\n");
+        return HaS.fromJoin(source, "\n");
     }
 }

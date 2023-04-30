@@ -1,12 +1,12 @@
 package io.vertx.tp.rbac.acl.rapier;
 
 import cn.vertxup.rbac.domain.tables.daos.SViewDao;
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.eon.KName;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

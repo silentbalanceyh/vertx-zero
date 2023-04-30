@@ -1,5 +1,6 @@
-package io.vertx.up.exception.web;
+package io.horizon.exception.web;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.exception.WebException;
 
 public class _400BadRequestException extends WebException {
@@ -11,5 +12,10 @@ public class _400BadRequestException extends WebException {
     @Override
     public int getCode() {
         return -60011;
+    }
+
+    @HDevelop("IDE视图专用")
+    private int __60011() {
+        return this.getCode();
     }
 }

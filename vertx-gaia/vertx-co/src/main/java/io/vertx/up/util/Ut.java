@@ -2,7 +2,6 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.horizon.atom.secure.KPair;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.exception.WebException;
 import io.horizon.specification.runtime.HService;
@@ -15,7 +14,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.uca.crypto.ED;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -348,39 +346,6 @@ public final class Ut extends HaS {
     //        final String keyContent = Ut.ioString(keyPath);
     //        return ED.rsa(true).encrypt(input, keyContent);
     //    }
-
-    public static String encryptRSAP(final String input, final String keyContent) {
-        return ED.rsa(true).encrypt(input, keyContent);
-    }
-
-    public static String encryptRSAP(final String input) {
-        return ED.rsa(true).encrypt(input);
-    }
-
-    public static String decryptRSAV(final String input, final String keyContent) {
-        return ED.rsa(true).decrypt(input, keyContent);
-    }
-
-    public static String decryptRSAV(final String input) {
-        return ED.rsa(true).decrypt(input);
-    }
-
-    public static String encryptRSAV(final String input, final String keyContent) {
-        return ED.rsa(false).encrypt(input, keyContent);
-    }
-
-    public static String encryptRSAV(final String input) {
-        return ED.rsa(false).encrypt(input);
-    }
-
-    public static String decryptRSAP(final String input, final String keyContent) {
-        return ED.rsa(false).decrypt(input, keyContent);
-    }
-
-    public static String decryptRSAP(final String input) {
-        return ED.rsa(false).decrypt(input);
-    }
-
     /*
      * Comparing method of two
      * 1) compareTo: Generate comparing method to return int
@@ -895,23 +860,6 @@ public final class Ut extends HaS {
         // Fix issue of split by regex, the . must be \\.
         final String[] pathes = path.split("\\.");
         return Jackson.visitT(item, pathes);
-    }
-
-    /**
-     * @param length Length of intended captcha string.
-     *
-     * @return a string of captcha with certain length.
-     */
-    /*
-     * Random method
-     * 1) randomNumber
-     * 2) randomString
-     * 3) randomLetter
-     * 4) randomRsa
-     * 5) randomCaptcha
-     */
-    public static KPair randomRsa(final int length) {
-        return ED.rsa(true).generate(length);
     }
 
     /*

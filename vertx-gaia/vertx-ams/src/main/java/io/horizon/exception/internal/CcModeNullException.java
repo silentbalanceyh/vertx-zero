@@ -1,5 +1,6 @@
 package io.horizon.exception.internal;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
 
@@ -14,5 +15,10 @@ public class CcModeNullException extends InternalException {
     @Override
     protected int getCode() {
         return ErrorCode._11009.V();
+    }
+
+    @HDevelop("IDE视图专用")
+    private int __11009() {
+        return this.getCode();
     }
 }

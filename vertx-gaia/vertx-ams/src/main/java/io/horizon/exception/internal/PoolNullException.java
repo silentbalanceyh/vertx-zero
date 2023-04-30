@@ -1,5 +1,6 @@
 package io.horizon.exception.internal;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
 
@@ -15,5 +16,10 @@ public class PoolNullException extends InternalException {
     @Override
     protected int getCode() {
         return ErrorCode._11007.V();
+    }
+
+    @HDevelop("IDE视图专用")
+    private int __11007() {
+        return this.getCode();
     }
 }

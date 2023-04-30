@@ -1,5 +1,6 @@
 package io.vertx.up.secure;
 
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
@@ -8,7 +9,6 @@ import io.vertx.ext.web.handler.AuthenticationHandler;
 import io.vertx.ext.web.handler.impl.HTTPAuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.secure.authenticate.AdapterProvider;
 import io.vertx.up.util.Ut;
 

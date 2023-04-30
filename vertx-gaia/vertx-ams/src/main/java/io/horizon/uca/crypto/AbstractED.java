@@ -1,14 +1,13 @@
-package io.vertx.up.uca.crypto;
+package io.horizon.uca.crypto;
 
-import io.aeon.experiment.channel.Pocket;
 import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.fn.HFn;
 import io.horizon.specification.runtime.Macrocosm;
 import io.horizon.spi.cloud.HED;
 import io.horizon.uca.log.Annal;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -33,7 +32,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     @Override
     @SuppressWarnings("unchecked")
     public KPair generate(final int size) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final KeyPairGenerator generate = KeyPairGenerator.getInstance(VValue.DFT.ALGORITHM_RSA);
             generate.initialize(size);
             final KeyPair pair = generate.generateKeyPair();
@@ -54,19 +53,19 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
          * 2. Extract the default ( jar -> Service Loader )
          * 3. Extract the app ( Classpath )
          */
-        final String hedCls = Ut.envWith(Macrocosm.HED_COMPONENT, VString.EMPTY);
+        final String hedCls = HaS.envWith(Macrocosm.HED_COMPONENT, VString.EMPTY);
         HED hed = null;
 
 
         // Z_HED
-        if (Ut.isNotNil(hedCls)) {
-            hed = Ut.instance(hedCls);
+        if (HaS.isNotNil(hedCls)) {
+            hed = HaS.instance(hedCls);
         }
 
 
         // META-INF/services/io.vertx.up.experiment.mixture.HED
         if (Objects.isNull(hed)) {
-            hed = Pocket.lookup(HED.class);
+            hed = HaS.service(HED.class);
         }
         final Annal logger = Annal.get(this.getClass());
         if (Objects.isNull(hed)) {
@@ -79,7 +78,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
     }
 
     protected String runEncrypt(final String source, final Key key) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final Cipher cipher = Cipher.getInstance(this.algorithm);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return Base64.encodeBase64String(cipher.doFinal(source.getBytes()));
@@ -92,7 +91,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
      * at java.base/com.sun.crypto.provider.RSACipher.doFinal(RSACipher.java:348)
      */
     protected String runDecrypt(final String source, final Key key) {
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             // RSA Decrypt
             final Cipher cipher = Cipher.getInstance(this.algorithm);
             cipher.init(Cipher.DECRYPT_MODE, key);
@@ -121,7 +120,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
     protected PublicKey x509(final String keyContent) {
         // Generate Public Key Object
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final byte[] buffer = Base64.decodeBase64(keyContent);
             final KeyFactory keyFactory = KeyFactory.getInstance(this.algorithm);
             final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(buffer);
@@ -131,7 +130,7 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
 
     protected PrivateKey pKCS8(final String keyContent) {
         // Generate Private Key Object
-        return Fn.failOr(() -> {
+        return HFn.failOr(() -> {
             final byte[] buffer = Base64.decodeBase64(keyContent);
             final KeyFactory keyFactory = KeyFactory.getInstance(this.algorithm);
             final PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(buffer);

@@ -1,8 +1,8 @@
 package io.vertx.up.fn;
 
 import io.horizon.exception.WebException;
+import io.horizon.exception.web._500InternalServerException;
 import io.vertx.core.Future;
-import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 

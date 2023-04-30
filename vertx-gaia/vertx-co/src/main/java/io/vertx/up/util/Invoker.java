@@ -1,13 +1,13 @@
 package io.vertx.up.util;
 
 import io.horizon.exception.WebException;
+import io.horizon.exception.web._412NullValueException;
 import io.horizon.util.HaS;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.up.exception.booting.InvokingSpecException;
-import io.vertx.up.exception.web._412NullValueException;
 import io.vertx.up.fn.Fn;
 
 import java.lang.reflect.Method;

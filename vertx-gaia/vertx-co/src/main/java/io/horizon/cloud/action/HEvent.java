@@ -1,9 +1,9 @@
 package io.horizon.cloud.action;
 
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 
 /**
  * 「异步指令」

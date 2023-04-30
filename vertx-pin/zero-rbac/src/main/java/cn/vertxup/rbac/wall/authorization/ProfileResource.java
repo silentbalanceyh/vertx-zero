@@ -1,5 +1,6 @@
 package cn.vertxup.rbac.wall.authorization;
 
+import io.horizon.exception.web._403ForbiddenException;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.exception.web._403ForbiddenException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.secure.authorization.AuthorizationResource;
 import io.vertx.up.util.Ut;

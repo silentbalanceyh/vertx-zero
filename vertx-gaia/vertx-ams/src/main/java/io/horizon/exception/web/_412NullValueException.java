@@ -1,5 +1,6 @@
-package io.vertx.up.exception.web;
+package io.horizon.exception.web;
 
+import io.horizon.annotations.HDevelop;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
 
@@ -21,5 +22,10 @@ public class _412NullValueException extends WebException {
     @Override
     public int getCode() {
         return -60059;
+    }
+
+    @HDevelop("IDE视图专用")
+    private int __60059() {
+        return this.getCode();
     }
 }

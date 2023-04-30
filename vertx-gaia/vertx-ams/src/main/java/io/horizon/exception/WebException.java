@@ -56,6 +56,10 @@ public abstract class WebException extends AbstractException {
         return this.status;
     }
 
+    /**
+     * 设置状态和可续信息的主要目的是在于触发动态验证，如果系统有动态验证功能，那么
+     * 需要重新设置状态以及可读信息，最终生成的数据格式才能通用
+     */
     public void status(final HttpStatusCode status) {
         this.status = status;
     }
@@ -74,6 +78,18 @@ public abstract class WebException extends AbstractException {
         }, readable);
     }
 
+    /**
+     * 最终格式化异常信息
+     * <pre><code>
+     *     {
+     *         "code": "内部异常定义",
+     *         "message": "系统错误信息",
+     *         "info": "人工可读异常"
+     *     }
+     * </code></pre>
+     *
+     * @return {@link JsonObject}
+     */
     public JsonObject toJson() {
         final JsonObject data = new JsonObject();
         data.put(VName.CODE, this.getCode());

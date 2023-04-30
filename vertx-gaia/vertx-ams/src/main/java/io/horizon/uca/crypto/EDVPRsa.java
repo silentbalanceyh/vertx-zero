@@ -1,4 +1,4 @@
-package io.vertx.up.uca.crypto;
+package io.horizon.uca.crypto;
 
 import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VValue;

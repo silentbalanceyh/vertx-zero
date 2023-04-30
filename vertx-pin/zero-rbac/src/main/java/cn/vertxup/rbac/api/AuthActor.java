@@ -1,6 +1,7 @@
 package cn.vertxup.rbac.api;
 
 import cn.vertxup.rbac.service.login.AuthStub;
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +13,6 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.commune.config.XHeader;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -37,10 +37,10 @@ public class AuthActor {
     @Address(Addr.Auth.AUTHORIZE)
     public Future<JsonObject> authorize(final JsonObject data) {
         return this.stub.authorize(UObject.create(data).denull()
-                .remove(AuthKey.RESPONSE_TYPE)
-                .convert(AuthKey.CLIENT_ID, AuthKey.F_CLIENT_ID)
-                .convert(AuthKey.CLIENT_SECRET, AuthKey.F_CLIENT_SECRET)
-                .to());
+            .remove(AuthKey.RESPONSE_TYPE)
+            .convert(AuthKey.CLIENT_ID, AuthKey.F_CLIENT_ID)
+            .convert(AuthKey.CLIENT_SECRET, AuthKey.F_CLIENT_SECRET)
+            .to());
     }
 
     @Address(Addr.Auth.TOKEN)

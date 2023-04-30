@@ -1,5 +1,6 @@
 package io.horizon.util;
 
+import io.horizon.uca.crypto.ED;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -94,4 +95,97 @@ class _EDS extends _Color {
     public static String decryptUrl(final String input) {
         return HCrypto.url(input, false);
     }
+
+    /**
+     * 公钥加密 RSA 加密算法
+     *
+     * @param input     输入
+     * @param keyPublic 公钥内容
+     *
+     * @return 加密后的字符串
+     */
+    public static String encryptRSAP(final String input, final String keyPublic) {
+        return ED.rsa(true).encrypt(input, keyPublic);
+    }
+
+    /**
+     * 公钥加密 RSA 加密算法 / 此处调用HED模块提取公钥
+     *
+     * @param input 输入
+     *
+     * @return 加密后的字符串
+     */
+    public static String encryptRSAP(final String input) {
+        return ED.rsa(true).encrypt(input);
+    }
+
+    /**
+     * 私钥解密 RSA 解密算法
+     *
+     * @param input      输入
+     * @param keyPrivate 私钥内容
+     *
+     * @return 解密后的字符串
+     */
+    public static String decryptRSAV(final String input, final String keyPrivate) {
+        return ED.rsa(true).decrypt(input, keyPrivate);
+    }
+
+    /**
+     * 私钥解密 RSA 解密算法 / 此处调用HED模块提取私钥
+     *
+     * @param input 输入
+     *
+     * @return 解密后的字符串
+     */
+    public static String decryptRSAV(final String input) {
+        return ED.rsa(true).decrypt(input);
+    }
+
+    /**
+     * 私钥加密 RSA 加密算法
+     *
+     * @param input      输入
+     * @param keyPrivate 私钥内容
+     *
+     * @return 加密后的字符串
+     */
+    public static String encryptRSAV(final String input, final String keyPrivate) {
+        return ED.rsa(false).encrypt(input, keyPrivate);
+    }
+
+    /**
+     * 私钥加密 RSA 加密算法 / 此处调用HED模块提取私钥
+     *
+     * @param input 输入
+     *
+     * @return 加密后的字符串
+     */
+    public static String encryptRSAV(final String input) {
+        return ED.rsa(false).encrypt(input);
+    }
+
+    /**
+     * 公钥解密 RSA 解密算法
+     *
+     * @param input     输入
+     * @param keyPublic 公钥内容
+     *
+     * @return 解密后的字符串
+     */
+    public static String decryptRSAP(final String input, final String keyPublic) {
+        return ED.rsa(false).decrypt(input, keyPublic);
+    }
+
+    /**
+     * 公钥解密 RSA 解密算法 / 此处调用HED模块提取公钥
+     *
+     * @param input 输入
+     *
+     * @return 解密后的字符串
+     */
+    public static String decryptRSAP(final String input) {
+        return ED.rsa(false).decrypt(input);
+    }
+
 }

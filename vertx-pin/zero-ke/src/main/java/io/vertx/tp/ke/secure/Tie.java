@@ -1,8 +1,8 @@
 package io.vertx.tp.ke.secure;
 
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.fn.Fn;
 
 /**

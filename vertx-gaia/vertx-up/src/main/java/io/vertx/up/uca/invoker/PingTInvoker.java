@@ -1,11 +1,11 @@
 package io.vertx.up.uca.invoker;
 
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.exception.web._501RpcRejectException;
 
 import java.lang.reflect.Method;

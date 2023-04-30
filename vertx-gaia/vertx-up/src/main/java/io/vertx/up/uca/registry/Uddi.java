@@ -1,6 +1,6 @@
 package io.vertx.up.uca.registry;
 
-import io.vertx.up.exception.web._500InternalServerException;
+import io.horizon.exception.web._500InternalServerException;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

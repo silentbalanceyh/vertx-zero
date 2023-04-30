@@ -1,11 +1,11 @@
 package io.vertx.up.uca.jooq;
 
 import io.horizon.atom.Kv;
+import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.exception.web._501NotSupportException;
 import io.vertx.up.unity.Ux;
 import org.jooq.Field;
 import org.jooq.Table;

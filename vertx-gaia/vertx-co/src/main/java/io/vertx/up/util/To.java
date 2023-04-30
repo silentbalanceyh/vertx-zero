@@ -1,12 +1,12 @@
 package io.vertx.up.util;
 
+import io.horizon.exception.WebException;
+import io.horizon.exception.web._500InternalServerException;
 import io.horizon.util.HaS;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.exception.WebException;
-import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;

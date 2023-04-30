@@ -6,9 +6,9 @@ import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.shape.AbstractHModel;
 import io.aeon.experiment.specification.power.KApp;
 import io.horizon.eon.em.modeler.ModelType;
+import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAttribute;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.web._501NotSupportException;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;

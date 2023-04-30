@@ -4,6 +4,8 @@ import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
 import io.horizon.eon.em.scheduler.JoinMode;
+import io.horizon.exception.WebException;
+import io.horizon.exception.web._500InternalServerException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -13,8 +15,6 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
-import io.horizon.exception.WebException;
-import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

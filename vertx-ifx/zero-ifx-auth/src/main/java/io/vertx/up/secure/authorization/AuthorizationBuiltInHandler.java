@@ -1,5 +1,8 @@
 package io.vertx.up.secure.authorization;
 
+import io.horizon.exception.WebException;
+import io.horizon.exception.web._403ForbiddenException;
+import io.horizon.uca.log.Annal;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
 import io.vertx.ext.auth.authorization.AuthorizationContext;
@@ -7,9 +10,6 @@ import io.vertx.ext.auth.authorization.AuthorizationProvider;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
-import io.horizon.exception.WebException;
-import io.vertx.up.exception.web._403ForbiddenException;
-import io.horizon.uca.log.Annal;
 
 import java.util.ArrayList;
 import java.util.Collection;
