@@ -1,12 +1,12 @@
 package io.vertx.up.fn;
 
-import io.vertx.core.Future;
 import io.horizon.exception.WebException;
+import io.vertx.core.Future;
 
 /**
  * @author lang : 2023/4/28
  */
-class _Out extends _Combine {
+class _Out extends _Of {
     protected _Out() {
     }
 

@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.exception.WebException;
-import io.horizon.exception.web._412NullValueException;
+import io.horizon.exception.web._412ArgumentNullException;
 import io.horizon.util.HaS;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -48,7 +48,7 @@ final class Invoker {
     private static Method methodSeek(final Object instance, final String name, final Object... args) {
         // Direct invoke, multi overwrite for unbox/box issue still existing.
         if (Ut.isNil(name) || Objects.isNull(instance)) {
-            throw new _412NullValueException(Invoker.class, "name | instance");
+            throw new _412ArgumentNullException(Invoker.class, "name | instance");
         }
         final Class<?> clazz = instance.getClass();
         final List<Class<?>> types = new ArrayList<>();
@@ -86,7 +86,7 @@ final class Invoker {
 
         /* Method checking */
         if (Objects.isNull(method)) {
-            throw new _412NullValueException(Invoker.class, "method: " + name + " is null");
+            throw new _412ArgumentNullException(Invoker.class, "method: " + name + " is null");
         }
 
         final Class<?> returnType = method.getReturnType();

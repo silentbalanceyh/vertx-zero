@@ -109,7 +109,7 @@ class TValue {
     }
 
     @SuppressWarnings("unchecked")
-    static <T> T valueT(final JsonObject item, final String field, final Class<T> clazz) {
+    static <T> T vT(final JsonObject item, final String field, final Class<T> clazz) {
         if (TIs.isNil(item)) {
             return null;
         } else {

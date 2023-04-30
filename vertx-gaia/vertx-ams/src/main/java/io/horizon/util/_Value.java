@@ -297,19 +297,36 @@ class _Value extends _To {
      * @return T
      */
     public static <T> T valueT(final JsonObject json, final String field, final Class<T> type) {
-        return TValue.valueT(json, field, type);
+        return TValue.vT(json, field, type);
     }
 
     /**
-     * 从 source 的 JsonObject 中拷贝 fields 属性相关信息到 target，并且不改写 target
-     * 此处会创建 target 的副本生成新的 JsonObject
+     * 「副作用方法」
+     * 从 source 的 JsonObject 中拷贝 fields 属性相关信息到 target，该方法会改写 target
+     * 拷贝对应属性过来，如果 source 中不存在该属性，则不拷贝
      *
      * @param target 目标
      * @param source 源
      * @param fields 字段
+     *
+     * @return JsonObject
      */
-    public static void valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        HJson.valueCopy(target, source, fields);
+    public static JsonObject valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        return HJson.valueCopy(target, source, fields);
+    }
+
+    /**
+     * 「副作用方法」
+     * 将 record （ JsonObject 对象 ）本身的 from 属性拷贝到 to 属性
+     *
+     * @param record JsonObject
+     * @param from   from
+     * @param to     to
+     *
+     * @return JsonObject
+     */
+    public static JsonObject valueCopy(final JsonObject record, final String from, final String to) {
+        return HJson.valueCopy(record, from, to);
     }
 
     /**
@@ -336,5 +353,36 @@ class _Value extends _To {
     public static JsonObject valueMerge(final JsonObject target, final JsonObject... sources) {
         Arrays.stream(sources).forEach(source -> HJson.valueMerge(target, source, true));
         return target;
+    }
+
+    /**
+     * 为 record （JsonObject类型）的对象追加默认值，如果 record 中的属性已经有值且值不为 null 时则追加
+     * 1. 如果追加的 value 是 null 也会生效
+     * 2. field 为空则跳过，record 为空则是 valueJObject 效果（返回 JsonObject 对象）
+     * 3. 如果是 String 类型，只检查 null，不检查空字符串
+     *
+     * @param record JsonObject
+     * @param field  字段名
+     * @param value  默认值
+     *
+     * @return JsonObject
+     */
+    public static JsonObject valueDefault(final JsonObject record, final String field, final Object value) {
+        return HJson.valueDefault(record, field, value);
+    }
+
+    /**
+     * 为 record （JsonObject类型）的对象追加默认值，如果 record 中的属性已经有值且值不为 null 时则追加
+     * 1. 如果追加的 value 是 null 也会生效
+     * 2. field 为空则跳过，record 为空则是 valueJObject 效果（返回 JsonObject 对象）
+     * 3. 如果是 String 类型，只检查 null，不检查空字符串
+     *
+     * @param record JsonObject
+     * @param field  字段名
+     *
+     * @return JsonObject
+     */
+    public static JsonObject valueDefault(final JsonObject record, final String field) {
+        return HJson.valueDefault(record, field, null);
     }
 }

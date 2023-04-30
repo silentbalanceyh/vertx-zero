@@ -4,7 +4,7 @@ import io.horizon.exception.AbstractException;
 import io.horizon.exception.BootingException;
 import io.horizon.exception.ProgramException;
 import io.horizon.exception.WebException;
-import io.horizon.exception.web._412NullValueException;
+import io.horizon.exception.web._412ArgumentNullException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -117,16 +117,16 @@ final class Warning {
         if (condition instanceof final Boolean check) {
             // If boolean, condition = true, throw Error
             if (check) {
-                outWeb(_412NullValueException.class, clazz, message);
+                outWeb(_412ArgumentNullException.class, clazz, message);
             }
         } else if (condition instanceof final String check) {
             // If string, condition = empty or null, throw Error
             if (Ut.isNil(check)) {
-                outWeb(_412NullValueException.class, clazz, message);
+                outWeb(_412ArgumentNullException.class, clazz, message);
             }
         } else if (Objects.isNull(condition)) {
             // If object, condition = null, throw Error
-            outWeb(_412NullValueException.class, clazz, message);
+            outWeb(_412ArgumentNullException.class, clazz, message);
         }
     }
 

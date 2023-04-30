@@ -99,7 +99,7 @@ class JoinWriter {
     }
 
     private JsonObject valueNorm(final JsonObject response, final JsonObject joined) {
-        return Fn.ifCopies(joined, response,
+        return Ut.valueCopy(joined, response,
             // Normalized
             KName.CREATED_BY,
             KName.CREATED_AT,

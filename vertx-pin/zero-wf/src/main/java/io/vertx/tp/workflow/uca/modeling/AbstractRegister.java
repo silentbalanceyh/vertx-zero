@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,7 +29,7 @@ public abstract class AbstractRegister implements Register {
         // Auditor Processing
         if (isNew) {
             if (params.containsKey(KName.CREATED_AT)) {
-                Fn.ifCopies(rData, params,
+                Ut.valueCopy(rData, params,
                     KName.CREATED_AT,
                     KName.CREATED_BY
                 );
@@ -39,7 +38,7 @@ public abstract class AbstractRegister implements Register {
                 rData.put(KName.CREATED_AT, params.getValue(KName.UPDATED_AT));
             }
         }
-        Fn.ifCopies(rData, params,
+        Ut.valueCopy(rData, params,
             KName.UPDATED_AT,
             KName.UPDATED_BY,
             KName.SIGMA,

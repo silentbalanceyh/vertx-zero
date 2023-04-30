@@ -10,7 +10,6 @@ import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -38,7 +37,7 @@ public class MenuActor {
         /* Condition Building */
         final JsonObject condition = Ux.whereAnd();
         // data -> condition
-        Fn.ifCopies(condition, data,
+        Ut.valueCopy(condition, data,
             KName.OWNER,
             KName.Ui.PAGE,
             KName.POSITION,
@@ -49,7 +48,7 @@ public class MenuActor {
         menus = menus.copy();
         final JsonObject combine = new JsonObject();
         // data -> combine
-        Fn.ifCopies(combine, data,
+        Ut.valueCopy(combine, data,
             KName.OWNER,
             KName.Ui.PAGE,
             KName.POSITION,

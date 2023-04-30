@@ -303,12 +303,46 @@ class HJson {
         return reference;
     }
 
-    static void valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        Arrays.stream(fields).forEach(field -> HFn.runAt(() -> {
+    static JsonObject valueCopy(final JsonObject record, final String from, final String to) {
+        if (Objects.isNull(record) || TIs.isNil(to)) {
+            return null;
+        }
+        final Object value = record.getValue(from);
+        if (Objects.nonNull(value)) {
+            record.put(to, value);
+        }
+        return record;
+    }
+
+    static JsonObject valueDefault(final JsonObject record, final String field, final Object value) {
+        if (Objects.isNull(record)) {
+            // 如果 record 为空，返回一个空的 JsonObject
+            return new JsonObject();
+        }
+        if (TIs.isNil(field)) {
+            // 如果 field 为空，则直接跳过，返回 record
+            return record;
+        }
+        final Object valueOriginal = record.getValue(field);
+        if (Objects.isNull(valueOriginal)) {
+            // 此处只检查 null
+            record.put(field, value);
+        }
+        return record;
+    }
+
+    static JsonObject valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        Objects.requireNonNull(target);
+        final JsonObject sourceJ = valueJObject(source, false);
+        if (TIs.isNil(sourceJ)) {
+            return target;
+        }
+        Arrays.stream(fields).forEach(field -> {
             final Object value = source.getValue(field);
             if (Objects.nonNull(value)) {
                 target.put(field, value);
             }
-        }, target, source, field));
+        });
+        return target;
     }
 }

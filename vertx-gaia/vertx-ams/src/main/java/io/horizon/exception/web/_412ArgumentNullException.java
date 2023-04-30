@@ -7,10 +7,10 @@ import io.horizon.exception.WebException;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class _412NullValueException extends WebException {
+public class _412ArgumentNullException extends WebException {
 
-    public _412NullValueException(final Class<?> clazz,
-                                  final String message) {
+    public _412ArgumentNullException(final Class<?> clazz,
+                                     final String message) {
         super(clazz, message);
     }
 

@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 /**
  * @author lang : 2023/4/28
  */
-class Extension {
-    private Extension() {
+class Monad {
+    private Monad() {
 
     }
 
