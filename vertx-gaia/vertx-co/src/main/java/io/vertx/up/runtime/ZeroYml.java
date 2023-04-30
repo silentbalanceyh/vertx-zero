@@ -13,13 +13,18 @@ public interface ZeroYml {
     /*
      * vertx-server.yml
      * vertx-inject.yml
-     * vertx-error.yml
+     * vertx-error.yml / vertx-readable.yml
      * vertx-resolver.yml
      */
     String _server = "server";
     String _inject = "inject";
     String _error = "error";
+    String _readable = "readable";
     String _resolver = "resolver";
+
+    static String equip(final String filename) {
+        return "vertx-" + filename + ".yml";
+    }
 
     /*
      * vertx.yml
@@ -39,6 +44,11 @@ public interface ZeroYml {
             String orbit = "orbit";
             String provider = "provider";
         }
+    }
+
+    interface error {
+        String V = "error";
+        String info = "info";
     }
 
     interface inject {

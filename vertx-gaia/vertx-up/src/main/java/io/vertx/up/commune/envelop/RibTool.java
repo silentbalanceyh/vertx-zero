@@ -1,11 +1,10 @@
 package io.vertx.up.commune.envelop;
 
+import io.horizon.exception.WebException;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroSerializer;
-import io.vertx.up.uca.failure.Readible;
 
 import java.util.Objects;
 
@@ -16,12 +15,6 @@ class RibTool {
         final JsonObject bodyData = new JsonObject();
         bodyData.put(Key.DATA, serialized);
         return bodyData;
-    }
-
-    static WebException normalize(final WebException error) {
-        final Readible readible = Readible.get();
-        readible.interpret(error);
-        return error;
     }
 
     @SuppressWarnings("all")

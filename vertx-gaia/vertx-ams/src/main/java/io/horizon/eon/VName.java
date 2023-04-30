@@ -290,4 +290,5 @@ public interface VName {
     String PATH = "path";
     String MOVE = "move";
     String MESSAGE = "message";
+    String INFO = "info";
 }

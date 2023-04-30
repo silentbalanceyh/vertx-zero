@@ -1,18 +1,14 @@
 package io.vertx.up.commune.envelop;
 
+import io.horizon.exception.WebException;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KWeb;
-import io.horizon.exception.WebException;
 
 public class Rib {
 
     public static <T> JsonObject input(final T data) {
         return RibTool.input(data);
-    }
-
-    public static WebException normalize(final WebException error) {
-        return RibTool.normalize(error);
     }
 
     public static <T> T deserialize(final Object value, final Class<?> clazz) {

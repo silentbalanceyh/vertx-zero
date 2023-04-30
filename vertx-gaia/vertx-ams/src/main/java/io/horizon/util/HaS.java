@@ -74,6 +74,19 @@ public class HaS extends _Value {
         return HError.fromError(pattern, clazz, code, args);
     }
 
+    /**
+     * 异常信息的格式化，用于各种异常信息模板化输出专用处理，该格式化函数是根据
+     * 异常 code 从文件中提取，
+     * vertx zero 中直接从 vertx-readable.yml 中提取
+     *
+     * @param code 异常代码
+     *
+     * @return 格式化后的字符串
+     */
+    public static String fromReadable(final int code, final Object... args) {
+        return HError.fromReadable(code, args);
+    }
+
     // ---------------- 池化函数
     public static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn, final String key) {
         return HPool.poolThread(pool, poolFn, key);

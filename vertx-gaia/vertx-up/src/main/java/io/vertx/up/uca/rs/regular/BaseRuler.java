@@ -1,9 +1,9 @@
 package io.vertx.up.uca.rs.regular;
 
-import io.vertx.up.atom.Rule;
 import io.horizon.exception.WebException;
-import io.vertx.up.exception.web._400ValidationRuleException;
 import io.horizon.uca.log.Annal;
+import io.vertx.up.atom.Rule;
+import io.vertx.up.exception.web._400ValidationRuleException;
 
 public abstract class BaseRuler implements Ruler {
 
@@ -13,13 +13,13 @@ public abstract class BaseRuler implements Ruler {
         final Rule rule) {
         final String message = rule.getMessage();
         final WebException error = new _400ValidationRuleException(
-            getClass(), field, value, message);
-        error.setReadible(message);
-        getLogger().info(Info.MSG_FAILURE, error.toJson());
+            this.getClass(), field, value, message);
+        error.readable(message);
+        this.getLogger().info(Info.MSG_FAILURE, error.toJson());
         return error;
     }
 
     protected Annal getLogger() {
-        return Annal.get(getClass());
+        return Annal.get(this.getClass());
     }
 }

@@ -12,10 +12,24 @@ import java.util.Objects;
  * @author lang : 2023/4/30
  */
 class HError {
+    static String fromReadable(final int code, final Object... args) {
+        final HorizonIo io = HSPI.service(HorizonIo.class);
+        if (Objects.isNull(io)) {
+            // 此处SPI组件不能为空，必须存在
+            throw new SPINullException(HError.class);
+        }
+        final JsonObject message = io.ofFailure();
+        final String tpl = message.getString(String.valueOf(Math.abs(code)), null);
+        if (TIs.isNil(tpl)) {
+            return null;
+        } else {
+            return HFormat.fromMessage(tpl, args);
+        }
+    }
 
-    public static String fromError(final String tpl,
-                                   final Class<?> clazz, final int code,
-                                   final Object... args) {
+    static String fromError(final String tpl,
+                            final Class<?> clazz, final int code,
+                            final Object... args) {
         return HFn.failOr(() -> {
             final String key = ("E" + Math.abs(code)).intern();
             final HorizonIo io = HSPI.service(HorizonIo.class);

@@ -3,8 +3,8 @@ package io.vertx.up.uca.yaml;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.EmptyIoException;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.cache.Cc;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -46,7 +46,7 @@ public class ZeroTool {
             ZeroTool::nameZero,
             // vertx-co
             // resources/up/config/vertx-xxx
-            extension ? name -> io.horizon.eon.VPath.SERVER.INTERNAL_FILE + ZeroTool.nameZero(name) : null);
+            extension ? name -> VPath.SERVER.INTERNAL_FILE + ZeroTool.nameZero(name) : null);
     }
 
     /*
@@ -59,7 +59,7 @@ public class ZeroTool {
             // resources/aeon/zapp-xxx, zcloud-xxx
             name -> "aeon/" + nameAeon(name, galaxy),
             // resources/aeon/contained/zapp-xxx, zcloud-xxx
-            name -> io.horizon.eon.VPath.SERVER.INTERNAL_AEON + nameAeon(name, galaxy));
+            name -> VPath.SERVER.INTERNAL_AEON + nameAeon(name, galaxy));
     }
 
     private static JsonObject read(final String fileSuffix,

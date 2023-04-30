@@ -25,6 +25,14 @@ public interface HorizonIo {
     JsonObject ofError();
 
     /**
+     * 资源加载，加载对应的异常资源文件，和 ofError() 可成对出现
+     * 该方法返回的内容可直接提取可读部分，用于前端展示
+     *
+     * @return {@link JsonObject}
+     */
+    JsonObject ofFailure();
+
+    /**
      * 日志获取器，可读取扩展日志类型，实例时基于 Class<?>
      *
      * @return {@link Annal}

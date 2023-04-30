@@ -2,6 +2,7 @@ package io.vertx.up.secure.validation;
 
 import io.aeon.runtime.H2H;
 import io.horizon.eon.VString;
+import io.horizon.exception.WebException;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,7 +10,6 @@ import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
 import io.vertx.up.util.Ut;
 import jakarta.validation.ConstraintViolation;
@@ -65,7 +65,7 @@ public class Validator {
             final WebException error
                 = new _400ValidationException(this.getClass(),
                 proxy.getClass(), method, item.getMessage());
-            error.setReadible(item.getMessage());
+            error.readable(item.getMessage());
             throw error;
         }
     }

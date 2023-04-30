@@ -1,12 +1,13 @@
 package io.vertx.up.commune;
 
 import io.horizon.eon.em.ValueBool;
+import io.horizon.eon.em.web.HttpStatusCode;
+import io.horizon.exception.WebException;
 import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.MultiMap;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerRequest;
-import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
@@ -16,7 +17,6 @@ import io.vertx.ext.web.handler.HttpException;
 import io.vertx.up.commune.envelop.Rib;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._000HttpWebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.fn.Fn;
@@ -131,7 +131,7 @@ public class Envelop implements Serializable {
 
     // other error with WebException
     public static Envelop failure(final WebException error) {
-        return new Envelop(Rib.normalize(error));
+        return new Envelop(error);
     }
 
     // ------------------ Above are initialization method -------------------
