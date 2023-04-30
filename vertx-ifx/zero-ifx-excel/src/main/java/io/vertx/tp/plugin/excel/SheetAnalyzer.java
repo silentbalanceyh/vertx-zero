@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.atom.modeler.TypeAtom;
 import io.horizon.eon.VValue;
-import io.horizon.specification.modeler.TypeAtom;
 import io.horizon.uca.log.Annal;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;

@@ -177,11 +177,11 @@ public final class SqlDDLProvider {
         final Set<String> newColumns = schema.getColumnNames();
         final ConcurrentMap<ChangeFlag, Collection<String>> statusMap = new ConcurrentHashMap<>();
         /* ADD：新添加字段 **/
-        statusMap.put(ChangeFlag.ADD, Ut.diff(newColumns, oldColumns));
+        statusMap.put(ChangeFlag.ADD, Ut.elementDiff(newColumns, oldColumns));
         /* DELETE：删除字段 **/
-        statusMap.put(ChangeFlag.DELETE, Ut.diff(oldColumns, newColumns));
+        statusMap.put(ChangeFlag.DELETE, Ut.elementDiff(oldColumns, newColumns));
         /* UPDATE：更新字段 **/
-        statusMap.put(ChangeFlag.UPDATE, Ut.intersect(oldColumns, newColumns));
+        statusMap.put(ChangeFlag.UPDATE, Ut.elementIntersect(oldColumns, newColumns));
         return statusMap;
     }
 

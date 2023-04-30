@@ -1,4 +1,4 @@
-package io.vertx.up.uca.compare;
+package io.horizon.uca.compare;
 
 import java.math.BigDecimal;
 

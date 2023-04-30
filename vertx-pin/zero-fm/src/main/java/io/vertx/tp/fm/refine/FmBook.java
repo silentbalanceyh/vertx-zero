@@ -46,7 +46,7 @@ class FmBook {
             final Set<String> existing = books.stream()
                 .filter(book -> !book.getMajor())
                 .map(FBook::getModelKey).collect(Collectors.toSet());
-            final Set<String> created = Ut.diff(spec.getQrKeys(), existing);
+            final Set<String> created = Ut.elementDiff(spec.getQrKeys(), existing);
             // Set sub book serial number start point
             for (final String modelKey : created) {
                 final String serial = found.getSerial() + "-" + start;

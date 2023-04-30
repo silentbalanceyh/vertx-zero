@@ -1,8 +1,8 @@
-package io.vertx.up.uca.compare;
+package io.horizon.uca.compare;
 
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.Set;
@@ -19,7 +19,7 @@ final class VsJsonArray extends AbstractSame {
     public boolean isAnd(final Object valueOld, final Object valueNew) {
         final String valueOStr = valueOld.toString();
         final String valueNStr = valueNew.toString();
-        if (Ut.isJArray(valueOStr) && Ut.isJArray(valueNStr)) {
+        if (HaS.isJArray(valueOStr) && HaS.isJArray(valueNStr)) {
             final JsonArray arrayOld = this.toJArray(valueOld);
             final JsonArray arrayNew = this.toJArray(valueNew);
             if (arrayNew.size() != arrayOld.size()) {
@@ -30,15 +30,15 @@ final class VsJsonArray extends AbstractSame {
             } else {
                 /*
                  * java.lang.NullPointerException
-                 * at io.vertx.up.uca.compare.VsJsonArray.isAnd(VsJsonArray.java:31)
+                 * at io.horizon.uca.compare.VsJsonArray.isAnd(VsJsonArray.java:31)
                  */
                 if (Objects.isNull(this.fieldType)) {
                     return Objects.equals(valueOld, valueNew);
                 } else {
                     final Set<String> diffSet = this.fieldType.ruleUnique();
-                    return Ut.itJArray(arrayOld).allMatch(jsonOld -> Ut.itJArray(arrayNew).anyMatch(jsonNew -> {
-                        final JsonObject checkedNew = Ut.elementSubset(jsonNew, diffSet);
-                        final JsonObject checkedOld = Ut.elementSubset(jsonOld, diffSet);
+                    return HaS.itJArray(arrayOld).allMatch(jsonOld -> HaS.itJArray(arrayNew).anyMatch(jsonNew -> {
+                        final JsonObject checkedNew = HaS.elementSubset(jsonNew, diffSet);
+                        final JsonObject checkedOld = HaS.elementSubset(jsonOld, diffSet);
                         return checkedNew.equals(checkedOld);
                     }));
                 }
@@ -76,7 +76,7 @@ final class VsJsonArray extends AbstractSame {
     private JsonArray toJArray(final Object value) {
         if (value instanceof JsonArray) {
             return (JsonArray) value;
-        } else if (Ut.isJArray(value)) {
+        } else if (HaS.isJArray(value)) {
             return new JsonArray(value.toString());
         } else {
             return new JsonArray().add(value);

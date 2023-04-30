@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.shared;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

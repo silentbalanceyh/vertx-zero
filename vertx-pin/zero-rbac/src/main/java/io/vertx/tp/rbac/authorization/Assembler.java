@@ -37,11 +37,11 @@ public class Assembler {
     }
 
     public static Consumer<JsonObject> union(final ProfileType type, final List<ProfileRole> profiles) {
-        return bind(type, profiles, Ut::union);
+        return bind(type, profiles, Ut::elementUnion);
     }
 
     public static Consumer<JsonObject> intersect(final ProfileType type, final List<ProfileRole> profiles) {
-        return bind(type, profiles, Ut::intersect);
+        return bind(type, profiles, Ut::elementIntersect);
     }
 
     public static Consumer<JsonObject> eager(final ProfileType type, final List<ProfileRole> profiles) {

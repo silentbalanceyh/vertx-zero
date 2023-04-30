@@ -43,9 +43,9 @@ public interface QrDo {
         final JsonArray oldSet = (JsonArray) oldItem;
         final List result = isAnd ?
             // Two collection and
-            Ut.intersect(newSet.getList(), oldSet.getList()) :
+            Ut.elementIntersect(newSet.getList(), oldSet.getList()) :
             // Two collection union
-            Ut.union(newSet.getList(), oldSet.getList());
+            Ut.elementUnion(newSet.getList(), oldSet.getList());
         return new JsonArray(result);
     }
 

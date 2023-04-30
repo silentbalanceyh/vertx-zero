@@ -1,17 +1,14 @@
 package io.vertx.up.util;
 
-import io.horizon.eon.VValue;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 final class ArrayJ {
@@ -40,30 +37,6 @@ final class ArrayJ {
      *
      * @return the new json array
      */
-    static JsonArray add(final JsonArray array,
-                         final JsonObject jsonObject,
-                         final String field) {
-        // counter
-        int targetIndex = VValue.UNSET;
-        for (int idx = 0; idx < array.size(); idx++) {
-            final JsonObject element = array.getJsonObject(idx);
-            if (null != element) {
-                final Object elementValue = element.getValue(field);
-                final Object value = jsonObject.getValue(field);
-                if (Objects.nonNull(elementValue) && Objects.nonNull(value)
-                    && elementValue.equals(value)) {
-                    targetIndex = idx;
-                    break;
-                }
-            }
-        }
-        if (VValue.ZERO < targetIndex) {
-            array.getJsonObject(targetIndex).clear().mergeIn(jsonObject);
-        } else {
-            array.add(jsonObject);
-        }
-        return array;
-    }
 
     static JsonArray climb(final JsonArray children, final JsonArray tree, final JsonObject options) {
         final JsonArray result = new JsonArray();
@@ -117,34 +90,9 @@ final class ArrayJ {
     static JsonObject find(final JsonArray array, final JsonObject subsetQ) {
         return HaS.itJArray(array).filter(item -> {
             final Set<String> keys = subsetQ.fieldNames();
-            final JsonObject subset = ArrayL.subset(item, keys);
+            final JsonObject subset = HaS.elementSubset(item, keys);
             return subset.equals(subsetQ);
         }).findAny().orElse(new JsonObject());
-    }
-
-    static JsonArray save(final JsonArray array, final JsonArray input, final String field) {
-        Ut.itJArray(input).forEach(json -> save(array, json, field));
-        return array;
-    }
-
-    static JsonArray save(final JsonArray array, final JsonObject json, final String field) {
-        return Fn.runOr(new JsonArray(), () -> {
-            final AtomicBoolean isFound = new AtomicBoolean(Boolean.FALSE);
-            HaS.itJArray(array).forEach(each -> {
-                final boolean isSame = isSameBy(each, json, field);
-                if (isSame) {
-                    each.mergeIn(json, true);
-                    isFound.set(Boolean.TRUE);
-                }
-            });
-            if (!isFound.get()) {
-                /*
-                 * Not found, add
-                 */
-                array.add(json.copy());
-            }
-            return array;
-        }, array, json, field);
     }
 
     static JsonArray child(final JsonObject current, final JsonArray tree, final JsonObject options) {
@@ -216,28 +164,6 @@ final class ArrayJ {
             target.mergeIn(options);
         }
         return target;
-    }
-
-    private static boolean isSameBy(final Object left, final Object right, final String field) {
-        if (Objects.isNull(left) && Objects.isNull(right)) {
-            return true;
-        } else {
-            if (Objects.isNull(left) || Objects.isNull(right)) {
-                return false;
-            } else {
-                if (left.getClass() != right.getClass()) {
-                    return false;
-                } else {
-                    if (left instanceof JsonObject && right instanceof JsonObject) {
-                        final Object leftValue = ((JsonObject) left).getValue(field);
-                        final Object rightValue = ((JsonObject) right).getValue(field);
-                        return isSameBy(leftValue, rightValue, field);
-                    } else {
-                        return left.equals(right);
-                    }
-                }
-            }
-        }
     }
 
     static boolean isSame(final JsonArray dataO, final JsonArray dataN,

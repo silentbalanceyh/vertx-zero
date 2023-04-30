@@ -1,4 +1,4 @@
-package io.vertx.up.util;
+package io.horizon.util;
 
 import io.vertx.ext.unit.TestContext;
 import io.vertx.quiz.ZeroBase;
@@ -33,7 +33,7 @@ public class ArithmeticTc extends ZeroBase {
                 this.add("1");
             }
         };
-        context.assertEquals(exp, Arithmetic.intersect(left, right));
+        context.assertEquals(exp, CArithmetic.intersect(left, right));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ArithmeticTc extends ZeroBase {
         final Set<String> right = new HashSet<>(Arrays.asList("1", "2"));
         final Set<String> exp = new HashSet<>(Arrays.asList("1", "2"));
 
-        context.assertEquals(exp, Arithmetic.union(left, right));
+        context.assertEquals(exp, CArithmetic.union(left, right));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ArithmeticTc extends ZeroBase {
         final Set<String> minuend = new HashSet<>(Arrays.asList("1", "2"));
         final Set<String> exp = new HashSet<>(Arrays.asList("23"));
 
-        context.assertEquals(exp, Arithmetic.diff(subtrahend, minuend));
+        context.assertEquals(exp, CArithmetic.diff(subtrahend, minuend));
 
     }
 }

@@ -1,6 +1,6 @@
 package cn.originx.uca.hed;
 
-import io.horizon.atom.secure.KPair;
+import io.horizon.atom.common.KPair;
 import io.vertx.up.util.Ut;
 
 public class KeyGenerator {

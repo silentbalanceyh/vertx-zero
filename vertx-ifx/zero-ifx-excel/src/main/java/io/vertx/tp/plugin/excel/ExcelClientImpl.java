@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.uca.log.Annal;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -11,7 +12,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.atom.ExTenant;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.InputStream;

@@ -2,7 +2,7 @@ package io.vertx.tp.is.refine;
 
 import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.ChangeFlag;
 import io.vertx.core.Future;

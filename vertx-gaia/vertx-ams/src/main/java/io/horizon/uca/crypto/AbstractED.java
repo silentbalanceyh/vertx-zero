@@ -1,6 +1,6 @@
 package io.horizon.uca.crypto;
 
-import io.horizon.atom.secure.KPair;
+import io.horizon.atom.common.KPair;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.fn.HFn;

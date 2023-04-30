@@ -3,8 +3,8 @@ package io.horizon.util;
 /**
  * @author lang : 2023/4/28
  */
-class TArray {
-    static <T> T[] elementAdd(final T[] array, final T element) {
+class CAdd {
+    static <T> T[] add(final T[] array, final T element) {
         final Class<?> type;
         if (array != null) {
             type = array.getClass().getComponentType();
@@ -18,4 +18,5 @@ class TArray {
         newArray[newArray.length - 1] = element;
         return newArray;
     }
+
 }

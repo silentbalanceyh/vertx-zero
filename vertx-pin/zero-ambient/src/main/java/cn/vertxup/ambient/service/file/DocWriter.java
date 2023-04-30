@@ -2,7 +2,7 @@ package cn.vertxup.ambient.service.file;
 
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.spi.business.ExIo;
 import io.horizon.spi.feature.Attachment;
 import io.vertx.core.Future;

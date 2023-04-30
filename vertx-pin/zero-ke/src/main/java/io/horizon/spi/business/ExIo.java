@@ -1,6 +1,6 @@
 package io.horizon.spi.business;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;

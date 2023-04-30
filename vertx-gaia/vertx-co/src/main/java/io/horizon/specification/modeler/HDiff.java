@@ -1,6 +1,6 @@
 package io.horizon.specification.modeler;
 
-import io.vertx.up.uca.compare.Vs;
+import io.horizon.uca.compare.Vs;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

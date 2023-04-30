@@ -1,8 +1,8 @@
-package io.vertx.up.uca.compare;
+package io.horizon.uca.compare;
 
 import io.horizon.eon.VString;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.util.Ut;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,9 +17,9 @@ final class VsString extends AbstractSame {
 
     @Override
     public boolean isAnd(final Object valueOld, final Object valueNew) {
-        if (Ut.isDate(valueOld)) {
+        if (HaS.isDate(valueOld)) {
             return Objects.requireNonNull(VsSame.get(LocalDateTime.class)).is(valueOld, valueNew);
-        } else if (Ut.isJArray(valueOld)) {
+        } else if (HaS.isJArray(valueOld)) {
             return Objects.requireNonNull(VsSame.get(JsonArray.class)).is(valueOld, valueNew);
         } else {
             return super.isAnd(valueOld, valueNew);

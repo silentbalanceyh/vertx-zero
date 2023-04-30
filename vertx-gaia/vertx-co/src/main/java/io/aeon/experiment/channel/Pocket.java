@@ -22,7 +22,7 @@ public class Pocket {
             final String cacheKey = interfaceCls.getName();
             Object found = REF.getOrDefault(cacheKey, null);
             if (Objects.isNull(found)) {
-                final T reference = Ut.service(interfaceCls);
+                final T reference = Ut.serviceChannel(interfaceCls);
                 if (Objects.nonNull(reference)) {
                     found = new Lexeme<>(interfaceCls, reference);
                     REF.put(cacheKey, found);

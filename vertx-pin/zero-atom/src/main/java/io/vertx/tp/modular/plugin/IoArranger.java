@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.plugin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.fn.TiConsumer;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRecord;

@@ -8,6 +8,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.specification.modeler.HAttribute;
+import io.horizon.uca.compare.Vs;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
@@ -16,7 +17,6 @@ import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.uca.compare.Vs;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -212,7 +212,7 @@ class AtRunner {
             } else if (ChangeFlag.UPDATE == flag) {
 
                 /* 主记录更新，属性：ADD */
-                final Set<String> addedSet = Ut.diff(newRecord.fieldNames(), oldRecord.fieldNames());
+                final Set<String> addedSet = Ut.elementDiff(newRecord.fieldNames(), oldRecord.fieldNames());
                 final Set<String> added = this.onSet(addedSet, atom, ignores, newRecord::getValue);
                 this.onAttribute(added, atom, (attrName, change) -> {
                     change.setType(ChangeFlag.ADD.name());
@@ -222,7 +222,7 @@ class AtRunner {
                 });
 
                 /* 主记录更新，属性：DELETE */
-                final Set<String> deletedSet = Ut.diff(oldRecord.fieldNames(), newRecord.fieldNames());
+                final Set<String> deletedSet = Ut.elementDiff(oldRecord.fieldNames(), newRecord.fieldNames());
                 final Set<String> deleted = this.onSet(deletedSet, atom, ignores, oldRecord::getValue);
                 this.onAttribute(deleted, atom, (attrName, change) -> {
                     change.setType(ChangeFlag.DELETE.name());
@@ -236,7 +236,7 @@ class AtRunner {
                 });
 
                 final Vs vs = atom.vs();
-                final Set<String> updatedSet = Ut.intersect(newRecord.fieldNames(), oldRecord.fieldNames());
+                final Set<String> updatedSet = Ut.elementIntersect(newRecord.fieldNames(), oldRecord.fieldNames());
                 final Set<String> updated = this.onSet(updatedSet, atom, ignores, oldRecord::getValue, (valueOld, attributeName) -> {
                     final Object valueNew = newRecord.getValue(attributeName);
                     return vs.isChange(valueOld, valueNew, attributeName);

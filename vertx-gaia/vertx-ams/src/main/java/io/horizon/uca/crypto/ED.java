@@ -1,7 +1,7 @@
 package io.horizon.uca.crypto;
 
 import io.horizon.annotations.Memory;
-import io.horizon.atom.secure.KPair;
+import io.horizon.atom.common.KPair;
 import io.horizon.uca.cache.Cc;
 
 /**

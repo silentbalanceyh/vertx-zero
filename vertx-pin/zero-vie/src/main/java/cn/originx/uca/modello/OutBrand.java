@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.spi.component.ExAttributeComponent;
 import io.vertx.core.json.JsonObject;

@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeAtom;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import org.apache.poi.ss.usermodel.Workbook;

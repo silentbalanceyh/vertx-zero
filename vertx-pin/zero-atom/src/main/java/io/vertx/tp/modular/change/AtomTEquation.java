@@ -1,13 +1,13 @@
 package io.vertx.tp.modular.change;
 
-import io.vertx.up.uca.compare.VsExtension;
+import io.horizon.specification.typed.TEqual;
 
 import java.util.Objects;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AtomVsExtension implements VsExtension {
+public class AtomTEquation implements TEqual {
     @Override
     public boolean is(final Object valueOld, final Object valueNew, final Class<?> type) {
         final Adjuster adjuster = Adjuster.get(type);

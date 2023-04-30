@@ -2,7 +2,7 @@ package cn.originx.quiz.develop;
 
 import cn.vertxup.ambient.domain.tables.daos.XMenuDao;
 import cn.vertxup.ambient.domain.tables.pojos.XMenu;
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

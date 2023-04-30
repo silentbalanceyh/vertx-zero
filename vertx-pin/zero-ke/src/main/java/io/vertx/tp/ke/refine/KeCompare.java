@@ -1,15 +1,15 @@
 package io.vertx.tp.ke.refine;
 
+import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeField;
 import io.horizon.eon.VValue;
-import io.horizon.specification.modeler.TypeAtom;
-import io.horizon.specification.modeler.TypeField;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

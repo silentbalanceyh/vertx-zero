@@ -124,8 +124,8 @@ public class RightsService implements RightsStub {
              * Add New ( current - original )
              * Update ( current & original )
              */
-            final Set<String> added = Ut.diff(current, original);
-            final Set<String> updated = Ut.intersect(current, original);
+            final Set<String> added = Ut.elementDiff(current, original);
+            final Set<String> updated = Ut.elementIntersect(current, original);
             /*
              * Future queue for ( ADD / UPDATE )
              */

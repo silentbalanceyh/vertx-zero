@@ -1,13 +1,12 @@
-package io.vertx.up.uca.compare;
+package io.horizon.uca.compare;
 
+import io.horizon.atom.modeler.TypeField;
+import io.horizon.eon.VName;
 import io.horizon.eon.VString;
-import io.horizon.specification.modeler.TypeField;
-import io.vertx.codegen.annotations.Fluent;
-import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
-import io.vertx.up.util.Ut;
+import io.horizon.uca.log.Annal;
+import io.horizon.util.HaS;
+import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -139,7 +138,6 @@ public class Vs implements Serializable {
         }
     }
 
-    @Fluent
     public Vs ignores(final Set<String> ignoreSet) {
         if (Objects.nonNull(ignoreSet) && !ignoreSet.isEmpty()) {
             this.ignores.clear();
@@ -154,8 +152,8 @@ public class Vs implements Serializable {
 
     public boolean isChange(final JsonObject previous, final JsonObject current) {
         // Copy each compared json object
-        final JsonObject oldCopy = Ut.valueJObject(previous).copy();
-        final JsonObject newCopy = Ut.valueJObject(current).copy();
+        final JsonObject oldCopy = HaS.valueJObject(previous).copy();
+        final JsonObject newCopy = HaS.valueJObject(current).copy();
 
         /*
          * Remove ignore fields, iterating once only, old code ( Twice iterating )
@@ -193,8 +191,8 @@ public class Vs implements Serializable {
     }
 
     public boolean isChange(final JsonObject twins) {
-        final JsonObject secure = Ut.valueJObject(twins);
-        return this.isChange(secure.getJsonObject(KName.__.OLD), secure.getJsonObject(KName.__.NEW));
+        final JsonObject secure = HaS.valueJObject(twins);
+        return this.isChange(secure.getJsonObject(VName.__.OLD), secure.getJsonObject(VName.__.NEW));
     }
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {

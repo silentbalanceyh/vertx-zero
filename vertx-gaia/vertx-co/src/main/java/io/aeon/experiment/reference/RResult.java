@@ -1,6 +1,6 @@
 package io.aeon.experiment.reference;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRule;

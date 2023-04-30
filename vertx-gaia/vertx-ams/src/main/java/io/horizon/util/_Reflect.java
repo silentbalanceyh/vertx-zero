@@ -1,6 +1,7 @@
 package io.horizon.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.function.Supplier;
 
 /**
@@ -254,5 +255,56 @@ class _Reflect extends _Random {
      */
     public static boolean isDefaultConstructor(final Class<?> clazz) {
         return HInstance.isDefaultConstructor(clazz);
+    }
+
+    /**
+     * 设置某个对象的成员属性值
+     *
+     * @param instance 对象
+     * @param name     属性名
+     * @param value    属性值
+     * @param <T>      属性值类型
+     */
+    public static <T> void field(final Object instance, final String name, final T value) {
+        HInstance.set(instance, name, value);
+    }
+
+    /**
+     * 获取某个对象的成员属性值
+     *
+     * @param instance 对象
+     * @param field    属性对象
+     * @param <T>      属性值类型
+     */
+    public static <T> void field(final Object instance, final Field field, final T value) {
+        HInstance.set(instance, field, value);
+    }
+
+    /**
+     * 获取某个对象的成员属性值
+     *
+     * @param instance 对象
+     * @param name     属性名
+     * @param <T>      属性值类型
+     *
+     * @return 属性值
+     */
+    public static <T> T field(final Object instance, final String name) {
+        return HInstance.get(instance, name);
+    }
+
+    /**
+     * 获取某个类中的 static 常量或变量，可直接提取
+     * 1. 接口常量
+     * 2. 静态公有 / 私有常量
+     *
+     * @param interfaceCls 接口类
+     * @param name         常量名
+     * @param <T>          常量值类型
+     *
+     * @return 常量值
+     */
+    public static <T> T field(final Class<?> interfaceCls, final String name) {
+        return HInstance.getStatic(interfaceCls, name);
     }
 }

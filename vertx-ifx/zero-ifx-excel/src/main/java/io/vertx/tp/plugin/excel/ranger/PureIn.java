@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeAtom;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;

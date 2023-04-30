@@ -1,6 +1,6 @@
-package io.vertx.up.uca.compare;
+package io.horizon.uca.compare;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -10,9 +10,9 @@ import java.time.LocalTime;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public abstract class AbstractSameDate extends AbstractSame {
+abstract class AbstractSameDate extends AbstractSame {
 
-    public AbstractSameDate(final Class<?> type) {
+    protected AbstractSameDate(final Class<?> type) {
         super(type);
     }
 
@@ -24,15 +24,15 @@ public abstract class AbstractSameDate extends AbstractSame {
          * 1) Convert to instant first
          * 2) When `unit` is null, do not comparing other kind of here.
          */
-        final Instant oldInstant = Ut.parseFull(valueOld.toString())
+        final Instant oldInstant = HaS.parseFull(valueOld.toString())
             .toInstant();
-        final Instant newInstant = Ut.parseFull(valueNew.toString())
+        final Instant newInstant = HaS.parseFull(valueNew.toString())
             .toInstant();
         /*
          * Compared by unit
          */
-        final LocalDateTime datetimeOld = Ut.toDateTime(oldInstant);
-        final LocalDateTime datetimeNew = Ut.toDateTime(newInstant);
+        final LocalDateTime datetimeOld = HaS.toDateTime(oldInstant);
+        final LocalDateTime datetimeNew = HaS.toDateTime(newInstant);
         return this.eqDate(datetimeOld, datetimeNew);
     }
 

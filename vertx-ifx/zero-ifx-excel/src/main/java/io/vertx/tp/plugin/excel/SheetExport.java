@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.excel;
 
+import io.horizon.atom.modeler.TypeAtom;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._500InternalServerException;
-import io.horizon.specification.modeler.TypeAtom;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;

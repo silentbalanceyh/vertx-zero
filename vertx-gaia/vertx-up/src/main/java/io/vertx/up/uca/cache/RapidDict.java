@@ -26,7 +26,7 @@ class RapidDict extends AbstractRapid<Set<String>, ConcurrentMap<String, JsonArr
         final Function<Set<String>, Future<ConcurrentMap<String, JsonArray>>> executor) {
         Objects.requireNonNull(keys);
         return this.pool.<String, JsonArray>get(keys).compose(dataMap -> {
-            final Set<String> keySet = Ut.diff(keys, dataMap.keySet());
+            final Set<String> keySet = Ut.elementDiff(keys, dataMap.keySet());
             final ConcurrentMap<String, JsonArray> cached = new ConcurrentHashMap<>(dataMap);
             if (keySet.isEmpty()) {
                 return Ux.future(cached);

@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.reference;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;

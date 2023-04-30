@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.plan;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.uca.log.Annal;

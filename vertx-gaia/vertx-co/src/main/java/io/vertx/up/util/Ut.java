@@ -30,72 +30,6 @@ public final class Ut extends HaS {
     public static JsonMapper mapper() {
         return Jackson.getMapper();
     }
-    /*
-     * Set Calculating
-     * 1) intersect:    Set1 And Set2
-     * 2) union:        Set1 Or  Set2
-     * 3) diff:         Set1 -   Set2
-     */
-
-    /**
-     * Collection intersect ( HashSet / TreeSet )
-     * A = {1, 2}
-     * B = {1, 3}
-     * The result should be {1}
-     *
-     * @param left  First Set
-     * @param right Second Set
-     * @param <T>   The element type in Set
-     *
-     * @return The result set
-     */
-    public static <T> Set<T> intersect(final Set<T> left, final Set<T> right) {
-        return Arithmetic.intersect(left, right);
-    }
-
-    public static <T> List<T> intersect(final List<T> left, final List<T> right) {
-        return new ArrayList<>(intersect(new HashSet<>(left), new HashSet<>(right)));
-    }
-
-    public static <T, V> Set<T> intersect(final Set<T> left, final Set<T> right, final Function<T, V> fnGet) {
-        return Arithmetic.intersect(left, right, fnGet);
-    }
-
-    public static <T, V> List<T> intersect(final List<T> left, final List<T> right, final Function<T, V> fnGet) {
-        return new ArrayList<>(intersect(new HashSet<>(left), new HashSet<>(right), fnGet));
-    }
-
-    public static <T> Set<T> union(final Set<T> left, final Set<T> right) {
-        return Arithmetic.union(left, right);
-    }
-
-    public static <T> List<T> union(final List<T> left, final List<T> right) {
-        return new ArrayList<>(union(new HashSet<>(left), new HashSet<>(right)));
-    }
-
-    public static <T, V> Set<T> union(final Set<T> left, final Set<T> right, final Function<T, V> fnGet) {
-        return Arithmetic.union(left, right, fnGet);
-    }
-
-    public static <T, V> List<T> union(final List<T> left, final List<T> right, final Function<T, V> fnGet) {
-        return new ArrayList<>(union(new HashSet<>(left), new HashSet<>(right), fnGet));
-    }
-
-    public static <T> Set<T> diff(final Set<T> subtrahend, final Set<T> minuend) {
-        return Arithmetic.diff(subtrahend, minuend);
-    }
-
-    public static <T> List<T> diff(final List<T> substrahend, final List<T> minuend) {
-        return new ArrayList<>(diff(new HashSet<>(substrahend), new HashSet<>(minuend)));
-    }
-
-    public static <T, V> Set<T> diff(final Set<T> subtrahend, final Set<T> minuend, final Function<T, V> fnGet) {
-        return Arithmetic.diff(subtrahend, minuend, fnGet);
-    }
-
-    public static <T, V> List<T> diff(final List<T> subtrahend, final List<T> minuend, final Function<T, V> fnGet) {
-        return new ArrayList<>(diff(new HashSet<>(subtrahend), new HashSet<>(minuend), fnGet));
-    }
 
     /*
      * Array or List calculation
@@ -116,26 +50,6 @@ public final class Ut extends HaS {
      */
     public static JsonArray elementFlat(final JsonArray input) {
         return ArrayJ.flat(input);
-    }
-
-    public static JsonArray elementAdd(final JsonArray array, final JsonObject jsonObject, final String field) {
-        return ArrayJ.add(array, jsonObject, field);
-    }
-
-    public static JsonArray elementSave(final JsonArray array, final JsonArray json, final String field) {
-        return ArrayJ.save(array, json, field);
-    }
-
-    public static JsonArray elementSave(final JsonArray array, final JsonObject json, final String field) {
-        return ArrayJ.save(array, json, field);
-    }
-
-    public static <T> List<T> elementSave(final List<T> list, final T entity, final String field) {
-        return ArrayL.save(list, entity, item -> Ut.field(item, field));
-    }
-
-    public static <T> List<T> elementSave(final List<T> list, final T entity, final Function<T, String> keyFn) {
-        return ArrayL.save(list, entity, keyFn);
     }
 
     public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field) {
@@ -219,22 +133,6 @@ public final class Ut extends HaS {
                                        final String fieldOn,
                                        final ConcurrentMap<String, JsonArray> grouped, final String fieldTo) {
         return ArrayL.zipper(array, fieldKey, fieldOn, grouped, fieldTo);
-    }
-
-    public static JsonObject elementSubset(final JsonObject input, final String... fields) {
-        return ArrayL.subset(input, fields);
-    }
-
-    public static JsonObject elementSubset(final JsonObject input, final Set<String> set) {
-        return ArrayL.subset(input, set);
-    }
-
-    public static JsonArray elementSubset(final JsonArray input, final Set<String> set) {
-        return ArrayL.subset(input, set);
-    }
-
-    public static JsonArray elementSubset(final JsonArray input, final Function<JsonObject, Boolean> fnFilter) {
-        return ArrayL.subset(input, fnFilter);
     }
 
     public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final String... fields) {
@@ -455,14 +353,15 @@ public final class Ut extends HaS {
      */
 
     /**
-     * 该方法会隐藏掉继承过来的方法
+     * 将 service 重命名，保证和原始的 service 不冲突
+     * serviceChannel 会先检查 /META-INF/services/aeon/ 下的定义，如果没有则使用默认的
      *
      * @param interfaceCls
      * @param <T>
      *
      * @return
      */
-    public static <T> T service(final Class<T> interfaceCls) {
+    public static <T> T serviceChannel(final Class<T> interfaceCls) {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         return HService.load(interfaceCls, classLoader);
     }
@@ -485,22 +384,6 @@ public final class Ut extends HaS {
 
     public static Class<?> child(final Class<?> clazz) {
         return Instance.child(clazz);
-    }
-
-    public static <T> void field(final Object instance, final String name, final T value) {
-        InstanceField.set(instance, name, value);
-    }
-
-    public static <T> void field(final Object instance, final Field field, final T value) {
-        InstanceField.set(instance, field, value);
-    }
-
-    public static <T> T field(final Object instance, final String name) {
-        return InstanceField.get(instance, name);
-    }
-
-    public static <T> T field(final Class<?> interfaceCls, final String name) {
-        return InstanceField.getI(interfaceCls, name);
     }
 
     public static Field[] fields(final Class<?> clazz) {

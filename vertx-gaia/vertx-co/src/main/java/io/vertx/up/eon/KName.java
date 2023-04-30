@@ -9,7 +9,7 @@ import java.util.Set;
 public interface KName extends VName {
 
     // 「Specification Definition」
-    interface __ {
+    interface __ extends VName.__ {
         String METADATA = "__" + KName.METADATA;     /* __metadata for definition on modulat */
         String DATA = "__" + KName.DATA;             /* __data for previous data */
         String FLAG = "__" + KName.FLAG;             /* __flat for operation flag */
@@ -21,8 +21,6 @@ public interface KName extends VName {
         String ACL = "__" + Flow.ACL;                /* __acl */
         String QR = "__" + KName.QR;                 /* __qr */
         String CLASS = "__" + KName.CLASS;           /* __class */
-        String OLD = "__OLD__";
-        String NEW = "__NEW__";
     }
 
 

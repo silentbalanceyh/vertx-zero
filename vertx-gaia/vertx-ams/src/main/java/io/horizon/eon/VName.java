@@ -291,4 +291,13 @@ public interface VName {
     String MOVE = "move";
     String MESSAGE = "message";
     String INFO = "info";
+
+    /**
+     * 特殊属性，用于系统做比对专用
+     * 可直接被继承
+     */
+    interface __ {
+        String OLD = "__OLD__";
+        String NEW = "__NEW__";
+    }
 }

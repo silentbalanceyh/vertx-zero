@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.tool;
 
-import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.up.util.Ut;

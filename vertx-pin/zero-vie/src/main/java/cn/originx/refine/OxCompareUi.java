@@ -90,8 +90,8 @@ final class OxCompareUi {
      */
     private static List<FieldReport> toDiff(final Set<String> uiSet, final Set<String> modelSet, final Supplier<FieldReport> supplier) {
         final List<FieldReport> calculated = new ArrayList<>();
-        final Set<String> uiRemain = Ut.diff(uiSet, modelSet);
-        final Set<String> modelRemain = Ut.diff(modelSet, uiSet);
+        final Set<String> uiRemain = Ut.elementDiff(uiSet, modelSet);
+        final Set<String> modelRemain = Ut.elementDiff(modelSet, uiSet);
         /*
          * REMAIN
          */

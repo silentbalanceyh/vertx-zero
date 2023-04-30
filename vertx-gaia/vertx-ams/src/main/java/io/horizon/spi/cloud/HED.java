@@ -1,7 +1,7 @@
 package io.horizon.spi.cloud;
 
 import io.horizon.annotations.Development;
-import io.horizon.atom.secure.KPair;
+import io.horizon.atom.common.KPair;
 import io.horizon.eon.VString;
 import io.horizon.util.HaS;
 

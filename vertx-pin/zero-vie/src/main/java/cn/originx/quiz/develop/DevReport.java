@@ -3,6 +3,8 @@ package cn.originx.quiz.develop;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
+import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeField;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;

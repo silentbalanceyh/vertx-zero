@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
@@ -295,6 +297,77 @@ class HInstance {
             }
         }
         return match;
+    }
+
+    // 字段 set / get （跨私有模式的反射访问）
+    private static Field get(final Class<?> clazz,
+                             final String name) {
+        return HFn.runOr(() -> {
+            if (clazz == Object.class) {
+                return null;
+            }
+            final Field[] fields = clazz.getDeclaredFields();
+            final Optional<Field> field = Arrays.stream(fields)
+                .filter(item -> name.equals(item.getName())).findFirst();
+            if (field.isPresent()) {
+                return field.get();
+            } else {
+                final Class<?> parentCls = clazz.getSuperclass();
+                return get(parentCls, name);
+            }
+        }, clazz, name);
+    }
+
+    static <T> T getStatic(final Class<?> interfaceCls, final String name) {
+        return HFn.failOr(() -> {
+            final Field field = interfaceCls.getField(name);
+            final Object result = field.get(null);
+            if (null != result) {
+                return (T) result;
+            } else {
+                return null;
+            }
+        }, interfaceCls, name);
+    }
+
+    static <T> T get(final Object instance,
+                     final String name) {
+        return HFn.failOr(() -> {
+            final Field field = get(instance.getClass(), name);
+            if (Objects.nonNull(field)) {
+                /* 直接打开访问权限 Field */
+                field.setAccessible(true);
+                final Object result = field.get(instance);
+                if (null != result) {
+                    return (T) result;
+                } else {
+                    return null;
+                }
+            } else return null;
+        }, instance, name);
+    }
+
+    static <T> void set(final Object instance, final String name, final T value) {
+        if (Objects.nonNull(instance) && Objects.nonNull(name)) {
+            final Field field;
+            try {
+                field = instance.getClass().getDeclaredField(name);
+                set(instance, field, value);
+            } catch (NoSuchFieldException ex) {
+                LOGGER.warn("Class {0} and details: {1}", instance.getClass(), ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    static <T> void set(final Object instance, final Field field, final T value) {
+        HFn.jvmAt(() -> {
+            if (!field.isAccessible()) {
+                // field.trySetAccessible();
+                field.setAccessible(true);
+            }
+            field.set(instance, value);
+        }, instance, field);
     }
 
     private static class NULL {

@@ -1,6 +1,6 @@
-package io.vertx.up.util;
+package io.horizon.util;
 
-import io.vertx.up.uca.compare.Vs;
+import io.horizon.uca.compare.Vs;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,8 +12,8 @@ import java.util.function.Function;
  * Here List is not needed for this arithmetic because all the calculation method require your
  * collection support non-duplicated and non-sequence.
  */
-final class Arithmetic {
-    private Arithmetic() {
+final class CArithmetic {
+    private CArithmetic() {
     }
 
     /**

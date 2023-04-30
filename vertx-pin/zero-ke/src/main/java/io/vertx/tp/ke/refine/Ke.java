@@ -1,6 +1,8 @@
 package io.vertx.tp.ke.refine;
 
-import io.horizon.specification.modeler.TypeAtom;
+import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -8,8 +10,6 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Log;
-import io.horizon.uca.log.LogModule;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 

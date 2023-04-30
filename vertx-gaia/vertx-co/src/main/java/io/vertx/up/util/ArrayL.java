@@ -1,11 +1,11 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,34 +62,6 @@ final class ArrayL {
         return list;
     }
 
-    static <T, V> List<T> save(final List<T> list, final T entity, final Function<T, V> keyFn) {
-        if (Objects.isNull(entity)) {
-            return list;
-        }
-        final V keyAdd = keyFn.apply(entity);
-        if (Objects.isNull(keyAdd)) {
-            return list;
-        }
-        int foundIdx = VValue.RANGE;
-        for (int idx = VValue.IDX; idx < list.size(); idx++) {
-            final T original = list.get(idx);
-            if (Objects.isNull(original)) {
-                continue;
-            }
-            final V keyOld = keyFn.apply(original);
-            if (keyAdd.equals(keyOld)) {
-                foundIdx = idx;
-                break;
-            }
-        }
-        if (VValue.RANGE == foundIdx) {
-            list.add(entity);
-        } else {
-            list.set(foundIdx, entity);
-        }
-        return list;
-    }
-
     static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
         final ConcurrentMap<K, V> result = new ConcurrentHashMap<>();
         from.forEach((key, middle) -> {
@@ -124,29 +96,6 @@ final class ArrayL {
         return result;
     }
 
-    static JsonObject subset(final JsonObject input, final String... pickedKeys) {
-        return subset(input, new HashSet<>(Arrays.asList(pickedKeys)));
-    }
-
-    static JsonObject subset(final JsonObject input, final Set<String> pickedKeys) {
-        if (Objects.isNull(input) || Objects.isNull(pickedKeys) || pickedKeys.isEmpty()) {
-            return new JsonObject();
-        } else {
-            final JsonObject normalized = new JsonObject(); // input.copy();
-            pickedKeys.forEach(field -> normalized.put(field, input.getValue(field)));
-            return normalized;
-        }
-    }
-
-    static JsonArray subset(final JsonArray array, final Set<String> pickedKeys) {
-        final JsonArray updated = new JsonArray();
-        Ut.itJArray(array).filter(Objects::nonNull)
-            .map(item -> subset(item, pickedKeys))
-            .filter(Ut::isNotNil)
-            .forEach(updated::add);
-        return updated;
-    }
-
     static ConcurrentMap<String, Integer> count(final JsonArray array, final Set<String> fields) {
         final ConcurrentMap<String, Integer> counter = new ConcurrentHashMap<>();
         fields.forEach(field -> {
@@ -154,14 +103,6 @@ final class ArrayL {
             counter.put(field, set.size());
         });
         return counter;
-    }
-
-    static JsonArray subset(final JsonArray array, final Function<JsonObject, Boolean> fnFilter) {
-        return Fn.runOr(new JsonArray(), () -> {
-            final JsonArray subset = new JsonArray();
-            HaS.itJArray(array).filter(fnFilter::apply).forEach(subset::add);
-            return subset;
-        }, array, fnFilter);
     }
 
     static <K, V, E> ConcurrentMap<K, V> zipper(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {

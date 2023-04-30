@@ -1,6 +1,6 @@
 package io.vertx.up.uca.jooq;
 
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqDsl;

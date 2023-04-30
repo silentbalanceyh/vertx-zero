@@ -1,4 +1,4 @@
-package io.horizon.atom.secure;
+package io.horizon.atom.common;
 
 import io.horizon.util.HaS;
 

@@ -2,7 +2,7 @@ package io.vertx.tp.crud.uca.input;
 
 import io.aeon.experiment.specification.KColumn;
 import io.aeon.experiment.specification.KModule;
-import io.horizon.atom.Kv;
+import io.horizon.atom.common.Kv;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;

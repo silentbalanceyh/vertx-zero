@@ -1,6 +1,6 @@
-package io.horizon.specification.modeler;
+package io.horizon.atom.modeler;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.io.Serializable;
 import java.util.*;
@@ -145,7 +145,7 @@ public class TypeField implements Serializable {
     }
 
     private <T> T children(final String field, final Function<TypeField, T> function) {
-        if (Ut.isNil(field)) {
+        if (HaS.isNil(field)) {
             return null;
         } else {
             final TypeField item = this.childMap.getOrDefault(field, null);
