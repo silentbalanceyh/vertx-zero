@@ -14,7 +14,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -293,54 +292,8 @@ public final class Fn extends _Out {
      *    ifNull    - 同步空检查             ofNull 默认值异步
      *    ifEmpty   - 异步集合检查（无同步）
      */
-    public static JsonObject ifString(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> OldIf.ifString(json, field));
-        return json;
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifString(final String... fields) {
-        return json -> Future.succeededFuture(ifString(json, fields));
-    }
-
-    public static JsonArray ifStrings(final JsonArray array, final String... fields) {
-        Ut.itJArray(array).forEach(json -> ifString(json, fields));
-        return array;
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifStrings(final String... fields) {
-        return array -> Future.succeededFuture(ifStrings(array, fields));
-    }
-
-    public static JsonObject ifJObject(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> OldIf.ifJson(json, field));
-        return json;
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifJObject(final String... fields) {
-        return json -> Future.succeededFuture(ifJObject(json, fields));
-    }
-
-    public static JsonArray ifJArray(final JsonArray array, final String... fields) {
-        Ut.itJArray(array).forEach(json -> ifJObject(json, fields));
-        return array;
-    }
-
-    public static Function<JsonArray, Future<JsonArray>> ifJArray(final String... fields) {
-        return array -> Future.succeededFuture(ifJArray(array, fields));
-    }
 
     // ======================= 和业务些许相关的复杂操作（特殊类API）
-
-    /*
-     * 「双态型」两种形态
-     */
-    public static JsonObject ifPage(final JsonObject pageData, final String... fields) {
-        return OldIf.ifPage(pageData, fields);
-    }
-
-    public static Function<JsonObject, Future<JsonObject>> ifPage(final String... fields) {
-        return pageData -> Future.succeededFuture(ifPage(pageData, fields));
-    }
 
     // 单模式特殊方法（无第二形态）
     public static <T> Function<T, Future<JsonObject>> ifMerge(final JsonObject input) {

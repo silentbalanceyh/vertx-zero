@@ -24,7 +24,7 @@ public class ExActivityTracker implements ExActivity {
     public Future<JsonArray> activities(final String modelId, final String modelKey) {
         return this.fetchActivities(modelId, modelKey)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.RECORD_NEW, KName.RECORD_OLD));
+            .compose(Fn.ofJArray(KName.RECORD_NEW, KName.RECORD_OLD));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ExActivityTracker implements ExActivity {
             } else {
                 return this.changes(activityId).compose(changes -> {
                     final JsonObject activityJ = Ux.toJson(activity);
-                    Fn.ifJObject(activityJ,
+                    Ut.valueToJObject(activityJ,
                         KName.RECORD_NEW,
                         KName.RECORD_OLD
                     );

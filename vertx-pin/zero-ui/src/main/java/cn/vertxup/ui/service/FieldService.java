@@ -2,13 +2,13 @@ package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiFieldDao;
 import cn.vertxup.ui.domain.tables.pojos.UiField;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.em.RowType;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +48,7 @@ public class FieldService implements FieldStub {
             // filter(deduplicate) by name
             .filter(item -> (!item.containsKey(KName.NAME)) ||
                 (Ut.isNotNil(item.getString(KName.NAME)) && null == seen.putIfAbsent(item.getString(KName.NAME), Boolean.TRUE)))
-            .map(item -> Fn.ifString(item,
+            .map(item -> Ut.valueToString(item,
                 FieldStub.OPTION_JSX,
                 FieldStub.OPTION_CONFIG,
                 FieldStub.OPTION_ITEM,
@@ -64,7 +64,7 @@ public class FieldService implements FieldStub {
                 .insertAsync(fields)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(Fn.ifJArray(
+                .compose(Fn.ofJArray(
                     FieldStub.OPTION_JSX,
                     FieldStub.OPTION_CONFIG,
                     FieldStub.OPTION_ITEM,
@@ -116,12 +116,12 @@ public class FieldService implements FieldStub {
                     // Container type will be mapped to name field here
                     dataCell.put(KName.NAME, cell.getValue("container"));
                     // optionJsx -> config
-                    Fn.ifJObject(cell, FieldStub.OPTION_JSX);
+                    Ut.valueToJObject(cell, FieldStub.OPTION_JSX);
                     if (Objects.nonNull(cell.getValue(FieldStub.OPTION_JSX))) {
                         dataCell.put(KName.Ui.CONFIG, cell.getValue(FieldStub.OPTION_JSX));
                     }
                 } else {
-                    Fn.ifJObject(cell,
+                    Ut.valueToJObject(cell,
                         FieldStub.OPTION_JSX,
                         FieldStub.OPTION_CONFIG,
                         FieldStub.OPTION_ITEM,

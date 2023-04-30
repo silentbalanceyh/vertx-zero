@@ -128,6 +128,10 @@ class HJson {
         return params;
     }
 
+    static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonObject parsed = toJObject(literal);
+        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+    }
 
     static JsonObject toJObject(final String literal) {
         if (TIs.isNil(literal)) {
@@ -287,62 +291,5 @@ class HJson {
                 HIter.itJArray(subNew).anyMatch(jsonNew -> jsonNew.equals(jsonOld))
             );
         }
-    }
-
-    static JsonObject valueMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
-        final JsonObject reference = isRef ? target : target.copy();
-        reference.mergeIn(source, true);
-        return reference;
-    }
-
-    static JsonObject valueAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
-        final JsonObject reference = isRef ? target : target.copy();
-        source.fieldNames().stream()
-            .filter(field -> !reference.containsKey(field))
-            .forEach(field -> reference.put(field, source.getValue(field)));
-        return reference;
-    }
-
-    static JsonObject valueCopy(final JsonObject record, final String from, final String to) {
-        if (Objects.isNull(record) || TIs.isNil(to)) {
-            return null;
-        }
-        final Object value = record.getValue(from);
-        if (Objects.nonNull(value)) {
-            record.put(to, value);
-        }
-        return record;
-    }
-
-    static JsonObject valueDefault(final JsonObject record, final String field, final Object value) {
-        if (Objects.isNull(record)) {
-            // 如果 record 为空，返回一个空的 JsonObject
-            return new JsonObject();
-        }
-        if (TIs.isNil(field)) {
-            // 如果 field 为空，则直接跳过，返回 record
-            return record;
-        }
-        final Object valueOriginal = record.getValue(field);
-        if (Objects.isNull(valueOriginal)) {
-            // 此处只检查 null
-            record.put(field, value);
-        }
-        return record;
-    }
-
-    static JsonObject valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        Objects.requireNonNull(target);
-        final JsonObject sourceJ = valueJObject(source, false);
-        if (TIs.isNil(sourceJ)) {
-            return target;
-        }
-        Arrays.stream(fields).forEach(field -> {
-            final Object value = source.getValue(field);
-            if (Objects.nonNull(value)) {
-                target.put(field, value);
-            }
-        });
-        return target;
     }
 }

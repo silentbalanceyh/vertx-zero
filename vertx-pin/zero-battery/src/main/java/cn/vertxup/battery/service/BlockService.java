@@ -63,7 +63,7 @@ public class BlockService implements BlockStub {
 
     private Future<JsonArray> fetchBlock(final JsonObject condition) {
         // Block Processing
-        return Ux.Jooq.on(BBlockDao.class).fetchJAsync(condition).compose(Fn.ifJArray(
+        return Ux.Jooq.on(BBlockDao.class).fetchJAsync(condition).compose(Fn.ofJArray(
             KName.Flow.UI_STYLE,
             KName.Flow.UI_CONFIG,
             BkCv.License.LIC_IDENTIFIER,

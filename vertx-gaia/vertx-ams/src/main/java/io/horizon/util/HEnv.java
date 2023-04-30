@@ -39,7 +39,7 @@ class HEnv {
             return defaultValue;
         }
 
-        final T value = TValue.vT(literal, clazz);
+        final T value = TV.vT(literal, clazz);
         if (Objects.isNull(value)) {
             return defaultValue;
         }

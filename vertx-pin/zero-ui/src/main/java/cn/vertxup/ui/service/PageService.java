@@ -33,7 +33,7 @@ public class PageService implements PageStub {
                 /*
                  * Configuration converted to Json
                  */
-                .compose(Fn.ifJObject(KName.Ui.CONFIG));
+                .compose(Fn.ofJObject(KName.Ui.CONFIG));
         if (DevEnv.cacheUi()) {
             // Ui Cache Enabled
             return Rapid.<String, JsonObject>t(UiCv.POOL_LAYOUT)
@@ -106,7 +106,7 @@ public class PageService implements PageStub {
             .compose(layout -> {
                 final JsonObject pageJson = Ux.toJson(page);
                 pageJson.put("layout", layout);
-                return Fn.ifJObject(
+                return Fn.ofJObject(
                     KName.Ui.CONTAINER_CONFIG,
                     KName.Ui.ASSIST,
                     KName.Ui.GRID

@@ -21,8 +21,8 @@ class ActionDao implements ActionOn {
     @Override
     public <T> Future<JsonObject> createAsync(final JsonObject params, final MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
-        Fn.ifString(params, KName.METADATA);
-        return jooq.insertJAsync(params).compose(Fn.ifJObject(KName.METADATA))
+        Ut.valueToString(params, KName.METADATA);
+        return jooq.insertJAsync(params).compose(Fn.ofJObject(KName.METADATA))
             // Normalize Data
             .compose(record -> Ux.futureN(params, null, record));
     }
@@ -34,9 +34,9 @@ class ActionDao implements ActionOn {
         return jooq.<T>fetchByIdAsync(key).compose(query -> {
             // Fix Bug: Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
             final JsonObject original = Ux.toJson(query);
-            Fn.ifString(params, KName.METADATA);
+            Ut.valueToString(params, KName.METADATA);
             final T entity = Ux.updateT(query, params);
-            return jooq.updateAsync(entity).compose(Ux::futureJ).compose(Fn.ifJObject(KName.METADATA))
+            return jooq.updateAsync(entity).compose(Ux::futureJ).compose(Fn.ofJObject(KName.METADATA))
                 // Normalize Data
                 .compose(record -> Ux.futureN(params, original, record));
         });
@@ -47,14 +47,14 @@ class ActionDao implements ActionOn {
         final UxJooq jooq = metadata.recordDao();
         return jooq.fetchByIdAsync(key)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(KName.METADATA));
+            .compose(Fn.ofJObject(KName.METADATA));
     }
 
     @Override
     public <T> Future<JsonArray> createAsync(JsonArray params, MetaInstance metadata) {
         final UxJooq jooq = metadata.recordDao();
-        Ut.itJArray(params).forEach(json -> Fn.ifString(json, KName.METADATA));
-        return jooq.insertJAsync(params).compose(Fn.ifJArray(KName.METADATA))
+        Ut.itJArray(params).forEach(json -> Ut.valueToString(json, KName.METADATA));
+        return jooq.insertJAsync(params).compose(Fn.ofJArray(KName.METADATA))
             // Normalize Data
             .compose(records -> Ux.futureN(null, records));
     }
@@ -67,7 +67,7 @@ class ActionDao implements ActionOn {
         return jooq.<T>fetchAsync(condition).compose(query -> {
             final JsonArray original = Ux.toJson(query);
             final List<T> updated = Ux.updateT(query, params);
-            return jooq.<T>updateAsync(updated).compose(Ux::futureA).compose(Fn.ifJArray(KName.METADATA))
+            return jooq.<T>updateAsync(updated).compose(Ux::futureA).compose(Fn.ofJArray(KName.METADATA))
                 // Normalize Data
                 .compose(records -> Ux.futureN(original, records));
         });
@@ -80,6 +80,6 @@ class ActionDao implements ActionOn {
         condition.put(KName.KEY + ",i", Ut.toJArray(keys));
         return jooq.<T>fetchAsync(condition)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.METADATA));
+            .compose(Fn.ofJArray(KName.METADATA));
     }
 }

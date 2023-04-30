@@ -23,7 +23,7 @@ public abstract class AbstractAide implements Aide {
     protected Future<JsonArray> fetchDict(final JsonObject criteria) {
         return Ux.Jooq.on(XTabularDao.class).fetchAsync(criteria)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.METADATA));
+            .compose(Fn.ofJArray(KName.METADATA));
     }
 
     // --------------- condition building -----------------

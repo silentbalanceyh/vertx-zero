@@ -65,7 +65,7 @@ public class AppService implements AppStub {
             /* Get Result */
             .compose(Ux::futureJ)
             /* JDBC */
-            .compose(Fn.ifJObject("jdbcConfig"));
+            .compose(Fn.ofJObject("jdbcConfig"));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class AppService implements AppStub {
         return this.updateLogo(appId, data)
             .compose(updated -> Ux.Jooq.on(XAppDao.class).updateJAsync(appId, updated)
                 /* Image field: logo */
-                .compose(Fn.ifJObject(KName.App.LOGO)));
+                .compose(Fn.ofJObject(KName.App.LOGO)));
     }
 
     private Future<JsonObject> updateLogo(final String appId, final JsonObject data) {

@@ -6,6 +6,7 @@ import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SPath;
 import io.horizon.cloud.secure.HValve;
 import io.horizon.eon.VString;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -14,8 +15,6 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.tp.rbac.ruler.AdmitValve;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -53,7 +52,7 @@ public class RuleService implements RuleStub {
                 /*
                  * JsonObject Configuration for SPath here
                  */
-                Fn.ifJObject(pathJ,
+                Ut.valueToJObject(pathJ,
                     // UI Configuration
                     KName.UI_CONFIG,
                     KName.UI_CONDITION,

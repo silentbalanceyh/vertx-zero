@@ -2,13 +2,13 @@ package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiOpDao;
 import cn.vertxup.ui.domain.tables.pojos.UiOp;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.init.UiPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,7 +37,7 @@ public class DoService implements DoStub {
         return Ux.Jooq.on(UiOpDao.class)
             .<UiOp>fetchAsync(KName.Ui.CONTROL_ID, control)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.Ui.CONFIG));
+            .compose(Fn.ofJArray(KName.Ui.CONFIG));
     }
 
     @Override
@@ -58,6 +58,6 @@ public class DoService implements DoStub {
         return Ux.Jooq.on(UiOpDao.class)
             .<UiOp>fetchAsync(condition)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(KName.Ui.CONFIG));
+            .compose(Fn.ofJArray(KName.Ui.CONFIG));
     }
 }

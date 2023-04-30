@@ -4,6 +4,7 @@ import cn.vertxup.ui.domain.tables.daos.UiListDao;
 import cn.vertxup.ui.domain.tables.daos.UiViewDao;
 import cn.vertxup.ui.domain.tables.pojos.UiList;
 import cn.vertxup.ui.domain.tables.pojos.UiView;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +13,6 @@ import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -85,7 +85,7 @@ public class ListService implements ListStub {
         /*
          * Capture important configuration here
          */
-        Fn.ifJObject(listJson,
+        Ut.valueToJObject(listJson,
             ListStub.FIELD_OPTIONS,
             ListStub.FIELD_OPTIONS_AJAX,
             ListStub.FIELD_OPTIONS_SUBMIT,

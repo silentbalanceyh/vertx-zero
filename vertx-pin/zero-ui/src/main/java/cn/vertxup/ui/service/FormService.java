@@ -2,12 +2,12 @@ package cn.vertxup.ui.service;
 
 import cn.vertxup.ui.domain.tables.daos.UiFormDao;
 import cn.vertxup.ui.domain.tables.pojos.UiForm;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -47,7 +47,7 @@ public class FormService implements FormStub {
         return Ux.Jooq.on(UiFormDao.class).<UiForm>fetchAndAsync(condition)
             /* List<UiForm> */
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(
+            .compose(Fn.ofJArray(
                 KName.Ui.HIDDEN,
                 KName.METADATA
             ));
@@ -89,7 +89,7 @@ public class FormService implements FormStub {
     @Override
     public Future<JsonObject> update(final String key, final JsonObject data) {
         // 1. mountIn form, convert those into object from string
-        final JsonObject form = Fn.ifString(data,
+        final JsonObject form = Ut.valueToString(data,
             KName.Ui.HIDDEN,
             KName.Ui.ROW,
             KName.METADATA
@@ -100,7 +100,7 @@ public class FormService implements FormStub {
             .updateAsync(key, uiForm)
             .compose(Ux::futureJ)
             // 3. mountOut
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 KName.Ui.HIDDEN,
                 KName.Ui.ROW,
                 KName.METADATA
@@ -115,7 +115,7 @@ public class FormService implements FormStub {
 
     private Future<JsonObject> attachConfig(final JsonObject formJson) {
         final JsonObject config = new JsonObject();
-        Fn.ifJObject(formJson, KName.METADATA);
+        Ut.valueToJObject(formJson, KName.METADATA);
         /*
          * Form configuration
          * window and columns are required
@@ -131,14 +131,14 @@ public class FormService implements FormStub {
          */
         if (formJson.containsKey(KName.Ui.HIDDEN)) {
             form.put(KName.Ui.HIDDEN, formJson.getValue(KName.Ui.HIDDEN));
-            Fn.ifJObject(form, KName.Ui.HIDDEN);
+            Ut.valueToJObject(form, KName.Ui.HIDDEN);
         }
         /*
          * row: JsonObject
          */
         if (formJson.containsKey(KName.Ui.ROW)) {
             form.put(KName.Ui.ROW, formJson.getValue(KName.Ui.ROW));
-            Fn.ifJObject(form, KName.Ui.ROW);
+            Ut.valueToJObject(form, KName.Ui.ROW);
         }
         /*
          * metadata: JsonObject

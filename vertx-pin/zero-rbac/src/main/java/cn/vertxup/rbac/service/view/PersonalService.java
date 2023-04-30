@@ -8,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -34,7 +33,7 @@ public class PersonalService implements PersonalStub {
 
     @Override
     public Future<SView> create(final JsonObject data) {
-        Fn.ifString(data, Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows");
+        Ut.valueToString(data, Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows");
         final SView view = Ut.deserialize(data, SView.class);
         if (data.containsKey(KName.USER)) {
             view.setCreatedBy(data.getString(KName.USER));
@@ -70,7 +69,7 @@ public class PersonalService implements PersonalStub {
                 return Ux.future();
             } else {
                 final JsonObject serialized = Ut.serializeJson(view);
-                Fn.ifString(data, Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows");
+                Ut.valueToString(data, Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows");
                 if (data.containsKey(KName.USER)) {
                     view.setUpdatedBy(data.getString(KName.USER));
                     view.setUpdatedAt(LocalDateTime.now());

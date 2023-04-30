@@ -157,7 +157,7 @@ class AtRunner {
                         .insertAsync(changeList)
                         .compose(nil -> Ux.future(inserted))
                         .compose(Ux::futureJ)
-                        .compose(Fn.ifJObject(KName.METADATA, KName.RECORD_NEW, KName.RECORD_OLD))
+                        .compose(Fn.ofJObject(KName.METADATA, KName.RECORD_NEW, KName.RECORD_OLD))
                         .compose(activityResult -> {
                             /*
                              * 特殊字段判断是否继续生成待确认

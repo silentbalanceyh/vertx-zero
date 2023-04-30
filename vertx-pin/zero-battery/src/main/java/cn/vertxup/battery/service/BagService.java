@@ -35,7 +35,7 @@ public class BagService implements BagStub {
     }
 
     private Future<JsonArray> fetchBag(final JsonObject condition) {
-        return Ux.Jooq.on(BBagDao.class).fetchJAsync(condition).compose(Fn.ifJArray(
+        return Ux.Jooq.on(BBagDao.class).fetchJAsync(condition).compose(Fn.ofJArray(
             KName.Flow.UI_STYLE,
             KName.Flow.UI_CONFIG
         ));

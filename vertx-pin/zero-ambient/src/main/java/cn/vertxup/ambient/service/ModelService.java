@@ -36,7 +36,7 @@ public class ModelService implements ModelStub {
             .fetchOneAsync(filters)
             .compose(Ux::futureJ)
             /* Metadata field usage */
-            .compose(Fn.ifJObject(KName.METADATA)));
+            .compose(Fn.ofJObject(KName.METADATA)));
     }
 
     @Override

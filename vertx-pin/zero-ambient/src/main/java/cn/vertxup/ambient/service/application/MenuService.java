@@ -17,6 +17,6 @@ public class MenuService implements MenuStub {
         return Ux.Jooq.on(XMenuDao.class)
             .fetchJAsync(KName.APP_ID, appId)
             // metadata field extraction
-            .compose(Fn.ifJArray(KName.METADATA));
+            .compose(Fn.ofJArray(KName.METADATA));
     }
 }

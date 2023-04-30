@@ -43,7 +43,7 @@ public class CatalogArbor extends AbstractArbor {
                 });
                 return Ux.futureA(compress);
             })
-            .compose(Fn.ifJArray(
+            .compose(Fn.ofJArray(
                 KName.METADATA,
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG

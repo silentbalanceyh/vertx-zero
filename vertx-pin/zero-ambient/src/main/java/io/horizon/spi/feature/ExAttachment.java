@@ -4,6 +4,7 @@ import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
 import io.horizon.eon.em.ChangeFlag;
 import io.horizon.spi.business.ExIo;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -11,7 +12,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.refine.At;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -109,7 +109,7 @@ public class ExAttachment implements Attachment {
             return At.fileDir(data, params).compose(normalized -> {
                 // Fix: com.fasterxml.jackson.databind.exc.MismatchedInputException:
                 // Cannot deserialize value of type `java.lang.String` from Object value (token `JsonToken.START_OBJECT`)
-                Fn.ifStrings(normalized, KName.METADATA);
+                Ut.valueToString(normalized, KName.METADATA);
                 final List<XAttachment> attachments = Ux.fromJson(normalized, XAttachment.class);
                 return Ux.Jooq.on(XAttachmentDao.class).insertJAsync(attachments)
 
@@ -122,14 +122,14 @@ public class ExAttachment implements Attachment {
 
     @Override
     public Future<JsonArray> updateAsync(final JsonArray attachmentJ, final boolean active) {
-        Fn.ifStrings(attachmentJ, KName.METADATA);
+        Ut.valueToString(attachmentJ, KName.METADATA);
         Ut.itJArray(attachmentJ).forEach(attachment -> {
             attachment.put(KName.UPDATED_AT, Instant.now());
             attachment.put(KName.ACTIVE, active);
         });
         final List<XAttachment> attachments = Ux.fromJson(attachmentJ, XAttachment.class);
         return Ux.Jooq.on(XAttachmentDao.class).updateAsyncJ(attachments)
-            .compose(Fn.ifJArray(KName.METADATA));
+            .compose(Fn.ofJArray(KName.METADATA));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class ExAttachment implements Attachment {
                 }
             });
             return Ux.future(files);
-        })).compose(Fn.ifJArray(KName.METADATA)).compose(attachments -> {
+        })).compose(Fn.ofJArray(KName.METADATA)).compose(attachments -> {
             Ut.itJArray(attachments).forEach(file -> file.put(KName.DIRECTORY, Boolean.FALSE));
             return Ux.future(attachments);
         });

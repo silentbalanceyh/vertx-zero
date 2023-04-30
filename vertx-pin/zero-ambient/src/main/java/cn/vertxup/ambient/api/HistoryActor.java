@@ -10,7 +10,6 @@ import io.vertx.tp.ambient.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -63,7 +62,7 @@ public class HistoryActor {
                      * recordOld -> recordNew
                      * Data that should be deserialized to Json Object
                      */
-                    Fn.ifJObject(data,
+                    Ut.valueToJObject(data,
                         KName.RECORD_NEW,
                         KName.RECORD_OLD
                     );

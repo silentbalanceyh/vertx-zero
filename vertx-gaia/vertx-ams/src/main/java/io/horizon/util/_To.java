@@ -415,6 +415,19 @@ class _To extends _Reflect {
     }
 
     /**
+     * 增强型转换，可注入转换函数执行附加操作构造新的 JsonObject
+     *
+     * @param literal 字符串字面量
+     * @param itemFn  转换函数
+     *
+     * @return JsonObject
+     */
+    public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
+        final JsonObject parsed = HJson.toJObject(literal);
+        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+    }
+
+    /**
      * 字符串转换成 JsonObject，如果有错默认返回空对象
      *
      * @param literal 字符串

@@ -28,7 +28,7 @@ public class ExLinkage implements Linkage {
 
     @Override
     public Future<JsonArray> fetch(final JsonObject criteria) {
-        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria).compose(Fn.ifJArray(
+        return Ux.Jooq.on(XLinkageDao.class).fetchJAsync(criteria).compose(Fn.ofJArray(
             KName.SOURCE_DATA,
             KName.TARGET_DATA
         ));

@@ -6,7 +6,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
-import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;
 import io.vertx.up.unity.Ux;
@@ -64,7 +63,7 @@ public class JobKit {
         //        Ke.mountString(serviceJson, KName.Api.MAPPING_CONFIG);
         //        Ke.mountString(serviceJson, KName.Api.DICT_EPSILON);
         //        Ke.mountString(serviceJson, KName.Api.DICT_CONFIG);
-        Fn.ifString(serviceJson,
+        Ut.valueToString(serviceJson,
             KName.METADATA,
             KName.RULE_UNIQUE,
             /*
@@ -96,7 +95,7 @@ public class JobKit {
         if (Ut.isNotNil(metadata)) {
             final JsonObject service = metadata.getJsonObject(KName.SERVICE);
             if (Ut.isNotNil(service)) {
-                Fn.ifJObject(service,
+                Ut.valueToJObject(service,
                     KName.METADATA,
                     KName.RULE_UNIQUE,
                     /*

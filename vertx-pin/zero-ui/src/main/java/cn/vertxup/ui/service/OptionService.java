@@ -22,7 +22,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VQueryDao.class)
             .<VQuery>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 FIELD_QUERY_CRITERIA,
                 FIELD_QUERY_PROJECTION
             ));
@@ -33,7 +33,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VSearchDao.class)
             .<VSearch>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 FIELD_SEARCH_NOTICE,
                 FIELD_SEARCH_VIEW,
                 FIELD_SEARCH_COND
@@ -45,7 +45,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VFragmentDao.class)
             .<VFragment>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 FIELD_FRAGMENT_MODEL,
                 FIELD_FRAGMENT_NOTICE,
                 FIELD_FRAGMENT_CONFIG,
@@ -58,7 +58,7 @@ public class OptionService implements OptionStub {
         return Ux.Jooq.on(VTableDao.class)
             .<VTable>fetchByIdAsync(id)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 FIELD_TABLE_OP_CONFIG
             ));
     }
@@ -70,7 +70,7 @@ public class OptionService implements OptionStub {
         final List<UiOp> ops = Ut.itJArray(data)
             // filter(deduplicate) by action
             .filter(item -> Ut.isNotNil(item.getString("action")) && null == seen.putIfAbsent(item.getString("action"), Boolean.TRUE))
-            .map(item -> Fn.ifString(item,
+            .map(item -> Ut.valueToString(item,
                 FIELD_OP_CONFIG,
                 FIELD_OP_PLUGIN,
                 KName.METADATA
@@ -84,7 +84,7 @@ public class OptionService implements OptionStub {
                 .insertAsync(ops)
                 .compose(Ux::futureA)
                 // 3. mountOut
-                .compose(Fn.ifJArray(
+                .compose(Fn.ofJArray(
                     FIELD_OP_CONFIG,
                     FIELD_OP_PLUGIN,
                     KName.METADATA

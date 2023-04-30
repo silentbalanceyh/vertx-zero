@@ -63,7 +63,7 @@ class IsDir {
     static JsonObject input(JsonObject directoryJ) {
         // Cannot deserialize value of type `java.lang.String` from Array value (token `JsonToken.START_ARRAY`)
         directoryJ = directoryJ.copy();
-        Fn.ifString(directoryJ,
+        Ut.valueToString(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -74,7 +74,7 @@ class IsDir {
 
     static JsonArray input(JsonArray directoryJ) {
         directoryJ = directoryJ.copy();
-        Fn.ifStrings(directoryJ,
+        Ut.valueToString(directoryJ,
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -84,7 +84,7 @@ class IsDir {
     }
 
     static Future<JsonObject> output(final JsonObject response) {
-        return Fn.ifJObject(
+        return Fn.ofJObject(
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,
@@ -97,7 +97,7 @@ class IsDir {
     }
 
     static Future<JsonArray> output(final JsonArray response) {
-        return Fn.ifJArray(
+        return Fn.ofJArray(
             KName.METADATA,
             KName.VISIT_GROUP,
             KName.VISIT_ROLE,

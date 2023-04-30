@@ -36,7 +36,7 @@ public class ControlService implements ControlStub {
                 final JsonArray result = new JsonArray();
                 list.stream().filter(Objects::nonNull)
                     .map(item -> (JsonObject) item)
-                    .map(item -> Fn.ifJObject(item,
+                    .map(item -> Ut.valueToJObject(item,
                         KName.Ui.CONTAINER_CONFIG,
                         KName.Ui.COMPONENT_CONFIG,
                         KName.Ui.ASSIST,
@@ -52,7 +52,7 @@ public class ControlService implements ControlStub {
         return Ux.Jooq.on(UiControlDao.class)
             .<UiControl>fetchByIdAsync(control)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 KName.Ui.CONTAINER_CONFIG,
                 KName.Ui.COMPONENT_CONFIG,
                 KName.Ui.ASSIST,

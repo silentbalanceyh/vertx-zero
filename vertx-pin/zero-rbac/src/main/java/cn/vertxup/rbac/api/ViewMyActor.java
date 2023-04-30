@@ -71,7 +71,7 @@ public class ViewMyActor {
                 return this.personalStub.byUser(action.getResourceId(), userId,
                         data.getString(KName.POSITION))
                     .compose(Ux::futureA)
-                    .compose(Fn.ifJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
+                    .compose(Fn.ofJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
             }
         });
     }
@@ -113,7 +113,7 @@ public class ViewMyActor {
     public Future<JsonObject> pViewById(final String key) {
         return this.personalStub.byId(key)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ofJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
     @Address(Addr.View.VIEW_P_UPDATE)
@@ -127,7 +127,7 @@ public class ViewMyActor {
         data.put(KName.USER, userId);
         return this.personalStub.update(key, data)
             .compose(Ux::futureJ)
-            .compose(Fn.ifJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ofJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
     }
 
 

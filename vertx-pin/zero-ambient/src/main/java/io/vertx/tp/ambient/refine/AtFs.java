@@ -2,6 +2,7 @@ package io.vertx.tp.ambient.refine;
 
 import io.horizon.cloud.app.HFS;
 import io.horizon.spi.business.ExIo;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -10,7 +11,6 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -40,7 +40,7 @@ class AtFs {
         if (Objects.nonNull(config)) {
             appJ.put(KName.STORE_PATH, config.getStorePath());
         }
-        return Ux.futureJ(appJ).compose(Fn.ifJObject(KName.App.LOGO));
+        return Ux.futureJ(appJ).compose(Fn.ofJObject(KName.App.LOGO));
     }
 
     static Future<Buffer> fileDownload(final JsonArray attachment) {

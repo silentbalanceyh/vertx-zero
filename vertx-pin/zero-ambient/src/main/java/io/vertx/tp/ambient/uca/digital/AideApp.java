@@ -24,6 +24,6 @@ public class AideApp extends AbstractAide {
     public Future<JsonObject> fetch(final String field, final String type, final String code) {
         return Ux.Jooq.on(XTabularDao.class)
             .fetchOneAsync(this.condApp(field, type, code))
-            .compose(Ux::futureJ).compose(Fn.ifJObject(KName.METADATA));
+            .compose(Ux::futureJ).compose(Fn.ofJObject(KName.METADATA));
     }
 }

@@ -5,12 +5,12 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 final class To {
@@ -71,16 +71,21 @@ final class To {
         }
     }
 
-    static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
-        final JsonObject parsed = HaS.toJObject(literal);
-        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
-    }
-
     static JsonObject toJObject(final MultiMap multiMap) {
         final JsonObject params = new JsonObject();
         Fn.runAt(() -> multiMap.forEach(
             item -> params.put(item.getKey(), item.getValue())
         ), multiMap);
         return params;
+    }
+
+    static JsonObject valueToPage(final JsonObject pageData, final String... fields) {
+        final JsonObject pageJ = Ut.valueJObject(pageData);
+        if (pageJ.containsKey(KName.LIST) && pageJ.containsKey(KName.COUNT)) {
+            final JsonArray listRef = Ut.valueJArray(pageJ, KName.LIST);
+            Ut.itJArray(listRef).forEach(json -> Arrays.stream(fields).forEach(field -> Ut.valueToJObject(json, field)));
+            pageJ.put(KName.LIST, listRef);
+        }
+        return pageJ;
     }
 }

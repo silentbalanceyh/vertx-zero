@@ -2,6 +2,8 @@ package cn.vertxup.ambient.service.file;
 
 import cn.vertxup.ambient.domain.tables.daos.XCategoryDao;
 import io.horizon.spi.feature.Arbor;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -9,8 +11,6 @@ import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.init.AtPin;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -37,7 +37,7 @@ public class DocBuilder implements DocBStub {
     public Future<JsonArray> initialize(final String appId, final String type) {
         final JsonObject condition = this.qrCond(appId, type, null);
         return Ux.Jooq.on(XCategoryDao.class).fetchJAsync(condition)
-            .compose(Fn.ifJArray(
+            .compose(Fn.ofJArray(
                 KName.METADATA,
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG
@@ -53,7 +53,7 @@ public class DocBuilder implements DocBStub {
     public Future<JsonArray> initialize(final String appId, final String type, final String name) {
         final JsonObject condition = this.qrCond(appId, type, name);
         return Ux.Jooq.on(XCategoryDao.class).fetchJOneAsync(condition)
-            .compose(Fn.ifJObject(
+            .compose(Fn.ofJObject(
                 KName.METADATA,
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG

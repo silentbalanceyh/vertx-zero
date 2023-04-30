@@ -124,7 +124,7 @@ class _Value extends _To {
      * @return Set<String>
      */
     public static Set<String> valueSetString(final JsonArray array, final String field) {
-        return TValue.vStringSet(array, field);
+        return TV.vStringSet(array, field);
     }
 
     /**
@@ -137,7 +137,7 @@ class _Value extends _To {
      * @return Set<String>
      */
     public static <T> Set<String> valueSetString(final List<T> list, final Function<T, String> executor) {
-        return TValue.vStringSet(list, executor);
+        return TV.vStringSet(list, executor);
     }
 
     /**
@@ -149,7 +149,7 @@ class _Value extends _To {
      * @return Set<JsonArray>
      */
     public static Set<JsonArray> valueSetArray(final JsonArray array, final String field) {
-        return TValue.vArraySet(array, field);
+        return TV.vArraySet(array, field);
     }
 
 
@@ -175,7 +175,7 @@ class _Value extends _To {
      * @return String
      */
     public static String valueString(final JsonArray array, final String field) {
-        return TValue.vString(array, field);
+        return TV.vString(array, field);
     }
 
     /**
@@ -187,7 +187,7 @@ class _Value extends _To {
      * @return String
      */
     public static String valueString(final JsonObject json, final String field) {
-        return TValue.vString(json, field, null);
+        return TV.vString(json, field, null);
     }
 
     /**
@@ -200,7 +200,7 @@ class _Value extends _To {
      * @return String
      */
     public static String valueString(final JsonObject json, final String field, final String defaultValue) {
-        return TValue.vString(json, field, defaultValue);
+        return TV.vString(json, field, defaultValue);
     }
 
     /**
@@ -212,7 +212,7 @@ class _Value extends _To {
      * @return String
      */
     public static Integer valueInt(final JsonObject json, final String field) {
-        return TValue.vInt(json, field, VValue.RANGE);
+        return TV.vInt(json, field, VValue.RANGE);
     }
 
     /**
@@ -224,7 +224,7 @@ class _Value extends _To {
      * @return String
      */
     public static Class<?> valueC(final JsonObject json, final String field) {
-        return TValue.vClass(json, field, null);
+        return TV.vClass(json, field, null);
     }
 
     /**
@@ -238,7 +238,7 @@ class _Value extends _To {
      */
     public static Class<?> valueC(final JsonObject json, final String field,
                                   final Class<?> defaultClass) {
-        return TValue.vClass(json, field, defaultClass);
+        return TV.vClass(json, field, defaultClass);
     }
 
     /**
@@ -253,7 +253,7 @@ class _Value extends _To {
      */
     public static Class<?> valueCI(final JsonObject json, final String field,
                                    final Class<?> interfaceCls) {
-        return TValue.vClass(json, field, interfaceCls, null);
+        return TV.vClass(json, field, interfaceCls, null);
     }
 
     /**
@@ -269,7 +269,7 @@ class _Value extends _To {
      */
     public static Class<?> valueCI(final JsonObject json, final String field,
                                    final Class<?> interfaceCls, final Class<?> defaultClass) {
-        return TValue.vClass(json, field, interfaceCls, defaultClass);
+        return TV.vClass(json, field, interfaceCls, defaultClass);
     }
 
     /**
@@ -282,7 +282,7 @@ class _Value extends _To {
      * @return Class<?>
      */
     public static <T> T valueT(final String literal, final Class<?> type) {
-        return TValue.vT(literal, type);
+        return TV.vT(literal, type);
     }
 
     /**
@@ -297,7 +297,7 @@ class _Value extends _To {
      * @return T
      */
     public static <T> T valueT(final JsonObject json, final String field, final Class<T> type) {
-        return TValue.vT(json, field, type);
+        return TV.vT(json, field, type);
     }
 
     /**
@@ -312,7 +312,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        return HJson.valueCopy(target, source, fields);
+        return TValue.valueCopy(target, source, fields);
     }
 
     /**
@@ -326,7 +326,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueCopy(final JsonObject record, final String from, final String to) {
-        return HJson.valueCopy(record, from, to);
+        return TValue.valueCopy(record, from, to);
     }
 
     /**
@@ -338,7 +338,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueAppend(final JsonObject target, final JsonObject... sources) {
-        Arrays.stream(sources).forEach(source -> HJson.valueAppend(target, source, true));
+        Arrays.stream(sources).forEach(source -> TValue.valueAppend(target, source, true));
         return target;
     }
 
@@ -351,7 +351,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueMerge(final JsonObject target, final JsonObject... sources) {
-        Arrays.stream(sources).forEach(source -> HJson.valueMerge(target, source, true));
+        Arrays.stream(sources).forEach(source -> TValue.valueMerge(target, source, true));
         return target;
     }
 
@@ -368,7 +368,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueDefault(final JsonObject record, final String field, final Object value) {
-        return HJson.valueDefault(record, field, value);
+        return TValue.valueDefault(record, field, value);
     }
 
     /**
@@ -383,6 +383,79 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueDefault(final JsonObject record, final String field) {
-        return HJson.valueDefault(record, field, null);
+        return TValue.valueDefault(record, field, null);
+    }
+
+    // ------------- 原 if 系方法（同步模式使用新API）-------------
+
+    /**
+     * 「属性序列化/副作用」
+     * 提取 JsonObject 记录中所有的 fields 属性，检查属性是否存在且不为空，若存在且不为空则
+     * 检查该属性的值是否 JsonObject / JsonArray 类型，如果是这种类型，直接调用该类型的
+     * encode() 方法，将这些属性转换成 String 格式
+     *
+     * @param json   JsonObject
+     * @param fields 字段名
+     *
+     * @return JsonObject（修改过的）
+     */
+    public static JsonObject valueToString(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> TValue.valueToString(json, field));
+        return json;
+    }
+
+    /**
+     * 「属性序列化/副作用」
+     * 提取 JsonArray 记录中所有JsonObject对象的 fields 属性，检查属性是否存在且不为空，
+     * 若存在且不为空则检查该属性的值是否 JsonObject / JsonArray 类型，如果是这种类型，
+     * 直接调用该类型的encode() 方法，将这些属性转换成 String 格式（迭代执行）
+     *
+     * @param array  JsonArray
+     * @param fields 字段名
+     *
+     * @return JsonArray（修改过的）
+     */
+    public static JsonArray valueToString(final JsonArray array, final String... fields) {
+        HIter.itJArray(array).forEach(json -> valueToString(json, fields));
+        return array;
+    }
+
+    /**
+     * 「属性序列化/副作用」
+     * 提取 JsonObject 记录中的所有 fields 属性相关信息，并执行智能化序列化
+     * 1. String 格式包括：[] / {}
+     * 2. 解析之后转换成 JsonObject / JsonArray
+     * 3. 根对象：JsonObject / JsonArray
+     * ---> JsonObject 属性递归
+     * ---> JsonArray 属性递归
+     *
+     * @param json   JsonObject
+     * @param fields 字段名
+     *
+     * @return JsonObject（修改过的）
+     */
+    public static JsonObject valueToJObject(final JsonObject json, final String... fields) {
+        Arrays.stream(fields).forEach(field -> TValue.valueJson(json, field));
+        return json;
+    }
+
+
+    /**
+     * 「属性序列化/副作用」
+     * 提取 JsonArray 记录中的所有 fields 属性相关信息，并执行智能化序列化
+     * 1. String 格式包括：[] / {}
+     * 2. 解析之后转换成 JsonObject / JsonArray
+     * 3. 根对象：JsonObject / JsonArray
+     * ---> JsonObject 属性递归
+     * ---> JsonArray 属性递归
+     *
+     * @param array  JsonArray
+     * @param fields 字段名
+     *
+     * @return JsonArray（修改过的）
+     */
+    public static JsonArray valueToJArray(final JsonArray array, final String... fields) {
+        HIter.itJArray(array).forEach(json -> valueToJObject(json, fields));
+        return array;
     }
 }

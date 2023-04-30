@@ -439,10 +439,6 @@ public final class Ut extends HaS {
         return StringUtil.matched(input, regex);
     }
 
-    public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
-        return To.toJObject(literal, itemFn);
-    }
-
     public static JsonObject toJObject(final MultiMap map) {
         return To.toJObject(map);
     }
@@ -574,6 +570,13 @@ public final class Ut extends HaS {
     // Qr Field Processing
     public static String valueQrIn(final String field) {
         return Mapping.vQrField(field, Qr.Op.IN);
+    }
+
+    /*
+     * 「双态型」两种形态
+     */
+    public static JsonObject valueToPage(final JsonObject pageData, final String... fields) {
+        return To.valueToPage(pageData, fields);
     }
 
     // Single Processing

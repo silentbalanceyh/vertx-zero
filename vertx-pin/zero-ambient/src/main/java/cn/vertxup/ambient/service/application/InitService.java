@@ -1,9 +1,9 @@
 package cn.vertxup.ambient.service.application;
 
 import cn.vertxup.ambient.domain.tables.daos.XAppDao;
-import io.horizon.uca.log.Annal;
 import io.horizon.spi.extension.Init;
 import io.horizon.spi.extension.Prerequisite;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.init.AtPin;
@@ -63,7 +63,7 @@ public class InitService implements InitStub {
             /* Data Loading */
             .compose(At.initData().apply())
             /* Image */
-            .compose(Fn.ifJObject(KName.App.LOGO));
+            .compose(Fn.ofJObject(KName.App.LOGO));
     }
 
     /**
@@ -131,7 +131,7 @@ public class InitService implements InitStub {
             .compose(appJson -> this.initOutput(appJson, outPath))
             .compose(this::initDefined)
             /* Image */
-            .compose(Fn.ifJObject(KName.App.LOGO));
+            .compose(Fn.ofJObject(KName.App.LOGO));
     }
 
     private Future<JsonObject> initOutput(final JsonObject combined, final String outPath) {

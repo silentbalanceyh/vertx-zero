@@ -20,7 +20,7 @@ public abstract class AbstractTree extends AbstractAide implements Tree {
     protected Future<JsonArray> fetchTree(final JsonObject criteria) {
         return Ux.Jooq.on(XCategoryDao.class).fetchAsync(criteria)
             .compose(Ux::futureA)
-            .compose(Fn.ifJArray(
+            .compose(Fn.ofJArray(
                 KName.METADATA,
                 KName.Component.TREE_CONFIG,
                 KName.Component.RUN_CONFIG

@@ -5,13 +5,13 @@ import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
 import io.horizon.atom.common.Kv;
 import io.horizon.spi.business.ExIo;
 import io.horizon.spi.feature.Attachment;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._400FileNameInValidException;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -59,7 +59,7 @@ public class DocWriter implements DocWStub {
         return jq.<XAttachment>fetchByIdAsync(key).compose(attachment -> {
             final String from = attachment.getStorePath();
             final JsonObject documentData = documentJ.copy();
-            Fn.ifString(documentData, KName.METADATA, KName.VISIT_MODE);
+            Ut.valueToString(documentData, KName.METADATA, KName.VISIT_MODE);
             final XAttachment updated = Ux.updateT(attachment, documentData);
             return jq.updateAsync(updated).compose(processed -> {
                 final String to = processed.getStorePath();

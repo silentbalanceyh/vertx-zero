@@ -20,12 +20,12 @@ class AgonicSearch implements Agonic {
     public Future<JsonObject> runJAsync(final JsonObject input, final IxMod in) {
         LOG.Filter.info(this.getClass(), "( Search ) Condition: {0}", input);
         if (in.canJoin()) {
-            return Ix.searchFn(in).apply(input).compose(Fn.ifPage(KName.METADATA))
+            return Ix.searchFn(in).apply(input).compose(Fn.ofPage(KName.METADATA))
                 // Response Format
                 .compose(response -> Ux.future(Ix.serializeP(response, in.module(), in.connect())));
         } else {
             final UxJooq jooq = IxPin.jooq(in);
-            return jooq.searchAsync(input).compose(Fn.ifPage(KName.METADATA))
+            return jooq.searchAsync(input).compose(Fn.ofPage(KName.METADATA))
                 // Response Format
                 .compose(response -> Ux.future(Ix.serializeP(response, in.module(), in.connect())));
         }

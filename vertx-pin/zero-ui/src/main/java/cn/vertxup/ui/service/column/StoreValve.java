@@ -10,6 +10,7 @@ import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
+import io.vertx.up.util.Ut;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -80,7 +81,7 @@ class StoreValve implements UiValve {
         Fn.runMonad(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
-            Fn.ifJObject(columnJson, "$filter.config");
+            Ut.valueToJObject(columnJson, "$filter.config");
         });
         /*
          * Zero Config
@@ -88,11 +89,11 @@ class StoreValve implements UiValve {
         Fn.runMonad(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
         Fn.runMonad(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
-            Fn.ifJObject(columnJson, "$mapping");
+            Ut.valueToJObject(columnJson, "$mapping");
         });
         Fn.runMonad(column::getConfig, (config) -> {
             columnJson.put("$config", config);
-            Fn.ifJObject(columnJson, "$config");
+            Ut.valueToJObject(columnJson, "$config");
         });
         return columnJson;
     }
