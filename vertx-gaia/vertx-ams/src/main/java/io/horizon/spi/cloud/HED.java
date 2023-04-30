@@ -1,6 +1,6 @@
 package io.horizon.spi.cloud;
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VString;
 import io.horizon.util.HaS;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HED {
-    @HDevelop("生成代码专用，负责生成HED代码")
+    @Development("生成代码专用，负责生成HED代码")
     static void sourceGen(final String packageName, final String className, final int length) {
         System.out.println(T.generate(packageName, className, length));
     }

@@ -1,7 +1,7 @@
 package io.horizon.exception.internal;
 
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
 
@@ -16,7 +16,7 @@ public class NotImplementException extends InternalException {
         return ErrorCode._11006.V();
     }
 
-    @HDevelop("IDE视图专用")
+    @Development("IDE视图专用")
     private int __11006() {
         return this.getCode();
     }

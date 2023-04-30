@@ -98,7 +98,7 @@ final class Invoker {
             ex.printStackTrace();
             if (Future.class.isAssignableFrom(returnType)) {
                 // Async Calling
-                final WebException error = Instance.errorWeb(ex);
+                final WebException error = HaS.failWeb(null, ex, true); // Instance.errorWeb(ex);
                 result = Future.failedFuture(error);
             } else {
                 // Sync Calling

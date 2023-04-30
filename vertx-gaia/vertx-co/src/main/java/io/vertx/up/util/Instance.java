@@ -2,11 +2,9 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.BootingException;
-import io.horizon.exception.WebException;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.booting.DuplicatedImplException;
-import io.vertx.up.exception.web._500InvokeErrorException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
 import org.slf4j.Logger;
@@ -35,19 +33,6 @@ final class Instance {
         new ConcurrentHashMap<>();
 
     private Instance() {
-    }
-
-    static WebException errorWeb(final Throwable ex) {
-        if (ex instanceof WebException) {
-            return (WebException) ex;
-        } else {
-            final Throwable target = ex.getCause();
-            if (Objects.isNull(target)) {
-                return new _500InvokeErrorException(Instance.class, ex);
-            } else {
-                return errorWeb(target);
-            }
-        }
     }
 
     /*

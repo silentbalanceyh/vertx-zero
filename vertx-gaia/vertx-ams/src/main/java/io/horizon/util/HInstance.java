@@ -1,9 +1,10 @@
 package io.horizon.util;
 
+import io.horizon.annotations.Memory;
 import io.horizon.eon.VString;
-import io.horizon.eon.cache.CStore;
 import io.horizon.exception.internal.OperationException;
 import io.horizon.fn.HFn;
+import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +16,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+interface CACHE {
+    /**
+     * 全局单件模式专用
+     */
+    @Memory(Object.class)
+    Cc<String, Object> CC_SINGLETON = Cc.open();
+    /**
+     * 全局类缓存专用
+     */
+    @Memory(Class.class)
+    Cc<String, Class<?>> CC_CLASSES = Cc.open();
+}
+
 /**
  * @author lang : 2023/4/28
  */
 @SuppressWarnings("all")
 class HInstance {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HInstance.class);
     /*
      * 快速构造对象专用内存结构
@@ -58,7 +73,7 @@ class HInstance {
     }
 
     static <T> T singleton(final Class<?> clazz, final Object... params) {
-        return (T) CStore.CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
+        return (T) CACHE.CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
     }
 
     static <T> T singleton(final Class<?> clazz, final Function<Class<?>, T> instanceFn, final String key) {
@@ -67,12 +82,12 @@ class HInstance {
              * 如果key为空，则直接返回，等价于原始 singleton
              * 并且其构造函数的参数是无参的，只是切换了 instanceFn 的实现
              */
-            return (T) CStore.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName());
+            return (T) CACHE.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName());
         } else {
             /*
              * 池化，键值：className/key
              */
-            return (T) CStore.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName() + VString.SLASH + key);
+            return (T) CACHE.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName() + VString.SLASH + key);
         }
     }
 
@@ -90,7 +105,7 @@ class HInstance {
              * getJvm will throw out exception here. in current method, we should
              * catch `ClassNotFoundException` and return null directly.
              */
-            final ConcurrentMap<String, Class<?>> cData = CStore.CC_CLASSES.store();
+            final ConcurrentMap<String, Class<?>> cData = CACHE.CC_CLASSES.store();
             Class<?> clazz = cData.get(name);
             if (Objects.isNull(clazz)) {
                 /* 优先从传入的类加载器中加载 */

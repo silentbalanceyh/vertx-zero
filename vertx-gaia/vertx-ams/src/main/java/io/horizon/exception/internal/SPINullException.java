@@ -1,6 +1,6 @@
 package io.horizon.exception.internal;
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
 
@@ -18,7 +18,7 @@ public class SPINullException extends InternalException {
         return ErrorCode._11000.V();
     }
 
-    @HDevelop("IDE视图专用")
+    @Development("IDE视图专用")
     private int __11000() {
         return this.getCode();
     }

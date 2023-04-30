@@ -3,6 +3,7 @@ package io.horizon.util;
 import io.horizon.exception.WebException;
 import io.horizon.exception.internal.ErrorMissingException;
 import io.horizon.exception.internal.SPINullException;
+import io.horizon.exception.web._500InternalCauseException;
 import io.horizon.exception.web._500InternalServerException;
 import io.horizon.fn.HFn;
 import io.horizon.spi.HorizonIo;
@@ -54,7 +55,8 @@ class HError {
     }
 
     // 异常专用信息
-    static WebException failWeb(final Class<?> clazz, final Throwable error) {
+    static WebException failWeb(final Class<?> clazz, final Throwable error,
+                                final boolean isCause) {
         return HFn.runOr(error instanceof WebException,
             // Throwable 异常本身是 WebException，直接转出
             () -> {
@@ -62,7 +64,27 @@ class HError {
                 return (WebException) error;
             },
             // Throwable 异常不是 WebException，封装成 500 默认异常转出
-            () -> new _500InternalServerException(clazz, error.getMessage())
+            () -> {
+                final Class<?> target = Objects.isNull(clazz) ? HError.class : clazz;
+                // 传入 Throwable 是否为空
+                if (Objects.isNull(error)) {
+                    return new _500InternalServerException(target, "Throwable is null");
+                }
+                if (isCause) {
+                    // 调用 getCause() 模式
+                    final Throwable cause = error.getCause();
+                    if (Objects.isNull(cause)) {
+                        return new _500InternalCauseException(target, error);
+                    }
+
+                    // 递归调用
+                    return failWeb(clazz, cause, true);
+                } else {
+                    // 直接模式
+                    assert !(error instanceof WebException);
+                    return new _500InternalServerException(target, error.getMessage());
+                }
+            }
         );
     }
 

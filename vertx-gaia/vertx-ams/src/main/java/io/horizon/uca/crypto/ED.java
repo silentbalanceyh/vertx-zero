@@ -1,5 +1,6 @@
 package io.horizon.uca.crypto;
 
+import io.horizon.annotations.Memory;
 import io.horizon.atom.secure.KPair;
 import io.horizon.uca.cache.Cc;
 
@@ -17,15 +18,14 @@ import io.horizon.uca.cache.Cc;
  */
 public interface ED {
 
-    Cc<String, ED> CC_ED = Cc.openThread();
 
     static ED rsa(final boolean p2v) {
         if (p2v) {
             // Public -> Private
-            return CC_ED.pick(EDPVRsa::new, EDPVRsa.class.getName());
+            return CACHE.CCT_ED.pick(EDPVRsa::new, EDPVRsa.class.getName());
         } else {
             // Private -> Public
-            return CC_ED.pick(EDVPRsa::new, EDVPRsa.class.getName());
+            return CACHE.CCT_ED.pick(EDVPRsa::new, EDVPRsa.class.getName());
         }
     }
 
@@ -38,4 +38,12 @@ public interface ED {
     String decrypt(String source);
 
     String decrypt(String source, String keyContent);
+}
+
+interface CACHE {
+    /**
+     * ED 加密解密组件专用缓存池
+     */
+    @Memory(ED.class)
+    Cc<String, ED> CCT_ED = Cc.openThread();
 }

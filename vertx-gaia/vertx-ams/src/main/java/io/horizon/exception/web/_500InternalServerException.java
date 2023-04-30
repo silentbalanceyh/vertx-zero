@@ -1,6 +1,6 @@
 package io.horizon.exception.web;
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
 
@@ -21,7 +21,7 @@ public class _500InternalServerException extends WebException {
         return HttpStatusCode.INTERNAL_SERVER_ERROR;
     }
 
-    @HDevelop("IDE视图专用")
+    @Development("IDE视图专用")
     private int __60007() {
         return this.getCode();
     }

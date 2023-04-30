@@ -9,8 +9,6 @@ package io.horizon.eon.cache;
  *
  * @author lang : 2023/4/24
  */
-public interface CStore extends
-    CUCA,
-    CInstance {
+public interface CStore {
 
 }

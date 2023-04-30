@@ -2,8 +2,6 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
-import org.apache.commons.jexl3.JexlBuilder;
-import org.apache.commons.jexl3.JexlEngine;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +12,6 @@ import java.util.regex.Pattern;
  * @author lang
  */
 final class StringUtil {
-    private static final JexlEngine EXPR = new JexlBuilder()
-        .cache(4096).silent(false).create();
 
     private StringUtil() {
     }

@@ -1,6 +1,6 @@
 package io.horizon.exception.web;
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
 
@@ -20,7 +20,7 @@ public class _403ForbiddenException extends WebException {
         return HttpStatusCode.FORBIDDEN;
     }
 
-    @HDevelop("IDE视图专用")
+    @Development("IDE视图专用")
     private int __60013() {
         return this.getCode();
     }

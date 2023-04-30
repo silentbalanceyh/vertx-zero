@@ -1,6 +1,6 @@
 package io.horizon.exception.web;
 
-import io.horizon.annotations.HDevelop;
+import io.horizon.annotations.Development;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
 
@@ -20,7 +20,7 @@ public class _501NotImplementException extends WebException {
         return HttpStatusCode.NOT_IMPLEMENTED;
     }
 
-    @HDevelop("IDE视图专用")
+    @Development("IDE视图专用")
     private int __80413() {
         return this.getCode();
     }

@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.horizon.annotations.HLinking;
+import io.horizon.annotations.HighLevel;
 import io.horizon.fn.HFn;
 import io.horizon.util.HaS;
 import io.vertx.core.Future;
@@ -51,17 +51,17 @@ class _Atomic extends HFn {
         return MakeUp.passion(input, Arrays.asList(executors));
     }
 
-    @HLinking(value = HaS.class)
+    @HighLevel(value = HaS.class)
     public static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
         return HaS.pool(pool, key, poolFn);
     }
 
-    @HLinking(value = HaS.class)
+    @HighLevel(value = HaS.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
         return HaS.poolThread(pool, poolFn);
     }
 
-    @HLinking(value = HaS.class)
+    @HighLevel(value = HaS.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
         return HaS.poolThread(pool, poolFn, key);
     }

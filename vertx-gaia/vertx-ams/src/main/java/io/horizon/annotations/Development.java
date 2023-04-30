@@ -11,6 +11,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface HDevelop {
+public @interface Development {
     String value() default "";      // 注释说明
 }
