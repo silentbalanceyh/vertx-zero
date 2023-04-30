@@ -30,25 +30,25 @@ class _Atomic extends HFn {
      * - pool:     池化（缓存函数）
      */
     public static <T> Future<T> parallel(final T input, final Set<Function<T, Future<T>>> executors) {
-        return Manager.parallel(input, executors);
+        return Monad.parallel(input, executors);
     }
 
     public static <T> Future<T> parallel(final T input, final List<Function<T, Future<T>>> executors) {
-        return Manager.parallel(input, new HashSet<>(executors));
+        return Monad.parallel(input, new HashSet<>(executors));
     }
 
     @SafeVarargs
     public static <T> Future<T> parallel(final T input, final Function<T, Future<T>>... executors) {
-        return Manager.parallel(input, new HashSet<>(Arrays.asList(executors)));
+        return Monad.parallel(input, new HashSet<>(Arrays.asList(executors)));
     }
 
     public static <T> Future<T> passion(final T input, final List<Function<T, Future<T>>> executors) {
-        return Manager.passion(input, executors);
+        return Monad.passion(input, executors);
     }
 
     @SafeVarargs
     public static <T> Future<T> passion(final T input, final Function<T, Future<T>>... executors) {
-        return Manager.passion(input, Arrays.asList(executors));
+        return Monad.passion(input, Arrays.asList(executors));
     }
 
     @HighLevel(value = HaS.class)

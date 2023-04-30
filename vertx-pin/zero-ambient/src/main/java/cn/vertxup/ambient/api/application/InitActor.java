@@ -34,6 +34,6 @@ public class InitActor {
     @Address(Addr.Init.CONNECT)
     public Future<JsonObject> connect(final JsonObject data) {
         final Database database = Ut.deserialize(data, Database.class);
-        return Fn.wrapJ(database.test());
+        return Fn.ifBool(database.test());
     }
 }

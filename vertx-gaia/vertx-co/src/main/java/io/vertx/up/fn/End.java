@@ -2,11 +2,9 @@ package io.vertx.up.fn;
 
 import io.aeon.runtime.H3H;
 import io.horizon.cloud.action.HCombiner;
-import io.horizon.eon.em.Result;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -21,20 +19,9 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class Wander {
-    /*
-     * 构造 data = ? 的最终数据结构
-     * 默认不分组，直接构造，config =
-     * {
-     *     "group": "field"
-     * }
-     * 这种模式下会根据 field 执行分组构造，最终的 data = JsonObject
-     */
-    static JsonObject wrapJ(final String key, final ClusterSerializable data) {
-        return new JsonObject().put(key, data);
-    }
+class End {
 
-    static JsonObject wrapJ(final String key, final JsonArray data, final JsonObject config) {
+    static JsonObject endJObject(final String key, final JsonArray data, final JsonObject config) {
         final String group = Ut.valueString(config, KName.GROUP);
         final JsonObject response = new JsonObject();
         if (Ut.isNil(group)) {
@@ -45,97 +32,12 @@ class Wander {
         }
         return response;
     }
-    /*
-     * 三种情况：
-     * 1）field = value ->
-     * {
-     *     field: value
-     * }
-     * 2）field = true | field = false
-     * 3）true|false  ->
-     * {
-     *     "RESULT": SUCCESS | FAILURE
-     * }
-     */
-
-    /*
-     * key = true | false
-     *
-     * -->
-     *
-     * key = SUCCESS | FAILURE
-     */
-    static JsonObject wrapJ(final String key, final boolean checked) {
-        final Result response = checked ? Result.SUCCESS : Result.FAILURE;
-        return new JsonObject().put(key, response.name());
-    }
-
-    /*
-     * key = SUCCESS | FAILURE
-     *
-     * -->
-     *
-     * true | false
-     */
-    static Boolean wrapB(final String key, final JsonObject input) {
-        final JsonObject inputJ = Ut.valueJObject(input);
-        final String literal = inputJ.getString(key);
-        final Result resultValue = Ut.toEnum(() -> literal, Result.class, Result.FAILURE);
-        return Result.SUCCESS == resultValue;
-    }
-
-    /*
-     * Item:  field = input
-     * mount ----->  mount +        ------> mount
-     *               field = input
-     */
-    static <T> Function<T, JsonObject> wrapTo(final String field, final JsonObject mount) {
-        return input -> {
-            // 默认返回引用
-            final JsonObject mountJ = Ut.valueJObject(mount);
-            if (Objects.nonNull(input)) {
-                mountJ.put(field, input);
-            }
-            return mountJ;
-        };
-    }
-
-    /*
-     * Item:  field = T
-     * mount --->  mount -> t    ------> mount
-     *             t -> json
-     *             field = json
-     */
-    @SuppressWarnings("unchecked")
-    static <T> Function<JsonObject, Future<JsonObject>> wrapOn(
-        final String field, final Function<T, Future<JsonObject>> executor) {
-        return mount -> {
-            if (Ut.isNil(field) ||
-                !mount.containsKey(field) ||
-                Objects.isNull(executor)) {
-                // Nothing
-                return Future.succeededFuture(mount);
-            }
-            final T value = (T) mount.getValue(field);
-            if (Objects.isNull(value)) {
-                // Nothing
-                return Future.succeededFuture(mount);
-            }
-            // Function Processing
-            return executor.apply(value).compose(data -> {
-                if (Ut.isNotNil(data)) {
-                    mount.put(field, data);
-                }
-                return Future.succeededFuture(mount);
-            });
-        };
-    }
 
     /*
      * HCombiner Process On Web UI
      */
     @SuppressWarnings("unchecked")
-    static Future<JsonObject> wrapWeb(final JsonObject json, final String field) {
+    static Future<JsonObject> endWebUi(final JsonObject json, final String field) {
         if (Ut.isNil(json) || !json.containsKey(field) || Ut.isNil(field)) {
             return Future.succeededFuture(json);
         }
@@ -156,7 +58,7 @@ class Wander {
      * }
      * ---> 所有的 T 类型的节点都会被处理掉并实现替换
      */
-    static <T> Function<JsonObject, Future<JsonObject>> wrapTree(
+    static <T> Function<JsonObject, Future<JsonObject>> endTree(
         final String field, final boolean deeply, final Function<T, Future<JsonObject>> executor) {
         return mount -> {
             if (Ut.isNil(field) ||
@@ -168,7 +70,7 @@ class Wander {
             // 切换算法处理，执行 Map 操作
             final Object vSegment = mount.getValue(field);
             if (vSegment instanceof final JsonObject tree) {
-                return wrapTree(tree, deeply, executor).compose(segmentData -> {
+                return endTree(tree, deeply, executor).compose(segmentData -> {
                     if (Ut.isNotNil(segmentData)) {
                         mount.put(field, segmentData);
                     }
@@ -186,7 +88,7 @@ class Wander {
      * 注意递归终止是处理原始数据，这种计算是从配置树到数据树的一种转换
      */
     @SuppressWarnings("all")
-    private static <T> Future<JsonObject> wrapTree(
+    private static <T> Future<JsonObject> endTree(
         final JsonObject input, final boolean deeply, final Function<T, Future<JsonObject>> executor) {
         final ConcurrentMap<String, Future<JsonObject>> tree = new ConcurrentHashMap<>();
         final ConcurrentMap<String, Future<JsonObject>> children = new ConcurrentHashMap<>();
@@ -196,7 +98,7 @@ class Wander {
             if (value instanceof final JsonObject json) {
                 // 遇到 JsonObject 节点，执行子提取，递归
                 if (deeply) {
-                    children.put(field, wrapTree(json, true, executor));
+                    children.put(field, endTree(json, true, executor));
                 }
             } else {
                 T cast = null;

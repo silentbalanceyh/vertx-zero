@@ -94,7 +94,7 @@ public class L1Aside {
      */
     <T> T delete(final List<CMessage> messages, final ErrorSupplier<T> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
+        final Supplier<T> wrapActual = () -> Fn.monad(actualSupplier, null);
 
         /* After Callback */
         return CacheAside.after(wrapActual, ret -> this.deleteCache(messages));
@@ -102,7 +102,7 @@ public class L1Aside {
 
     <T> Future<T> deleteAsync(final List<CMessage> messages, final ErrorSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
+        final Supplier<Future<T>> wrapActual = () -> Fn.monadAsync(actualSupplier, null);
 
         /* After Callback */
         return CacheAside.afterAsync(wrapActual, ret -> this.deleteCache(messages));
@@ -115,7 +115,7 @@ public class L1Aside {
      */
     <T> T read(final CMessage message, final ErrorSupplier<T> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<T> wrapActual = () -> Fn.wrap(actualSupplier, null);
+        final Supplier<T> wrapActual = () -> Fn.monad(actualSupplier, null);
 
         /* Cache Supplier */
         final Supplier<T> wrapCache = () -> this.wrapRead(message);
@@ -126,7 +126,7 @@ public class L1Aside {
 
     <T> Future<T> readAsync(final CMessage message, final ErrorSupplier<Future<T>> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Future<T>> wrapActual = () -> Fn.wrapAsync(actualSupplier, null);
+        final Supplier<Future<T>> wrapActual = () -> Fn.monadAsync(actualSupplier, null);
 
         /* Cache Supplier */
         final Supplier<Future<T>> wrapCache = () -> this.wrapReadAsync(message);
@@ -143,7 +143,7 @@ public class L1Aside {
      */
     Boolean exist(final CMessage message, final ErrorSupplier<Boolean> actualSupplier) {
         /* Actual Supplier */
-        final Supplier<Boolean> wrapActual = () -> Fn.wrap(actualSupplier, Boolean.FALSE);
+        final Supplier<Boolean> wrapActual = () -> Fn.monad(actualSupplier, Boolean.FALSE);
 
         /* Cache Supplier */
         final Supplier<Boolean> wrapCache = () -> this.wrapExist(message);
@@ -154,7 +154,7 @@ public class L1Aside {
 
     Future<Boolean> existAsync(final CMessage message, final ErrorSupplier<Future<Boolean>> actualSupplier) {
         /* Build to supplier */
-        final Supplier<Future<Boolean>> wrapActual = () -> Fn.wrapAsync(actualSupplier, Boolean.FALSE);
+        final Supplier<Future<Boolean>> wrapActual = () -> Fn.monadAsync(actualSupplier, Boolean.FALSE);
 
         /* Cache Supplier */
         final Supplier<Future<Boolean>> wrapCache = () -> this.wrapExistAsync(message);

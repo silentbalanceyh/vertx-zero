@@ -239,7 +239,7 @@ public class WRecord implements Serializable {
             .compose(workflow -> this.dataTicket(response, workflow))
             // `history` field mount
             .compose(this::dataHistory)
-            .compose(Fn.wrapTo(KName.HISTORY, response));
+            .compose(Fn.ofJObject(KName.HISTORY, response));
     }
 
     public Future<WRecord> futureAfter(final JsonObject dataAfter) {

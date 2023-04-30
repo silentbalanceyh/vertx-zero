@@ -93,14 +93,14 @@ public class ListService implements ListStub {
         );
         return Ux.future(listJson)
             /* vQuery */
-            .compose(Fn.wrapOn(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
+            .compose(Fn.ofJObject(ListStub.FIELD_V_QUERY, this.optionStub::fetchQuery))
             /* vSearch */
-            .compose(Fn.wrapOn(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
+            .compose(Fn.ofJObject(ListStub.FIELD_V_SEARCH, this.optionStub::fetchSearch))
             /* vTable */
-            .compose(Fn.wrapOn(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
+            .compose(Fn.ofJObject(ListStub.FIELD_V_TABLE, this.optionStub::fetchTable))
             /* vSegment */
-            .compose(Fn.wrapTree(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
+            .compose(Fn.ofTree(ListStub.FIELD_V_SEGMENT, this.optionStub::fetchFragment))
             /* Combiner for final processing */
-            .compose(Fn.wrapWeb("classCombiner"));
+            .compose(Fn.ofWebUi("classCombiner"));
     }
 }

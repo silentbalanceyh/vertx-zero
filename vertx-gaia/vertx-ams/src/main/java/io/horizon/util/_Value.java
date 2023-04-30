@@ -351,7 +351,7 @@ class _Value extends _To {
      * @return JsonObject
      */
     public static JsonObject valueMerge(final JsonObject target, final JsonObject... sources) {
-        Arrays.stream(sources).forEach(source -> TValue.valueMerge(target, source, true));
+        Arrays.stream(sources).forEach(source -> TValue.valueMerge(target, source));
         return target;
     }
 
@@ -435,7 +435,7 @@ class _Value extends _To {
      * @return JsonObject（修改过的）
      */
     public static JsonObject valueToJObject(final JsonObject json, final String... fields) {
-        Arrays.stream(fields).forEach(field -> TValue.valueJson(json, field));
+        Arrays.stream(fields).forEach(field -> TValue.valueToJson(json, field));
         return json;
     }
 
@@ -457,5 +457,23 @@ class _Value extends _To {
     public static JsonArray valueToJArray(final JsonArray array, final String... fields) {
         HIter.itJArray(array).forEach(json -> valueToJObject(json, fields));
         return array;
+    }
+
+    /**
+     * 「属性序列化/副作用」
+     * 和 valueDefault 近似，但是 valueDefault 只是追加默认值（无值时才执行），该方法不管
+     * 有没有值都会执行，所以是 valueMerge，直接覆盖属性对应值，造成最终结果集
+     *
+     * @param input JsonObject
+     * @param field 字段名
+     * @param value 默认值
+     * @param <T>   泛型
+     *
+     * @return JsonObject
+     */
+    public static <T> JsonObject valueMerge(final JsonObject input,
+                                            final String field, final T value) {
+        TValue.valueMerge(input, field, value);
+        return input;
     }
 }

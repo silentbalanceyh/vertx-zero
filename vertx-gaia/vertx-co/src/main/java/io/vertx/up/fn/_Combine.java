@@ -20,7 +20,38 @@ import java.util.function.*;
 class _Combine extends _Atomic {
     protected _Combine() {
     }
+    /*
 
+    /*
+     * This arrange part will replace `thenCombine?` method. Here are detail readme information:
+     *
+     * 1. Flag
+     *    Here the flag identified the return value of internal ( Generic T )
+     * -  A:        JsonArray
+     * -  J:        JsonObject
+     * -  T:        Generice <T>
+     * -  M:        Map
+     * -  L:        List
+     *
+     * 2. Prefix
+     * - combine,   From element to container, this situation often happens as following
+     *              1) The element of collection contains async operation.
+     *              2) The result should be collection and major thread must wait for each element async operation finished.
+     * - comic,     Expand element to multi, this situation often happens as following
+     *              1) The element of collection is single type.
+     *              2) The single type will generate multi elements into collection formed
+     * - compress,  Compress collection to single, this situation often happens as following
+     *              1) The collection has 2 layers and each element is also another collection.
+     *              2) This kind of API will compress the collection into 1 layer ( single collection ).
+     *
+     * 3. The mark of data structure
+     *
+     *      o  -  Pure element type without any attached information.
+     *            If there are more types, I'll use o1, o2, o3.
+     *     [o] - 「Container」Collection type and the element type is o.
+     *     (o) - 「Container」Async type and the element type is o.
+     *     fx  -  Consumer Function
+     */
     // ---------------------------------------------------- 编排函数 ----------------------------------------------------
 
     /**

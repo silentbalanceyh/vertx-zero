@@ -175,7 +175,7 @@ public class TodoService implements TodoStub {
                  */
                 final JsonObject params = Ut.elementSubset(todo,
                     KName.MODEL_ID, KName.MODEL_CATEGORY, KName.MODEL_KEY, KName.SIGMA);
-                return channel.fetchAsync(key, params).compose(Fn.ifMerge(todo));
+                return channel.fetchAsync(key, params).compose(Fn.ofMerge(todo));
             })));
     }
 }

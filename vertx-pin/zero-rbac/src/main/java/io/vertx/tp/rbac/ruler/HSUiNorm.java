@@ -37,6 +37,6 @@ public class HSUiNorm extends AbstractAdmit {
          * 2）否则直接处理 data 节点的数据
          */
         final JsonObject output = Ut.valueJObject(config, KName.OUTPUT);
-        return compiler.ingest(qr, config).compose(data -> Fn.wrapJ(data, output));
+        return compiler.ingest(qr, config).compose(data -> Fn.ifJArray(data, output));
     }
 }

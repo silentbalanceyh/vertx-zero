@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author lang : 2023/4/28
  */
-class _Env extends _Element {
+class _Env extends _End {
     public static TypeOs envOs() {
         // os.name
         return TypeOs.from(System.getProperty(VEnv.PROP.OS_NAME));

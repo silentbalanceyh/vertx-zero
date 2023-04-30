@@ -13,10 +13,22 @@ import java.util.Objects;
  */
 class TValue {
 
-    static JsonObject valueMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
-        final JsonObject reference = isRef ? target : target.copy();
+    static JsonObject valueMerge(final JsonObject reference, final JsonObject source) {
+        if (TIs.isNil(source)) {
+            return reference;
+        }
         reference.mergeIn(source, true);
         return reference;
+    }
+
+    static <T> void valueMerge(final JsonObject input, final String field, final T value) {
+        Objects.requireNonNull(field);
+        final JsonObject inputJ = HJson.valueJObject(input, false);
+        if (Objects.isNull(value)) {
+            inputJ.putNull(field);
+        } else {
+            inputJ.put(field, value);
+        }
     }
 
     static JsonObject valueAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
@@ -70,6 +82,16 @@ class TValue {
         return target;
     }
 
+    // -------------------- 属性转换类方法 --------------------
+
+
+    static void valueToMerge(final JsonObject input, final JsonObject value) {
+        final JsonObject inputJ = HJson.valueJObject(input, false);
+        if (!TIs.isNil(value)) {
+            inputJ.mergeIn(value, true);
+        }
+    }
+
     static void valueToString(final JsonObject json, final String field) {
         if (TIs.isNil(json)) {
             return;
@@ -93,24 +115,24 @@ class TValue {
      * field:  String
      * to:     JsonObject | JsonArray
      */
-    static void valueJson(final ClusterSerializable json, final String field) {
+    static void valueToJson(final ClusterSerializable json, final String field) {
         if (json instanceof final JsonArray array) {
-            HIter.itJArray(array).forEach(item -> valueJson(item, field));
+            HIter.itJArray(array).forEach(item -> valueToJson(item, field));
         } else if (json instanceof final JsonObject object) {
             if (HaS.isNotNil(object)) {
                 final Object value = object.getValue(field);
                 if (value instanceof final String literal) {
                     // String Literal
                     if (HaS.isJObject(literal)) {
-                        final JsonObject replaced = HaS.toJObject(literal, TValue::valueMetadata);
+                        final JsonObject replaced = HaS.toJObject(literal, TValue::valueToMetadata);
                         object.put(field, replaced);
                     } else if (HaS.isJArray(literal)) {
-                        final JsonArray replaced = HaS.toJArray(literal, TValue::valueMetadata);
+                        final JsonArray replaced = HaS.toJArray(literal, TValue::valueToMetadata);
                         object.put(field, replaced);
                     }
                 } else if (value instanceof final JsonObject valueJ) {
                     // JsonObject
-                    object.put(field, valueMetadata(valueJ));
+                    object.put(field, valueToMetadata(valueJ));
                 } else if (value instanceof final JsonArray valueA) {
                     // JsonArray
                     final JsonArray replaced = new JsonArray();
@@ -118,7 +140,7 @@ class TValue {
                     valueA.forEach(valueE -> {
                         if (valueE instanceof final JsonObject valueJ) {
                             // Element = JsonObject
-                            replaced.add(valueMetadata(valueJ));
+                            replaced.add(valueToMetadata(valueJ));
                         } else if (valueE instanceof final String valueS) {
                             // Element = String
                             replaced.add(valueS);
@@ -133,7 +155,7 @@ class TValue {
         }
     }
 
-    private static JsonObject valueMetadata(final JsonObject metadata) {
+    private static JsonObject valueToMetadata(final JsonObject metadata) {
         assert Objects.nonNull(metadata) : "Here input metadata should not be null";
         /*
          * Structure that will be parsed here.

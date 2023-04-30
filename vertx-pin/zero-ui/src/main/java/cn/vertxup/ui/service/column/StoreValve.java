@@ -54,20 +54,20 @@ class StoreValve implements UiValve {
          * fixed
          * width
          */
-        Fn.runMonad(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
-        Fn.runMonad(column::getFixed, (fixed) -> {
+        Fn.monad(column::getSorter, (sorter) -> columnJson.put("sorter", sorter));
+        Fn.monad(column::getFixed, (fixed) -> {
             if (fixed) {
                 columnJson.put("fixed", "left");
             } else {
                 columnJson.put("fixed", "right");
             }
         });
-        Fn.runMonad(column::getClassName, (className) -> columnJson.put("className", className));
-        Fn.runMonad(column::getWidth, (width) -> columnJson.put("width", width));
+        Fn.monad(column::getClassName, (className) -> columnJson.put("className", className));
+        Fn.monad(column::getWidth, (width) -> columnJson.put("width", width));
         /*
          * If render
          */
-        Fn.runMonad(column::getRender, (render) -> {
+        Fn.monad(column::getRender, (render) -> {
             columnJson.put("$render", render);
             if ("DATE".equals(render)) {
                 assert null != column.getFormat() : " $format should not be null when DATE";
@@ -78,7 +78,7 @@ class StoreValve implements UiValve {
                 columnJson.put("$datum", column.getDatum());
             }
         });
-        Fn.runMonad(column::getFilterType, (filterType) -> {
+        Fn.monad(column::getFilterType, (filterType) -> {
             columnJson.put("$filter.type", filterType);
             columnJson.put("$filter.config", column.getFilterConfig());
             Ut.valueToJObject(columnJson, "$filter.config");
@@ -86,12 +86,12 @@ class StoreValve implements UiValve {
         /*
          * Zero Config
          */
-        Fn.runMonad(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
-        Fn.runMonad(column::getMapping, (mapping) -> {
+        Fn.monad(column::getEmpty, (empty) -> columnJson.put("$empty", empty));
+        Fn.monad(column::getMapping, (mapping) -> {
             columnJson.put("$mapping", mapping);
             Ut.valueToJObject(columnJson, "$mapping");
         });
-        Fn.runMonad(column::getConfig, (config) -> {
+        Fn.monad(column::getConfig, (config) -> {
             columnJson.put("$config", config);
             Ut.valueToJObject(columnJson, "$config");
         });

@@ -167,5 +167,4 @@ class TV {
             throw new IllegalArgumentException("Unsupported type: " + type);
         }
     }
-
 }

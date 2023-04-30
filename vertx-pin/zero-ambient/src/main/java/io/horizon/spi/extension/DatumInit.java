@@ -1,5 +1,6 @@
 package io.horizon.spi.extension;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
@@ -10,7 +11,6 @@ import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -71,7 +71,7 @@ public class DatumInit implements Init {
             client.importAsync(filename, result -> {
                 LOG.App.info(LOGGER, AtMsg.INIT_DATUM_EACH, filename);
                 if (result.succeeded()) {
-                    pre.complete(Fn.wrapJS(filename, Boolean.TRUE));
+                    pre.complete(Ut.endBool(Boolean.TRUE, filename));
                 } else {
                     pre.fail(result.cause());
                 }
