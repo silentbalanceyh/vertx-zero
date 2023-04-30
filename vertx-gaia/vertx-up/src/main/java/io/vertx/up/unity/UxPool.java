@@ -1,12 +1,12 @@
 package io.vertx.up.unity;
 
 import io.horizon.atom.Kv;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.shared.MapInfix;
 import io.vertx.tp.plugin.shared.SharedClient;
 import io.vertx.up.exception.web._500PoolInternalException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -40,14 +40,14 @@ public class UxPool {
     public <K, V> Future<Kv<K, V>> put(final K key, final V value) {
         return Fn.<Kv<K, V>>pack(future -> this.client.put(key, value, res -> {
             LOGGER.debug(Info.POOL_PUT, key, value, this.name);
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
 
     public <K, V> Future<Kv<K, V>> put(final K key, final V value, int expiredSecs) {
         return Fn.<Kv<K, V>>pack(future -> this.client.<K, V>put(key, value, expiredSecs, res -> {
             LOGGER.debug(Info.POOL_PUT_TIMER, key, value, this.name, String.valueOf(expiredSecs));
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "put"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
 
@@ -55,7 +55,7 @@ public class UxPool {
     public <K, V> Future<Kv<K, V>> remove(final K key) {
         return Fn.<Kv<K, V>>pack(future -> this.client.<K, V>remove(key, res -> {
             LOGGER.debug(Info.POOL_REMOVE, key, this.name);
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "remove"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "remove"));
         }));
     }
 
@@ -63,7 +63,7 @@ public class UxPool {
     public <K, V> Future<V> get(final K key) {
         return Fn.<V>pack(future -> this.client.get(key, res -> {
             LOGGER.debug(Info.POOL_GET, key, this.name, false);
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
 
@@ -76,27 +76,27 @@ public class UxPool {
     public <K, V> Future<V> get(final K key, final boolean once) {
         return Fn.<V>pack(future -> this.client.get(key, once, res -> {
             LOGGER.debug(Info.POOL_GET, key, this.name, once);
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "get"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
 
     public Future<Boolean> clear() {
         return Fn.<Boolean>pack(future -> this.client.clear(res -> {
             LOGGER.debug(Info.POOL_CLEAR, this.name);
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
         }));
     }
 
     // Count
     public Future<Integer> size() {
         return Fn.<Integer>pack(future -> this.client.size(res -> {
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "size"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "size"));
         }));
     }
 
     public Future<Set<String>> keys() {
         return Fn.<Set<String>>pack(future -> this.client.keys(res -> {
-            Fn.pack(res, future, Ut.toError(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
+            Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "keys"));
         }));
     }
 }

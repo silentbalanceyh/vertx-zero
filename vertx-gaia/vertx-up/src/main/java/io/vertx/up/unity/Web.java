@@ -41,7 +41,7 @@ class Web {
                 if (null != handler.cause()) {
                     handler.cause().printStackTrace();
                 }
-                message.reply(Envelop.failure(Ut.toError(Web.class, handler.cause())));
+                message.reply(Envelop.failure(Ut.failWeb(Web.class, handler.cause())));
             }
         };
     }

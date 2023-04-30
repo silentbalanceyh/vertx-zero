@@ -1,7 +1,9 @@
 package io.horizon.util;
 
+import io.horizon.exception.WebException;
 import io.horizon.exception.internal.ErrorMissingException;
 import io.horizon.exception.internal.SPINullException;
+import io.horizon.exception.web._500InternalServerException;
 import io.horizon.fn.HFn;
 import io.horizon.spi.HorizonIo;
 import io.vertx.core.json.JsonObject;
@@ -49,5 +51,27 @@ class HError {
                 throw new ErrorMissingException(clazz, code);
             }
         }, clazz);
+    }
+
+    // 异常专用信息
+    static WebException failWeb(final Class<?> clazz, final Throwable error) {
+        return HFn.runOr(error instanceof WebException,
+            // Throwable 异常本身是 WebException，直接转出
+            () -> {
+                assert error instanceof WebException;
+                return (WebException) error;
+            },
+            // Throwable 异常不是 WebException，封装成 500 默认异常转出
+            () -> new _500InternalServerException(clazz, error.getMessage())
+        );
+    }
+
+    static WebException failWeb(final Class<? extends WebException> clazz, final Object... args) {
+        return HFn.runOr(Objects.isNull(clazz),
+            // 特殊情况，编程过程中忘了传入 clazz
+            () -> new _500InternalServerException(clazz, "WebException class is null"),
+            // 正常情况，传入 clazz
+            () -> HInstance.instance(clazz, args)
+        );
     }
 }

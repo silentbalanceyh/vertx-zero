@@ -1,7 +1,5 @@
 package io.vertx.up.util;
 
-import io.horizon.exception.WebException;
-import io.horizon.exception.web._500InternalServerException;
 import io.horizon.util.HaS;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
@@ -84,27 +82,5 @@ final class To {
             item -> params.put(item.getKey(), item.getValue())
         ), multiMap);
         return params;
-    }
-
-    static WebException toError(
-        final Class<? extends WebException> clazz,
-        final Object... args
-    ) {
-        if (null == clazz || null == args) {
-            // Fix Cast WebException error.
-            return new _500InternalServerException(To.class, "clazz arg is null");
-        } else {
-            return Ut.instance(clazz, args);
-        }
-    }
-
-    @SuppressWarnings("all")
-    static WebException toError(
-        final Class<?> clazz,
-        final Throwable error
-    ) {
-        return Fn.runOr(error instanceof WebException, null,
-            () -> (WebException) error,
-            () -> new _500InternalServerException(clazz, error.getMessage()));
     }
 }

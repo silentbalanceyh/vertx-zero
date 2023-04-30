@@ -47,7 +47,7 @@ final class Other {
     }
 
     static <T> Future<T> otherwise(final Class<? extends WebException> clazz, final Object... args) {
-        final WebException error = Ut.toError(clazz, args);
+        final WebException error = Ut.failWeb(clazz, args);
         return Future.failedFuture(error);
     }
 }

@@ -1,12 +1,12 @@
 package io.vertx.up.unity;
 
+import io.horizon.exception.WebException;
 import io.reactivex.Observable;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.commune.Envelop;
-import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -124,7 +124,7 @@ class To {
         final Class<? extends WebException> clazz,
         final Object... args
     ) {
-        return Envelop.failure(Ut.toError(clazz, args));
+        return Envelop.failure(Ut.failWeb(clazz, args));
     }
 
     static JsonObject toUnique(

@@ -3,7 +3,6 @@ package io.vertx.up.util;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.horizon.eon.em.ChangeFlag;
-import io.horizon.exception.WebException;
 import io.horizon.specification.runtime.HService;
 import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
@@ -818,14 +817,6 @@ public final class Ut extends HaS {
 
     public static Map<String, Object> toMap(final JsonObject data) {
         return To.toMapExpr(data);
-    }
-
-    public static WebException toError(final Class<?> clazz, final Throwable error) {
-        return To.toError(clazz, error);
-    }
-
-    public static WebException toError(final Class<? extends WebException> clazz, final Object... args) {
-        return To.toError(clazz, args);
     }
 
     /*
