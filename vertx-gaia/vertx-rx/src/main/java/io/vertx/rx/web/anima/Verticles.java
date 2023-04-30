@@ -1,10 +1,10 @@
 package io.vertx.rx.web.anima;
 
 import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.reactivex.Single;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.reactivex.core.Vertx;
-import io.horizon.uca.log.Annal;
 
 class Verticles {
 
@@ -17,8 +17,8 @@ class Verticles {
         final Single<String> observable
             = vertx.rxDeployVerticle(clazz.getName(), options);
         observable.subscribe(
-                (item) -> logger.info(VMessage.VERTX_END, name, options.getInstances(), item, flag),
-                (cause) -> logger.info(VMessage.VERTX_FAIL, name, options.getInstances(),
+                (item) -> logger.info(VMessage.Verticle.END, name, options.getInstances(), item, flag),
+                (cause) -> logger.info(VMessage.Verticle.FAILED, name, options.getInstances(),
                     null == cause.getCause() ? null : cause.getCause().getMessage(), flag))
             .dispose();
     }

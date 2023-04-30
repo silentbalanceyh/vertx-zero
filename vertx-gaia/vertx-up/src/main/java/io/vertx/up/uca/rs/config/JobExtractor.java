@@ -1,17 +1,17 @@
 package io.vertx.up.uca.rs.config;
 
 import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.VMessage;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
-import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 
@@ -85,7 +85,7 @@ public class JobExtractor implements Extractor<Mission> {
         mission.connect(clazz);
         /* on method must existing */
         if (Objects.isNull(mission.getOn())) {
-            LOGGER.warn(VMessage.EXTRACTOR_JOB_IGNORE, clazz.getName());
+            LOGGER.warn(VMessage.Extractor.JOB_IGNORE, clazz.getName());
             return null;
         }
         return mission;

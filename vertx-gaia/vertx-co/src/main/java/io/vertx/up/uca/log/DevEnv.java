@@ -1,4 +1,4 @@
-package io.vertx.up.log;
+package io.vertx.up.uca.log;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

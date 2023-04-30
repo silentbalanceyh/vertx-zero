@@ -11,7 +11,7 @@ import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.exception.booting.JooqCondClauseException;
 import io.vertx.up.exception.booting.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;
 import org.jooq.Field;

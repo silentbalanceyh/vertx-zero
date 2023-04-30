@@ -1,13 +1,13 @@
 package io.vertx.up.uca.web.anima;
 
 import io.aeon.runtime.H2H;
+import io.horizon.eon.VMessage;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
-import io.horizon.eon.VMessage;
 import io.horizon.exception.internal.EmptyIoException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class CodexScatter implements Scatter<Vertx> {
     public void connect(final Vertx vertx) {
         // 1. Load rules
         final List<String> rules = Ut.ioFiles("codex", VPath.SUFFIX.YML);
-        LOGGER.info(VMessage.SCATTER_CODEX, rules.size());
+        LOGGER.info(VMessage.Scatter.CODEX, rules.size());
         // 2. Load request from rules
         for (final String rule : rules) {
             try {

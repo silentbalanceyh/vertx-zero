@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.origin;
 
 import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.JobExtractor;
 import io.vertx.up.util.Ut;
@@ -24,7 +24,7 @@ public class JobInquirer implements Inquirer<Set<Mission>> {
             .filter(item -> item.isAnnotationPresent(Job.class))
             .collect(Collectors.toSet());
         /* All classes of jobs here */
-        LOGGER.info(VMessage.INQUIRER_JOB, jobs.size());
+        LOGGER.info(VMessage.Inquirer.JOB, jobs.size());
         return jobs.stream().map(this.extractor::extract)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());

@@ -1,6 +1,7 @@
 package io.vertx.up.secure.authenticate;
 
 import io.horizon.fn.Actuator;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -9,10 +10,9 @@ import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.Against;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
-import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.lang.reflect.Method;

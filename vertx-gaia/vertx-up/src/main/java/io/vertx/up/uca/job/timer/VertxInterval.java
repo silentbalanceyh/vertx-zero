@@ -2,10 +2,10 @@ package io.vertx.up.uca.job.timer;
 
 import io.aeon.experiment.specification.sch.KTimer;
 import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Contract;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.time.format.DateTimeFormatter;
@@ -53,7 +53,7 @@ public class VertxInterval implements Interval {
              * In this kind of situation
              * call vertx.setTimer only, the smallest is 1ms ( Right Now )
              */
-            LOGGER.info(VMessage.ITL_START);
+            LOGGER.info(VMessage.Job.INTERVAL.START);
             this.vertx.setTimer(START_UP_MS, actuator);
         } else {
             /*
@@ -76,25 +76,25 @@ public class VertxInterval implements Interval {
                  * To cancel a periodic timer, call cancelTimer specifying the timer id. For example:
                  * vertx.cancelTimer(timerID);
                  */
-                LOGGER.info(VMessage.ITL_SCHEDULED, String.valueOf(timerId), timer.name(), duration);
+                LOGGER.info(VMessage.Job.INTERVAL.SCHEDULED, String.valueOf(timerId), timer.name(), duration);
                 if (Objects.nonNull(this.controlFn)) {
                     this.controlFn.accept(timerId);
                 }
             });
-            LOGGER.info(VMessage.ITL_DELAY_START, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
+            LOGGER.info(VMessage.Job.INTERVAL.DELAY_START, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
         }
     }
 
     @Override
     public void restartAt(final Handler<Long> actuator, final KTimer timer) {
         if (Objects.isNull(timer)) {
-            LOGGER.info(VMessage.ITL_RESTART);
+            LOGGER.info(VMessage.Job.INTERVAL.RESTART);
             this.vertx.setTimer(START_UP_MS, actuator);
         } else {
             final long waitSec = timer.waitUntil();
             final long delay = waitSec + START_UP_MS;
             this.vertx.setTimer(delay, actuator);
-            LOGGER.info(VMessage.ITL_DELAY_RESTART, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
+            LOGGER.info(VMessage.Job.INTERVAL.DELAY_RESTART, timer.name(), FORMATTER.format(Ut.toDuration(waitSec)));
         }
     }
 }

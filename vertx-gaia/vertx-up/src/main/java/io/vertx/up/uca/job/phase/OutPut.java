@@ -1,14 +1,14 @@
 package io.vertx.up.uca.job.phase;
 
 import io.horizon.eon.VMessage;
+import io.horizon.exception.WebException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.horizon.exception.WebException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.job.plugin.JobOutcome;
 import io.vertx.up.unity.Ux;
@@ -42,7 +42,7 @@ class OutPut {
                 /*
                  * Directly
                  */
-                Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_4TH_JOB, mission.getCode()));
+                Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.PHASE_4TH_JOB, mission.getCode()));
 
                 return Future.succeededFuture(envelop);
             } else {
@@ -50,15 +50,15 @@ class OutPut {
                  * JobOutcome processing here
                  * Contract for vertx/mission
                  */
-                LOGGER.info(VMessage.IO_JOB_COMPONENT, "JobOutcome", outcome.getClass().getName());
+                LOGGER.info(VMessage.Job.PHASE.UCA_COMPONENT, "JobOutcome", outcome.getClass().getName());
                 Ut.contract(outcome, Vertx.class, this.vertx);
                 Ut.contract(outcome, Mission.class, mission);
 
-                Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_4TH_JOB_ASYNC, mission.getCode(), outcome.getClass().getName()));
+                Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.PHASE_4TH_JOB_ASYNC, mission.getCode(), outcome.getClass().getName()));
                 return outcome.afterAsync(envelop);
             }
         } else {
-            Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_ERROR, mission.getCode(), envelop.error().getClass().getName()));
+            Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.ERROR_TERMINAL, mission.getCode(), envelop.error().getClass().getName()));
             final WebException error = envelop.error();
             /*
              * For spec debug here, this code is very important
@@ -79,22 +79,22 @@ class OutPut {
                  * Directly
                  */
                 Element.onceLog(mission,
-                    () -> LOGGER.info(VMessage.PHASE_5TH_JOB, mission.getCode()));
+                    () -> LOGGER.info(VMessage.Job.PHASE.PHASE_5TH_JOB, mission.getCode()));
                 return Future.succeededFuture(envelop);
             } else {
                 /*
                  * Event bus provide output and then it will execute
                  */
-                LOGGER.info(VMessage.IO_JOB_EVENT_BUS, "Outcome", address);
+                LOGGER.info(VMessage.Job.PHASE.UCA_EVENT_BUS, "Outcome", address);
                 final EventBus eventBus = this.vertx.eventBus();
                 Element.onceLog(mission,
-                    () -> LOGGER.info(VMessage.PHASE_5TH_JOB_ASYNC, mission.getCode(), address));
+                    () -> LOGGER.info(VMessage.Job.PHASE.PHASE_5TH_JOB_ASYNC, mission.getCode(), address));
                 eventBus.publish(address, envelop, ZeroGrid.getDeliveryOption());
                 return Future.succeededFuture(envelop);
             }
         } else {
             Element.onceLog(mission,
-                () -> LOGGER.info(VMessage.PHASE_ERROR, mission.getCode(),
+                () -> LOGGER.info(VMessage.Job.PHASE.ERROR_TERMINAL, mission.getCode(),
                     envelop.error().getClass().getName()));
 
             return Ux.future(envelop);

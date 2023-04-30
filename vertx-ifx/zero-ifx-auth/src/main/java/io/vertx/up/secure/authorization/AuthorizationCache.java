@@ -1,15 +1,15 @@
 package io.vertx.up.secure.authorization;
 
 import io.horizon.fn.Actuator;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
-import io.vertx.up.log.DevEnv;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
+import io.vertx.up.uca.log.DevEnv;
 
 import java.util.Objects;
 

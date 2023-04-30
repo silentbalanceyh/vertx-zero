@@ -2,9 +2,9 @@ package io.vertx.up.uca.rs.config;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.vertx.up.fn.Fn;
 import io.horizon.uca.log.Annal;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.fn.Fn;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.PathAnnoEmptyException;
 import jakarta.ws.rs.Path;

@@ -2,13 +2,13 @@ package io.vertx.up.uca.options;
 
 import io.horizon.eon.VMessage;
 import io.horizon.exception.ProgramException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.marshal.ClusterSetUp;
 import io.vertx.up.uca.marshal.VertxSetUp;
 import io.vertx.up.uca.yaml.Node;
@@ -41,7 +41,7 @@ public class VertxVisitor implements NodeVisitor {
         final JsonObject data = this.NODE.read();
         // 3. Vertx node validation.
         final JsonObject vertxData = data.getJsonObject(KEY);
-        LOGGER.info(VMessage.VISITOR_V_BEFORE, KEY, this.getClass().getSimpleName(), vertxData);
+        LOGGER.info(VMessage.Visitor.V_BEFORE, KEY, this.getClass().getSimpleName(), vertxData);
         Fn.bugAt(() -> Ruler.verify(KEY, vertxData), vertxData);
         // 4. Set cluster options
         this.clusterOptions = this.clusterTransformer.transform(vertxData.getJsonObject(YKEY_CLUSTERED));

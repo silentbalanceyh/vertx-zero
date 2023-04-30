@@ -8,7 +8,7 @@ import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.eon.KName;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

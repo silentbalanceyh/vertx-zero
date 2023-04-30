@@ -9,18 +9,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.eon.VMessage;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
-import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;
 import io.vertx.up.exception.web._409JobFormulaErrorException;
 import io.vertx.up.exception.web._501JobOnMissingException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -302,7 +302,7 @@ public class Mission implements Serializable {
                 }
             }
             if (DevEnv.devJobBoot()) {
-                LOGGER.info(VMessage.MISSION_JOB_OFF, this.getCode());
+                LOGGER.info(VMessage.Job.MISSION.JOB_OFF, this.getCode());
             }
         }
         return this;

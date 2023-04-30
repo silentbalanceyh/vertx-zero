@@ -1,13 +1,13 @@
 package io.vertx.up.uca.job.phase;
 
 import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.exception.web._417JobMethodException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -35,7 +35,7 @@ class RunOn {
     Future<Envelop> invoke(final Envelop envelop, final Mission mission) {
         final Method method = mission.getOn();
         if (Objects.nonNull(method)) {
-            Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_3RD_JOB_RUN, mission.getCode(), method.getName()));
+            Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.PHASE_3RD_JOB_RUN, mission.getCode(), method.getName()));
             return this.execute(envelop, method, mission);
         } else {
             return Ux.future(envelop);
@@ -45,7 +45,7 @@ class RunOn {
     Future<Envelop> callback(final Envelop envelop, final Mission mission) {
         final Method method = mission.getOff();
         if (Objects.nonNull(method)) {
-            Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_6TH_JOB_CALLBACK, mission.getCode(), method.getName()));
+            Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.PHASE_6TH_JOB_CALLBACK, mission.getCode(), method.getName()));
             return this.execute(envelop, method, mission);
         } else {
             return Ux.future(envelop);
@@ -66,7 +66,7 @@ class RunOn {
                 return Future.failedFuture(ex);
             }
         } else {
-            Element.onceLog(mission, () -> LOGGER.info(VMessage.PHASE_ERROR, mission.getCode(), envelop.error().getClass().getName()));
+            Element.onceLog(mission, () -> LOGGER.info(VMessage.Job.PHASE.ERROR_TERMINAL, mission.getCode(), envelop.error().getClass().getName()));
             return Ux.future(envelop);
         }
     }

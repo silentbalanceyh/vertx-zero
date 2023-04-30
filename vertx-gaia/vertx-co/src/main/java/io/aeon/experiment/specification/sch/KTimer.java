@@ -1,7 +1,7 @@
 package io.aeon.experiment.specification.sch;
 
-import io.horizon.eon.VValue;
 import io.horizon.eon.VMessage;
+import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -113,7 +113,7 @@ public class KTimer implements Serializable {
                 final DateTimeFormatter formatter = this.formula.formatter();
                 if (Objects.nonNull(formatter)) {
                     final LocalDateTime datetime = Ut.toDuration(delay);
-                    LOGGER.info(VMessage.JOB_DELAY, this.unique, formatter.format(datetime));
+                    LOGGER.info(VMessage.Job.TIMER.DELAY, this.unique, formatter.format(datetime));
                 }
             }
             return delay < 0 ? 1L : delay;

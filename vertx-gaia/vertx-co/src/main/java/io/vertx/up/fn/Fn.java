@@ -2,16 +2,16 @@ package io.vertx.up.fn;
 
 import io.horizon.eon.VMessage;
 import io.horizon.exception.AbstractException;
+import io.horizon.exception.BootingException;
 import io.horizon.exception.ProgramException;
+import io.horizon.exception.WebException;
 import io.horizon.fn.ErrorSupplier;
 import io.horizon.fn.ProgramActuator;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.exception.BootingException;
-import io.horizon.exception.WebException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;
@@ -139,11 +139,11 @@ public final class Fn extends _Out {
     }
 
     public static <T> void outOr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, VMessage.PROGRAM_NULL);
+        outOr(condition, clazz, VMessage.Fn.PROGRAM_NULL);
     }
 
     public static <T> void outQr(final T condition, final Class<?> clazz) {
-        outOr(condition, clazz, VMessage.PROGRAM_QR);
+        outOr(condition, clazz, VMessage.Fn.PROGRAM_QR);
     }
 
     // ------ Specification for JsonFormat

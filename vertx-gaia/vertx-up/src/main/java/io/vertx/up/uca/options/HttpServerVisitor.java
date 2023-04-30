@@ -31,13 +31,13 @@ public class HttpServerVisitor extends AbstractSVisitor implements ServerVisitor
     public ConcurrentMap<Integer, HttpServerOptions> visit(final String... key)
         throws ProgramException {
         final JsonArray serverData = this.serverPre(0, key);
-        this.logger().info(VMessage.VISITOR_V_BEFORE, KName.SERVER, this.serverType(), serverData.encode());
+        this.logger().info(VMessage.Visitor.V_BEFORE, KName.SERVER, this.serverType(), serverData.encode());
         Ruler.verify(KName.SERVER, serverData);
         final ConcurrentMap<Integer, HttpServerOptions> map =
             new ConcurrentHashMap<>();
         this.extract(serverData, map);
         if (!map.isEmpty()) {
-            this.logger().info(VMessage.VISITOR_V_AFTER, KName.SERVER, this.serverType(), map.keySet());
+            this.logger().info(VMessage.Visitor.V_AFTER, KName.SERVER, this.serverType(), map.keySet());
         }
         return map;
     }

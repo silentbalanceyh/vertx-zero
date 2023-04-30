@@ -1,8 +1,8 @@
 package io.vertx.up.uca.job.store;
 
 import io.horizon.eon.VMessage;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.log.Annal;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -25,7 +25,7 @@ public class JobPin {
             } else {
                 CONFIG = new JobConfig();
             }
-            LOGGER.info(VMessage.JOB_PIN_CONFIG, CONFIG);
+            LOGGER.info(VMessage.Job.PIN.PIN_CONFIG, CONFIG);
         }
     }
 

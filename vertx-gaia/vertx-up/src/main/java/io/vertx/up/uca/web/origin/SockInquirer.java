@@ -1,10 +1,10 @@
 package io.vertx.up.uca.web.origin;
 
 import io.horizon.eon.VMessage;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.web.thread.SockThread;
 
 import java.lang.reflect.Method;
@@ -22,7 +22,7 @@ public class SockInquirer implements Inquirer<Set<Remind>> {
         final Set<Class<?>> endpoints = clazzes.stream()
             .filter(this::isSocked)
             .collect(Collectors.toSet());
-        LOGGER.info(VMessage.INQUIRER_WEBSOCKET, endpoints.size());
+        LOGGER.info(VMessage.Inquirer.WEBSOCKET, endpoints.size());
         final List<SockThread> threadReference = new ArrayList<>();
         /* 2.1.Build Api metadata **/
         for (final Class<?> endpoint : endpoints) {

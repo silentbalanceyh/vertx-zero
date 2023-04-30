@@ -1,8 +1,11 @@
 package io.horizon.uca.log.internal;
 
+import io.horizon.eon.VMessage;
 import io.horizon.spi.HorizonIo;
-import io.horizon.util.HaS;
 import io.horizon.uca.log.Annal;
+import io.horizon.util.HaS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +21,7 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
      * logback instead of log4j / log4j2, this is common usage.
      */
     private static final ConcurrentMap<Class<?>, Annal> OUTED = new ConcurrentHashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(BridgeAnnal.class);
     private transient final Annal logger;
 
     public BridgeAnnal(final Class<?> clazz) {
@@ -26,6 +30,9 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
         Class<?> inject = Objects.isNull(io) ? null : io.ofAnnal();
         if (null == inject) {
             inject = Log4JAnnal.class;
+            LOGGER.warn(VMessage.Annal.INTERNAL, clazz.getName());
+        } else {
+            LOGGER.warn(VMessage.Annal.CONFIGURED, inject.getName(), clazz.getName());
         }
         final Class<?> cacheKey = inject;
         this.logger = OUTED.computeIfAbsent(clazz, (key) -> HaS.instance(cacheKey, key));

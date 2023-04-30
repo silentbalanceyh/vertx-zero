@@ -1,4 +1,4 @@
-package io.vertx.up.log;
+package io.vertx.up.uca.log;
 
 import io.horizon.eon.VMessage;
 import io.horizon.uca.log.Annal;
@@ -38,7 +38,7 @@ public class DevOps {
                 data.put(name, instance, result -> {
                     if (result.succeeded()) {
                         final Annal logger = Annal.get(DevOps.class);
-                        logger.info(VMessage.MEANSURE_ADD, name,
+                        logger.info(VMessage.Measure.ADD, name,
                             String.valueOf(options.getInstances()), options.isWorker());
                     }
                 });
@@ -53,7 +53,7 @@ public class DevOps {
                 data.remove(name, result -> {
                     if (result.succeeded()) {
                         final Annal logger = Annal.get(DevOps.class);
-                        logger.info(VMessage.MEANSURE_REMOVE, name, String.valueOf(options.getInstances()));
+                        logger.info(VMessage.Measure.REMOVE, name, String.valueOf(options.getInstances()));
                     }
                 });
             }

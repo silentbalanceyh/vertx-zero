@@ -2,11 +2,11 @@ package io.vertx.up.uca.options;
 
 import io.horizon.eon.VMessage;
 import io.horizon.exception.ProgramException;
+import io.horizon.uca.log.Annal;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -26,18 +26,18 @@ public class CircuitVisitor implements Visitor<CircuitBreakerOptions> {
         // 2. Read data
         final JsonObject data = this.node.read();
         // 3. CircuitBreakerOptions building.
-        final JsonObject config =
-            Fn.runOr(data.containsKey(CIRCUIT) &&
-                    null != data.getValue(CIRCUIT), LOGGER,
-                () -> data.getJsonObject(CIRCUIT),
-                JsonObject::new);
+        final JsonObject config = Fn.runOr(
+            data.containsKey(CIRCUIT) && null != data.getValue(CIRCUIT), LOGGER,
+            () -> data.getJsonObject(CIRCUIT),
+            JsonObject::new);
         // 4. Verify the configuration data
+        assert config != null;
         return this.visit(config);
     }
 
     private CircuitBreakerOptions visit(final JsonObject data)
         throws ProgramException {
-        LOGGER.info(VMessage.VISITOR_V_BEFORE, CIRCUIT, "Circuit", data.encode());
+        LOGGER.info(VMessage.Visitor.V_BEFORE, CIRCUIT, "Circuit", data.encode());
         Ruler.verify("circuit", data);
         return new CircuitBreakerOptions(data);
     }

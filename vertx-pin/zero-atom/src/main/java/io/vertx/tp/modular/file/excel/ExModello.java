@@ -8,7 +8,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;

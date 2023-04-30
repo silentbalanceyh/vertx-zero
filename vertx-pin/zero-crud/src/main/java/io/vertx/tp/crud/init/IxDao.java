@@ -12,7 +12,7 @@ import io.vertx.tp.plugin.booting.KBoot;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.log.DevEnv;
+import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
