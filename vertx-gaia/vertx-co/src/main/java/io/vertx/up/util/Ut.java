@@ -2,8 +2,9 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.aeon.experiment.specification.KPair;
+import io.horizon.atom.secure.KPair;
 import io.horizon.eon.em.ChangeFlag;
+import io.horizon.exception.WebException;
 import io.horizon.specification.runtime.HService;
 import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;
@@ -14,7 +15,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BMapping;
-import io.horizon.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
 
 import java.lang.reflect.Field;

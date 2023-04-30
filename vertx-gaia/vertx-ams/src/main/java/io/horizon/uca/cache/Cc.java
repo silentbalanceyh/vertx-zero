@@ -10,19 +10,12 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
- * Cache Interface for three usage:
- *
- * - Component Cache
- * - Config Cache
- * - Thread Component Cache
- *
- * It's new structure for different cache stored instead of single one
- *
- * 1) Here are Cd data structure to control internal storage.
- * 2) The default implementation class is `CdMem` ( Default Cd )
- *
- * Cc: Component Cache / Config Cache
- * Cd: Component Data / Cache Data
+ * 内存中的缓存架构
+ * -- CC 命名：全局模式的缓存
+ * -- CC_A 命名：异步模式缓存
+ * -- CCT 命名：线程模式缓存
+ * -- CCT_A 命名：异步线程模式缓存
+ * 暂定四种模式，后续扩展
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */

@@ -1,6 +1,6 @@
 package io.horizon.spi.cloud;
 
-import io.aeon.experiment.specification.KPair;
+import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VString;
 import io.vertx.up.util.Ut;
 

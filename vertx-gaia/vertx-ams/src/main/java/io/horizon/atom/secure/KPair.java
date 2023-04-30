@@ -1,11 +1,13 @@
-package io.aeon.experiment.specification;
+package io.horizon.atom.secure;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * 公私密钥对
+ *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KPair implements Serializable {
@@ -34,7 +36,7 @@ public class KPair implements Serializable {
     }
 
     public boolean valid() {
-        return Ut.isNotNil(this.privateKey) && Ut.isNotNil(this.publicKey);
+        return HaS.isNotNil(this.privateKey) && HaS.isNotNil(this.publicKey);
     }
 
     @Override

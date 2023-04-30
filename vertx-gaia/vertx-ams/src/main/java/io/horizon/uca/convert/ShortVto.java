@@ -1,11 +1,12 @@
-package io.aeon.experiment.brain;
+package io.horizon.uca.convert;
 
 import io.horizon.eon.VValue;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@SuppressWarnings("all")
 public class ShortVto implements Vto<Short> {
 
     @Override
@@ -25,16 +26,16 @@ public class ShortVto implements Vto<Short> {
                 /*
                  * String -> Short
                  */
-                return Ut.isInteger(value.toString()) ?
+                return HaS.isInteger(value.toString()) ?
                     Short.parseShort(value.toString()) :
                     (short) VValue.RANGE;
-            } else if (Tool.isInteger(type)) {
+            } else if (HaS.isInteger(type)) {
                 /*
                  * Integer -> Short
                  * Long -> Short
                  */
                 return Short.parseShort(value.toString());
-            } else if (Tool.isDecimal(type)) {
+            } else if (HaS.isDecimal(type)) {
                 /*
                  * Double -> Short
                  * Float -> Short

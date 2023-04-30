@@ -1,6 +1,5 @@
 package io.horizon.cloud.action;
 
-import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -9,12 +8,6 @@ import io.vertx.core.json.JsonObject;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface HCommand<I, R> {
-
-    // 合法性检查（异步）
-    @SuppressWarnings("unchecked")
-    default <T> T bind(final Vertx vertx) {
-        return (T) this;
-    }
 
     // 步骤1：初始化/配置
     R configure(I input);

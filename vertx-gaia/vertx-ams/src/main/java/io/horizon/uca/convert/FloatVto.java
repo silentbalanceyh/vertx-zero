@@ -1,6 +1,6 @@
-package io.aeon.experiment.brain;
+package io.horizon.uca.convert;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -18,8 +18,8 @@ public class FloatVto implements Vto<Float> {
                 return (Float) value;
             } else if (String.class == type) {
 
-                return Ut.isDecimal(value.toString()) ? Float.parseFloat(value.toString()) : -1.0f;
-            } else if (Tool.isInteger(type) || Tool.isDecimal(type)) {
+                return HaS.isDecimal(value.toString()) ? Float.parseFloat(value.toString()) : -1.0f;
+            } else if (HaS.isInteger(type) || HaS.isDecimal(type)) {
 
                 return Float.parseFloat(value.toString());
             } else if (BigDecimal.class == type) {

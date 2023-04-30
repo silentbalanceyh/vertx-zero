@@ -1,6 +1,6 @@
 package io.vertx.up.uca.crypto;
 
-import io.aeon.experiment.specification.KPair;
+import io.horizon.atom.secure.KPair;
 import io.horizon.eon.VValue;
 
 import java.security.interfaces.RSAPrivateKey;

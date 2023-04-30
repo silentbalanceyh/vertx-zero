@@ -1,7 +1,7 @@
-package io.aeon.experiment.brain;
+package io.horizon.uca.convert;
 
 import io.horizon.eon.VValue;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,6 +9,7 @@ import java.util.Objects;
 public class LongVto implements Vto<Long> {
 
     @Override
+    @SuppressWarnings("all")
     public Long to(final Object value, final Class<?> type) {
         if (Objects.isNull(value)) {
             /*
@@ -25,16 +26,16 @@ public class LongVto implements Vto<Long> {
                 /*
                  * String -> Long
                  */
-                return Ut.isInteger(value.toString()) ?
+                return HaS.isInteger(value.toString()) ?
                     Long.parseLong(value.toString()) :
                     VValue.RANGE;
-            } else if (Tool.isInteger(type)) {
+            } else if (HaS.isInteger(type)) {
                 /*
                  * Integer -> Long
                  * Short -> Long
                  */
                 return Long.parseLong(value.toString());
-            } else if (Tool.isDecimal(type)) {
+            } else if (HaS.isDecimal(type)) {
                 /*
                  * Double -> Long
                  * Float -> Long

@@ -1,6 +1,6 @@
 package io.vertx.tp.ke.secure;
 
-import io.aeon.experiment.specification.KPair;
+import io.horizon.atom.secure.KPair;
 import io.horizon.spi.cloud.HED;
 
 /**

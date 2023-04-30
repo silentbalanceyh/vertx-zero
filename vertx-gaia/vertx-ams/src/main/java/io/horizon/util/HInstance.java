@@ -1,9 +1,9 @@
 package io.horizon.util;
 
 import io.horizon.eon.VString;
+import io.horizon.eon.cache.CStore;
 import io.horizon.exception.internal.OperationException;
 import io.horizon.fn.HFn;
-import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +21,6 @@ import java.util.function.Function;
 @SuppressWarnings("all")
 class HInstance {
     private static final Logger LOGGER = LoggerFactory.getLogger(HInstance.class);
-
-    private static final Cc<String, Object> CC_SINGLETON = Cc.open();
-
-    private static final Cc<String, Class<?>> CC_CLASSES = Cc.open();
     /*
      * 快速构造对象专用内存结构
      * Map ->  clazz = constructor length / true|false
@@ -62,7 +58,7 @@ class HInstance {
     }
 
     static <T> T singleton(final Class<?> clazz, final Object... params) {
-        return (T) CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
+        return (T) CStore.CC_SINGLETON.pick(() -> instance(clazz, params), clazz.getName());
     }
 
     static <T> T singleton(final Class<?> clazz, final Function<Class<?>, T> instanceFn, final String key) {
@@ -71,12 +67,12 @@ class HInstance {
              * 如果key为空，则直接返回，等价于原始 singleton
              * 并且其构造函数的参数是无参的，只是切换了 instanceFn 的实现
              */
-            return (T) CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName());
+            return (T) CStore.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName());
         } else {
             /*
              * 池化，键值：className/key
              */
-            return (T) CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName() + VString.SLASH + key);
+            return (T) CStore.CC_SINGLETON.pick(() -> instanceFn.apply(clazz), clazz.getName() + VString.SLASH + key);
         }
     }
 
@@ -94,7 +90,7 @@ class HInstance {
              * getJvm will throw out exception here. in current method, we should
              * catch `ClassNotFoundException` and return null directly.
              */
-            final ConcurrentMap<String, Class<?>> cData = CC_CLASSES.store();
+            final ConcurrentMap<String, Class<?>> cData = CStore.CC_CLASSES.store();
             Class<?> clazz = cData.get(name);
             if (Objects.isNull(clazz)) {
                 /* 优先从传入的类加载器中加载 */

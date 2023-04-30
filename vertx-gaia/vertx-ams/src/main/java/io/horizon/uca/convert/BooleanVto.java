@@ -1,4 +1,4 @@
-package io.aeon.experiment.brain;
+package io.horizon.uca.convert;
 
 import java.util.Objects;
 

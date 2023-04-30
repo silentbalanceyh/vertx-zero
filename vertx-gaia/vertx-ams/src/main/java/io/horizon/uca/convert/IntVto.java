@@ -1,7 +1,7 @@
-package io.aeon.experiment.brain;
+package io.horizon.uca.convert;
 
 import io.horizon.eon.VValue;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -25,22 +25,22 @@ public class IntVto implements Vto<Integer> {
                 /*
                  * String -> Integer
                  */
-                return Ut.isInteger(value.toString()) ?
+                return HaS.isInteger(value.toString()) ?
                     Integer.parseInt(value.toString()) :
                     VValue.RANGE;
-            } else if (Tool.isInteger(type)) {
+            } else if (HaS.isInteger(type)) {
                 /*
                  * Long -> Integer
                  * Short -> Integer
                  */
                 return Integer.parseInt(value.toString());
-            } else if (Tool.isDecimal(type)) {
+            } else if (HaS.isDecimal(type)) {
                 /*
                  * Double -> Integer
                  * Float -> Integer
                  */
-                final Double normalized = Double.parseDouble(value.toString());
-                return normalized.intValue();
+                final double normalized = Double.parseDouble(value.toString());
+                return (int) normalized;
             } else if (BigDecimal.class == type) {
 
                 return ((BigDecimal) value).intValue();
