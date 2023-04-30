@@ -44,6 +44,7 @@ class TIs {
         }
     }
 
+
     static boolean isBoolean(final String literal, final boolean widely) {
         if (Objects.isNull(literal)) {
             return false;

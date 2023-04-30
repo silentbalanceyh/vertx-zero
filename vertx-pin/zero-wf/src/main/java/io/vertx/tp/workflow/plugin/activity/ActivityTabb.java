@@ -142,7 +142,7 @@ public class ActivityTabb implements After {
 
     private Future<JsonObject> dataFlow(final JsonObject data) {
         final JsonObject workflow = new JsonObject();
-        Ut.elementCopy(workflow, data,
+        Ut.valueCopy(workflow, data,
             // Source -> flow
             KName.Flow.FLOW_DEFINITION_KEY,
             KName.Flow.FLOW_DEFINITION_ID,

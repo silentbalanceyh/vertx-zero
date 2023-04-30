@@ -1,13 +1,13 @@
 package io.vertx.up.uca.web.anima;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.PluginSpecificationException;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.eon.KPlugin;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroAnno;
@@ -43,7 +43,7 @@ public class InfixScatter implements Scatter<Vertx> {
         // final ConcurrentMap<String, Class<?>> enabled = Ut.reduce(LIME.read().keySet(), wholeInjections);
         /* Scan all Infix **/
         final ConcurrentMap<Class<? extends Annotation>, Class<?>> injections =
-            Ut.reduce(KPlugin.INFIX_MAP, wholeInjections);
+            Ut.elementZip(KPlugin.INFIX_MAP, wholeInjections);
         injections.values().forEach(item -> {
             if (null != item && item.isAnnotationPresent(Plugin.class)) {
                 final Method method = findInit(item);

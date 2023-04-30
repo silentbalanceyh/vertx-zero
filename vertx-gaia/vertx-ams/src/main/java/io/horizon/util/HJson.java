@@ -230,4 +230,85 @@ class HJson {
         }, value);
         return result;
     }
+
+
+    static boolean isIn(final JsonObject input, final String... fields) {
+        if (TIs.isNil(input)) {
+            return false;
+        }
+
+        // fields 中的内容在 input 中全部包含
+        return Arrays.stream(fields).filter(input::containsKey).allMatch(field -> {
+            final Object item = input.getValue(field);
+            if (item instanceof String) {
+                // 不为空的 String
+                return !TIs.isNil((String) item);
+            } else if (item instanceof JsonObject) {
+                // 不为 {} 的 JsonObject
+                return !TIs.isNil((JsonObject) item);
+            } else if (item instanceof JsonArray) {
+                // 不为 [] 的 JsonArray
+                return !TIs.isNil((JsonArray) item);
+            } else {
+                // 不为 null 的
+                return Objects.nonNull(item);
+            }
+        });
+    }
+
+    static <T> boolean isSame(final JsonObject record, final String field, final T expected) {
+        if (TIs.isNil(record)) {
+            /*
+             * If record is null or empty, return `false`
+             */
+            return false;
+        } else {
+            /*
+             * Object reference
+             */
+            final Object value = record.getValue(field);
+            return TIs.isSame(value, expected);
+        }
+    }
+
+    static boolean isSame(final JsonArray dataO, final JsonArray dataN,
+                          final Set<String> fields, final boolean sequence) {
+        final JsonArray arrOld = HJson.valueJArray(dataO, false);
+        final JsonArray arrNew = HJson.valueJArray(dataN, false);
+        if (arrOld.size() != arrNew.size()) {
+            return false;
+        }
+        final JsonArray subOld = CSubset.subset(arrOld, fields);
+        final JsonArray subNew = CSubset.subset(arrNew, fields);
+        if (sequence) {
+            return subOld.equals(subNew);
+        } else {
+            return HIter.itJArray(subOld).allMatch(jsonOld ->
+                HIter.itJArray(subNew).anyMatch(jsonNew -> jsonNew.equals(jsonOld))
+            );
+        }
+    }
+
+    static JsonObject valueMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        reference.mergeIn(source, true);
+        return reference;
+    }
+
+    static JsonObject valueAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
+        final JsonObject reference = isRef ? target : target.copy();
+        source.fieldNames().stream()
+            .filter(field -> !reference.containsKey(field))
+            .forEach(field -> reference.put(field, source.getValue(field)));
+        return reference;
+    }
+
+    static void valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        Arrays.stream(fields).forEach(field -> HFn.runAt(() -> {
+            final Object value = source.getValue(field);
+            if (Objects.nonNull(value)) {
+                target.put(field, value);
+            }
+        }, target, source, field));
+    }
 }

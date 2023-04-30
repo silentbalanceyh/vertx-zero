@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -282,5 +283,58 @@ class _Value extends _To {
      */
     public static <T> T valueT(final String literal, final Class<?> type) {
         return TValue.vT(literal, type);
+    }
+
+    /**
+     * 从 JsonObject 数据中提取 field 属性的数据，并执行 type
+     * 检查，若 type 匹配（==）则返回该数据，否则返回 null
+     *
+     * @param json  JsonObject
+     * @param field 字段名
+     * @param type  类型
+     * @param <T>   T
+     *
+     * @return T
+     */
+    public static <T> T valueT(final JsonObject json, final String field, final Class<T> type) {
+        return TValue.valueT(json, field, type);
+    }
+
+    /**
+     * 从 source 的 JsonObject 中拷贝 fields 属性相关信息到 target，并且不改写 target
+     * 此处会创建 target 的副本生成新的 JsonObject
+     *
+     * @param target 目标
+     * @param source 源
+     * @param fields 字段
+     */
+    public static void valueCopy(final JsonObject target, final JsonObject source, final String... fields) {
+        HJson.valueCopy(target, source, fields);
+    }
+
+    /**
+     * 将 sources 中的属性逐渐追加到 target 中，如果 target 中已经存在该属性，则不追加
+     *
+     * @param target  目标
+     * @param sources 源
+     *
+     * @return JsonObject
+     */
+    public static JsonObject valueAppend(final JsonObject target, final JsonObject... sources) {
+        Arrays.stream(sources).forEach(source -> HJson.valueAppend(target, source, true));
+        return target;
+    }
+
+    /**
+     * 使用 sources 中的属性逐渐覆盖 target 中的属性，直接覆盖，类似前端的 Object.assign
+     *
+     * @param target  目标
+     * @param sources 源
+     *
+     * @return JsonObject
+     */
+    public static JsonObject valueMerge(final JsonObject target, final JsonObject... sources) {
+        Arrays.stream(sources).forEach(source -> HJson.valueMerge(target, source, true));
+        return target;
     }
 }

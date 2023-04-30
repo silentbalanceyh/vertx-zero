@@ -2,11 +2,11 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
+import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.function.Function;
 /**
  * For collection
  */
-final class Congregation {
-    private static final Annal LOGGER = Annal.get(Congregation.class);
+final class CollectionIt {
+    private static final Annal LOGGER = Annal.get(CollectionIt.class);
 
-    private Congregation() {
+    private CollectionIt() {
     }
 
     /**

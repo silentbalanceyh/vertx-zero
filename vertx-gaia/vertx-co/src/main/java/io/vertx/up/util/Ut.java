@@ -47,36 +47,21 @@ public final class Ut extends HaS {
      * 13) elementRevert
      * 14) elementCount
      */
-    public static JsonArray elementFlat(final JsonArray input) {
-        return ArrayJ.flat(input);
-    }
 
     public static JsonArray elementClimb(final JsonArray children, final JsonArray tree) {
-        return ArrayJ.climb(children, tree, null);
+        return Collection.climb(children, tree, null);
     }
 
     public static JsonArray elementClimb(final JsonObject child, final JsonArray tree) {
-        return ArrayJ.climb(child, tree, null);
+        return Collection.climb(child, tree, null);
     }
 
     public static JsonArray elementChild(final JsonArray children, final JsonArray tree) {
-        return ArrayJ.child(children, tree, null);
+        return Collection.child(children, tree, null);
     }
 
     public static JsonArray elementChild(final JsonObject child, final JsonArray tree) {
-        return ArrayJ.child(child, tree, null);
-    }
-
-    public static JsonObject elementFind(final JsonArray input, final String field, final Object value) {
-        return ArrayJ.find(input, field, value);
-    }
-
-    public static JsonObject elementFind(final JsonArray input, final JsonObject subsetQ) {
-        return ArrayJ.find(input, subsetQ);
-    }
-
-    public static <T> T elementFind(final List<T> list, final Predicate<T> fnFilter) {
-        return ArrayL.find(list, fnFilter);
+        return Collection.child(child, tree, null);
     }
 
     public static JsonArray elementZip(final JsonArray array, final String fieldKey,
@@ -90,12 +75,8 @@ public final class Ut extends HaS {
         return Jackson.zip(array, fieldKey, fieldOn, grouped, fieldTo);
     }
 
-    public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
-        return ArrayL.compress(dataList);
-    }
-
     public static <T, V> Set<V> elementSet(final List<T> listT, final Function<T, V> executor) {
-        return ArrayL.set(listT, executor);
+        return Collection.set(listT, executor);
     }
 
     /*
@@ -176,57 +157,57 @@ public final class Ut extends HaS {
      * The previous `et` have been moved to `Fn` class instead, in Ut there are only `it` left
      */
     public static <K, V> void itMap(final ConcurrentMap<K, V> map, final BiConsumer<K, V> fnEach) {
-        Congregation.exec(map, fnEach);
+        CollectionIt.exec(map, fnEach);
     }
 
     public static <V> void itSet(final Set<V> set, final BiConsumer<V, Integer> fnEach) {
         final List<V> list = new ArrayList<>(set);
-        Congregation.exec(list, fnEach);
+        CollectionIt.exec(list, fnEach);
     }
 
     public static <V> void itList(final List<V> list, final BiConsumer<V, Integer> fnEach) {
-        Congregation.exec(list, fnEach);
+        CollectionIt.exec(list, fnEach);
     }
 
 
     public static <V> void itArray(final V[] array, final BiConsumer<V, Integer> fnEach) {
-        Congregation.exec(Arrays.asList(array), fnEach);
+        CollectionIt.exec(Arrays.asList(array), fnEach);
     }
 
     public static <V> void itMatrix(final V[][] array, final Consumer<V> fnEach) {
-        Congregation.exec(array, fnEach);
+        CollectionIt.exec(array, fnEach);
     }
 
-    public static <F, S> void itCollection(final Collection<F> firsts, final Function<F, Collection<S>> seconds, final BiConsumer<F, S> consumer) {
-        Congregation.exec(firsts, seconds, consumer);
+    public static <F, S> void itCollection(final java.util.Collection<F> firsts, final Function<F, java.util.Collection<S>> seconds, final BiConsumer<F, S> consumer) {
+        CollectionIt.exec(firsts, seconds, consumer);
     }
 
-    public static <F, S> void itCollection(final Collection<F> firsts, final Function<F, Collection<S>> seconds, final BiConsumer<F, S> consumer, final BiPredicate<F, S> predicate) {
-        Congregation.exec(firsts, seconds, consumer, predicate);
+    public static <F, S> void itCollection(final java.util.Collection<F> firsts, final Function<F, java.util.Collection<S>> seconds, final BiConsumer<F, S> consumer, final BiPredicate<F, S> predicate) {
+        CollectionIt.exec(firsts, seconds, consumer, predicate);
     }
 
     public static <T> void itJObject(final JsonObject data, final BiConsumer<T, String> fnEach) {
-        Congregation.exec(data, fnEach);
+        CollectionIt.exec(data, fnEach);
     }
 
     public static <T> void itJArray(final JsonArray array, final Class<T> clazz, final BiConsumer<T, Integer> fnEach) {
-        Congregation.exec(array, clazz, fnEach);
+        CollectionIt.exec(array, clazz, fnEach);
     }
 
     public static void itJArray(final JsonArray array, final BiConsumer<JsonObject, Integer> fnEach) {
-        Congregation.exec(array, JsonObject.class, fnEach);
+        CollectionIt.exec(array, JsonObject.class, fnEach);
     }
 
     public static <T> void itStart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
-        Congregation.exec(data, prefix, true, consumer);
+        CollectionIt.exec(data, prefix, true, consumer);
     }
 
     public static <T> void itPart(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
-        Congregation.exec(data, prefix, null, consumer);
+        CollectionIt.exec(data, prefix, null, consumer);
     }
 
     public static <T> void itEnd(final JsonObject data, final String prefix, final BiConsumer<T, String> consumer) {
-        Congregation.exec(data, prefix, false, consumer);
+        CollectionIt.exec(data, prefix, false, consumer);
     }
 
     /*
@@ -282,44 +263,20 @@ public final class Ut extends HaS {
     }
 
     public static Field[] fields(final Class<?> clazz) {
-        return InstanceField.fields(clazz);
+        return Instance.fields(clazz);
     }
 
     public static <T> Field contract(final T instance, final Class<?> fieldType) {
-        return InstanceField.contract(InstanceField.class, instance, fieldType);
+        return Instance.contract(Instance.class, instance, fieldType);
     }
 
     public static <T, V> void contract(final T instance, final Class<?> fieldType, final V value) {
-        InstanceField.contract(InstanceField.class, instance, fieldType, value);
+        Instance.contract(Instance.class, instance, fieldType, value);
     }
 
     public static <T, V> Future<Boolean> contractAsync(final T instance, final Class<?> fieldType, final V value) {
         contract(instance, fieldType, value);
         return Future.succeededFuture(Boolean.TRUE);
-    }
-
-    /*
-     * 1) elementCopy
-     * 2) elementAppend ( The old name is ifMerge )
-     * 3) elementMerge
-     * 4) elementFind
-     */
-    public static void elementCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        Jackson.jsonCopy(target, source, fields);
-    }
-
-    public static JsonObject elementAppend(final JsonObject target, final JsonObject... sources) {
-        Arrays.stream(sources).forEach(source -> Jackson.jsonAppend(target, source, true));
-        return target;
-    }
-
-    public static JsonObject elementMerge(final JsonObject target, final JsonObject... sources) {
-        Arrays.stream(sources).forEach(source -> Jackson.jsonMerge(target, source, true));
-        return target;
-    }
-
-    public static <T> T elementFind(final JsonObject item, final String field, final Class<T> clazz) {
-        return Epsilon.vValue(item, field, clazz);
     }
 
     /*
@@ -389,88 +346,6 @@ public final class Ut extends HaS {
 
     public static ConfigStoreOptions loadProp(final String filename) {
         return Store.getProp(filename);
-    }
-
-    /*
-     * Network method
-     * 1) netOk
-     * 2) netIPv4 / netIPv6 / netIP
-     * 3) netHostname
-     * 4) netStatus
-     * 5) netUri
-     *
-     */
-
-    /*
-     * Map reduce method here
-     * 1) reduce
-     */
-    public static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
-        return ArrayL.reduce(from, to);
-    }
-
-    public static <K, V> ConcurrentMap<K, V> reduce(final Set<K> from, final ConcurrentMap<K, V> to) {
-        return ArrayL.reduce(from, to);
-    }
-
-    /*
-     * isMatch of Regex
-     */
-
-    /*
-     * Checking method for all
-     * 1) isSame / isDate
-     * 2) isBoolean
-     * 3) isPositive / isNegative / isInteger
-     * 4) isDecimal / isReal / isDecimalPositive / isDecimalNegative
-     * 5) isSubset ( Compare 2 JsonObject )
-     * 6) isJObject / isJArray
-     * 7) isClass / isVoid / isPrimary
-     * 8) isNil / notNil
-     * 9) isRange
-     */
-    public static boolean isRange(final Integer value, final Integer min, final Integer max) {
-        return Numeric.isRange(value, min, max);
-    }
-
-    public static boolean isIn(final JsonObject input, final String... fields) {
-        return Types.isIn(input, fields);
-    }
-
-    public static <T> boolean isSame(final JsonObject record, final String field, final T expected) {
-        return Types.isEqual(record, field, expected);
-    }
-
-    public static boolean isDiff(final JsonArray left, final JsonArray right, final Set<String> fields) {
-        return !ArrayJ.isSame(left, right, fields, false);
-    }
-
-    public static boolean isSame(final JsonArray left, final JsonArray right, final Set<String> fields) {
-        return ArrayJ.isSame(left, right, fields, false);
-    }
-
-    public static boolean isDiff(final JsonArray left, final JsonArray right) {
-        return isDiff(left, right, new HashSet<>());
-    }
-
-    public static boolean isSame(final JsonArray left, final JsonArray right) {
-        return isSame(left, right, new HashSet<>());
-    }
-
-    public static boolean isSameBy(final JsonArray left, final JsonArray right, final Set<String> fields) {
-        return ArrayJ.isSame(left, right, fields, true);
-    }
-
-    public static boolean isSameBy(final JsonArray left, final JsonArray right) {
-        return isSameBy(left, right, new HashSet<>());
-    }
-
-    public static boolean isDiffBy(final JsonArray left, final JsonArray right, final Set<String> fields) {
-        return !ArrayJ.isSame(left, right, fields, true);
-    }
-
-    public static boolean isDiffBy(final JsonArray left, final JsonArray right) {
-        return isDiffBy(left, right, new HashSet<>());
     }
 
     /*
@@ -698,7 +573,7 @@ public final class Ut extends HaS {
 
     // Qr Field Processing
     public static String valueQrIn(final String field) {
-        return Epsilon.vQrField(field, Qr.Op.IN);
+        return Mapping.vQrField(field, Qr.Op.IN);
     }
 
     // Single Processing
@@ -710,7 +585,7 @@ public final class Ut extends HaS {
      * <Flag>: Extract the data from input only
      */
     public static JsonObject valueToOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
-        final JsonObject converted = Epsilon.vTo(input, mapping, smart);
+        final JsonObject converted = Mapping.vTo(input, mapping, smart);
         input.mergeIn(converted, true);
         return input;
     }
@@ -721,19 +596,19 @@ public final class Ut extends HaS {
     }
 
     public static JsonObject valueTo(final JsonObject input, final JsonObject mapping, final boolean smart) {
-        return Epsilon.vTo(input, mapping, smart);
+        return Mapping.vTo(input, mapping, smart);
     }
 
     public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final boolean smart) {
-        return Epsilon.vTo(input, mapping, smart);
+        return Mapping.vTo(input, mapping, smart);
     }
 
     public static JsonArray valueTo(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
-        return Epsilon.vTo(input, mapping, true, itFn);
+        return Mapping.vTo(input, mapping, true, itFn);
     }
 
     public static JsonObject valueFromOver(final JsonObject input, final JsonObject mapping, final boolean smart) {
-        final JsonObject converted = Epsilon.vFrom(input, mapping, smart);
+        final JsonObject converted = Mapping.vFrom(input, mapping, smart);
         input.mergeIn(converted, true);
         return input;
     }
@@ -744,14 +619,14 @@ public final class Ut extends HaS {
     }
 
     public static JsonObject valueFrom(final JsonObject input, final JsonObject mapping, final boolean smart) {
-        return Epsilon.vFrom(input, mapping, smart);
+        return Mapping.vFrom(input, mapping, smart);
     }
 
     public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final boolean smart) {
-        return Epsilon.vFrom(input, mapping, smart);
+        return Mapping.vFrom(input, mapping, smart);
     }
 
     public static JsonArray valueFrom(final JsonArray input, final JsonObject mapping, final BinaryOperator<JsonObject> itFn) {
-        return Epsilon.vFrom(input, mapping, true, itFn);
+        return Mapping.vFrom(input, mapping, true, itFn);
     }
 }

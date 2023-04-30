@@ -57,7 +57,7 @@ class UArrayInternal {
     ) {
         final ConcurrentMap<Integer, Object> targetMap = mapIndex(target, fromKey);
         final ConcurrentMap<Object, JsonObject> sourceMap = mapZip(sources, toKey);
-        final ConcurrentMap<Integer, JsonObject> merged = Ut.reduce(targetMap, sourceMap);
+        final ConcurrentMap<Integer, JsonObject> merged = Ut.elementZip(targetMap, sourceMap);
         final JsonArray results = new JsonArray();
         for (int idx = 0; idx < target.size(); idx++) {
             final JsonObject targetItem = merged.get(idx);

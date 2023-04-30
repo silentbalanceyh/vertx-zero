@@ -170,7 +170,7 @@ public class UiActor {
              * data
              * config
              */
-            Ut.elementCopy(request, params, KName.DATA, KName.CONFIG);
+            Ut.valueCopy(request, params, KName.DATA, KName.CONFIG);
             return this.controlStub.fetchControl(controlType, request);
         }
     }

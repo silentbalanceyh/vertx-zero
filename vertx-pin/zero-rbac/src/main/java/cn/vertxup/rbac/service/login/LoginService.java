@@ -4,6 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.OAccessTokenDao;
 import cn.vertxup.rbac.domain.tables.daos.SUserDao;
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
 import cn.vertxup.rbac.service.business.UserStub;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._401PasswordWrongException;
@@ -16,7 +17,6 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.atom.unity.UObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -63,7 +63,7 @@ public class LoginService implements LoginStub {
             return Sc.lockOff(username).compose(nil -> Ux.future(fetched));
         }).compose(user -> this.userStub.fetchOUser(user.getKey()).compose(Ux::futureJ).compose(ouserJson -> {
             final JsonObject userJson = Ut.serializeJson(user);
-            final JsonObject merged = Ut.elementAppend(userJson, ouserJson);
+            final JsonObject merged = Ut.valueAppend(userJson, ouserJson);
             return UObject.create(merged).pickup(
                 KName.KEY,                /* client_id parameter */
                 AuthKey.SCOPE,              /* scope parameter */

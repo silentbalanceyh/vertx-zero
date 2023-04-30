@@ -30,7 +30,7 @@ class TwineModel implements Twine<String> {
     public Future<JsonObject> identAsync(final JsonObject condition) {
         final JsonObject conditionJ = this.mappedJ(condition);
         // sigma 在查询过程中需追加
-        Ut.elementCopy(conditionJ, condition,
+        Ut.valueCopy(conditionJ, condition,
             KName.SIGMA
         );
         return Ux.Jooq.on(SUserDao.class).fetchJOneAsync(conditionJ);

@@ -2,10 +2,7 @@ package io.horizon.util;
 
 import io.horizon.eon.VValue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
@@ -43,6 +40,17 @@ class CZip {
             });
         }
         return resultMap;
+    }
+    
+    static <K, V> ConcurrentMap<K, V> zip(final Set<K> from, final ConcurrentMap<K, V> to) {
+        final ConcurrentMap<K, V> result = new ConcurrentHashMap<>();
+        from.forEach((key) -> {
+            final V value = to.get(key);
+            if (null != value) {
+                result.put(key, value);
+            }
+        });
+        return result;
     }
 
     static <F, S, T> List<T> zip(final List<F> first, final List<S> second, final BiFunction<F, S, T> function) {

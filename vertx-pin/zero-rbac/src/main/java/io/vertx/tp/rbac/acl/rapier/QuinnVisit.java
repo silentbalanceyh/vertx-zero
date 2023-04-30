@@ -39,7 +39,7 @@ public class QuinnVisit implements Quinn {
         final JsonObject viewData = data.copy();
         // Set visitant = true when Data Not Empty
         viewData.put(KName.Rbac.VISITANT, Ut.isNotNil(visitantData));
-        Ut.itJArray(visitantData).forEach(visitantJ -> Ut.elementCopy(visitantJ, viewData,
+        Ut.itJArray(visitantData).forEach(visitantJ -> Ut.valueCopy(visitantJ, viewData,
             KName.SIGMA, KName.LANGUAGE, KName.UPDATED_BY
         ));
         return Quinn.view().<SView>saveAsync(resource.getKey(), owner, viewData).compose(view -> {

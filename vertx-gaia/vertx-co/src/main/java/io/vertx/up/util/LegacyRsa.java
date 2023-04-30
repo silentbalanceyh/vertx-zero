@@ -9,8 +9,8 @@ import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 
-public class Rsa {
-    private Rsa() {
+class LegacyRsa {
+    private LegacyRsa() {
     }
 
     /**

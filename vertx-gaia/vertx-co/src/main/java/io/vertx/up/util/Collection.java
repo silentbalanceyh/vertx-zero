@@ -1,42 +1,21 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-final class ArrayJ {
+final class Collection {
 
-    private ArrayJ() {
+    private Collection() {
     }
-
-    static JsonArray flat(final JsonArray item) {
-        final JsonArray normalized = new JsonArray();
-        item.stream().filter(Objects::nonNull).forEach(each -> {
-            if (each instanceof JsonArray) {
-                normalized.addAll(flat((JsonArray) each));
-            } else {
-                normalized.add(each);
-            }
-        });
-        return normalized;
-    }
-
-    /**
-     * Replaced duplicated by key
-     * This method will modify input array.
-     *
-     * @param array      source
-     * @param jsonObject element that will be added.
-     *
-     * @return the new json array
-     */
 
     static JsonArray climb(final JsonArray children, final JsonArray tree, final JsonObject options) {
         final JsonArray result = new JsonArray();
@@ -75,24 +54,6 @@ final class ArrayJ {
         });
         maps.values().forEach(result::add);
         return result;
-    }
-
-    static JsonObject find(final JsonArray array, final String field, final Object value) {
-        return HaS.itJArray(array).filter(item -> {
-            if (Objects.isNull(value)) {
-                return Objects.isNull(item.getValue(field));
-            } else {
-                return value.equals(item.getValue(field));
-            }
-        }).findAny().orElse(null);
-    }
-
-    static JsonObject find(final JsonArray array, final JsonObject subsetQ) {
-        return HaS.itJArray(array).filter(item -> {
-            final Set<String> keys = subsetQ.fieldNames();
-            final JsonObject subset = HaS.elementSubset(item, keys);
-            return subset.equals(subsetQ);
-        }).findAny().orElse(new JsonObject());
     }
 
     static JsonArray child(final JsonObject current, final JsonArray tree, final JsonObject options) {
@@ -166,21 +127,14 @@ final class ArrayJ {
         return target;
     }
 
-    static boolean isSame(final JsonArray dataO, final JsonArray dataN,
-                          final Set<String> fields, final boolean sequence) {
-        final JsonArray arrOld = Ut.valueJArray(dataO);
-        final JsonArray arrNew = Ut.valueJArray(dataN);
-        if (arrOld.size() != arrNew.size()) {
-            return false;
-        }
-        final JsonArray subOld = Ut.elementSubset(arrOld, fields);
-        final JsonArray subNew = Ut.elementSubset(arrNew, fields);
-        if (sequence) {
-            return subOld.equals(subNew);
-        } else {
-            return Ut.itJArray(subOld).allMatch(jsonOld ->
-                Ut.itJArray(subNew).anyMatch(jsonNew -> jsonNew.equals(jsonOld))
-            );
-        }
+
+    static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
+        final Set<V> valueSet = new HashSet<>();
+        listT.stream()
+            .filter(Objects::nonNull)
+            .map(executor)
+            .filter(Objects::nonNull)
+            .forEach(valueSet::add);
+        return valueSet;
     }
 }

@@ -5,10 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author lang : 2023/4/27
@@ -182,18 +179,6 @@ class _Is extends _Io {
      */
     public static boolean isUUID(final String input) {
         return TIs.isUUID(input);
-    }
-
-    /**
-     * 对象比较函数，比较两个对象内容是否相等，带 null 检查的版本
-     *
-     * @param left  左对象
-     * @param right 右对象
-     *
-     * @return 是否相等
-     */
-    public static boolean isSame(final Object left, final Object right) {
-        return TIs.isSame(left, right);
     }
 
     /**
@@ -636,15 +621,57 @@ class _Is extends _Io {
         return TPeriod.isDuration(current, start, end);
     }
 
+    // --------------------------- 范围函数 ---------------------------
+
     /**
-     * 检查两个日期是否相等
+     * 检查 value 是否位于 min 和 max 之间的闭区间
      *
-     * @param left  左边日期
-     * @param right 右边日期
+     * @param value 待检查的值
+     * @param min   最小值
+     * @param max   最大值
      *
-     * @return 是否相等
+     * @return 是否位于 min 和 max 之间的闭区间
      */
-    public static boolean isSame(final Date left, final Date right) {
-        return TPeriod.isSame(left, right);
+    public static boolean isIn(final Integer value, final Integer min, final Integer max) {
+        return TNumeric.isIn(value, min, max);
+    }
+
+    /**
+     * 检查 input 中是否包含了 fields 中的所有属性值，
+     * 且所有属性值都是通过了非空合法检查，包括 String, JsonObject, JsonArray 等
+     *
+     * @param input  待检查的对象
+     * @param fields 属性列表
+     *
+     * @return 是否包含了 fields 中的所有属性值
+     */
+    public static boolean isIn(final JsonObject input, final String... fields) {
+        return HJson.isIn(input, fields);
+    }
+
+    /**
+     * 检查 input 中是否包含了 fields 中的所有属性值，
+     * 且所有属性值都是通过了非空合法检查，包括 String, JsonObject, JsonArray 等
+     *
+     * @param input  待检查的对象
+     * @param fields 属性列表
+     *
+     * @return 是否包含了 fields 中的所有属性值
+     */
+    public static boolean isIn(final JsonObject input, final Set<String> fields) {
+        return HJson.isIn(input, fields.toArray(new String[]{}));
+    }
+
+    /**
+     * 检查 input 中是否包含了 fields 中的所有属性值，
+     * 且所有属性值都是通过了非空合法检查，包括 String, JsonObject, JsonArray 等
+     *
+     * @param input  待检查的对象
+     * @param fields 属性列表
+     *
+     * @return 是否包含了 fields 中的所有属性值
+     */
+    public static boolean isIn(final JsonObject input, final List<String> fields) {
+        return HJson.isIn(input, fields.toArray(new String[]{}));
     }
 }

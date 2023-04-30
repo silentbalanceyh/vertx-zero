@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -487,6 +488,30 @@ class _Element extends _EDS {
         return CZip.zip(source, target);
     }
 
+    /**
+     * 集合和哈希表的拉平操作，只提取集合中包含的元素
+     *
+     * <pre><code>
+     *     Set1: key1, key2
+     *     Map2: key1 =
+     *           key2 =
+     *           key3 =
+     *     最终计算结果
+     *     Map3: key1 =
+     *           key2 =
+     * </code></pre>
+     *
+     * @param from 集合
+     * @param to   哈希表
+     * @param <K>  key 类型
+     * @param <V>  value 类型
+     *
+     * @return 拉平后的哈希表
+     */
+    public static <K, V> ConcurrentMap<K, V> elementZip(final Set<K> from, final ConcurrentMap<K, V> to) {
+        return CZip.zip(from, to);
+    }
+
     // ------------------------ 映射运算 ------------------------
 
     /**
@@ -672,5 +697,87 @@ class _Element extends _EDS {
     public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final JsonArray fieldArray) {
         final Set<String> fieldSet = HaS.toSet(fieldArray);
         return CCount.count(input, fieldSet);
+    }
+
+    // ------------------------ 查找运算 ------------------------
+
+    /**
+     * 查找JsonArray中的元素（使用 field = value 匹配）
+     *
+     * @param input JsonArray
+     * @param field 字段
+     * @param value 值
+     *
+     * @return 匹配结果
+     */
+    public static JsonObject elementFind(final JsonArray input, final String field, final Object value) {
+        return CFind.find(input, field, value);
+    }
+
+    /**
+     * 查找JsonArray中的元素（使用JsonObject执行匹配，所有键值对使用AND连接）
+     *
+     * @param input   JsonArray
+     * @param subsetQ 匹配对象
+     *
+     * @return 匹配结果
+     */
+    public static JsonObject elementFind(final JsonArray input, final JsonObject subsetQ) {
+        return CFind.find(input, subsetQ);
+    }
+
+    /**
+     * 查找列表中的元素（使用matchFn执行匹配）
+     *
+     * @param list    列表
+     * @param matchFn 匹配函数
+     * @param <T>     列表元素类型
+     *
+     * @return 匹配结果
+     */
+    public static <T> T elementFind(final List<T> list, final Predicate<T> matchFn) {
+        return CFind.find(list, matchFn);
+    }
+    // ------------------------ 拉平压缩运算 ------------------------
+
+    /**
+     * 将带有二维结构的JsonArray拉平为一维结构
+     * <pre><code>
+     *     [[a,b],[c]] -> [a,b,c]
+     * </code></pre>
+     *
+     * @param input 输入JsonArray
+     *
+     * @return 拉平后的JsonArray
+     */
+    public static JsonArray elementFlat(final JsonArray input) {
+        return CFlat.flat(input);
+    }
+
+    /**
+     * 将一个 List 集合（每个元素都是 ConcurrentMap<K, List<V>>）拉平成一个 ConcurrentMap<K, List<V>> 集合
+     * <pre><code>
+     *     [
+     *        k = [k1, k2],
+     *        a = [a1],
+     *        k = [k3],
+     *        a = [a2],
+     *     ]
+     *     ==>
+     *     [
+     *        k = [k1, k2, k3, k4],
+     *        a = [a1, a2]
+     *     ]
+     * </code></pre>
+     *
+     * @param dataList List 集合
+     * @param <K>      Key 类型
+     * @param <V>      Value 类型
+     *
+     * @return 拉平后的 ConcurrentMap<K, List<V>> 集合
+     */
+
+    public static <K, V> ConcurrentMap<K, List<V>> elementFlat(final List<ConcurrentMap<K, List<V>>> dataList) {
+        return CFlat.flat(dataList);
     }
 }

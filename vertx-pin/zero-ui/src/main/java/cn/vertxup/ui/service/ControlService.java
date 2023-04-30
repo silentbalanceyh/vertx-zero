@@ -5,6 +5,7 @@ import cn.vertxup.ui.domain.tables.daos.UiVisitorDao;
 import cn.vertxup.ui.domain.tables.pojos.UiControl;
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
 import io.horizon.spi.ui.UiHunter;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +13,6 @@ import io.vertx.tp.ui.cv.em.ControlType;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -74,7 +74,7 @@ public class ControlService implements ControlStub {
          */
         final JsonObject criteria = Ux.whereAnd();
         criteria.put(KName.TYPE, controlType.name());
-        Ut.elementCopy(criteria, params,
+        Ut.valueCopy(criteria, params,
             KName.SIGMA,
             KName.IDENTIFIER,
             KName.Ui.PAGE,

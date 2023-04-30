@@ -54,4 +54,16 @@ final class TNumeric {
         return Objects.nonNull(literal)
             && TIs.isMatch(literal, VString.REGEX.DECIMAL_NEGATIVE);
     }
+
+    static boolean isIn(final Integer value, final Integer min, final Integer max) {
+        // min / max = null
+        if (null == min && null == max) {
+            return true;
+        } else if (null != min && null != max) {
+            return min <= value && value <= max;
+        } else {
+            return ((null != min) && min <= value) ||
+                ((null != max) && value <= max);
+        }
+    }
 }

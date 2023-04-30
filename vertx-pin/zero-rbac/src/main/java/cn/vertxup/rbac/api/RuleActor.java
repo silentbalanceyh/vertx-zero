@@ -133,7 +133,7 @@ public class RuleActor {
 
     private JsonObject valueView(final JsonObject viewData, final String userKey, final JsonObject eachJ) {
         final JsonObject resourceJ = eachJ.copy();
-        Ut.elementCopy(resourceJ, viewData,
+        Ut.valueCopy(resourceJ, viewData,
             KName.SIGMA, KName.LANGUAGE, KName.OWNER, KName.OWNER_TYPE
         );
         resourceJ.put(KName.NAME, resourceJ.getValue(KName.VIEW));

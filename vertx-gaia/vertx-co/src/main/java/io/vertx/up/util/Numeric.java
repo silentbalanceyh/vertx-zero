@@ -1,9 +1,9 @@
 package io.vertx.up.util;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.math.BigDecimal;
 
@@ -38,17 +38,5 @@ final class Numeric {
             }
             return null == returnValue ? null : (T) returnValue;
         }, source, field, clazz);
-    }
-
-    static boolean isRange(final Integer value, final Integer min, final Integer max) {
-        // min / max = null
-        if (null == min && null == max) {
-            return true;
-        } else if (null != min && null != max) {
-            return min <= value && value <= max;
-        } else {
-            return ((null != min) && min <= value) ||
-                ((null != max) && value <= max);
-        }
     }
 }

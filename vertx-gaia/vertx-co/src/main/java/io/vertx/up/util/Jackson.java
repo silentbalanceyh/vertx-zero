@@ -291,28 +291,6 @@ final class Jackson {
     }
 
     // ---------------------- Json Tool ----------------------------
-    static JsonObject jsonMerge(final JsonObject target, final JsonObject source, final boolean isRef) {
-        final JsonObject reference = isRef ? target : target.copy();
-        reference.mergeIn(source, true);
-        return reference;
-    }
-
-    static JsonObject jsonAppend(final JsonObject target, final JsonObject source, final boolean isRef) {
-        final JsonObject reference = isRef ? target : target.copy();
-        source.fieldNames().stream()
-            .filter(field -> !reference.containsKey(field))
-            .forEach(field -> reference.put(field, source.getValue(field)));
-        return reference;
-    }
-
-    static void jsonCopy(final JsonObject target, final JsonObject source, final String... fields) {
-        Arrays.stream(fields).forEach(field -> Fn.runAt(() -> {
-            final Object value = source.getValue(field);
-            if (Objects.nonNull(value)) {
-                target.put(field, value);
-            }
-        }, target, source, field));
-    }
 
     static String aiJArray(final String literal) {
         if (literal.contains(VString.QUOTE_DOUBLE)) {

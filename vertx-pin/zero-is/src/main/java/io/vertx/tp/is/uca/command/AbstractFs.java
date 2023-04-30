@@ -76,7 +76,7 @@ public abstract class AbstractFs implements Fs {
 
     protected JsonObject initialize(final JsonObject data, final JsonObject initialize) {
         final JsonObject directoryJ = new JsonObject();
-        Ut.elementCopy(directoryJ, data,
+        Ut.valueCopy(directoryJ, data,
             // key for inserted
             KName.KEY,
             // category, name, storePath

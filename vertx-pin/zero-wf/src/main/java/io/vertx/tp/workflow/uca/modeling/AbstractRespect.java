@@ -52,7 +52,7 @@ public abstract class AbstractRespect implements Respect {
             }
 
             // All information came from
-            Ut.elementCopy(json, params,
+            Ut.valueCopy(json, params,
                 KName.UPDATED_BY,
                 KName.UPDATED_AT,
                 KName.ACTIVE,

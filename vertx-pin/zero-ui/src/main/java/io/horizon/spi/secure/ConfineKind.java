@@ -49,7 +49,7 @@ public class ConfineKind implements Confine {
         } else if (value instanceof final JsonObject exprJ) {
             condition.mergeIn(Ut.fromExpression(exprJ, request), true);
         }
-        Ut.elementCopy(condition, request, KName.VIEW_ID, KName.SIGMA);
+        Ut.valueCopy(condition, request, KName.VIEW_ID, KName.SIGMA);
         LOG.View.info(this.getClass(), "( Kind ) Visitant unique query condition: {0}", condition);
         return Ux.future(condition);
     }

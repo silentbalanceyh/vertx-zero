@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 /**
  * @author lang : 2023/4/28
  */
-class _EDS extends _Color {
+class _EDS extends _Compare {
     /**
      * MD5加密算法（全大写）
      *

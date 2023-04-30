@@ -80,7 +80,7 @@ public class AptArray implements Serializable {
                     this.replace.add(replaced);
                     /* Appended */
                     final JsonObject appended = new JsonObject();
-                    Ut.elementAppend(appended, element, found);
+                    Ut.valueAppend(appended, element, found);
                     this.append.add(appended);
                 }
             }

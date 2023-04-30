@@ -57,7 +57,7 @@ public class ExColumnApeakMy extends Anchoret<ApeakMy> implements ApeakMy {
         final Vis vis = Vis.smart(viewData.getValue(KName.VIEW));
         owner.bind(vis);
         /* Two Params: projection, criteria, rows */
-        Ut.elementCopy(viewData, viewInput,
+        Ut.valueCopy(viewData, viewInput,
             Qr.KEY_PROJECTION,
             Qr.KEY_CRITERIA,
             KName.Rbac.ROWS

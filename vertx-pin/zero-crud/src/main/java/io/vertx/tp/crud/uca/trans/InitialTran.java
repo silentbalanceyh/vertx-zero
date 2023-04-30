@@ -43,7 +43,7 @@ class InitialTran implements Tran {
         // Arguments Processing
         final JsonObject args = Ix.onParameters(in);
         final JsonObject parsed = Ut.fromExpression(exprTpl, args);
-        final JsonObject appended = Ut.elementAppend(data, parsed);
+        final JsonObject appended = Ut.valueAppend(data, parsed);
         data.mergeIn(appended, true);
     }
 }

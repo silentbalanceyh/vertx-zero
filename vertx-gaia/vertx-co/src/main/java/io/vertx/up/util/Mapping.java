@@ -14,28 +14,10 @@ import java.util.function.BinaryOperator;
  * [],[],[],[]
  * Mapped by field here for different usage
  */
-class Epsilon {
+class Mapping {
 
     static String vQrField(final String field, final String strOp) {
         return Ut.isNil(strOp) ? field : field + VString.COMMA + strOp;
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> T vValue(final JsonObject item, final String field, final Class<T> clazz) {
-        if (Ut.isNil(item)) {
-            return null;
-        } else {
-            final Object value = item.getValue(field);
-            if (Objects.isNull(value)) {
-                return null;
-            } else {
-                if (clazz == value.getClass()) {
-                    return (T) value;
-                } else {
-                    return null;
-                }
-            }
-        }
     }
 
     // ------------------------------ 带映射专用方法 ----------------------------

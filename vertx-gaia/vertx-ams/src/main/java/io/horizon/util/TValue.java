@@ -109,6 +109,24 @@ class TValue {
     }
 
     @SuppressWarnings("unchecked")
+    static <T> T valueT(final JsonObject item, final String field, final Class<T> clazz) {
+        if (TIs.isNil(item)) {
+            return null;
+        } else {
+            final Object value = item.getValue(field);
+            if (Objects.isNull(value)) {
+                return null;
+            } else {
+                if (clazz == value.getClass()) {
+                    return (T) value;
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     static <T> T vT(final String literal, final Class<?> type) {
         if (TIs.isNil(literal)) {
             return null;

@@ -99,7 +99,7 @@ class AptSingle implements AptOp<JsonObject> {
         this.replaced.mergeIn(current, true);
 
         this.appended.clear();
-        Ut.elementAppend(this.appended, original, current);
+        Ut.valueAppend(this.appended, original, current);
         // Default situation, Overwrite ( Merge )
         this.combine.put(ChangeFlag.UPDATE, this.replaced);
     }
