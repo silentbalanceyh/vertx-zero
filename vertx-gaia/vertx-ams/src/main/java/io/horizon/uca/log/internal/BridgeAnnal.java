@@ -1,5 +1,6 @@
 package io.horizon.uca.log.internal;
 
+import io.horizon.eon.VMessage;
 import io.horizon.spi.HorizonIo;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
@@ -29,7 +30,9 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
         Class<?> inject = Objects.isNull(io) ? null : io.ofAnnal();
         if (null == inject) {
             inject = Log4JAnnal.class;
-            // LOGGER.info(VMessage.Annal.INTERNAL, clazz.getName());
+            LOGGER.debug(VMessage.Annal.INTERNAL, clazz.getName());
+        } else {
+            LOGGER.debug(VMessage.Annal.CONFIGURED, inject.getName(), clazz.getName());
         }
         final Class<?> cacheKey = inject;
         this.logger = OUTED.computeIfAbsent(clazz, (key) -> HaS.instance(cacheKey, key));
