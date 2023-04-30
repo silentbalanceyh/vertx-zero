@@ -1,6 +1,7 @@
 package io.vertx.up.fn;
 
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
@@ -13,6 +14,26 @@ import java.util.function.Supplier;
  * @author lang : 2023/5/1
  */
 class Of {
+    @SuppressWarnings("unchecked")
+    private static <I, T> Future<T> ifDefault(final I input, final Future<T> future) {
+        if (Objects.isNull(input)) {
+            return Future.succeededFuture();
+        }
+        if (input instanceof final JsonArray array) {
+            // JsonArray Null Checking
+            if (array.isEmpty()) {
+                final T emptyA = (T) new JsonArray();
+                return Future.succeededFuture(emptyA);
+            }
+        } else if (input instanceof final JsonObject object) {
+            // JsonObject Null Checking
+            if (Ut.isNil(object)) {
+                final T emptyJ = (T) new JsonObject();
+                return Future.succeededFuture(emptyJ);
+            }
+        }
+        return future;
+    }
 
     static <T, V> Consumer<JsonObject> ofField(final String field, final Function<V, T> executor) {
         return input -> {
@@ -28,7 +49,7 @@ class Of {
 
     // ------------------------------- 异步处理 -----------------
     static <I, T> Function<I, Future<T>> ofNil(final Function<I, Future<T>> executor) {
-        return input -> If.ifDefault(input, executor.apply(input));
+        return input -> ifDefault(input, executor.apply(input));
     }
 
     static <I, T> Function<I, Future<T>> ofNil(final Supplier<Future<T>> supplier, final Function<I, Future<T>> executor) {
@@ -59,7 +80,7 @@ class Of {
     }
 
     static <I, T> Function<I, Future<T>> ofNull(final Function<I, T> executor) {
-        return input -> If.ifDefault(input, Future.succeededFuture(executor.apply(input)));
+        return input -> ifDefault(input, Future.succeededFuture(executor.apply(input)));
     }
 
     static <T> Function<T[], Future<T[]>> ofEmpty(final Function<T[], Future<T[]>> executor) {

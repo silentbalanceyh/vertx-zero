@@ -147,10 +147,4 @@ public final class Fn extends _Out {
     public static <T> void outQr(final T condition, final Class<?> clazz) {
         outOr(condition, clazz, VMessage.Fn.PROGRAM_QR);
     }
-
-    // ------ Specification for JsonFormat
-    public static <T> T runOut(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
-        return Warning.execRun(supplier, runCls, args);
-    }
-
 }

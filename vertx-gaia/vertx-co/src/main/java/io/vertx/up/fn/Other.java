@@ -1,5 +1,6 @@
 package io.vertx.up.fn;
 
+import io.horizon.exception.AbstractException;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._500InternalServerException;
 import io.vertx.core.Future;
@@ -49,5 +50,19 @@ final class Other {
     static <T> Future<T> otherwise(final Class<? extends WebException> clazz, final Object... args) {
         final WebException error = Ut.failWeb(clazz, args);
         return Future.failedFuture(error);
+    }
+
+    public static <T> T failRun(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
+        T ret = null;
+        try {
+            ret = supplier.get();
+        } catch (final Throwable ex) {
+            final Object[] argument = Ut.elementAdd(args, ex);
+            final AbstractException error = Ut.instance(runCls, argument);
+            if (null != error) {
+                throw error;
+            }
+        }
+        return ret;
     }
 }
