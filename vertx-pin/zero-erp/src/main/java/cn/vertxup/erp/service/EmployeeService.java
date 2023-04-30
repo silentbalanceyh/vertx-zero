@@ -160,9 +160,9 @@ public class EmployeeService implements EmployeeStub {
     private Future<JsonObject> fetchRef(final JsonObject input) {
         return this.switchJ(input, ExUser::rapport).compose(userJ -> {
             // Fix: https://gitee.com/silentbalanceyh/vertx-zero-scaffold/issues/I6W2KQ
-            if(Ut.isNotNil(userJ)){
+            if (Ut.isNotNil(userJ)) {
                 final String userId = Ut.valueString(userJ, KName.KEY);
-                if(Ut.isNotNil(userId)){
+                if (Ut.isNotNil(userId)) {
                     input.put(KName.USER_ID, userId);
                 }
             }
@@ -185,7 +185,7 @@ public class EmployeeService implements EmployeeStub {
             final Set<String> keys = Ut.valueSetString(input, KName.KEY);
             return user.rapport(keys);
         }).compose(employee -> {
-            final JsonArray merged = Ut.elementZip(input, employee, KName.KEY, KName.MODEL_KEY);
+            final JsonArray merged = Ut.elementJoin(input, employee, KName.KEY, KName.MODEL_KEY);
             return Ux.future(merged);
         });
     }

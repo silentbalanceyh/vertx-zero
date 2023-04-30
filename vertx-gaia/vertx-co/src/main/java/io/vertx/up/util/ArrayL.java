@@ -2,15 +2,11 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -40,28 +36,6 @@ final class ArrayL {
         }, list, fnFilter);
     }
 
-    static <T, V> List<T> remove(final List<T> list, final T entity, final Function<T, V> keyFn) {
-        if (Objects.isNull(entity)) {
-            return list;
-        }
-        final V keyAdd = keyFn.apply(entity);
-        if (Objects.isNull(keyAdd)) {
-            return list;
-        }
-        for (int idx = VValue.IDX; idx < list.size(); idx++) {
-            final T original = list.get(idx);
-            if (Objects.isNull(original)) {
-                continue;
-            }
-            final V keyOld = keyFn.apply(original);
-            if (keyAdd.equals(keyOld)) {
-                list.remove(original);
-                break;
-            }
-        }
-        return list;
-    }
-
     static <K, T, V> ConcurrentMap<K, V> reduce(final ConcurrentMap<K, T> from, final ConcurrentMap<T, V> to) {
         final ConcurrentMap<K, V> result = new ConcurrentHashMap<>();
         from.forEach((key, middle) -> {
@@ -84,75 +58,6 @@ final class ArrayL {
         return result;
     }
 
-    static <F, T> ConcurrentMap<F, T> zipper(final List<F> keys, final List<T> values) {
-        final ConcurrentMap<F, T> result = new ConcurrentHashMap<>();
-        Ut.itList(keys, (key, index) -> {
-            final T value = getEnsure(values, index);
-            // Ignore for null element
-            if (null != key && null != value) {
-                result.put(key, value);
-            }
-        });
-        return result;
-    }
-
-    static ConcurrentMap<String, Integer> count(final JsonArray array, final Set<String> fields) {
-        final ConcurrentMap<String, Integer> counter = new ConcurrentHashMap<>();
-        fields.forEach(field -> {
-            final Set<String> set = HaS.valueSetString(array, field);
-            counter.put(field, set.size());
-        });
-        return counter;
-    }
-
-    static <K, V, E> ConcurrentMap<K, V> zipper(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        final ConcurrentMap<K, V> ret = new ConcurrentHashMap<>();
-        if (0 < object.size()) {
-            for (final E item : object) {
-                if (null != item) {
-                    final K key = keyFn.apply(item);
-                    final V value = valueFn.apply(item);
-                    if (null != key && null != value) {
-                        ret.put(key, value);
-                    }
-                }
-            }
-        }
-        return ret;
-    }
-
-    static JsonObject zipper(final JsonArray array, final String field) {
-        final JsonObject grouped = new JsonObject();
-        array.stream().map(item -> (JsonObject) item)
-            .filter(Objects::nonNull)
-            .filter(item -> Objects.nonNull(item.getValue(field)))
-            .forEach(item -> grouped.put(item.getString(field), item.copy()));
-        return grouped;
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> JsonArray zipper(final JsonArray array, final String fieldFrom,
-                                final String fieldOn,
-                                final ConcurrentMap<T, JsonArray> grouped, final String fieldTo) {
-        Ut.itJArray(array).forEach(json -> {
-            final T fieldV = (T) json.getValue(fieldFrom, null);
-            final JsonArray data;
-            if (Objects.nonNull(fieldV)) {
-                data = grouped.getOrDefault(fieldV, new JsonArray());
-            } else {
-                data = new JsonArray();
-            }
-            if (Ut.isNil(fieldTo)) {
-                json.put(fieldOn, data);
-            } else {
-                final JsonArray replaced = new JsonArray();
-                Ut.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
-                json.put(fieldOn, replaced);
-            }
-        });
-        return array;
-    }
-
     static <T, V> Set<V> set(final List<T> listT, final Function<T, V> executor) {
         final Set<V> valueSet = new HashSet<>();
         listT.stream()
@@ -161,21 +66,6 @@ final class ArrayL {
             .filter(Objects::nonNull)
             .forEach(valueSet::add);
         return valueSet;
-    }
-
-    static <K, V> ConcurrentMap<V, Set<K>> revert(final ConcurrentMap<K, V> map) {
-        final ConcurrentMap<V, Set<K>> resultMap = new ConcurrentHashMap<>();
-        map.forEach((k, v) -> {
-            final Set<K> valueSet;
-            if (resultMap.containsKey(v)) {
-                valueSet = resultMap.get(v);
-            } else {
-                valueSet = new HashSet<>();
-            }
-            valueSet.add(k);
-            resultMap.put(v, valueSet);
-        });
-        return resultMap;
     }
 
     static <K, V> ConcurrentMap<K, List<V>> compress(final List<ConcurrentMap<K, List<V>>> dataList) {
@@ -197,197 +87,5 @@ final class ArrayL {
             }
         }));
         return resultMap;
-    }
-
-    static <K, V, E> ConcurrentMap<K, List<V>> group(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        final ConcurrentMap<K, List<V>> ret = new ConcurrentHashMap<>();
-        if (Objects.nonNull(object) && !object.isEmpty()) {
-            for (final E item : object) {
-                if (null != item) {
-                    final K key = keyFn.apply(item);
-                    if (null != key) {
-                        // Extract List
-                        List<V> reference = null;
-                        if (ret.containsKey(key)) {
-                            reference = ret.get(key);
-                        }
-                        // Double check
-                        if (null == reference) {
-                            reference = new ArrayList<>();
-                        }
-                        final V value = valueFn.apply(item);
-                        if (null != value) {
-                            reference.add(value);
-                        }
-                        // Replace finally
-                        ret.put(key, reference);
-                    }
-                }
-            }
-        }
-        return ret;
-    }
-
-    static <K, V, E> ConcurrentMap<K, V> map(final List<E> list, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        final ConcurrentMap<K, V> grouped = new ConcurrentHashMap<>();
-        if (Objects.nonNull(list)) {
-            list.stream().filter(Objects::nonNull).forEach(each -> {
-                final K key = keyFn.apply(each);
-                final V value = valueFn.apply(each);
-                if (Objects.nonNull(key) && Objects.nonNull(value)) {
-                    grouped.put(key, value);
-                }
-            });
-        }
-        return grouped;
-    }
-
-    static ConcurrentMap<String, JsonObject> map(final JsonArray data, final String field) {
-        final ConcurrentMap<String, JsonObject> mapped = new ConcurrentHashMap<>();
-        HaS.itJArray(data).forEach(json -> {
-            final String key = json.getString(field);
-            if (Ut.isNotNil(key)) {
-                mapped.put(key, json);
-            }
-        });
-        return mapped;
-    }
-
-    @SuppressWarnings("unchecked")
-    static <T> ConcurrentMap<String, T> map(final JsonArray data, final String field, final String to) {
-        final ConcurrentMap<String, T> mapped = new ConcurrentHashMap<>();
-        HaS.itJArray(data).forEach(json -> {
-            final String key = json.getString(field);
-            /*
-             * Fix Issue:
-             * java.lang.NullPointerException
-             *      at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
-             *      at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
-             */
-            if (Ut.isNotNil(key) && Objects.nonNull(json.getValue(to))) {
-                mapped.put(key, (T) json.getValue(to));
-            }
-        });
-        return mapped;
-    }
-
-    static ConcurrentMap<String, JsonArray> group(final JsonArray source, final Function<JsonObject, String> executor) {
-        final ConcurrentMap<String, JsonArray> ret = new ConcurrentHashMap<>();
-        if (Objects.nonNull(source) && !source.isEmpty()) {
-            source.stream().filter(Objects::nonNull)
-                .map(item -> (JsonObject) item)
-                .filter(item -> Objects.nonNull(executor.apply(item)))
-                .forEach(item -> {
-                    /*
-                     * JsonArray get
-                     */
-                    final String key = executor.apply(item);
-                    /*
-                     * `key` calculated here for map final `key`
-                     */
-                    JsonArray reference = ret.get(key);
-                    if (Objects.isNull(reference)) {
-                        reference = new JsonArray();
-                        ret.put(key, reference);
-                    }
-                    /*
-                     * Add new Object
-                     */
-                    reference.add(item.copy());
-                });
-        }
-        return ret;
-    }
-
-    static ConcurrentMap<String, JsonArray> group(final JsonArray source, final String field) {
-        return group(source, item -> item.getString(field));
-    }
-
-    static List<JsonArray> group(final JsonArray source, final Integer size) {
-        final List<JsonArray> groupData = new ArrayList<>();
-        final JsonArray container = new JsonArray();
-        Ut.itJArray(source, (json, index) -> {
-            container.add(json);
-            if (0 == (index + 1) % size) {
-                //使用了copy方法，以避免紧接着的第二步清空刚添加的container；下方的if内同理
-                groupData.add(container.copy());
-                container.clear();
-            }
-        });
-        if (!container.isEmpty()) {
-            groupData.add(container.copy());
-            container.clear();
-        }
-        return groupData;
-    }
-
-    static <K, T, V> ConcurrentMap<K, V> zipper(final ConcurrentMap<K, T> source, final ConcurrentMap<T, V> target) {
-        final ConcurrentMap<K, V> resultMap = new ConcurrentHashMap<>();
-        if (Objects.nonNull(source) && Objects.nonNull(target)) {
-            source.forEach((k, t) -> {
-                final V value = target.get(t);
-                if (Objects.nonNull(value)) {
-                    resultMap.put(k, value);
-                }
-            });
-        }
-        return resultMap;
-    }
-
-    static <F, S, T> List<T> zipper(final List<F> first, final List<S> second, final BiFunction<F, S, T> function) {
-        final List<T> result = new ArrayList<>();
-        Ut.itList(first, (key, index) -> {
-            final S value = getEnsure(second, index);
-            final T merged = function.apply(key, value);
-            if (null != merged) {
-                result.add(merged);
-            }
-        });
-        return result;
-    }
-
-    /*
-     * Complex calculation for
-     * k1 = v1,
-     * k2 = v2,
-     * k3 = v1,
-     * ....
-     *
-     * convert to
-     * v1 = (k1, k3)
-     * v2 = (k2)
-     *
-     * The function could convert
-     * (k1, k3) -> vv1
-     * (k2) -> vv2
-     */
-    static <K, V, R> ConcurrentMap<V, R> inverse(final ConcurrentMap<K, V> input, final Function<Set<K>, R> function) {
-        final ConcurrentMap<V, R> inverseMap = new ConcurrentHashMap<>();
-        if (Objects.nonNull(input) && !input.isEmpty()) {
-            final ConcurrentMap<V, Set<K>> valueMap = new ConcurrentHashMap<>();
-            input.forEach((k, v) -> {
-                if (Objects.nonNull(k) && Objects.nonNull(v)) {
-                    final Set<K> kSet;
-                    if (valueMap.containsKey(v)) {
-                        kSet = valueMap.get(v);
-                    } else {
-                        kSet = new HashSet<>();
-                        valueMap.put(v, kSet);
-                    }
-                    kSet.add(k);
-                }
-            });
-            valueMap.forEach((v, kSet) -> {
-                final R r = function.apply(kSet);
-                if (Objects.nonNull(r)) {
-                    inverseMap.put(v, r);
-                }
-            });
-        }
-        return inverseMap;
-    }
-
-    private static <T> T getEnsure(final List<T> list, final int index) {
-        return (0 <= index) && (index < list.size()) ? list.get(index) : null;
     }
 }

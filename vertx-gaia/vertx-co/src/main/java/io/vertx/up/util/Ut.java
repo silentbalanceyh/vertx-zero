@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
 public final class Ut extends HaS {
@@ -52,14 +51,6 @@ public final class Ut extends HaS {
         return ArrayJ.flat(input);
     }
 
-    public static <T> List<T> elementRemove(final List<T> list, final T entity, final String field) {
-        return ArrayL.remove(list, entity, item -> Ut.field(item, field));
-    }
-
-    public static <T> List<T> elementRemove(final List<T> list, final T entity, final Function<T, String> keyFn) {
-        return ArrayL.remove(list, entity, keyFn);
-    }
-
     public static JsonArray elementClimb(final JsonArray children, final JsonArray tree) {
         return ArrayJ.climb(children, tree, null);
     }
@@ -88,108 +79,19 @@ public final class Ut extends HaS {
         return ArrayL.find(list, fnFilter);
     }
 
-    public static JsonArray elementZip(final JsonArray source, final JsonArray target, final String sourceKey, final String targetKey) {
-        return Jackson.mergeZip(source, target, sourceKey, targetKey);
-    }
-
-    public static JsonArray elementZip(final JsonArray source, final JsonArray target, final String bothKey) {
-        return Jackson.mergeZip(source, target, bothKey, bothKey);
-    }
-
-    public static JsonArray elementZip(final JsonArray source, final JsonArray target) {
-        return Jackson.mergeZip(source, target, "key", "key");
-    }
-
-    public static <F, S, T> List<T> elementZip(final List<F> first, final List<S> second, final BiFunction<F, S, T> function) {
-        return ArrayL.zipper(first, second, function);
-    }
-
-    public static <F, T> ConcurrentMap<F, T> elementZip(final List<F> keys, final List<T> values) {
-        return ArrayL.zipper(keys, values);
-    }
-
-    public static <K, V, E> ConcurrentMap<K, V> elementZip(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return ArrayL.zipper(object, keyFn, valueFn);
-    }
-
-    public static <K, V, E> ConcurrentMap<K, V> elementZip(final E[] object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return ArrayL.zipper(Arrays.asList(object), keyFn, valueFn);
-    }
-
-    public static <K, T, V> ConcurrentMap<K, V> elementZip(final ConcurrentMap<K, T> source, final ConcurrentMap<T, V> target) {
-        return ArrayL.zipper(source, target);
-    }
-
-    public static JsonObject elementZip(final JsonArray array, final String field) {
-        return ArrayL.zipper(array, field);
-    }
-
     public static JsonArray elementZip(final JsonArray array, final String fieldKey,
                                        final String fieldOn, final ConcurrentMap<String, JsonArray> grouped) {
-        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, null);
+        return Jackson.zip(array, fieldKey, fieldOn, grouped, null);
     }
 
     public static JsonArray elementZip(final JsonArray array, final String fieldKey,
                                        final String fieldOn,
                                        final ConcurrentMap<String, JsonArray> grouped, final String fieldTo) {
-        return ArrayL.zipper(array, fieldKey, fieldOn, grouped, fieldTo);
-    }
-
-    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final String... fields) {
-        return ArrayL.count(input, Arrays.stream(fields).collect(Collectors.toSet()));
-    }
-
-    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final Set<String> fieldSet) {
-        return ArrayL.count(input, fieldSet);
-    }
-
-    public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final JsonArray fieldArray) {
-        final Set<String> fieldSet = toSet(fieldArray);
-        return ArrayL.count(input, fieldSet);
-    }
-
-    public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return ArrayL.group(object, keyFn, valueFn);
-    }
-
-    public static <K, V, E> ConcurrentMap<K, List<V>> elementGroup(final Collection<E> object, final Function<E, K> keyFn) {
-        return ArrayL.group(object, keyFn, item -> (V) item);
-    }
-
-    public static <K, V> ConcurrentMap<K, V> elementMap(final List<V> dataList, final Function<V, K> keyFn) {
-        return ArrayL.map(dataList, keyFn, item -> item);
-    }
-
-    public static <K, V, E> ConcurrentMap<K, V> elementMap(final List<E> dataList, final Function<E, K> keyFn, final Function<E, V> valueFn) {
-        return ArrayL.map(dataList, keyFn, valueFn);
-    }
-
-    public static ConcurrentMap<String, JsonObject> elementMap(final JsonArray dataArray, final String field) {
-        return ArrayL.map(dataArray, field);
-    }
-
-    public static <T> ConcurrentMap<String, T> elementMap(final JsonArray dataArray, final String field, final String to) {
-        return ArrayL.map(dataArray, field, to);
-    }
-
-    public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final String field) {
-        return ArrayL.group(source, field);
-    }
-
-    public static List<JsonArray> elementGroup(final JsonArray source, final Integer size) {
-        return ArrayL.group(source, size);
-    }
-
-    public static ConcurrentMap<String, JsonArray> elementGroup(final JsonArray source, final Function<JsonObject, String> executor) {
-        return ArrayL.group(source, executor);
+        return Jackson.zip(array, fieldKey, fieldOn, grouped, fieldTo);
     }
 
     public static <K, V> ConcurrentMap<K, List<V>> elementCompress(final List<ConcurrentMap<K, List<V>>> dataList) {
         return ArrayL.compress(dataList);
-    }
-
-    public static <K, V> ConcurrentMap<V, Set<K>> elementRevert(final ConcurrentMap<K, V> dataMap) {
-        return ArrayL.revert(dataMap);
     }
 
     public static <T, V> Set<V> elementSet(final List<T> listT, final Function<T, V> executor) {
@@ -201,13 +103,6 @@ public final class Ut extends HaS {
      * 1) inverseCount
      * 2) inverseSet
      */
-    public static <K, V> ConcurrentMap<V, Integer> inverseCount(final ConcurrentMap<K, V> input) {
-        return ArrayL.inverse(input, Set::size);
-    }
-
-    public static <K, V> ConcurrentMap<V, Set<K>> inverseSet(final ConcurrentMap<K, V> input) {
-        return ArrayL.inverse(input, set -> set);
-    }
 
     /*
      * Encryption method for string

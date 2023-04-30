@@ -12,16 +12,16 @@ import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.ChangeFlag;
+import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
-import io.reactivex.Observable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Lookup the json tree data
@@ -156,28 +156,28 @@ final class Jackson {
             () -> null);
     }
 
-    static JsonArray mergeZip(final JsonArray source, final JsonArray target,
-                              final String sourceKey, final String targetKey) {
-        final JsonArray result = new JsonArray();
-        Fn.jvmAt(() -> Observable.fromIterable(source)
-            .filter(Objects::nonNull)
-            .map(item -> (JsonObject) item)
-            .map(item -> item.mergeIn(Jackson.findByKey(target, targetKey, item.getValue(sourceKey))))
-            .subscribe(result::add).dispose());
-        return result;
+    @SuppressWarnings("unchecked")
+    static <T> JsonArray zip(final JsonArray array, final String fieldFrom,
+                             final String fieldOn,
+                             final ConcurrentMap<T, JsonArray> grouped, final String fieldTo) {
+        HaS.itJArray(array).forEach(json -> {
+            final T fieldV = (T) json.getValue(fieldFrom, null);
+            final JsonArray data;
+            if (Objects.nonNull(fieldV)) {
+                data = grouped.getOrDefault(fieldV, new JsonArray());
+            } else {
+                data = new JsonArray();
+            }
+            if (HaS.isNil(fieldTo)) {
+                json.put(fieldOn, data);
+            } else {
+                final JsonArray replaced = new JsonArray();
+                HaS.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
+                json.put(fieldOn, replaced);
+            }
+        });
+        return array;
     }
-
-    private static JsonObject findByKey(final JsonArray source,
-                                        final String key,
-                                        final Object value) {
-        return Fn.failOr(() -> Observable.fromIterable(source)
-            .filter(Objects::nonNull)
-            .map(item -> (JsonObject) item)
-            .filter(item -> null != item.getValue(key))
-            .filter(item -> value == item.getValue(key) || item.getValue(key).equals(value))
-            .first(new JsonObject()).blockingGet(), source, key);
-    }
-
 
     static <T> String serialize(final T t) {
         return Fn.runOr(null, () -> Fn.failOr(() -> Jackson.MAPPER.writeValueAsString(t), t), t);

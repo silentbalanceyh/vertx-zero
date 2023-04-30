@@ -55,7 +55,7 @@ class IsFs {
      */
     static Future<ConcurrentMap<Fs, Set<String>>> group(final ConcurrentMap<String, String> fileMap) {
         // directoryId = Set<String> ( storePath )
-        final ConcurrentMap<String, Set<String>> directoryMap = Ut.elementRevert(fileMap);
+        final ConcurrentMap<String, Set<String>> directoryMap = Ut.inverseSet(fileMap);
 
         // Fetch directories by Set<String> ( keys )
         final JsonObject criteria = new JsonObject();

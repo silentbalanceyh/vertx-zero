@@ -27,7 +27,7 @@ public class JacksonTc extends ZeroBase {
     public void testMerge(final TestContext context) {
         final JsonArray fromData = HaS.ioJArray(this.ioString("from.json"));
         final JsonArray toData = HaS.ioJArray(this.ioString("to.json"));
-        final JsonArray result = Jackson.mergeZip(fromData, toData, "key", "id");
+        final JsonArray result = HaS.elementJoin(fromData, toData, "key", "id");
         System.out.println(result);
     }
 
