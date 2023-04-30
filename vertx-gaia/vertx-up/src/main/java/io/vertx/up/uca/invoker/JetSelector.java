@@ -1,10 +1,10 @@
 package io.vertx.up.uca.invoker;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.InvokerNullException;
 
@@ -94,7 +94,7 @@ public class JetSelector {
                 invoker = Ut.singleton(DynamicInvoker.class);
             }
         }
-        Fn.outUp(null == invoker, LOGGER,
+        Fn.outBoot(null == invoker, LOGGER,
             InvokerNullException.class, JetSelector.class,
             returnType, paramCls);
         return invoker;

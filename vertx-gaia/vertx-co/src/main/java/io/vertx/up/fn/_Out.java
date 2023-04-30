@@ -1,10 +1,8 @@
 package io.vertx.up.fn;
 
-import io.horizon.exception.AbstractException;
+import io.horizon.eon.VMessage;
 import io.horizon.exception.WebException;
 import io.vertx.core.Future;
-
-import java.util.function.Supplier;
 
 /**
  * @author lang : 2023/4/28
@@ -30,11 +28,16 @@ class _Out extends _Of {
      *
      * @return Future<T>
      */
-    public static <T> Future<T> failWeb(final Class<? extends WebException> clazz, final Object... args) {
+    public static <T> Future<T> outWeb(final Class<? extends WebException> clazz, final Object... args) {
         return Other.otherwise(clazz, args);
     }
 
-    public static <T> T failRun(final Supplier<T> supplier, final Class<? extends AbstractException> runCls, final Object... args) {
-        return Other.failRun(supplier, runCls, args);
+
+    public static <T> void outArgNull(final T condition, final Class<?> clazz) {
+        outArg(condition, clazz, VMessage.Fn.PROGRAM_NULL);
+    }
+
+    public static <T> void outArgQr(final T condition, final Class<?> clazz) {
+        outArg(condition, clazz, VMessage.Fn.PROGRAM_QR);
     }
 }

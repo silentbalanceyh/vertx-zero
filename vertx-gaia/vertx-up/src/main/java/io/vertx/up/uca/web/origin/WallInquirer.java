@@ -1,6 +1,7 @@
 package io.vertx.up.uca.web.origin;
 
 import io.horizon.eon.em.secure.AuthWall;
+import io.horizon.uca.log.Annal;
 import io.vertx.ext.web.handler.AuthorizationHandler;
 import io.vertx.tp.error.WallDuplicatedException;
 import io.vertx.tp.error.WallKeyMissingException;
@@ -13,7 +14,6 @@ import io.vertx.up.annotations.Wall;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.config.EventExtractor;
 import io.vertx.up.util.Ut;
@@ -85,7 +85,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
     private void verifyConfig(final Class<?> clazz, final Aegis reference, final String typeKey) {
         final AuthWall wall = AuthWall.from(typeKey);
         /* Wall Type Wrong */
-        Fn.outUp(Objects.isNull(wall), LOGGER, WallTypeWrongException.class,
+        Fn.outBoot(Objects.isNull(wall), LOGGER, WallTypeWrongException.class,
             this.getClass(), typeKey, clazz);
         reference.setType(wall);
         final ConcurrentMap<String, AegisItem> configMap = AegisItem.configMap();
@@ -97,7 +97,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
             /* Standard */
             reference.setDefined(Boolean.FALSE);
             final AegisItem found = configMap.getOrDefault(wall.key(), null);
-            Fn.outUp(Objects.isNull(found), LOGGER, WallKeyMissingException.class,
+            Fn.outBoot(Objects.isNull(found), LOGGER, WallKeyMissingException.class,
                 this.getClass(), wall.key(), clazz);
             reference.setItem(found);
         }
@@ -110,13 +110,13 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
     private void verifyProxy(final Class<?> clazz, final Aegis reference) {
         final Method[] methods = clazz.getDeclaredMethods();
         // Duplicated Method checking
-        Fn.outUp(this.verifyMethod(methods, Authenticate.class), LOGGER,
+        Fn.outBoot(this.verifyMethod(methods, Authenticate.class), LOGGER,
             WallMethodMultiException.class, this.getClass(),
             Authenticate.class.getSimpleName(), clazz.getName());
-        Fn.outUp(this.verifyMethod(methods, Authorized.class), LOGGER,
+        Fn.outBoot(this.verifyMethod(methods, Authorized.class), LOGGER,
             WallMethodMultiException.class, this.getClass(),
             Authorized.class.getSimpleName(), clazz.getName());
-        Fn.outUp(this.verifyMethod(methods, AuthorizedResource.class), LOGGER,
+        Fn.outBoot(this.verifyMethod(methods, AuthorizedResource.class), LOGGER,
             WallMethodMultiException.class, this.getClass(),
             AuthorizedResource.class.getSimpleName(), clazz.getName());
 
@@ -166,7 +166,7 @@ public class WallInquirer implements Inquirer<Set<Aegis>> {
         });
 
         // Duplicated adding.
-        Fn.outUp(dupSet.size() != wallClses.size(), LOGGER,
+        Fn.outBoot(dupSet.size() != wallClses.size(), LOGGER,
             WallDuplicatedException.class, this.getClass(),
             wallClses.stream().map(Class::getName).collect(Collectors.toSet()));
     }

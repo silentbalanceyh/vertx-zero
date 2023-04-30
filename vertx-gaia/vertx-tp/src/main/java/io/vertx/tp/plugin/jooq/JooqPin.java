@@ -45,7 +45,7 @@ public class JooqPin {
         final ConcurrentMap<String, Configuration> configurationMap =
             new ConcurrentHashMap<>();
 
-        Fn.outUp(Ut.isNil(config) || !config.containsKey(ZeroYml.lime.jooq.provider),
+        Fn.outBoot(Ut.isNil(config) || !config.containsKey(ZeroYml.lime.jooq.provider),
             LOGGER, JooqConfigurationException.class, JooqPin.class);
 
         if (Ut.isNotNil(config)) {

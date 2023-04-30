@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.impl.ConcurrentHashSet;
@@ -11,7 +12,6 @@ import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroHelper;
 import io.vertx.up.uca.di.DiPlugin;
 import io.vertx.up.uca.rs.Extractor;
@@ -65,7 +65,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
         }
         Verifier.modifier(clazz, this.getClass());
         // Event Source Checking
-        Fn.outUp(!clazz.isAnnotationPresent(EndPoint.class),
+        Fn.outBoot(!clazz.isAnnotationPresent(EndPoint.class),
             LOGGER, EventSourceException.class,
             this.getClass(), clazz.getName());
     }
@@ -83,7 +83,7 @@ public class EventExtractor implements Extractor<Set<Event>> {
             .map(item -> item.stream().map(Annotation::annotationType).collect(Collectors.toList()))
             .filter(item -> item.contains(Codex.class))
             .count().blockingGet();
-        Fn.outUp(methods.length < counter, LOGGER,
+        Fn.outBoot(methods.length < counter, LOGGER,
             EventCodexMultiException.class,
             this.getClass(), clazz);
         // 2.Build Set

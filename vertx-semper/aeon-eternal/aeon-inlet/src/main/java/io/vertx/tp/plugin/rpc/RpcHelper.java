@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.rpc;
 
 import io.horizon.eon.em.container.IpcType;
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.Record;
@@ -8,7 +9,6 @@ import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.exception.web._424RpcServiceException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.IpcOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;
 import io.vertx.up.util.Ut;
@@ -24,7 +24,7 @@ class RpcHelper {
 
     static Record getRecord(final JsonObject config) {
         /* Config Verify **/
-        Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(Key.RULE_KEY, config), config),
+        Fn.outBug(() -> Fn.bugAt(() -> Ruler.verify(Key.RULE_KEY, config), config),
             LOGGER);
         // Connect remote etcd to check service
         final ConcurrentMap<String, Record> registryData = ORIGIN.getRegistryData();

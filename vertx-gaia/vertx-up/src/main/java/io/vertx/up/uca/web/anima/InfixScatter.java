@@ -47,7 +47,7 @@ public class InfixScatter implements Scatter<Vertx> {
         injections.values().forEach(item -> {
             if (null != item && item.isAnnotationPresent(Plugin.class)) {
                 final Method method = findInit(item);
-                Fn.outUp(null == method, LOGGER,
+                Fn.outBoot(null == method, LOGGER,
                     PluginSpecificationException.class,
                     getClass(), item.getName());
                 Fn.failAt(() -> method.invoke(null, vertx), LOGGER);
@@ -61,7 +61,7 @@ public class InfixScatter implements Scatter<Vertx> {
             .filter(item -> item.isAnnotationPresent(Plugin.class))
             .subscribe(item -> {
                 final Method method = findInit(item);
-                Fn.outUp(null == method, LOGGER,
+                Fn.outBoot(null == method, LOGGER,
                     PluginSpecificationException.class,
                     getClass(), item.getName());
                 Fn.failAt(() -> method.invoke(null, vertx), LOGGER);

@@ -33,13 +33,13 @@ public class TpConfig implements Serializable {
     public TpConfig(final String key, final String rule) {
         final JsonObject config = TP.read();
         // Check up exception for key
-        Fn.outUp(null == config || !config.containsKey(key),
+        Fn.outBoot(null == config || !config.containsKey(key),
             LOGGER, DynamicKeyMissingException.class,
             this.getClass(), key, config);
 
         // Check up exception for JsonObject
         final Class<?> type = config.getValue(key).getClass();
-        Fn.outUp(JsonObject.class != type,
+        Fn.outBoot(JsonObject.class != type,
             LOGGER, DynamicConfigTypeException.class,
             this.getClass(), key, type);
 
@@ -49,7 +49,7 @@ public class TpConfig implements Serializable {
         this.config = Fn.runOr(new JsonObject(), () -> raw.getJsonObject(KEY_CONFIG), raw.getValue(KEY_CONFIG));
         // Verify the config data.
         if (null != rule) {
-            Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(rule, this.config), this.config), LOGGER);
+            Fn.outBug(() -> Fn.bugAt(() -> Ruler.verify(rule, this.config), this.config), LOGGER);
         }
     }
 

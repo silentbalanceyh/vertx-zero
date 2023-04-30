@@ -289,7 +289,7 @@ public class JqAnalyzer {
 
     public Field column(final String field) {
         String columnField = columnName(field);
-        Fn.outUp(null == columnField, LOGGER,
+        Fn.outBoot(null == columnField, LOGGER,
             JooqFieldMissingException.class, UxJooq.class, field, this.entityCls);
         LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
         /*
@@ -346,7 +346,7 @@ public class JqAnalyzer {
     }
 
     public <T> T copyEntity(final T target, final T updated) {
-        Fn.outUp(null == updated, LOGGER, JooqMergeException.class,
+        Fn.outBoot(null == updated, LOGGER, JooqMergeException.class,
             UxJooq.class, null == target ? null : target.getClass(), Ut.serialize(target));
         return Fn.runOr(null == target && null == updated, LOGGER, () -> null, () -> {
             final JsonObject targetJson = null == target ? new JsonObject() : Ut.serializeJson(target);

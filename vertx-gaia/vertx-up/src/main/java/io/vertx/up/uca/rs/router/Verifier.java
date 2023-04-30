@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.router;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Filler;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AnnotationRepeatException;
@@ -26,7 +26,7 @@ public class Verifier {
     @SuppressWarnings("all")
     public static void verify(final Event event) {
         final Method method = event.getAction();
-        Fn.outUp(null == method, LOGGER, EventActionNoneException.class,
+        Fn.outBoot(null == method, LOGGER, EventActionNoneException.class,
             Verifier.class, event);
         /* Specification **/
         verify(method, BodyParam.class);
@@ -47,7 +47,7 @@ public class Verifier {
         });
         final int occurs = integer.get();
 
-        Fn.outUp(1 < occurs, LOGGER, AnnotationRepeatException.class,
+        Fn.outBoot(1 < occurs, LOGGER, AnnotationRepeatException.class,
             Verifier.class, method.getName(), annoCls, occurs);
     }
 
@@ -58,7 +58,7 @@ public class Verifier {
             .collect(Collectors.toList());
 
         final int multi = annotationList.size();
-        Fn.outUp(1 < multi, LOGGER, ParamAnnotationException.class,
+        Fn.outBoot(1 < multi, LOGGER, ParamAnnotationException.class,
             Verifier.class, parameter.getName(), multi);
     }
 }

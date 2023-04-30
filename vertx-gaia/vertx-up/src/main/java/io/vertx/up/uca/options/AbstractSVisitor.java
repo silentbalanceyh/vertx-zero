@@ -24,7 +24,7 @@ public abstract class AbstractSVisitor {
         // 2. Visit the node for server, http
         final JsonObject data = this.NODE.read();
 
-        Fn.outZero(null == data || !data.containsKey(KName.SERVER), this.logger(),
+        Fn.outBug(null == data || !data.containsKey(KName.SERVER), this.logger(),
             ServerConfigException.class,
             this.getClass(), null == data ? null : data.encode());
 

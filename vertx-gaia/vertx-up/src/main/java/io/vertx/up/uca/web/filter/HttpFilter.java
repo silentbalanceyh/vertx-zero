@@ -1,12 +1,12 @@
 package io.vertx.up.uca.web.filter;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.Session;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.zero.exception.FilterContextException;
 
 import java.util.Map;
@@ -57,6 +57,6 @@ public abstract class HttpFilter implements Filter {
     }
 
     public void init() {
-        Fn.outUp(null == this.context, this.logger, FilterContextException.class, this.getClass());
+        Fn.outBoot(null == this.context, this.logger, FilterContextException.class, this.getClass());
     }
 }

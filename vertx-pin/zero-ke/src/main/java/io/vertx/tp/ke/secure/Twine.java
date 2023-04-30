@@ -20,10 +20,10 @@ import java.util.Collection;
 public interface Twine<ID> extends Tie<ID, JsonObject> {
 
     default Future<JsonArray> identAsync(final Collection<ID> keys) {
-        return Fn.failWeb(_501NotSupportException.class, this.getClass());
+        return Fn.outWeb(_501NotSupportException.class, this.getClass());
     }
 
     default Future<JsonObject> searchAsync(final String identifier, final JsonObject criteria) {
-        return Fn.failWeb(_501NotSupportException.class, this.getClass());
+        return Fn.outWeb(_501NotSupportException.class, this.getClass());
     }
 }

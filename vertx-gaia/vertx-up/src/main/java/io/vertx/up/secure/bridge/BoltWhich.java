@@ -1,6 +1,8 @@
 package io.vertx.up.secure.bridge;
 
 import io.horizon.eon.em.secure.AuthWall;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -10,9 +12,7 @@ import io.vertx.tp.error.WallProviderConflictException;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.Lee;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.Set;
@@ -103,14 +103,14 @@ class BoltWhich implements Bolt {
              * The size should be 1 ( For non-extension )
              */
             final AegisItem item = config.item();
-            Fn.outUp(Objects.isNull(item), WallItemSizeException.class,
+            Fn.outBoot(Objects.isNull(item), WallItemSizeException.class,
                 this.getClass(), config.getType(), 1);
         }
         final Set<Class<?>> provider = config.providers();
         /*
          * Must be valid type of provider
          */
-        provider.forEach(item -> Fn.outUp(!AuthenticationProvider.class.isAssignableFrom(item),
+        provider.forEach(item -> Fn.outBoot(!AuthenticationProvider.class.isAssignableFrom(item),
             WallProviderConflictException.class,
             this.getClass(), item));
         return config;

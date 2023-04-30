@@ -1,6 +1,7 @@
 package io.vertx.up.uca.web.origin;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
@@ -8,7 +9,6 @@ import io.vertx.up.annotations.Ordered;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.web.filter.Filter;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.FilterInitialException;
@@ -46,7 +46,7 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
     }
 
     private Class<?> ensure(final Class<?> clazz) {
-        Fn.outUp(!Filter.class.isAssignableFrom(clazz), LOGGER,
+        Fn.outBoot(!Filter.class.isAssignableFrom(clazz), LOGGER,
             FilterSpecificationException.class, this.getClass(), clazz);
         return clazz;
     }
@@ -77,14 +77,14 @@ public class FilterInquirer implements Inquirer<ConcurrentMap<String, Set<Event>
         if (null != annotation) {
             final Integer setted = Ut.invoke(annotation, "value");
             // Order specification
-            Fn.outUp(setted < 0, LOGGER,
+            Fn.outBoot(setted < 0, LOGGER,
                 FilterOrderException.class, this.getClass(), clazz);
             order = order + setted;
         }
         event.setOrder(order);
         // Proxy
         final Object proxy = Ut.singleton(clazz);
-        Fn.outUp(null == proxy, LOGGER,
+        Fn.outBoot(null == proxy, LOGGER,
             FilterInitialException.class, this.getClass(), clazz);
         event.setProxy(proxy);
         // Action

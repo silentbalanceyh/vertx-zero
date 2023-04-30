@@ -34,7 +34,7 @@ public class HSemi {
         final HAdmit dm = catena.admit(true);
         if (Objects.isNull(dm)) {
             // 60058, `runComponent` 配置错误，而规则中又配置了维度管理信息
-            return Fn.failWeb(_409DmComponentException.class, this.getClass(), this.permit.shape());
+            return Fn.outWeb(_409DmComponentException.class, this.getClass(), this.permit.shape());
         } else {
             return dm.configure(this.permit)
                 .compose(dmJ -> catena.config(dmJ, true));

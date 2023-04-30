@@ -70,7 +70,7 @@ public class EtcdData {
         if (config.containsKey(KEY)) {
             final JsonObject root = config.getJsonObject(KEY);
             // Verify the data
-            Fn.outUp(() -> Fn.bugAt(() -> Ruler.verify(KEY, root), root),
+            Fn.outBug(() -> Fn.bugAt(() -> Ruler.verify(KEY, root), root),
                 LOGGER);
             if (root.containsKey(TIMEOUT)) {
                 this.timeout = root.getLong(TIMEOUT);
@@ -85,7 +85,7 @@ public class EtcdData {
             LOGGER.info(Info.ETCD_TIMEOUT,
                 this.application, this.timeout, this.config.size());
         }
-        Fn.outUp(this.config.isEmpty(), logger,
+        Fn.outBoot(this.config.isEmpty(), logger,
             EtcdConfigEmptyException.class, this.clazz);
 
         final Set<URI> uris = new HashSet<>();
@@ -105,7 +105,7 @@ public class EtcdData {
             .dispose();
         // Network checking
         networks.forEach((port, host) ->
-            Fn.outUp(!Ut.netOk(host, port), LOGGER,
+            Fn.outBoot(!Ut.netOk(host, port), LOGGER,
                 EtcdNetworkException.class, this.getClass(), host, port));
         LOGGER.info(Info.ETCD_NETWORK);
         this.client = new EtcdClient(uris.toArray(new URI[]{}));

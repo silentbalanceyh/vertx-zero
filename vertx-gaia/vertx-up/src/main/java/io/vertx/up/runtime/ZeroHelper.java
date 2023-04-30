@@ -2,9 +2,9 @@ package io.vertx.up.runtime;
 
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AgentDuplicatedException;
 import jakarta.ws.rs.Path;
@@ -53,7 +53,7 @@ public class ZeroHelper {
                     .collect(Collectors.toList());
             // > 1 means duplicated defined
             final int size = filtered.size();
-            Fn.outUp(1 < size,
+            Fn.outBoot(1 < size,
                 LOGGER, AgentDuplicatedException.class,
                 ZeroHelper.class, server, size,
                 filtered.stream()

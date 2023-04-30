@@ -58,7 +58,7 @@ public class JooqInfix implements Infix {
     private static Configuration configSafe(final String key) {
         Objects.requireNonNull(key);
         final Configuration configuration = CONFIGURATION.get(key);
-        Fn.outUp(Objects.isNull(configuration), LOGGER, JooqConfigurationException.class, JooqInfix.class);
+        Fn.outBoot(Objects.isNull(configuration), LOGGER, JooqConfigurationException.class, JooqInfix.class);
         return configuration;
     }
 

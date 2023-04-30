@@ -1,9 +1,9 @@
 package io.vertx.up.uca.web.limit;
 
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.log.Annal;
 import io.vertx.tp.error.RpcPreparingException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.runtime.ZeroMotor;
 
@@ -17,13 +17,13 @@ public abstract class AbstractFactor implements Factor {
     public ConcurrentMap<ServerType, Class<?>> agents() {
 
         /* 1.Find Agent for deploy **/
-        ConcurrentMap<ServerType, Class<?>> agentMap = internals();
+        final ConcurrentMap<ServerType, Class<?>> agentMap = this.internals();
         final ConcurrentMap<ServerType, Class<?>> agents
-            = ZeroMotor.agents(ServerType.HTTP, defaults(), agentMap);
+            = ZeroMotor.agents(ServerType.HTTP, this.defaults(), agentMap);
         if (agents.containsKey(ServerType.IPC)) {
             // 2. Check etcd server status, IPC Only
-            Fn.outUp(!ZeroHeart.isEtcd(),
-                logger(), RpcPreparingException.class, this.getClass());
+            Fn.outBoot(!ZeroHeart.isEtcd(),
+                this.logger(), RpcPreparingException.class, this.getClass());
         }
         // 3. Filter invalid agents
         final Set<ServerType> scanned = new HashSet<>(agents.keySet());
@@ -38,6 +38,6 @@ public abstract class AbstractFactor implements Factor {
     public abstract ConcurrentMap<ServerType, Class<?>> internals();
 
     private Annal logger() {
-        return Annal.get(getClass());
+        return Annal.get(this.getClass());
     }
 }

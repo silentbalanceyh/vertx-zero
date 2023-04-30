@@ -169,7 +169,7 @@ public class Envelop implements Serializable {
 
     /* Get `data` part by argIndex here */
     public <T> T data(final Integer argIndex, final Class<T> clazz) {
-        Fn.outUp(!Rib.isIndex(argIndex), IndexExceedException.class, this.getClass(), argIndex);
+        Fn.outBoot(!Rib.isIndex(argIndex), IndexExceedException.class, this.getClass(), argIndex);
         return Rib.get(this.data, clazz, argIndex);
     }
 

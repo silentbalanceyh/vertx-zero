@@ -23,7 +23,7 @@ public class ForbiddenInsurer extends AbstractInsurer {
                 final JsonArray fields = Ut.toJArray(rule.getValue(Rules.FORBIDDEN));
                 Fn.bugIt(fields, String.class, (field, index) -> {
                     // 3. Check if data contains field.
-                    Fn.outZero(data.containsKey(field), this.getLogger(),
+                    Fn.outBug(data.containsKey(field), this.getLogger(),
                         ForbiddenFieldException.class,
                         this.getClass(), data, field);
                 });

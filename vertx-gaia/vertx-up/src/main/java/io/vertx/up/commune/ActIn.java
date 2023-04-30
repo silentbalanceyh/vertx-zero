@@ -97,12 +97,12 @@ public class ActIn extends ActMapping implements Serializable {
     }
 
     public JsonObject getQuery() {
-        Fn.outUp(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
+        Fn.outBoot(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.json.getQuery();
     }
 
     public HRecord getRecord() {
-        Fn.outUp(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
+        Fn.outBoot(this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.json.getRecord(this.definition, this.mapping);
     }
 
@@ -111,7 +111,7 @@ public class ActIn extends ActMapping implements Serializable {
     }
 
     public HRecord[] getRecords() {
-        Fn.outUp(!this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
+        Fn.outBoot(!this.isBatch, ActSpecificationException.class, this.getClass(), this.isBatch);
         return this.jarray.getRecords(this.definition, this.mapping);
     }
 

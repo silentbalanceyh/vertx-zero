@@ -1,11 +1,11 @@
 package io.aeon.refine;
 
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Anno;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.di.DiPlugin;
@@ -58,7 +58,7 @@ public class AeonBridge {
         final Annotation annotation = method.getDeclaredAnnotation(Address.class);
         final String address = Ut.invoke(annotation, KName.VALUE);
         // 2. Ensure address incoming.
-        Fn.outUp(!ADDRESS.contains(address), LOGGER,
+        Fn.outBoot(!ADDRESS.contains(address), LOGGER,
             AddressWrongException.class,
             AeonBridge.class, address, clazz, method);
 

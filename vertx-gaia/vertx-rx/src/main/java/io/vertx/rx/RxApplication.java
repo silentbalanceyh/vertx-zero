@@ -1,12 +1,12 @@
 package io.vertx.rx;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.rx.web.ZeroLauncher;
 import io.vertx.rx.web.anima.AgentScatter;
 import io.vertx.up.Launcher;
 import io.vertx.up.annotations.Up;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Anno;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.web.anima.Scatter;
@@ -31,14 +31,14 @@ public class RxApplication {
 
     private RxApplication(final Class<?> clazz) {
         // Must not null
-        Fn.outUp(
+        Fn.outBoot(
             null == clazz,
             LOGGER,
             UpClassArgsException.class, this.getClass());
         this.clazz = clazz;
         this.annotationMap = Anno.get(clazz);
         // Must be invalid
-        Fn.outUp(
+        Fn.outBoot(
             !this.annotationMap.containsKey(Up.class.getName()),
             LOGGER,
             UpClassInvalidException.class, this.getClass(), clazz.getName());

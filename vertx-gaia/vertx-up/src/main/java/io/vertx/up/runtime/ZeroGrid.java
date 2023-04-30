@@ -1,6 +1,8 @@
 package io.vertx.up.runtime;
 
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.SockOptions;
@@ -8,10 +10,8 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.options.*;
 import io.vertx.up.util.Ut;
 
@@ -47,7 +47,7 @@ public class ZeroGrid {
 
     static {
 
-        Fn.outUp(() -> {
+        Fn.outBug(() -> {
             // Init for VertxOptions, ClusterOptions
             // Visit Vertx
             if (VX_OPTS.isEmpty() || null == CLUSTER) {

@@ -1,11 +1,11 @@
 package io.vertx.up.uca.rs.dispatch;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.zero.exception.ChannelMultiException;
 
@@ -40,7 +40,7 @@ public class ModeSplitter {
             final boolean annotated = method.isAnnotationPresent(Address.class);
             final boolean rpc = method.isAnnotationPresent(Ipc.class);
             // 2. Only one channel enabled
-            Fn.outUp(rpc && annotated, LOGGER, ChannelMultiException.class,
+            Fn.outBoot(rpc && annotated, LOGGER, ChannelMultiException.class,
                 this.getClass(), method);
 
             final Differ<RoutingContext> differ;

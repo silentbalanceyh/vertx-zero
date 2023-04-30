@@ -230,7 +230,7 @@ public class WTransition {
             final Io<Task> ioTask = Io.ioTask();
             return ioTask.run(flow.taskId()).compose(task -> {
                 if (Objects.isNull(task)) {
-                    return Fn.failWeb(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
+                    return Fn.outWeb(_409InValidInstanceException.class, this.getClass(), this.instance.getId());
                 } else {
                     this.from = task;
                     // Task Definition Key ( e.xxx )

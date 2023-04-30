@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /**
  * @author lang : 2023/4/28
  */
-class _Run extends _Jvm {
+class _Run extends _Out {
     protected _Run() {
     }
 

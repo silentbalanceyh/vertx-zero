@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.zero.exception.MethodNullException;
 import jakarta.ws.rs.*;
 
@@ -35,7 +35,7 @@ class MethodResolver {
     @SuppressWarnings("all")
     public static HttpMethod resolve(final Method method) {
         // 1. Method checking.
-        Fn.outUp(null == method, LOGGER,
+        Fn.outBoot(null == method, LOGGER,
             MethodNullException.class, MethodResolver.class);
         final Annotation[] annotations = method.getDeclaredAnnotations();
         // 2. Method ignore

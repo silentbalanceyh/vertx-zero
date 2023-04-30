@@ -1,7 +1,9 @@
 package io.horizon.fn;
 
+import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.specification.component.HLogger;
+import io.horizon.util.HaS;
 
 import java.util.function.Supplier;
 
@@ -20,6 +22,21 @@ class HSupplier {
     public static <T> T failOr(final T defaultValue, final ExceptionSupplier<T> supplier,
                                final HLogger logger) {
         return HFunction.failAt(defaultValue, (t) -> supplier.get(), logger);
+    }
+
+    static <T> T failOr(final Supplier<T> supplier,
+                        final Class<? extends AbstractException> runCls, final Object... args) {
+        T ret = null;
+        try {
+            ret = supplier.get();
+        } catch (final Throwable ex) {
+            final Object[] argument = HaS.elementAdd(args, ex);
+            final AbstractException error = HaS.instance(runCls, argument);
+            if (null != error) {
+                throw error;
+            }
+        }
+        return ret;
     }
 
     public static <T> T bugOr(final T defaultValue, final ProgramSupplier<T> supplier,

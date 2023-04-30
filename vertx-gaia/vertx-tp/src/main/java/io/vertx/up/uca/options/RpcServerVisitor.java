@@ -36,7 +36,7 @@ public class RpcServerVisitor implements ServerVisitor<RpcOptions> {
         // 2. Visit the node for server, http
         final JsonObject data = this.node.read();
 
-        Fn.outZero(null == data || !data.containsKey(KName.SERVER), logger(),
+        Fn.outBug(null == data || !data.containsKey(KName.SERVER), logger(),
             ServerConfigException.class,
             this.getClass(), null == data ? null : data.encode());
 

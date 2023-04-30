@@ -1,11 +1,11 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.EndPoint;
 import io.vertx.up.annotations.Ipc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.*;
 
@@ -58,7 +58,7 @@ public class IpcInquirer implements Inquirer<ConcurrentMap<String, Method>> {
      * @return Whether this method is valid
      */
     private Method ensureSpec(final Method method) {
-        Fn.outUp(Ut.isVoid(method.getReturnType()), LOGGER,
+        Fn.outBoot(Ut.isVoid(method.getReturnType()), LOGGER,
             IpcMethodReturnException.class, this.getClass(),
             method);
         final Annotation annotation = method.getAnnotation(Ipc.class);
@@ -67,7 +67,7 @@ public class IpcInquirer implements Inquirer<ConcurrentMap<String, Method>> {
             // TypedArgument specification: Non Start Node
             // This specification is only for continue node
             final Class<?>[] argTypes = method.getParameterTypes();
-            Fn.outUp(1 != argTypes.length || Envelop.class != argTypes[0], LOGGER,
+            Fn.outBoot(1 != argTypes.length || Envelop.class != argTypes[0], LOGGER,
                 IpcMethodArgException.class, this.getClass(), method);
         }
         return method;
@@ -90,7 +90,7 @@ public class IpcInquirer implements Inquirer<ConcurrentMap<String, Method>> {
                 .filter(clazz::isAssignableFrom)
                 .count().blockingGet();
             // If counter == 0, zero system disable this definition
-            Fn.outUp(0 == counter, LOGGER,
+            Fn.outBoot(0 == counter, LOGGER,
                 RpcAgentAbsenceException.class, this.getClass(), clazz);
         }
         return method;
@@ -110,14 +110,14 @@ public class IpcInquirer implements Inquirer<ConcurrentMap<String, Method>> {
         if (Ut.isNil(to) && Ut.isNil(name)) {
             // If ( to is null and name is null, value must be required, or the system do not know the direction
             final String from = Ut.invoke(annotation, "value");
-            Fn.outUp(Ut.isNil(from), LOGGER,
+            Fn.outBoot(Ut.isNil(from), LOGGER,
                 UnknownDirectionException.class, this.getClass(),
                 method);
             // Passed validation.
             return method;
         }
         // to and name must not be null
-        Fn.outUp(Ut.isNil(to) || Ut.isNil(name), LOGGER,
+        Fn.outBoot(Ut.isNil(to) || Ut.isNil(name), LOGGER,
             IpcMethodTargetException.class, this.getClass(),
             method, to, name);
         return method;

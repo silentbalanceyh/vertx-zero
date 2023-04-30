@@ -39,7 +39,7 @@ public class QueueInquirer implements Inquirer<Set<Class<?>>> {
                 final Class<?> returnType = method.getReturnType();
                 final Class<?> parameterTypes = method.getParameterTypes()[0];
                 if (Message.class.isAssignableFrom(parameterTypes)) {
-                    Fn.outUp(void.class != returnType && Void.class != returnType, LOGGER,
+                    Fn.outBoot(void.class != returnType && Void.class != returnType, LOGGER,
                         WorkerConflictException.class, this.getClass(), method);
                 }
             })

@@ -54,7 +54,7 @@ public class TypedInsurer extends AbstractInsurer {
                     if (data.containsKey(name)) {
                         final Object value = data.getValue(name);
 
-                        Fn.outZero(!fnTest.apply(data.getValue(name)), this.getLogger(),
+                        Fn.outBug(!fnTest.apply(data.getValue(name)), this.getLogger(),
                             DataTypeWrongException.class,
                             this.getClass(), name, value, key);
                     }

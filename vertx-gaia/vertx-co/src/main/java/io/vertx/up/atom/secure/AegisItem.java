@@ -1,10 +1,10 @@
 package io.vertx.up.atom.secure;
 
 import io.horizon.eon.em.secure.AuthWall;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -30,7 +30,7 @@ public class AegisItem implements Serializable {
         Ut.<JsonObject>itJObject(configuration, (value, field) -> {
             if (keys.contains(field)) {
                 final String ruleKey = "wall-" + field;
-                Fn.outUp(() -> Ruler.verify(ruleKey, value), LOGGER);
+                Fn.outBug(() -> Ruler.verify(ruleKey, value), LOGGER);
                 SECURE.put(field, new AegisItem(field, value));
             } else {
                 LOGGER.info("[ Auth ] You have defined extension configuration with key `{0}`", field);

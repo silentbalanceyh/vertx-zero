@@ -24,7 +24,7 @@ public abstract class AbstractInsurer implements Insurer {
             for (int idx = VValue.IDX; idx < size; idx++) {
                 final Object value = array.getValue(idx);
                 // 2. Call check method to confirm JsonObject
-                Fn.outZero(!Ut.isJObject(value), this.getLogger(),
+                Fn.outBug(!Ut.isJObject(value), this.getLogger(),
                     JObjectElementException.class,
                     this.getClass(), idx, value);
 

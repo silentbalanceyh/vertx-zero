@@ -132,7 +132,7 @@ public class ZeroRegistry implements UddiRegistry {
         try {
             EtcdData.create(clazz);
         } catch (final EtcdNetworkException ex) {
-            Fn.outUp(true, this.logger, MicroModeUpException.class, clazz, ex.getMessage());
+            Fn.outBoot(true, this.logger, MicroModeUpException.class, clazz, ex.getMessage());
         }
     }
 

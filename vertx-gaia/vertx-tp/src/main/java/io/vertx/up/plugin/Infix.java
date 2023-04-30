@@ -19,7 +19,7 @@ interface InfixTool {
         final Class<?> clazz) {
         final Node<JsonObject> node = Ut.instance(ZeroUniform.class);
         final JsonObject options = node.read();
-        Fn.outUp(null == options || !options.containsKey(key)
+        Fn.outBoot(null == options || !options.containsKey(key)
             , logger, ConfigKeyMissingException.class,
             clazz, key);
         return options;
@@ -30,7 +30,7 @@ interface InfixTool {
         final String key,
         final JsonObject config,
         final Function<JsonObject, R> executor) {
-        Fn.outUp(() -> Ruler.verify(key, config), logger);
+        Fn.outBug(() -> Ruler.verify(key, config), logger);
         // Copy the JsonObject of configuration
         return executor.apply(config.copy());
     }

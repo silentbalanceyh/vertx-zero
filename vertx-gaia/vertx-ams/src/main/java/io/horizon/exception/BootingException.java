@@ -27,7 +27,8 @@ public abstract class BootingException extends AbstractException {
         return this.message;
     }
 
-    public Class<?> getTarget() {
+    @Override
+    public Class<?> caller() {
         return this.target;
     }
 }

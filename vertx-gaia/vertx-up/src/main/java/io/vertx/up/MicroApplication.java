@@ -35,7 +35,7 @@ public class MicroApplication extends ZeroApplication {
     @Override
     protected void runBefore() {
         // Check etcd server status, IPC Only
-        Fn.outUp(!ZeroHeart.isEtcd(), this.logger(), RpcPreparingException.class, this.getClass());
+        Fn.outBoot(!ZeroHeart.isEtcd(), this.logger(), RpcPreparingException.class, this.getClass());
         /*
          * Whether startup etcd environment
          * 1) Etcd environment depend on `vertx-micro.yml`

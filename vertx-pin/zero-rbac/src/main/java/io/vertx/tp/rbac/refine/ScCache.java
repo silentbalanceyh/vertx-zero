@@ -217,14 +217,14 @@ class ScCache {
             final String imageCode = params.getString(AuthKey.CAPTCHA_IMAGE);
             if (Objects.isNull(imageCode)) {
                 // Not Match
-                return Fn.failWeb(_401ImageCodeWrongException.class, ScCache.class, null);
+                return Fn.outWeb(_401ImageCodeWrongException.class, ScCache.class, null);
             }
             final String imagePool = CONFIG.getPoolVerify();
             final Rapid<String, String> rapid = Rapid.t(imagePool);
             return rapid.read(sessionId).compose(stored -> {
                 if (Objects.isNull(stored)) {
                     // Not Match
-                    return Fn.failWeb(_401ImageCodeWrongException.class, ScCache.class, imageCode);
+                    return Fn.outWeb(_401ImageCodeWrongException.class, ScCache.class, imageCode);
                 } else {
                     // Case Ignored
                     if (stored.equalsIgnoreCase(imageCode)) {
@@ -233,7 +233,7 @@ class ScCache {
                         return rapid.clear(sessionId).compose(nil -> executor.apply(processed));
                     } else {
                         // Not Match
-                        return Fn.failWeb(_401ImageCodeWrongException.class, ScCache.class, imageCode);
+                        return Fn.outWeb(_401ImageCodeWrongException.class, ScCache.class, imageCode);
                     }
                 }
             });
@@ -254,7 +254,7 @@ class ScCache {
                 .compose(codeImage -> ScImage.imageGenerate(codeImage, width, height));
         } else {
             // Skip because image Verify off
-            return Fn.failWeb(_501NotSupportException.class, ScCache.class);
+            return Fn.outWeb(_501NotSupportException.class, ScCache.class);
         }
     }
 
@@ -267,7 +267,7 @@ class ScCache {
                 .compose(nil -> Ux.futureT());
         } else {
             // Skip because image Verify off
-            return Fn.failWeb(_501NotSupportException.class, ScCache.class);
+            return Fn.outWeb(_501NotSupportException.class, ScCache.class);
         }
     }
 
@@ -297,7 +297,7 @@ class ScCache {
                     } else {
                         // Failure
                         final Integer verifyDuration = CONFIG.getVerifyDuration();
-                        return Fn.failWeb(_401MaximumTimesException.class, ScCache.class, limitation, verifyDuration);
+                        return Fn.outWeb(_401MaximumTimesException.class, ScCache.class, limitation, verifyDuration);
                     }
                 }
             });

@@ -23,7 +23,7 @@ public class MoveOnNext extends AbstractMoveOn {
         final KFlow key = request.workflow();
         final String instanceId = key.instanceId();
         if (Objects.isNull(instance)) {
-            return Fn.failWeb(_409InValidInstanceException.class, this.getClass(), instanceId);
+            return Fn.outWeb(_409InValidInstanceException.class, this.getClass(), instanceId);
         }
         return wTransition.start().compose(started -> {
             final JsonObject parameters = wTransition.moveParameter(request);

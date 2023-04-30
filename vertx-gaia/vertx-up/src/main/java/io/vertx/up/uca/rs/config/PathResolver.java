@@ -29,7 +29,7 @@ class PathResolver {
      * @return normalized uri
      */
     public static String resolve(final Path path) {
-        Fn.outUp(null == path, LOGGER,
+        Fn.outBoot(null == path, LOGGER,
             PathAnnoEmptyException.class, PathResolver.class);
         // Calculate single path
         return resolve(path, null);
@@ -45,7 +45,7 @@ class PathResolver {
      */
     @SuppressWarnings("all")
     public static String resolve(final Path path, final String root) {
-        Fn.outUp(null == path, LOGGER,
+        Fn.outBoot(null == path, LOGGER,
             PathAnnoEmptyException.class, PathResolver.class);
         return Fn.runOr(Ut.isNil(root), LOGGER, () -> calculate(path(path.value())),
             () -> {

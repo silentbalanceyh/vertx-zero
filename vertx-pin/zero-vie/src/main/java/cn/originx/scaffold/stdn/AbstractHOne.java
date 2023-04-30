@@ -180,7 +180,7 @@ public abstract class AbstractHOne extends AbstractHub implements HWay<JsonObjec
                 /*
                  * 找不到记录的异常信息
                  */
-                return Fn.failWeb(_404RecordMissingException.class, this.getClass(), key);
+                return Fn.outWeb(_404RecordMissingException.class, this.getClass(), key);
             } else {
                 /*
                  * 构造 Apt作为主流程中的参数

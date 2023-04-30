@@ -1,13 +1,13 @@
 package io.vertx.up.uca.rs.dispatch;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.eventbus.Message;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.hunt.AsyncAim;
@@ -49,7 +49,7 @@ class EventDiffer implements Differ<RoutingContext> {
             // Exception because this method must has return type to
             // send message to event bus. It means that it require
             // return types.
-            Fn.outUp(true, LOGGER, ReturnTypeException.class,
+            Fn.outBoot(true, LOGGER, ReturnTypeException.class,
                 this.getClass(), method);
         } else {
             final Class<?> replierType = replier.getReturnType();
@@ -95,12 +95,12 @@ class EventDiffer implements Differ<RoutingContext> {
 
         final Method method;
         // Get null found throw exception.
-        Fn.outUp(null == found, LOGGER, WorkerMissingException.class,
+        Fn.outBoot(null == found, LOGGER, WorkerMissingException.class,
             this.getClass(), address);
         /* Above sentence will throw exception when found is null */
         method = found.getMethod();
 
-        Fn.outUp(null == method, LOGGER, WorkerMissingException.class,
+        Fn.outBoot(null == method, LOGGER, WorkerMissingException.class,
             this.getClass(), address);
         return method;
     }

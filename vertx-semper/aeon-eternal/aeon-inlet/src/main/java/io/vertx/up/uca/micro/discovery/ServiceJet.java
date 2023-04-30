@@ -1,5 +1,6 @@
 package io.vertx.up.uca.micro.discovery;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.circuitbreaker.CircuitBreaker;
 import io.vertx.circuitbreaker.CircuitBreakerOptions;
 import io.vertx.core.*;
@@ -17,7 +18,6 @@ import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceReference;
 import io.vertx.servicediscovery.types.HttpEndpoint;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.discovery.multipart.Pipe;
 import io.vertx.up.uca.micro.discovery.multipart.UploadPipe;
 import io.vertx.up.uca.micro.matcher.Arithmetic;
@@ -37,7 +37,7 @@ public class ServiceJet implements UddiJet {
     private static CircuitBreakerOptions OPTIONS;
 
     static {
-        Fn.outUp(() -> {
+        Fn.outBug(() -> {
             if (null == OPTIONS) {
                 OPTIONS = VISITOR.visit();
             }

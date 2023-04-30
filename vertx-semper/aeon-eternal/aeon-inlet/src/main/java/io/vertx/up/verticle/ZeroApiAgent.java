@@ -2,13 +2,13 @@ package io.vertx.up.verticle;
 
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.monitor.MeasureAxis;
 import io.vertx.up.uca.rs.Axis;
@@ -45,7 +45,7 @@ public class ZeroApiAgent extends AbstractVerticle {
         final Axis<Router> montiorAxiser =
             Pool.CC_ROUTER.pick(() -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + true);
 
-        Fn.outUp(() -> ZeroGrid.getGatewayOptions().forEach((port, option) -> {
+        Fn.outBug(() -> ZeroGrid.getGatewayOptions().forEach((port, option) -> {
             /* Mount to api hub **/
             final Axis<Router> axiser = Pool.CC_ROUTER.pick(
                 () -> Ut.instance(PointAxis.class, option, this.vertx), PointAxis.class.getName());

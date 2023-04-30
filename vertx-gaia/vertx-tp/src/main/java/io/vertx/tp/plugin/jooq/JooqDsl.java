@@ -47,7 +47,7 @@ public class JooqDsl {
     static JooqDsl init(final Vertx vertxRef, final Configuration configurationRef, final Class<?> daoCls) {
         // Checking when initializing
         Fn.out(!Ut.isImplement(daoCls, VertxDAO.class), JooqClassInvalidException.class, JooqDsl.class, daoCls.getName());
-        Fn.outUp(null == vertxRef, LOGGER, JooqVertxNullException.class, daoCls);
+        Fn.outBoot(null == vertxRef, LOGGER, JooqVertxNullException.class, daoCls);
 
         // Calculate the key of current pool
         final String poolKey = String.valueOf(vertxRef.hashCode()) + ":" +

@@ -35,11 +35,11 @@ public class CodeService implements CodeStub {
         return Sc.cacheCode(clientId).compose(item -> {
             if (Objects.isNull(item)) {
                 // 401: Authorization Code Expired, The item is null, it means that code is expired
-                return Fn.failWeb(_401CodeExpiredException.class, this.getClass(), clientId, code);
+                return Fn.outWeb(_401CodeExpiredException.class, this.getClass(), clientId, code);
             }
             if (!code.equals(item)) {
                 // 401: Wrong code provided ( Api Client )
-                return Fn.failWeb(_401CodeWrongException.class, this.getClass(), code);
+                return Fn.outWeb(_401CodeWrongException.class, this.getClass(), code);
             }
             // Successfully
             return Ux.future(clientId);

@@ -1,11 +1,11 @@
 package io.vertx.up.uca.invoker;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Session;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -89,7 +89,7 @@ public class InvokerUtil {
         final Class<?>[] params = method.getParameterTypes();
         final Annal logger = Annal.get(target);
         // 2. The parameters
-        Fn.outUp(VValue.ZERO == params.length,
+        Fn.outBoot(VValue.ZERO == params.length,
             logger, WorkerArgumentException.class,
             target, method);
     }
@@ -100,7 +100,7 @@ public class InvokerUtil {
         final Class<?> paramType,
         final Class<?> target) {
         final Annal logger = Annal.get(target);
-        Fn.outUp(condition, logger,
+        Fn.outBoot(condition, logger,
             AsyncSignatureException.class, target,
             returnType.getName(), paramType.getName());
     }

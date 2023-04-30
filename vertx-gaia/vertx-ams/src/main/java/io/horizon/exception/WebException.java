@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public abstract class WebException extends AbstractException {
     private final String message;
-    private final Class<?> target;
+    private final Class<?> caller;
     protected HttpStatusCode status;
     private transient Object[] params;
     private String readable;
@@ -24,7 +24,7 @@ public abstract class WebException extends AbstractException {
         super(message);
         this.message = message;
         this.status = HttpStatusCode.BAD_REQUEST;
-        this.target = null;      // Target;
+        this.caller = null;      // Target;
         // readable 构造时设置
         this.readable = HaS.fromReadable(this.getCode());
     }
@@ -34,7 +34,7 @@ public abstract class WebException extends AbstractException {
         this.message = HaS.fromError(ErrorMessage.EXCEPTION_WEB, clazz, this.getCode(), args);
         this.params = args;
         this.status = HttpStatusCode.BAD_REQUEST;
-        this.target = clazz;     // Target;
+        this.caller = clazz;     // Target;
         // readable 构造时设置
         this.readable = HaS.fromReadable(this.getCode(), args);
     }
@@ -47,13 +47,14 @@ public abstract class WebException extends AbstractException {
         return this.message;
     }
 
-    public Class<?> getTarget() {
-        return this.target;
-    }
-
     public HttpStatusCode getStatus() {
         // Default exception for 400
         return this.status;
+    }
+
+    @Override
+    public Class<?> caller() {
+        return this.caller;
     }
 
     /**

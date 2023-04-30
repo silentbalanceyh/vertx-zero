@@ -300,7 +300,7 @@ public class JooqCond {
 
             if (Objects.nonNull(fnAnalyze)) {
                 final Field metaField = fnAnalyze.apply(targetField);
-                Fn.outUp(Objects.isNull(metaField), LOGGER, JooqCondFieldException.class, JooqCond.class, targetField);
+                Fn.outBoot(Objects.isNull(metaField), LOGGER, JooqCondFieldException.class, JooqCond.class, targetField);
 
                 /*
                  * 1) fields = ( field,op )
@@ -314,7 +314,7 @@ public class JooqCond {
                  * Clause extraction
                  */
                 final Clause clause = Clause.get(type);
-                Fn.outUp(Objects.isNull(clause), LOGGER, JooqCondClauseException.class,
+                Fn.outBoot(Objects.isNull(clause), LOGGER, JooqCondClauseException.class,
                     JooqCond.class, metaField.getName(), type, targetField);
 
                 /*
