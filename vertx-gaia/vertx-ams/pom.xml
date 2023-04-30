@@ -11,7 +11,7 @@
 
     <groupId>io.zero</groupId>
     <artifactId>vertx-ams</artifactId>
-    <name>「vertx-ams」Agreed Metadata Service</name>
+    <name>「vertx-ams」Agreed Metadata Specification</name>
     <dependencies>
         <!-- Vert.x -->
         <dependency>
