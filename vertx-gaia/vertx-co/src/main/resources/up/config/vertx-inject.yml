@@ -1,1 +1,1 @@
-logger: io.horizon.log.uca.internal.Log4JAnnal
+logger: io.horizon.uca.log.internal.Log4JAnnal
