@@ -4,6 +4,8 @@ import io.horizon.eon.error.ErrorMessage;
 import io.horizon.util.HaS;
 
 /**
+ * 内部异常，不和资源文件绑定
+ *
  * @author lang : 2023/4/27
  */
 public abstract class InternalException extends AbstractException {
@@ -26,7 +28,11 @@ public abstract class InternalException extends AbstractException {
 
     @Override
     public String getMessage() {
-        return HaS.fromMessage(ErrorMessage.E_1X_MESSAGE, String.valueOf(this.getCode()), super.getMessage());
+        /*
+         * 内部异常不绑定资源文件，所以不执行 HaS.fromError 的调用
+         * 此处直接做消息级别初始化，以防止调用混乱的情况
+         */
+        return HaS.fromMessage(ErrorMessage.EXCEPTION_INTERNAL, String.valueOf(this.getCode()), super.getMessage());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package io.vertx.up.runtime;
 
 import io.horizon.eon.em.container.ServerType;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.EnvelopCodec;

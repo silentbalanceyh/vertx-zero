@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class XtorExecuteException extends UpException {
+public class XtorExecuteException extends BootingException {
 
     public XtorExecuteException(final Class<?> clazz,
                                 final String details) {

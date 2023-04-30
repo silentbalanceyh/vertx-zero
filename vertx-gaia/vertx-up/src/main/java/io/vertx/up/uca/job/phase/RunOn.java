@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.phase;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.atom.Refer;

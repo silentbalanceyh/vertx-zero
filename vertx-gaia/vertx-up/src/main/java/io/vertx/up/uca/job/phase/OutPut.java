@@ -1,13 +1,13 @@
 package io.vertx.up.uca.job.phase;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.atom.Refer;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.job.plugin.JobOutcome;

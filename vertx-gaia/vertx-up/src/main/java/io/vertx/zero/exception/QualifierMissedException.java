@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class QualifierMissedException extends UpException {
+public class QualifierMissedException extends BootingException {
 
     public QualifierMissedException(final Class<?> clazz,
                                     final String field,

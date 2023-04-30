@@ -1,17 +1,17 @@
 package io.vertx.tp.plugin.jooq;
 
 import io.github.jklingsporn.vertx.jooq.classic.VertxDAO;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.impl.ContextInternal;
 import io.vertx.core.impl.future.PromiseImpl;
-import io.vertx.up.exception.zero.JooqClassInvalidException;
-import io.vertx.up.exception.zero.JooqVertxNullException;
+import io.vertx.up.exception.booting.JooqClassInvalidException;
+import io.vertx.up.exception.booting.JooqVertxNullException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;

@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class PluginSpecificationException extends UpException {
+public class PluginSpecificationException extends BootingException {
 
     public PluginSpecificationException(final Class<?> clazz,
                                         final String key) {

@@ -1,12 +1,12 @@
 package io.vertx.zero.exception;
 
 import io.horizon.eon.em.container.ServerType;
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
 
-public class AgentDuplicatedException extends UpException {
+public class AgentDuplicatedException extends BootingException {
 
     public AgentDuplicatedException(final Class<?> clazz,
                                     final ServerType type,

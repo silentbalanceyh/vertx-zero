@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class XtorNotReadyException extends UpException {
+public class XtorNotReadyException extends BootingException {
 
     public XtorNotReadyException(final Class<?> clazz) {
         super(clazz);

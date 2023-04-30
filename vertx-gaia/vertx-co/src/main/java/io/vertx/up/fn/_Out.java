@@ -1,7 +1,7 @@
 package io.vertx.up.fn;
 
 import io.vertx.core.Future;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * @author lang : 2023/4/28

@@ -2,11 +2,11 @@ package io.vertx.up.uca.stable;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.demon.JObjectElementException;
+import io.vertx.up.exception.daemon.JObjectElementException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 /**

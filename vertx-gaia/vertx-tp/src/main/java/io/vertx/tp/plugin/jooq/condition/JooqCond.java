@@ -2,15 +2,15 @@ package io.vertx.tp.plugin.jooq.condition;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Sorter;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.exception.zero.JooqCondClauseException;
-import io.vertx.up.exception.zero.JooqCondFieldException;
+import io.vertx.up.exception.booting.JooqCondClauseException;
+import io.vertx.up.exception.booting.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.log.DevEnv;
 import io.vertx.up.util.Ut;
 import org.jooq.Condition;

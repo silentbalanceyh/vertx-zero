@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class WallMethodMultiException extends UpException {
+public class WallMethodMultiException extends BootingException {
 
     public WallMethodMultiException(final Class<?> clazz,
                                     final String annoCls,

@@ -1,10 +1,10 @@
 package io.vertx.up.plugin;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.exception.zero.ConfigKeyMissingException;
+import io.vertx.up.exception.booting.ConfigKeyMissingException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;

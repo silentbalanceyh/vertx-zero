@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class ParamAnnotationException extends UpException {
+public class ParamAnnotationException extends BootingException {
 
     public ParamAnnotationException(final Class<?> clazz,
                                     final String field,

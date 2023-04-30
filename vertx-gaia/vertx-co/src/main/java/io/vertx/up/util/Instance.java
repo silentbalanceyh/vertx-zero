@@ -1,12 +1,12 @@
 package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
+import io.horizon.exception.BootingException;
+import io.horizon.exception.WebException;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.UpException;
-import io.vertx.up.exception.WebException;
+import io.vertx.up.exception.booting.DuplicatedImplException;
 import io.vertx.up.exception.web._500InvokeErrorException;
-import io.vertx.up.exception.zero.DuplicatedImplException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroPack;
 import org.slf4j.Logger;
@@ -102,7 +102,7 @@ final class Instance {
             final int size = filtered.size();
             // Non-Unique throw error out.
             if (VValue.ONE < size) {
-                final UpException error = new DuplicatedImplException(Instance.class, interfaceCls);
+                final BootingException error = new DuplicatedImplException(Instance.class, interfaceCls);
                 LOGGER.error("[T] Error occurs {}", error.getMessage());
                 throw error;
             }

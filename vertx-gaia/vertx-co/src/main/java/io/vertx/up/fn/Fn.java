@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.fn.ErrorSupplier;
@@ -9,8 +9,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.vertx.up.exception.UpException;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.BootingException;
+import io.horizon.exception.WebException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
@@ -78,7 +78,7 @@ public final class Fn extends _Out {
     }
 
     /* New Style */
-    public static void outUp(final boolean condition, final Class<? extends UpException> upClass, final Object... args) {
+    public static void outUp(final boolean condition, final Class<? extends BootingException> upClass, final Object... args) {
         if (condition) {
             Warning.outUp(upClass, args);
         }

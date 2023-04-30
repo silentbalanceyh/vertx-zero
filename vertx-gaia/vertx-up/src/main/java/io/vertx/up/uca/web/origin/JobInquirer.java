@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
 import io.horizon.uca.log.Annal;

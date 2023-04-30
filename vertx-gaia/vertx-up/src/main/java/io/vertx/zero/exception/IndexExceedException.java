@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class IndexExceedException extends UpException {
+public class IndexExceedException extends BootingException {
 
     public IndexExceedException(final Class<?> clazz,
                                 final Integer index) {

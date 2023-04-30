@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.mime;
 
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * # 「Co」Zero Resolver

@@ -12,7 +12,7 @@ import io.aeon.experiment.specification.sch.KTimer;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Off;
 import io.vertx.up.annotations.On;

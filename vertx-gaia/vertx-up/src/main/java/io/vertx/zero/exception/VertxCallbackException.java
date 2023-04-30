@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class VertxCallbackException extends UpException {
+public class VertxCallbackException extends BootingException {
 
     public VertxCallbackException(final Class<?> clazz) {
         super(clazz);

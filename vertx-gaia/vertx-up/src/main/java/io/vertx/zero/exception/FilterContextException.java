@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class FilterContextException extends UpException {
+public class FilterContextException extends BootingException {
 
     public FilterContextException(final Class<?> clazz) {
         super(clazz);

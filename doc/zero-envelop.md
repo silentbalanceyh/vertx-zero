@@ -4,9 +4,9 @@
 
 Envelop word refer from SOAP web service, and it contains following field:
 
-1. status: `io.vertx.core.http.HttpStatusCode` - Http Status Enum data.
+1. status: `io.horizon.eon.em.web.HttpStatusCode` - Http Status Enum data.
 2. headers: `io.vertx.core.MultiMap` - Http Headers ( Direct from Vert.x )
-3. error: `io.vertx.up.exception.WebException` - Abstract Web Error defined by Zero
+3. error: `io.horizon.exception.WebException` - Abstract Web Error defined by Zero
 4. data: `io.vertx.core.json.JsonObject` - Data Part in current Envelop
 5. user: `io.vertx.ext.auth.User` - User Info ( Direct from Vert.x )
 

@@ -6,7 +6,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroSerializer;

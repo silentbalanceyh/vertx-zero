@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class WorkerMissingException extends UpException {
+public class WorkerMissingException extends BootingException {
 
     public WorkerMissingException(final Class<?> clazz,
                                   final String address) {

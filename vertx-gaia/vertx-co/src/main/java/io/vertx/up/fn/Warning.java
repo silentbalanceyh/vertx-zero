@@ -2,8 +2,8 @@ package io.vertx.up.fn;
 
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.vertx.up.exception.UpException;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.BootingException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._412NullValueException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
@@ -80,8 +80,8 @@ final class Warning {
      * - UpException
      */
     static void out(final Class<?> errorCls, final Object... args) {
-        if (UpException.class == errorCls.getSuperclass()) {
-            final UpException error = Ut.instance(errorCls, args);
+        if (BootingException.class == errorCls.getSuperclass()) {
+            final BootingException error = Ut.instance(errorCls, args);
             if (null != error) {
                 sure(error::getTarget, error::getMessage);
                 throw error;
@@ -95,9 +95,9 @@ final class Warning {
         }
     }
 
-    static void outUp(final Class<? extends UpException> upClass,
+    static void outUp(final Class<? extends BootingException> upClass,
                       final Object... args) {
-        final UpException error = Ut.instance(upClass, args);
+        final BootingException error = Ut.instance(upClass, args);
         if (null != error) {
             sure(error::getTarget, error::getMessage);
             throw error;

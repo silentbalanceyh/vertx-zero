@@ -1,11 +1,11 @@
 package io.aeon.exception.heart;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class AeonConfigureException extends UpException {
+public class AeonConfigureException extends BootingException {
 
     public AeonConfigureException(final Class<?> clazz) {
         super(clazz);

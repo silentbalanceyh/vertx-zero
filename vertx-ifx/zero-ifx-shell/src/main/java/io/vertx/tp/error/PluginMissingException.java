@@ -1,11 +1,11 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class PluginMissingException extends UpException {
+public class PluginMissingException extends BootingException {
 
     public PluginMissingException(final Class<?> clazz,
                                   final String name) {

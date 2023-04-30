@@ -5,7 +5,7 @@ import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.eon.em.scheduler.JobType;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;

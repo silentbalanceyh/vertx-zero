@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class ParameterConflictException extends UpException {
+public class ParameterConflictException extends BootingException {
 
     public ParameterConflictException(final Class<?> clazz,
                                       final Class<?> target) {

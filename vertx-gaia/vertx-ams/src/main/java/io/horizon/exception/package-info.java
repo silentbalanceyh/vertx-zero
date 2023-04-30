@@ -20,6 +20,6 @@
  * RuntimeException
  * -- AbstractException                         不绑定资源文件（顶层异常）
  * ----- InternalException                      不绑定资源文件
- * ----- PlatformException                      绑定资源文件异常
+ * ----- BootingException                       绑定资源文件，容器启动类异常
  */
 package io.horizon.exception;

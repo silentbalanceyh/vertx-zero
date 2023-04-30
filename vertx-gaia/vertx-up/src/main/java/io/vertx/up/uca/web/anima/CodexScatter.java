@@ -3,7 +3,7 @@ package io.vertx.up.uca.web.anima;
 import io.aeon.runtime.H2H;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;

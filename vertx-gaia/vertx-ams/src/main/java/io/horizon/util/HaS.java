@@ -54,7 +54,24 @@ public class HaS extends _Value {
      * @return 格式化后的字符串
      */
     public static String fromMessageB(final String pattern, final Object... args) {
-        return HFormat.formatBold(pattern, args);
+        return HFormat.fromMessageB(pattern, args);
+    }
+
+    /**
+     * 异常信息的格式化，用于各种异常信息模板化输出专用处理，该格式化函数是根据
+     * 异常构造参数调用，所以通常在抽象异常的构造函数中使用而不能在其他位置直接
+     * 使用，其他位置时候格式化之后的结果可能有问题
+     *
+     * @param pattern 格式化模板
+     * @param clazz   触发异常调用类
+     * @param code    异常代码
+     * @param args    参数
+     *
+     * @return 格式化后的字符串
+     */
+    public static String fromError(final String pattern, final Class<?> clazz,
+                                   final int code, final Object... args) {
+        return HError.fromError(pattern, clazz, code, args);
     }
 
     // ---------------- 池化函数

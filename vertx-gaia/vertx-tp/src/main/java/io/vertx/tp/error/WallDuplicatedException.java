@@ -1,11 +1,11 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
 
-public class WallDuplicatedException extends UpException {
+public class WallDuplicatedException extends BootingException {
 
     public WallDuplicatedException(final Class<?> classes,
                                    final Set<String> classNames) {

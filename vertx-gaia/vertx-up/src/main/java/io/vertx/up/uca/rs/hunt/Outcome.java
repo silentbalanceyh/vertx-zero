@@ -4,7 +4,7 @@ import io.horizon.eon.VString;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.http.HttpStatusCode;
+import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.uca.rs.hunt.adaptor.WingSelector;
 import io.vertx.up.uca.rs.hunt.adaptor.Wings;

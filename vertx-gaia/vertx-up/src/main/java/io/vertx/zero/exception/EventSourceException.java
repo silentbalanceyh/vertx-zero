@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class EventSourceException extends UpException {
+public class EventSourceException extends BootingException {
 
     public EventSourceException(final Class<?> clazz,
                                 final String endpointCls) {

@@ -11,7 +11,7 @@ import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
 import io.horizon.uca.log.Annal;

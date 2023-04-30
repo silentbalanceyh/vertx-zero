@@ -1,11 +1,11 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-public class AnnotationRepeatException extends UpException {
+public class AnnotationRepeatException extends BootingException {
 
     public AnnotationRepeatException(final Class<?> clazz,
                                      final Method method,

@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * ##「Error-400005」不支持异常

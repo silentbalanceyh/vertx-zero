@@ -1,7 +1,7 @@
 package io.vertx.up.uca.options;
 
 import io.horizon.eon.em.container.ServerType;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.exception.ProgramException;
 import io.vertx.core.SockOptions;
 import io.vertx.core.json.JsonArray;

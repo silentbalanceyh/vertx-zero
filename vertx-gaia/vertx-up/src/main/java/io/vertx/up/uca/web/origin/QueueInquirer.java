@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.reactivex.Observable;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.annotations.Address;

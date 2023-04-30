@@ -1,6 +1,6 @@
 package io.vertx.up.uca.failure;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.util.Ut;
 
 /**

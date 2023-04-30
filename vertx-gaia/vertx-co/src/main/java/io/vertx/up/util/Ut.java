@@ -14,7 +14,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.commune.exchange.BMapping;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.uca.crypto.ED;
 
 import java.lang.reflect.Field;

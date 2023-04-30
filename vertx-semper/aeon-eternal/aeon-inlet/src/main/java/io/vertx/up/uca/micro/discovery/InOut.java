@@ -15,7 +15,7 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.servicediscovery.Record;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._404ServiceNotFoundException;
 import io.vertx.up.exception.web._405MethodForbiddenException;
 import io.vertx.up.exception.web._500InternalServerException;

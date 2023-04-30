@@ -4,7 +4,7 @@ import io.horizon.specification.modeler.HAtom;
 import io.horizon.spi.cloud.query.HQBE;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.http.HttpStatusCode;
+import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;

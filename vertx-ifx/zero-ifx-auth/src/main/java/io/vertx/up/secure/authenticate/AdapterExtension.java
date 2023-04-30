@@ -8,7 +8,7 @@ import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.tp.error._401UnauthorizedException;
 import io.vertx.up.atom.secure.Aegis;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

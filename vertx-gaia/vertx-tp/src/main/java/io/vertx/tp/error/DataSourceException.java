@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class DataSourceException extends UpException {
+public class DataSourceException extends BootingException {
 
     public DataSourceException(final Class<?> clazz,
                                final Throwable ex,

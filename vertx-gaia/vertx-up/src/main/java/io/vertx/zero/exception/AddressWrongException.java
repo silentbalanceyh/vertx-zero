@@ -1,10 +1,10 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 import java.lang.reflect.Method;
 
-public class AddressWrongException extends UpException {
+public class AddressWrongException extends BootingException {
 
     public AddressWrongException(final Class<?> clazz,
                                  final String address,

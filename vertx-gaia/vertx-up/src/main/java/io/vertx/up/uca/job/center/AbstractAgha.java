@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.center;
 
 import io.horizon.eon.em.scheduler.JobStatus;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.fn.Actuator;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;

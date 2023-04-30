@@ -1,7 +1,7 @@
 package io.vertx.tp.error;
 
-import io.vertx.core.http.HttpStatusCode;
-import io.vertx.up.exception.WebException;
+import io.horizon.eon.em.web.HttpStatusCode;
+import io.horizon.exception.WebException;
 
 public class _500ConsumerSpecException extends WebException {
     public _500ConsumerSpecException(final Class<?> clazz, final Class<?> target) {

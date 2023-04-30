@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class WallTypeWrongException extends UpException {
+public class WallTypeWrongException extends BootingException {
 
     public WallTypeWrongException(final Class<?> clazz,
                                   final String key,

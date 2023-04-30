@@ -1,10 +1,10 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 import java.lang.reflect.Method;
 
-public class ChannelMultiException extends UpException {
+public class ChannelMultiException extends BootingException {
 
     public ChannelMultiException(final Class<?> clazz,
                                  final Method method) {

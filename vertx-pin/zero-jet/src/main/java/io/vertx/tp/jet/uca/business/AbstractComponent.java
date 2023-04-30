@@ -14,7 +14,7 @@ import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._400SigmaMissingException;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;

@@ -1,7 +1,7 @@
 package io.vertx.up.uca.di;
 
 import com.google.inject.Injector;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.uca.cache.Cc;
 import io.reactivex.Observable;
 import io.vertx.up.annotations.Plugin;

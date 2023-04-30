@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.init;
 
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
-import io.vertx.up.exception.zero.DynamicConfigTypeException;
-import io.vertx.up.exception.zero.DynamicKeyMissingException;
+import io.vertx.up.exception.booting.DynamicConfigTypeException;
+import io.vertx.up.exception.booting.DynamicKeyMissingException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 
 import java.io.Serializable;

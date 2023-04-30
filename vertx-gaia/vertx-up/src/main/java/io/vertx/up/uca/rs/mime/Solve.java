@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.mime;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * # 「Co」Zero Solve

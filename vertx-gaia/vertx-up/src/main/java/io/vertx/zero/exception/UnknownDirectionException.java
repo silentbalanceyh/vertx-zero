@@ -1,10 +1,10 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 import java.lang.reflect.Method;
 
-public class UnknownDirectionException extends UpException {
+public class UnknownDirectionException extends BootingException {
 
     public UnknownDirectionException(final Class<?> clazz,
                                      final Method method) {

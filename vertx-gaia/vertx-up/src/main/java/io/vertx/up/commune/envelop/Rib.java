@@ -3,7 +3,7 @@ package io.vertx.up.commune.envelop;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 public class Rib {
 

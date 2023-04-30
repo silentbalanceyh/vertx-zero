@@ -1,6 +1,6 @@
 package io.vertx.rx.web.anima;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.reactivex.Single;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.reactivex.core.Vertx;

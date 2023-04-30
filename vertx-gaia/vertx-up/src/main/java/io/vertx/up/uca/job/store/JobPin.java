@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.store;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.json.JsonObject;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;

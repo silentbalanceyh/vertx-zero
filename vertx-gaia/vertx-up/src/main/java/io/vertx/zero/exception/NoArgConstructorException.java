@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class NoArgConstructorException extends UpException {
+public class NoArgConstructorException extends BootingException {
 
     public NoArgConstructorException(final Class<?> clazz,
                                      final Class<?> target) {

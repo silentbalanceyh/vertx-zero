@@ -1,6 +1,6 @@
 package io.vertx.up.log;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;

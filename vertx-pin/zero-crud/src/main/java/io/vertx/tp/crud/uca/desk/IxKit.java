@@ -2,7 +2,7 @@ package io.vertx.tp.crud.uca.desk;
 
 import io.aeon.experiment.specification.KModule;
 import io.vertx.core.Future;
-import io.vertx.core.http.HttpStatusCode;
+import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.refine.Ix;

@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class UpClassArgsException extends UpException {
+public class UpClassArgsException extends BootingException {
 
     public UpClassArgsException(final Class<?> clazz) {
         super(clazz);

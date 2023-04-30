@@ -1,9 +1,9 @@
 package io.vertx.up.exception.web;
 
-import io.vertx.core.http.HttpStatusCode;
+import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.IntegrationRequest;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 public class _500RequestConfigException extends WebException {
 

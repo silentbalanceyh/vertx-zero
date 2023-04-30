@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class PathAnnoEmptyException extends UpException {
+public class PathAnnoEmptyException extends BootingException {
 
     public PathAnnoEmptyException(final Class<?> clazz) {
         super(clazz);

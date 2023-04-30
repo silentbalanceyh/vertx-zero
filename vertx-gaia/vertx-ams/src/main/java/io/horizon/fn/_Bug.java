@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
-import io.horizon.uca.log.HLogger;
+import io.horizon.specification.component.HLogger;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

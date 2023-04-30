@@ -10,7 +10,7 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 import io.vertx.up.util.Ut;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -46,7 +46,7 @@ class ConsoleTool {
                 final CommandLine parsed = parser.parse(command.options(), args);
                 return Future.succeededFuture(parsed);
             } catch (final ParseException ex) {
-                final UpException error = new CommandParseException(ConsoleTool.class, Ut.fromJoin(args), ex);
+                final BootingException error = new CommandParseException(ConsoleTool.class, Ut.fromJoin(args), ex);
                 return Future.failedFuture(error);
             }
         });

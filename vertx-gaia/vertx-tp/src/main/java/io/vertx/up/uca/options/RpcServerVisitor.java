@@ -1,14 +1,14 @@
 package io.vertx.up.uca.options;
 
+import io.horizon.eon.VMessage;
 import io.horizon.eon.em.container.ServerType;
-import io.horizon.eon.info.VMessage;
 import io.horizon.exception.ProgramException;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
 import io.vertx.up.eon.KName;
-import io.vertx.up.exception.demon.ServerConfigException;
+import io.vertx.up.exception.daemon.ServerConfigException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.marshal.RpcServerSetUp;

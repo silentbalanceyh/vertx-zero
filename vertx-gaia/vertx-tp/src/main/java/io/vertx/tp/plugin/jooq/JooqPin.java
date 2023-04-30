@@ -1,13 +1,13 @@
 package io.vertx.tp.plugin.jooq;
 
 import io.horizon.eon.em.DSMode;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.eon.KName;
-import io.vertx.up.exception.zero.JooqConfigurationException;
+import io.vertx.up.exception.booting.JooqConfigurationException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.runtime.env.MatureOn;
 import io.vertx.up.util.Ut;

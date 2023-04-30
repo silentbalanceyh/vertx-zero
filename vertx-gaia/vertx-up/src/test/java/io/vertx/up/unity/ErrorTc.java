@@ -1,6 +1,6 @@
 package io.vertx.up.unity;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import org.junit.Assert;
 import org.junit.Test;

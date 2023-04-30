@@ -9,7 +9,7 @@ import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataTransactionException;
 import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.horizon.uca.log.Annal;
 import org.jooq.DSLContext;

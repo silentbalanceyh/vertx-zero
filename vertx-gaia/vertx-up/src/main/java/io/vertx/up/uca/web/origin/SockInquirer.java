@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.origin;
 
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.up.annotations.Broker;
 import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.fn.Fn;

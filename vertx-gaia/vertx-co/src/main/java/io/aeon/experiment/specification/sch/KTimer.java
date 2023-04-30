@@ -1,7 +1,7 @@
 package io.aeon.experiment.specification.sch;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 

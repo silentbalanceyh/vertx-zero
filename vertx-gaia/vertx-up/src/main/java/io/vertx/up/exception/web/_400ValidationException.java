@@ -1,6 +1,6 @@
 package io.vertx.up.exception.web;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 import java.lang.reflect.Method;
 

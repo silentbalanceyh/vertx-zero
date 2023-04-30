@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class MicroModeUpException extends UpException {
+public class MicroModeUpException extends BootingException {
 
     public MicroModeUpException(final Class<?> clazz,
                                 final String message) {

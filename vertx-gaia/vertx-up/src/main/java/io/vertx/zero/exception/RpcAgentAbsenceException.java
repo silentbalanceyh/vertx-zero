@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class RpcAgentAbsenceException extends UpException {
+public class RpcAgentAbsenceException extends BootingException {
 
     public RpcAgentAbsenceException(final Class<?> clazz,
                                     final Class<?> interfaceCls) {

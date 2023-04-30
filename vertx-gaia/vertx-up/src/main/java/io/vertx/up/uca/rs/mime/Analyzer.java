@@ -2,7 +2,7 @@ package io.vertx.up.uca.rs.mime;
 
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.uca.rs.mime.parse.Income;
 
 /**

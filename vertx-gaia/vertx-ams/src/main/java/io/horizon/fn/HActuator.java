@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
-import io.horizon.uca.log.HLogger;
+import io.horizon.specification.component.HLogger;
 
 /**
  * @author lang : 2023/4/28

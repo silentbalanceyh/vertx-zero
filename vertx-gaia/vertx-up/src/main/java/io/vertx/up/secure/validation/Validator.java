@@ -9,7 +9,7 @@ import io.vertx.up.atom.Rule;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.eon.KWeb;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._400ValidationException;
 import io.vertx.up.util.Ut;
 import jakarta.validation.ConstraintViolation;

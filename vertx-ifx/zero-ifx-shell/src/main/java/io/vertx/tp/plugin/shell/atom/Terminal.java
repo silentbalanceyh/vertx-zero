@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class Terminal {
 
-    private static final UpException ERROR_ARG_MISSING =
+    private static final BootingException ERROR_ARG_MISSING =
         new CommandMissingException(Terminal.class);
     private static final Cc<Integer, Scanner> CC_SCANNER = Cc.open();
 

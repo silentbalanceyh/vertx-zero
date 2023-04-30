@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class WallProviderConflictException extends UpException {
+public class WallProviderConflictException extends BootingException {
 
     public WallProviderConflictException(final Class<?> clazz,
                                          final Class<?> target) {

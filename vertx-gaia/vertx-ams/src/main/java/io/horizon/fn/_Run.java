@@ -1,6 +1,6 @@
 package io.horizon.fn;
 
-import io.horizon.uca.log.HLogger;
+import io.horizon.specification.component.HLogger;
 import io.horizon.util.HaS;
 
 import java.util.Objects;

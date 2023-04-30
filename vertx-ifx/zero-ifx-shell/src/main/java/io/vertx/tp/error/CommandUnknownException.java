@@ -1,11 +1,11 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class CommandUnknownException extends UpException {
+public class CommandUnknownException extends BootingException {
 
     public CommandUnknownException(final Class<?> clazz, final String command) {
         super(clazz, command);

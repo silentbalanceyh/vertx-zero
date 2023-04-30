@@ -5,7 +5,7 @@ import io.horizon.eon.VString;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._500InternalServerException;
 import io.vertx.up.plugin.TpClient;
 import io.vertx.up.util.Ut;

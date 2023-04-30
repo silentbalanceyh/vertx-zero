@@ -4,7 +4,7 @@ import io.horizon.eon.em.container.MimeFlow;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.horizon.uca.log.Annal;
 import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.Resolver;

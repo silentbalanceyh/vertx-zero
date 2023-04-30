@@ -1,7 +1,7 @@
 package io.vertx.up.uca.job.timer;
 
 import io.aeon.experiment.specification.sch.KTimer;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Contract;

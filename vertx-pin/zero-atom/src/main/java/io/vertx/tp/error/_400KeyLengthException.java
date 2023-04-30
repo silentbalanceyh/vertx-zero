@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 public class _400KeyLengthException extends WebException {
     public _400KeyLengthException(final Class<?> clazz) {

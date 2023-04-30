@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class InvokerNullException extends UpException {
+public class InvokerNullException extends BootingException {
 
     public InvokerNullException(final Class<?> target,
                                 final Class<?> returnType,

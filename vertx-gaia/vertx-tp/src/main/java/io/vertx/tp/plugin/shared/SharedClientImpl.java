@@ -9,7 +9,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.shareddata.AsyncMap;
 import io.vertx.core.shareddata.LocalMap;
 import io.vertx.core.shareddata.SharedData;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._500SharedDataModeException;
 import io.vertx.up.fn.Fn;
 import io.horizon.uca.log.Annal;

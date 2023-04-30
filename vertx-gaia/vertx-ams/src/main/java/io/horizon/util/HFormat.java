@@ -25,7 +25,7 @@ class HFormat {
         }
     }
 
-    static String formatBold(final String message, final Object... args) {
+    static String fromMessageB(final String message, final Object... args) {
         if (0 < args.length) {
             return HRGB.BOLD_FLAG + fromMessage(message, args);
         } else {

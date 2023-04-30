@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class EventCodexMultiException extends UpException {
+public class EventCodexMultiException extends BootingException {
 
     public EventCodexMultiException(final Class<?> clazz,
                                     final Class<?> target) {

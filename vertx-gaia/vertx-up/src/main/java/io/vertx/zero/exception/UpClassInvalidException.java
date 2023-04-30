@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class UpClassInvalidException extends UpException {
+public class UpClassInvalidException extends BootingException {
 
     public UpClassInvalidException(final Class<?> clazz,
                                    final String className) {

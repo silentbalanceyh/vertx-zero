@@ -1,11 +1,11 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class CommandMissingException extends UpException {
+public class CommandMissingException extends BootingException {
 
     public CommandMissingException(final Class<?> clazz) {
         super(clazz);

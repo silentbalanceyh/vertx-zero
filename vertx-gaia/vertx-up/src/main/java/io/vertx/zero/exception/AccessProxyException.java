@@ -1,8 +1,8 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class AccessProxyException extends UpException {
+public class AccessProxyException extends BootingException {
 
     public AccessProxyException(final Class<?> clazz,
                                 final Class<?> target) {

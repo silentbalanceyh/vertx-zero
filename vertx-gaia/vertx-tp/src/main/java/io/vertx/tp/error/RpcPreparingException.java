@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 
-public class RpcPreparingException extends UpException {
+public class RpcPreparingException extends BootingException {
 
     public RpcPreparingException(final Class<?> clazz) {
         super(clazz);

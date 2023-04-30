@@ -1,7 +1,7 @@
 package io.aeon.uca.web.origin;
 
 import io.aeon.annotations.QaS;
-import io.horizon.eon.info.VMessage;
+import io.horizon.eon.VMessage;
 import io.vertx.up.annotations.Address;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;

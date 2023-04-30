@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
 import cn.vertxup.workflow.cv.em.PassWay;
-import io.vertx.core.http.HttpStatusCode;
-import io.vertx.up.exception.WebException;
+import io.horizon.eon.em.web.HttpStatusCode;
+import io.horizon.exception.WebException;
 
 /**
  * Error = 80604

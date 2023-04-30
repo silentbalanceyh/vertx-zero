@@ -1,6 +1,6 @@
 package io.vertx.tp.error;
 
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -1,11 +1,11 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.exception.UpException;
+import io.horizon.exception.BootingException;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
 
-public class NamedNotFoundException extends UpException {
+public class NamedNotFoundException extends BootingException {
 
     public NamedNotFoundException(final Class<?> clazz,
                                   final Set<String> sets,

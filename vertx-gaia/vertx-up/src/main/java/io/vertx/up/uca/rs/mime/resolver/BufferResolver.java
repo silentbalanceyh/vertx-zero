@@ -3,7 +3,7 @@ package io.vertx.up.uca.rs.mime.resolver;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.vertx.up.exception.WebException;
+import io.horizon.exception.WebException;
 import io.vertx.up.uca.rs.mime.Resolver;
 
 public class BufferResolver<T> implements Resolver<T> {

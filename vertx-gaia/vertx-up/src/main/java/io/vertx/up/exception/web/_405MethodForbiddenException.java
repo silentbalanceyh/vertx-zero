@@ -1,8 +1,8 @@
 package io.vertx.up.exception.web;
 
 import io.vertx.core.http.HttpMethod;
-import io.vertx.core.http.HttpStatusCode;
-import io.vertx.up.exception.WebException;
+import io.horizon.eon.em.web.HttpStatusCode;
+import io.horizon.exception.WebException;
 
 public class _405MethodForbiddenException extends WebException {
 
