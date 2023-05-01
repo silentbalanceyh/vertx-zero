@@ -1,6 +1,6 @@
 package io.horizon.util;
 
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

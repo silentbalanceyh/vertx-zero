@@ -3,14 +3,14 @@ package io.vertx.up.runtime.env;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.DSMode;
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 import io.horizon.specification.runtime.Mature;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.AttrSet;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;

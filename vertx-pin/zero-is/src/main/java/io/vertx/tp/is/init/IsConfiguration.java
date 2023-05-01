@@ -1,6 +1,6 @@
 package io.vertx.tp.is.init;
 
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.is.atom.IsConfig;
 import io.vertx.tp.is.cv.IsFolder;

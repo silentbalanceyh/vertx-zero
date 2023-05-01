@@ -1,7 +1,7 @@
 package io.vertx.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 
 import static io.aeon.refine.Ho.LOG;
 

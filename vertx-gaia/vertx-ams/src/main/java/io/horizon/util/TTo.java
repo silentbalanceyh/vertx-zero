@@ -1,6 +1,6 @@
 package io.horizon.util;
 
-import io.horizon.eon.runtime.VEnv;
+import io.horizon.eon.VEnv;
 import io.horizon.fn.HFn;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

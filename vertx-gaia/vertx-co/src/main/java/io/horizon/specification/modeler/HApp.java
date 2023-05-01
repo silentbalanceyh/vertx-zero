@@ -1,7 +1,7 @@
 package io.horizon.specification.modeler;
 
+import io.horizon.eon.VEnv;
 import io.horizon.eon.VString;
-import io.horizon.eon.runtime.VEnv;
 import io.horizon.specification.typed.TJson;
 import io.vertx.up.util.Ut;
 

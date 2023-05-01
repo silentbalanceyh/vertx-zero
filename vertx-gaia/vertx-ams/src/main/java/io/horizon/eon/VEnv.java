@@ -1,4 +1,4 @@
-package io.horizon.eon.runtime;
+package io.horizon.eon;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

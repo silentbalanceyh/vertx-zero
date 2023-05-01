@@ -4,7 +4,7 @@ import io.horizon.atom.common.KPair;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.fn.HFn;
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 import io.horizon.spi.cloud.HED;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;

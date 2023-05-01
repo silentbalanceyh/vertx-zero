@@ -1,4 +1,4 @@
-package io.horizon.specification.runtime;
+package io.horizon.runtime;
 
 import io.horizon.util.HaS;
 

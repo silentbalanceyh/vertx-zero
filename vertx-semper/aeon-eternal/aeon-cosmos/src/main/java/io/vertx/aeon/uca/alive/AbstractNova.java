@@ -6,7 +6,7 @@ import io.aeon.eon.HPath;
 import io.horizon.cloud.app.HFS;
 import io.horizon.cloud.program.HNova;
 import io.horizon.eon.em.cloud.RTEAeon;
-import io.horizon.specification.runtime.Macrocosm;
+import io.horizon.runtime.Macrocosm;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.eon.KWeb;

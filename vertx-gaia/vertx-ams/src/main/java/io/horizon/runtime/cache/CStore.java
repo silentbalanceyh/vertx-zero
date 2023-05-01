@@ -1,4 +1,4 @@
-package io.horizon.eon.cache;
+package io.horizon.runtime.cache;
 
 /**
  * 组件缓存，作为 H1H, H2H, H3H 的抽象类，用于存储组件的 Cc 架构

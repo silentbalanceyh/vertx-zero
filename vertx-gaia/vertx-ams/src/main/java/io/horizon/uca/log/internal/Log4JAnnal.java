@@ -2,9 +2,9 @@ package io.horizon.uca.log.internal;
 
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.specification.runtime.Macrocosm;
-import io.horizon.util.HaS;
+import io.horizon.runtime.Macrocosm;
 import io.horizon.uca.log.Annal;
+import io.horizon.util.HaS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
