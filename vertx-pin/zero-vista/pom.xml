@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-pin</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
@@ -16,4 +16,51 @@
         <module>infix-mysql</module>
         <module>infix-oracle</module>
     </modules>
+    <build>
+        <plugins>
+            <!--
+            <plugin>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven.plugin.pgp}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <executable>gpg2</executable>
+                            <keyname>lang.yu</keyname>
+                            <passphrase>pl,okmijn123</passphrase>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!-- 输出设置：路径/风格 -->
+                    <outputDirectory>${basedir}/document</outputDirectory>
+                    <reportOutputDirectory>${basedir}</reportOutputDirectory>
+                    <!--                    <destDir>document</destDir>-->
+                    <!-- 连接配置 -->
+                    <doclint>none,-missing</doclint>
+                    <detectJavaApiLink>true</detectJavaApiLink>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <release>17</release>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

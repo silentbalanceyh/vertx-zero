@@ -6,7 +6,7 @@
     <parent>
         <artifactId>zero-vista</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>infix-hed</artifactId>
