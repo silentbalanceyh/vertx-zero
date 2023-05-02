@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.runtime.HService;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.*;
 
 @SuppressWarnings("all")
-public final class Ut extends HaS {
+public final class Ut extends HUt {
     private Ut() {
     }
 
@@ -103,7 +103,7 @@ public final class Ut extends HaS {
 
     public static String encryptBase64(final String username, final String password) {
         final String input = username + ":" + password;
-        return HaS.encryptBase64(input);
+        return HUt.encryptBase64(input);
     }
 
     public static String encryptJ(final Object value) {

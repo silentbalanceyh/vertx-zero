@@ -26,7 +26,7 @@ final class TTo {
     }
 
     static List<String> toList(final JsonArray keys) {
-        final JsonArray keysData = HaS.valueJArray(keys);
+        final JsonArray keysData = HUt.valueJArray(keys);
         final List<String> keyList = new ArrayList<>();
         HIter.itJString(keysData).forEach(keyList::add);
         return keyList;
@@ -39,11 +39,11 @@ final class TTo {
                 return ((Collection<?>) value);
             }
             // JsonArray
-            if (HaS.isJArray(value)) {
+            if (HUt.isJArray(value)) {
                 return ((JsonArray) value).getList();
             }
             // Object[]
-            if (HaS.isArray(value)) {
+            if (HUt.isArray(value)) {
                 // Array
                 final Object[] values = (Object[]) value;
                 return Arrays.asList(values);
@@ -56,10 +56,10 @@ final class TTo {
     static String toString(final Object reference) {
         return HFn.runOr("null", () -> {
             final String literal;
-            if (HaS.isJObject(reference)) {
+            if (HUt.isJObject(reference)) {
                 // Fix issue for serialization
                 literal = ((JsonObject) reference).encode();
-            } else if (HaS.isJArray(reference)) {
+            } else if (HUt.isJArray(reference)) {
                 // Fix issue for serialization
                 literal = ((JsonArray) reference).encode();
             } else {

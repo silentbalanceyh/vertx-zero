@@ -7,6 +7,9 @@ import io.vertx.core.json.JsonObject;
  */
 class _Net extends _Modeler {
 
+    protected _Net() {
+    }
+
     /**
      * 检查目标地址网络通讯是否正常
      *

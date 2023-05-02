@@ -1,18 +1,33 @@
 package io.horizon.util;
 
+import io.horizon.annotations.Memory;
 import io.horizon.runtime.Macrocosm;
+import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+interface CACHE {
+    /**
+     * 全局单件模式专用
+     */
+    @Memory(Object.class)
+    Cc<String, Object> CC_SINGLETON = Cc.open();
+    /**
+     * 全局类缓存专用
+     */
+    @Memory(Class.class)
+    Cc<String, Class<?>> CC_CLASSES = Cc.open();
+}
 
 /**
  * @author lang : 2023/4/28
  */
-interface __Message {
-    interface HIo {
+interface __MESSAGE {
+    interface Io {
         String INF_PATH = "「I/O」Absolute path is hitted: {0}.";
     }
 
-    interface HStream {
+    interface IoStream {
         String INF_PATH = "「I/O」The system class Stream try to data from {0}, got stream: {1}.";
         String INF_CUR = "「I/O」Current path is scanned by the system, up.god.file existing ? {0}.";
         String __FILE_ROOT = "「DevOps」root = {0}, file = {1}";
@@ -39,7 +54,7 @@ class LogUtil {
     void io(final String pattern, final Object... args) {
         /* 底层防止循环调用，此处不走 DiagnosisOption */
         final String value = System.getenv(Macrocosm.DEV_IO);
-        if (HaS.isBoolean(value)) {
+        if (HUt.isBoolean(value)) {
             final boolean ioDebug = Boolean.parseBoolean(value);
             if (ioDebug) {
                 final String message = HFormat.fromMessage(pattern, args);

@@ -11,6 +11,8 @@ import java.util.Set;
  * @author lang : 2023/4/30
  */
 class _Compare extends _Color {
+    protected _Compare() {
+    }
 
     /**
      * 检查两个日期是否相等

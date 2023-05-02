@@ -119,15 +119,15 @@ class TValue {
         if (json instanceof final JsonArray array) {
             HIter.itJArray(array).forEach(item -> valueToJson(item, field));
         } else if (json instanceof final JsonObject object) {
-            if (HaS.isNotNil(object)) {
+            if (HUt.isNotNil(object)) {
                 final Object value = object.getValue(field);
                 if (value instanceof final String literal) {
                     // String Literal
-                    if (HaS.isJObject(literal)) {
-                        final JsonObject replaced = HaS.toJObject(literal, TValue::valueToMetadata);
+                    if (HUt.isJObject(literal)) {
+                        final JsonObject replaced = HUt.toJObject(literal, TValue::valueToMetadata);
                         object.put(field, replaced);
-                    } else if (HaS.isJArray(literal)) {
-                        final JsonArray replaced = HaS.toJArray(literal, TValue::valueToMetadata);
+                    } else if (HUt.isJArray(literal)) {
+                        final JsonArray replaced = HUt.toJArray(literal, TValue::valueToMetadata);
                         object.put(field, replaced);
                     }
                 } else if (value instanceof final JsonObject valueJ) {

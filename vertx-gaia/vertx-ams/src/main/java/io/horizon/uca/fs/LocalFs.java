@@ -4,7 +4,7 @@ import io.horizon.eon.VMessage;
 import io.horizon.fn.HFn;
 import io.horizon.specification.uca.HFS;
 import io.horizon.uca.log.LogAs;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public class LocalFs implements HFS {
 
     @Override
     public boolean rm(final String filename) {
-        final File file = HaS.ioFile(filename);
+        final File file = HUt.ioFile(filename);
         if (Objects.nonNull(file) && file.exists()) {
             LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_RM, file.getAbsolutePath());
             HFn.jvmAt(() -> FileUtils.forceDelete(file));
@@ -84,7 +84,7 @@ public class LocalFs implements HFS {
                 HFn.jvmAt(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
                 // 文件拷贝（替换原始文件）
-                if (HaS.ioExist(nameTo)) {
+                if (HUt.ioExist(nameTo)) {
                     // Fix: org.apache.commons.io.FileExistsException:
                     //      File element in parameter 'null' already exists:
                     this.rm(nameTo);

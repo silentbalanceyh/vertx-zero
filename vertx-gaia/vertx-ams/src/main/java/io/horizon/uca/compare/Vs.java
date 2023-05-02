@@ -4,7 +4,7 @@ import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.modello.atom.typed.MetaField;
 import io.vertx.core.json.JsonObject;
 
@@ -152,8 +152,8 @@ public class Vs implements Serializable {
 
     public boolean isChange(final JsonObject previous, final JsonObject current) {
         // Copy each compared json object
-        final JsonObject oldCopy = HaS.valueJObject(previous).copy();
-        final JsonObject newCopy = HaS.valueJObject(current).copy();
+        final JsonObject oldCopy = HUt.valueJObject(previous).copy();
+        final JsonObject newCopy = HUt.valueJObject(current).copy();
 
         /*
          * Remove ignore fields, iterating once only, old code ( Twice iterating )
@@ -191,7 +191,7 @@ public class Vs implements Serializable {
     }
 
     public boolean isChange(final JsonObject twins) {
-        final JsonObject secure = HaS.valueJObject(twins);
+        final JsonObject secure = HUt.valueJObject(twins);
         return this.isChange(secure.getJsonObject(VName.__.OLD), secure.getJsonObject(VName.__.NEW));
     }
 

@@ -2,7 +2,7 @@ package io.horizon.specification.runtime;
 
 import io.aeon.runtime.CRunning;
 import io.horizon.eon.VValue;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.up.util.Ut;
 
 import java.io.BufferedReader;
@@ -66,14 +66,14 @@ public class HService {
             return Ut.instance(implCls);
         }
         // Load: /META-INF/services
-        T reference = HaS.service((Class<T>) this.serviceCls, this.loader);
+        T reference = HUt.service((Class<T>) this.serviceCls, this.loader);
         if (Objects.isNull(reference)) {
             // Fix Liquibase Issue:
             /*
              * [ HED ] Missed `HED` component in service loader: META-INF/services/io.vertx.up.experiment.mixture.HED
              * This issue happened only when run `mvn liquibase:update`, because the class runtime is standalone
              */
-            reference = HaS.service((Class<T>) this.serviceCls, this.serviceCls.getClassLoader());
+            reference = HUt.service((Class<T>) this.serviceCls, this.serviceCls.getClassLoader());
         }
         return reference;
     }

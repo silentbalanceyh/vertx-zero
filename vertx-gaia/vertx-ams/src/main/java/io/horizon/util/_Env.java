@@ -12,6 +12,9 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang : 2023/4/28
  */
 class _Env extends _End {
+    protected _Env() {
+    }
+
     public static OsType envOs() {
         // os.name
         return OsType.from(System.getProperty(VEnv.PROP.OS_NAME));

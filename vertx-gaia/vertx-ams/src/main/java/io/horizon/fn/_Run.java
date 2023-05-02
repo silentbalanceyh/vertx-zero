@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.specification.uca.HLogger;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -41,7 +41,7 @@ class _Run extends _Out {
      */
     public static void runAt(final Actuator actuator, final HLogger logger,
                              final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.runAt(actuator, logger);
         }
     }
@@ -53,7 +53,7 @@ class _Run extends _Out {
      * @param input    输入
      */
     public static void runAt(final Actuator actuator, final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.runAt(actuator, null);
         }
     }
@@ -93,7 +93,7 @@ class _Run extends _Out {
      * @return T
      */
     public static <T> T runOr(final Supplier<T> supplier, final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             return HSupplier.runOr(null, supplier);
         } else {
             return null;
@@ -110,7 +110,7 @@ class _Run extends _Out {
      * @return T
      */
     public static <T> T runOr(final Supplier<T> supplier, final String... input) {
-        if (HaS.isNotNil(input)) {
+        if (HUt.isNotNil(input)) {
             return HSupplier.runOr(null, supplier);
         } else {
             return null;
@@ -128,7 +128,7 @@ class _Run extends _Out {
      */
     public static <T> T runOr(final T defaultValue, final Supplier<T> supplier,
                               final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             return HSupplier.runOr(defaultValue, supplier);
         } else {
             return defaultValue; // HSupplier.runOr(null, supplier);
@@ -147,7 +147,7 @@ class _Run extends _Out {
 
     public static <T> T runOr(final T defaultValue, final Supplier<T> supplier,
                               final String... input) {
-        if (HaS.isNotNil(input)) {
+        if (HUt.isNotNil(input)) {
             return HSupplier.runOr(defaultValue, supplier);
         } else {
             return defaultValue; // return HSupplier.runOr(null, supplier);

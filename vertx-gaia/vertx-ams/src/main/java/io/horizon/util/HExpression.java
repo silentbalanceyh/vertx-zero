@@ -28,7 +28,7 @@ class HExpression {
     static JsonObject expression(final JsonObject exprObject, final JsonObject params) {
         // Iterator On Json Object
         final JsonObject parsed = new JsonObject();
-        if (HaS.isNotNil(exprObject)) {
+        if (HUt.isNotNil(exprObject)) {
             exprObject.fieldNames().forEach(k -> {
                 final Object value = exprObject.getValue(k);
                 if (value instanceof String) {
@@ -60,7 +60,7 @@ class HExpression {
 
     static JsonArray expression(final JsonArray exprArray, final JsonObject params) {
         final JsonArray normalized = new JsonArray();
-        if (HaS.isNotNil(exprArray)) {
+        if (HUt.isNotNil(exprArray)) {
             exprArray.forEach(valueElement -> {
                 if (valueElement instanceof String) {
 
@@ -91,7 +91,7 @@ class HExpression {
     }
 
     static Object expressionWith(final String valueExpr, final JsonObject params) {
-        if (HaS.isNotNil(valueExpr)) {
+        if (HUt.isNotNil(valueExpr)) {
             final Object valueResult;
             if (valueExpr.contains("`")) {
                 // Actual Parsing

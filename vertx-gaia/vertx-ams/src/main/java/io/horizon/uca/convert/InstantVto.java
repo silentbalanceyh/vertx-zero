@@ -1,6 +1,6 @@
 package io.horizon.uca.convert;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,24 +33,24 @@ public class InstantVto implements Vto<Instant> {
                 /*
                  * java.time.LocalDateTime -> Instant
                  */
-                return HaS.parse((LocalDateTime) value).toInstant();
+                return HUt.parse((LocalDateTime) value).toInstant();
             } else if (LocalDate.class == type) {
                 /*
                  * java.time.LocalDate -> Instant
                  */
-                return HaS.parse((LocalDate) value).toInstant();
+                return HUt.parse((LocalDate) value).toInstant();
             } else if (LocalTime.class == type) {
                 /*
                  * java.time.LocalTime -> Instant
                  */
-                return HaS.parse((LocalTime) value).toInstant();
+                return HUt.parse((LocalTime) value).toInstant();
             }
             final String literal = value.toString();
-            if (HaS.isDate(literal)) {
+            if (HUt.isDate(literal)) {
                 /*
                  * String checking here for instant
                  */
-                final Date parsed = HaS.parseFull(literal);
+                final Date parsed = HUt.parseFull(literal);
                 if (Objects.isNull(parsed)) {
                     /*
                      * Could not parsing

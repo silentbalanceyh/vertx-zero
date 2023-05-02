@@ -7,6 +7,9 @@ import io.vertx.core.shareddata.ClusterSerializable;
  * @author lang : 2023/5/1
  */
 class _End extends _Element {
+    protected _End() {
+    }
+
     /**
      * 从 JsonObject 中提取 String 类型的结果，转换成 Result 结果
      * SUCCESS 和 FAILURE

@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.specification.uca.HLogger;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * @author lang : 2023/4/28
@@ -88,7 +88,7 @@ class _Jvm extends _Fail {
      */
     public static <T> T jvmOr(final T defaultValue, final ErrorSupplier<T> supplier,
                               final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             return HSupplier.jvmOr(defaultValue, supplier, (HLogger) null);
         } else {
             return defaultValue;
@@ -124,7 +124,7 @@ class _Jvm extends _Fail {
      */
     public static void jvmAt(final ErrorActuator actuator, final HLogger logger,
                              final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.jvmAt(actuator, logger);
         }
     }
@@ -137,7 +137,7 @@ class _Jvm extends _Fail {
      * @param input    待检查的输入信息
      */
     public static void jvmAt(final ErrorActuator actuator, final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.jvmAt(actuator, null);
         }
     }

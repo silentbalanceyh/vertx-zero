@@ -1,7 +1,7 @@
 package io.horizon.exception;
 
 import io.horizon.eon.error.ErrorMessage;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * 内部异常，不和资源文件绑定
@@ -32,7 +32,7 @@ public abstract class InternalException extends AbstractException {
          * 内部异常不绑定资源文件，所以不执行 HaS.fromError 的调用
          * 此处直接做消息级别初始化，以防止调用混乱的情况
          */
-        return HaS.fromMessage(ErrorMessage.EXCEPTION_INTERNAL, String.valueOf(this.getCode()), super.getMessage());
+        return HUt.fromMessage(ErrorMessage.EXCEPTION_INTERNAL, String.valueOf(this.getCode()), super.getMessage());
     }
 
     @Override

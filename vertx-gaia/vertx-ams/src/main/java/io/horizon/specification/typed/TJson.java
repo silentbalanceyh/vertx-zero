@@ -1,6 +1,6 @@
 package io.horizon.specification.typed;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -31,7 +31,7 @@ public interface TJson {
      * @param jsonFile input file
      */
     default void fromFile(final String jsonFile) {
-        final JsonObject data = HaS.ioJObject(jsonFile);
+        final JsonObject data = HUt.ioJObject(jsonFile);
         this.fromJson(data);
     }
 }

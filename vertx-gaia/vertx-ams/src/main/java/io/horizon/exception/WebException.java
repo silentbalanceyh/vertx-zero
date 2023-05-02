@@ -5,7 +5,7 @@ import io.horizon.eon.VString;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.eon.error.ErrorMessage;
 import io.horizon.fn.HFn;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Objects;
@@ -26,17 +26,17 @@ public abstract class WebException extends AbstractException {
         this.status = HttpStatusCode.BAD_REQUEST;
         this.caller = null;      // Target;
         // readable 构造时设置
-        this.readable = HaS.fromReadable(this.getCode());
+        this.readable = HUt.fromReadable(this.getCode());
     }
 
     public WebException(final Class<?> clazz, final Object... args) {
         super(VString.EMPTY);
-        this.message = HaS.fromError(ErrorMessage.EXCEPTION_WEB, clazz, this.getCode(), args);
+        this.message = HUt.fromError(ErrorMessage.EXCEPTION_WEB, clazz, this.getCode(), args);
         this.params = args;
         this.status = HttpStatusCode.BAD_REQUEST;
         this.caller = clazz;     // Target;
         // readable 构造时设置
-        this.readable = HaS.fromReadable(this.getCode(), args);
+        this.readable = HUt.fromReadable(this.getCode(), args);
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class WebException extends AbstractException {
             if (Objects.isNull(this.params)) {
                 this.readable = readable;
             } else {
-                this.readable = HaS.fromMessage(readable, this.params);
+                this.readable = HUt.fromMessage(readable, this.params);
             }
         }, readable);
     }
@@ -95,7 +95,7 @@ public abstract class WebException extends AbstractException {
         final JsonObject data = new JsonObject();
         data.put(VName.CODE, this.getCode());
         data.put(VName.MESSAGE, this.getMessage());
-        if (HaS.isNotNil(this.readable)) {
+        if (HUt.isNotNil(this.readable)) {
             data.put(VName.INFO, this.readable);
         }
         return data;

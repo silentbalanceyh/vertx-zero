@@ -2,7 +2,7 @@ package io.horizon.exception;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.error.ErrorMessage;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * 和资源文件绑定的启动异常类，通常在容器启动中抛出该信息
@@ -16,7 +16,7 @@ public abstract class BootingException extends AbstractException {
     public BootingException(final Class<?> clazz, final Object... args) {
         super(VString.EMPTY);
         this.target = clazz;
-        this.message = HaS.fromError(ErrorMessage.EXCEPTION_BOOTING, clazz, this.getCode(), args); // Errors.format(clazz, this.getCode(), args);
+        this.message = HUt.fromError(ErrorMessage.EXCEPTION_BOOTING, clazz, this.getCode(), args); // Errors.format(clazz, this.getCode(), args);
     }
 
     @Override

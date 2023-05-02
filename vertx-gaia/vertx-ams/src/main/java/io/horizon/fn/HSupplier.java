@@ -3,7 +3,7 @@ package io.horizon.fn;
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.specification.uca.HLogger;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.function.Supplier;
 
@@ -30,8 +30,8 @@ class HSupplier {
         try {
             ret = supplier.get();
         } catch (final Throwable ex) {
-            final Object[] argument = HaS.elementAdd(args, ex);
-            final AbstractException error = HaS.instance(runCls, argument);
+            final Object[] argument = HUt.elementAdd(args, ex);
+            final AbstractException error = HUt.instance(runCls, argument);
             if (null != error) {
                 throw error;
             }

@@ -2,7 +2,7 @@ package io.horizon.fn;
 
 import io.horizon.exception.ProgramException;
 import io.horizon.specification.uca.HLogger;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -49,7 +49,7 @@ class _Bug {
      */
     public static void bugAt(final ProgramActuator actuator, final HLogger logger,
                              final Object... input) throws ProgramException {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.bugAt(actuator, logger);
         }
     }
@@ -63,7 +63,7 @@ class _Bug {
      * @throws ProgramException 可抛出的异常
      */
     public static void bugAt(final ProgramActuator actuator, final Object... input) throws ProgramException {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.bugAt(actuator, null);
         }
     }

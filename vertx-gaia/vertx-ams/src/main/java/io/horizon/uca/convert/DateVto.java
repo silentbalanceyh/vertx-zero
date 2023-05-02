@@ -1,6 +1,6 @@
 package io.horizon.uca.convert;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -22,13 +22,13 @@ public class DateVto implements Vto<Date> {
                 /*
                  * Default Parsed
                  */
-                return HaS.parseFull(value.toString());
+                return HUt.parseFull(value.toString());
             } else if (LocalTime.class == type) {
-                return HaS.parseFull(value.toString());
+                return HUt.parseFull(value.toString());
             } else if (LocalDate.class == type) {
-                return HaS.parseFull(value.toString());
+                return HUt.parseFull(value.toString());
             } else if (LocalDateTime.class == type) {
-                return HaS.parseFull(value.toString());
+                return HUt.parseFull(value.toString());
             } else if (Instant.class == type) {
                 return Date.from((Instant) value);
             }

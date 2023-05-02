@@ -4,7 +4,7 @@ import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.runtime.cache.CStore;
 import io.horizon.specification.app.HApp;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
@@ -53,14 +53,14 @@ public class KApp implements Serializable {
 
     public KApp bind(final JsonObject unityApp) {
         /* appId, appKey, code */
-        final JsonObject appJ = HaS.valueJObject(unityApp);
-        this.appId = HaS.valueString(appJ, VName.APP_ID);
-        this.appKey = HaS.valueString(appJ, VName.APP_KEY);
-        this.code = HaS.valueString(appJ, VName.CODE);
+        final JsonObject appJ = HUt.valueJObject(unityApp);
+        this.appId = HUt.valueString(appJ, VName.APP_ID);
+        this.appKey = HUt.valueString(appJ, VName.APP_KEY);
+        this.code = HUt.valueString(appJ, VName.CODE);
 
         /* sigma / language */
-        this.sigma = HaS.valueString(appJ, VName.SIGMA);
-        this.language = HaS.valueString(appJ, VName.LANGUAGE);
+        this.sigma = HUt.valueString(appJ, VName.SIGMA);
+        this.language = HUt.valueString(appJ, VName.LANGUAGE);
 
         {
             this.dimJ.put(VName.SIGMA, this.sigma);
@@ -74,8 +74,8 @@ public class KApp implements Serializable {
         }
 
         /* database */
-        final JsonObject sourceJ = HaS.valueJObject(appJ, VName.SOURCE);
-        if (HaS.isNotNil(sourceJ)) {
+        final JsonObject sourceJ = HUt.valueJObject(appJ, VName.SOURCE);
+        if (HUt.isNotNil(sourceJ)) {
             this.database = new KDatabase();
             this.database.fromJson(sourceJ);
         }

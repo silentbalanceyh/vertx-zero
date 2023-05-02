@@ -26,7 +26,7 @@ class HIter {
     }
 
     static Stream<JsonObject> itJArray(final JsonArray array) {
-        final JsonArray source = HaS.valueJArray(array);
+        final JsonArray source = HUt.valueJArray(array);
         // 并行
         return source.stream().filter(item -> item instanceof JsonObject).map(item -> (JsonObject) item);
     }
@@ -36,7 +36,7 @@ class HIter {
     }
 
     static Stream<String> itJString(final JsonArray array) {
-        final JsonArray source = HaS.valueJArray(array);
+        final JsonArray source = HUt.valueJArray(array);
         // 并行
         return source.stream().filter(item -> item instanceof String).map(item -> (String) item);
     }

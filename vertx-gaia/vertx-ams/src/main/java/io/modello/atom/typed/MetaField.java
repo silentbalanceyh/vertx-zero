@@ -1,6 +1,6 @@
 package io.modello.atom.typed;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.io.Serializable;
 import java.util.*;
@@ -145,7 +145,7 @@ public class MetaField implements Serializable {
     }
 
     private <T> T children(final String field, final Function<MetaField, T> function) {
-        if (HaS.isNil(field)) {
+        if (HUt.isNil(field)) {
             return null;
         } else {
             final MetaField item = this.childMap.getOrDefault(field, null);

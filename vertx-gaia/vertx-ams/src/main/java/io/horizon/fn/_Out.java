@@ -9,6 +9,8 @@ import io.horizon.specification.uca.HLogger;
  * @author lang : 2023/4/28
  */
 class _Out extends _Jvm {
+    protected _Out() {
+    }
 
     /**
      * 检查条件，如果满足条件则抛出 BootingException 异常，且支持传入 HLogger 日志记录器

@@ -106,14 +106,14 @@ final class IoStream {
     static InputStream read(final String filename,
                             final Class<?> clazz) {
         final String root = IoPath.root();
-        LOG.io(__Message.HStream.__FILE_ROOT, root, filename);
+        LOG.io(__MESSAGE.IoStream.__FILE_ROOT, root, filename);
         /*
          * 0. new File(filename)
          *    new FileInputStream(File)
          */
         final File file = new File(filename);
         if (file.exists()) {
-            LOG.io(__Message.HStream.INF_CUR, file.exists());
+            LOG.io(__MESSAGE.IoStream.INF_CUR, file.exists());
             return readSupplier(() -> readDirect(file), filename);
         } else {
             /*
@@ -159,7 +159,7 @@ final class IoStream {
             /*
              * 3. Stream.class.getResourceAsStream(filename)
              */
-            LOG.io(__Message.HStream.__CLASS_LOADER_STREAM, filename);
+            LOG.io(__MESSAGE.IoStream.__CLASS_LOADER_STREAM, filename);
             in = readSupplier(() -> IoStream.class.getResourceAsStream(filename), filename);
         }
         // System.Class Loader
@@ -169,7 +169,7 @@ final class IoStream {
             /*
              * 4. ClassLoader.getSystemResourceAsStream(filename)
              */
-            LOG.io(__Message.HStream.__CLASS_LOADER_SYSTEM, filename);
+            LOG.io(__MESSAGE.IoStream.__CLASS_LOADER_SYSTEM, filename);
             in = readSupplier(() -> ClassLoader.getSystemResourceAsStream(filename), filename);
         }
         /*
@@ -182,7 +182,7 @@ final class IoStream {
             /*
              * 5. readJar(filename)
              */
-            LOG.io(__Message.HStream.__JAR_RESOURCE, filename);
+            LOG.io(__MESSAGE.IoStream.__JAR_RESOURCE, filename);
             in = readJar(filename);
         }
         if (null == in) {
@@ -194,13 +194,13 @@ final class IoStream {
     // 直接读取文件
     static InputStream readDirect(final File file) {
         final String parameters = Objects.isNull(file) ? null : file.getAbsolutePath();
-        LOG.io(__Message.HStream.__FILE_INPUT_STREAM, parameters);
+        LOG.io(__MESSAGE.IoStream.__FILE_INPUT_STREAM, parameters);
         return HFn.failOr(() -> (file.exists() && file.isFile()) ? new FileInputStream(file) : null, file);
     }
 
     static InputStream readDirect(final String filename) {
         final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        LOG.io(__Message.HStream.__CLASS_LOADER, filename);
+        LOG.io(__MESSAGE.IoStream.__CLASS_LOADER, filename);
         return HFn.failOr(() -> loader.getResourceAsStream(filename), filename);
     }
 
@@ -226,7 +226,7 @@ final class IoStream {
     }
 
     private static InputStream readDirect(final String filename, final Class<?> clazz) {
-        LOG.io(__Message.HStream.__RESOURCE_AS_STREAM, clazz, filename);
+        LOG.io(__MESSAGE.IoStream.__RESOURCE_AS_STREAM, clazz, filename);
         return HFn.failOr(() -> clazz.getResourceAsStream(filename), clazz, filename);
     }
 
@@ -234,7 +234,7 @@ final class IoStream {
                                             final String filename) {
         final InputStream in = supplier.get();
         if (null != in) {
-            LOG.io(__Message.HStream.INF_PATH, filename, in);
+            LOG.io(__MESSAGE.IoStream.INF_PATH, filename, in);
         }
         return in;
     }

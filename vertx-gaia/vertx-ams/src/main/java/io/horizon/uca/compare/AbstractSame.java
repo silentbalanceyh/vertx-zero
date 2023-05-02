@@ -1,7 +1,7 @@
 package io.horizon.uca.compare;
 
 import io.horizon.spi.typed.VsExtension;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.modello.atom.typed.MetaField;
 
 import java.util.Objects;
@@ -65,7 +65,7 @@ abstract class AbstractSame implements VsSame {
          *
          * [NOT NULL]
          */
-        return Objects.nonNull(value) && HaS.isNotNil(value.toString());
+        return Objects.nonNull(value) && HUt.isNotNil(value.toString());
     }
 
     public boolean isAnd(final Object valueOld, final Object valueNew) {

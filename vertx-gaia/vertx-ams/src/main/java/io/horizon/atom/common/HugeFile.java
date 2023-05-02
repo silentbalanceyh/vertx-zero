@@ -2,7 +2,7 @@ package io.horizon.atom.common;
 
 import io.horizon.exception.internal.EmptyIoException;
 import io.horizon.fn.HFn;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +31,7 @@ public class HugeFile {
 
     public HugeFile(final String fileName, final int byteBufferSize) {
         HFn.jvmAt(() -> {
-            final File file = HaS.ioFile(fileName);
+            final File file = HUt.ioFile(fileName);
             if (Objects.isNull(file)) {
                 throw new EmptyIoException(this.getClass(), fileName);
             } else {

@@ -4,7 +4,7 @@ import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
 import io.horizon.runtime.Macrocosm;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class Log4JAnnal extends AbstractAnnal implements Annal {
             this.logger.warn(ex.getMessage());
         } else {
             this.logger.error(ex.getMessage());
-            final Boolean isDebug = HaS.envWith(Macrocosm.DEV_JVM_STACK, Boolean.FALSE, Boolean.class);
+            final Boolean isDebug = HUt.envWith(Macrocosm.DEV_JVM_STACK, Boolean.FALSE, Boolean.class);
             if (isDebug) {
                 /*
                  * 堆栈信息打印条件

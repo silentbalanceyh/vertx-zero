@@ -3,7 +3,7 @@ package io.vertx.up.util;
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -99,7 +99,7 @@ final class CollectionIt {
     static <T> void exec(final JsonObject data, final String flag,
                          final Boolean sec, // S - Start, E - End, C - Contains
                          final BiConsumer<T, String> consumer) {
-        if (HaS.isNil(flag)) {
+        if (HUt.isNil(flag)) {
             exec(data, consumer);
         } else {
             data.stream().filter(entry -> {

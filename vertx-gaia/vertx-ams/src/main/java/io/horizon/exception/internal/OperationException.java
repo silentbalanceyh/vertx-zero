@@ -3,15 +3,15 @@ package io.horizon.exception.internal;
 import io.horizon.annotations.Development;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 public class OperationException extends InternalException {
     public OperationException(final Class<?> caller, final String method) {
-        super(caller, HaS.fromMessage(ErrorCode._11005.M(), method, caller.getName()));
+        super(caller, HUt.fromMessage(ErrorCode._11005.M(), method, caller.getName()));
     }
 
     public OperationException(final Class<?> caller, final String method, final Class<?> clazz) {
-        super(caller, HaS.fromMessage(ErrorCode._11005.M(), method, clazz.getName()));
+        super(caller, HUt.fromMessage(ErrorCode._11005.M(), method, clazz.getName()));
     }
 
     @Override

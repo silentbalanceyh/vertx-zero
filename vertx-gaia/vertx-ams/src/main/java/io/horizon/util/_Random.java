@@ -7,6 +7,9 @@ import io.horizon.uca.crypto.ED;
  * @author lang : 2023/4/28
  */
 class _Random extends _Parse {
+    protected _Random() {
+    }
+
     /**
      * 按长度生成随机整数
      *

@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.BootingException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.exception.booting.DuplicatedImplException;
@@ -46,7 +46,7 @@ final class Instance {
      * 2) Initialize the `key` string ( class name ) with interfaceCls
      */
     static <T> T plugin(final JsonObject options, final String key, final Class<?> interfaceCls) {
-        if (HaS.isNil(options) || HaS.isNil(key)) {
+        if (HUt.isNil(options) || HUt.isNil(key)) {
             /*
              * options or key are either invalid
              */
@@ -54,22 +54,22 @@ final class Instance {
         }
 
         final String pluginClsName = options.getString(key);
-        if (HaS.isNil(pluginClsName)) {
+        if (HUt.isNil(pluginClsName)) {
             /*
              * class name is "" or null
              */
             return null;
         }
 
-        final Class<?> pluginCls = HaS.clazz(pluginClsName, null);
+        final Class<?> pluginCls = HUt.clazz(pluginClsName, null);
         if (Objects.isNull(pluginCls)) {
             /*
              * class could not be found.
              */
             return null;
         } else {
-            if (HaS.isImplement(pluginCls, interfaceCls)) {
-                return HaS.instance(pluginCls);
+            if (HUt.isImplement(pluginCls, interfaceCls)) {
+                return HUt.instance(pluginCls);
             } else {
                 /*
                  * The class does not implement interface Cls
@@ -138,7 +138,7 @@ final class Instance {
             return Arrays.stream(fields)
                 .filter(field -> fieldType == field.getType() ||          // Direct match
                     fieldType == field.getType().getSuperclass() ||  // Super
-                    HaS.isImplement(field.getType(), fieldType));
+                    HUt.isImplement(field.getType(), fieldType));
         });
     }
 

@@ -1,11 +1,10 @@
 package io.horizon.spi;
 
-import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 
 /**
  * 资源文件加载专用SPI模式
- * - 日志器：Annal 加载，HLogger 是高阶实现，Annal 为默认实现
+ * - 日志器：HLogger 是高阶实现，Annal 为Zero默认实现
  * - 资源加载器：
  * --- spring 中加载 application-error.yml
  * --- vertx zero 中加载 vertx-error.yml
@@ -35,9 +34,9 @@ public interface HorizonIo {
     /**
      * 日志获取器，可读取扩展日志类型，实例时基于 Class<?>
      *
-     * @return {@link Annal}
+     * @return {@link io.horizon.specification.uca.HLogger}
      */
-    default Class<?> ofAnnal() {
+    default Class<?> ofLogger() {
         return null;
     }
 }

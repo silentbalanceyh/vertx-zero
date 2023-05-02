@@ -6,6 +6,9 @@ import io.horizon.exception.WebException;
  * @author lang : 2023/4/30
  */
 class _Error extends _Env {
+    protected _Error() {
+    }
+
     /**
      * 生成一个 WebException
      *

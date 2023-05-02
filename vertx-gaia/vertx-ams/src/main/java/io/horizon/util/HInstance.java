@@ -1,10 +1,8 @@
 package io.horizon.util;
 
-import io.horizon.annotations.Memory;
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.OperationException;
 import io.horizon.fn.HFn;
-import io.horizon.uca.cache.Cc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,19 +15,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
-
-interface CACHE {
-    /**
-     * 全局单件模式专用
-     */
-    @Memory(Object.class)
-    Cc<String, Object> CC_SINGLETON = Cc.open();
-    /**
-     * 全局类缓存专用
-     */
-    @Memory(Class.class)
-    Cc<String, Class<?>> CC_CLASSES = Cc.open();
-}
 
 /**
  * @author lang : 2023/4/28

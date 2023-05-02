@@ -1,7 +1,7 @@
 package io.horizon.uca.log;
 
 import io.horizon.uca.cache.Cc;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.function.Function;
 
@@ -24,19 +24,19 @@ public class LogFactory {
     }
 
     public LogModule program(final String type) {
-        return this.extension(type, HaS::rgbBlueN);
+        return this.extension(type, HUt::rgbBlueN);
     }
 
     public LogModule configure(final String type) {
-        return this.extension(type, HaS::rgbGreenN);
+        return this.extension(type, HUt::rgbGreenN);
     }
 
     public LogModule infix(final String type) {
-        return this.extension(type, HaS::rgbCyanN);
+        return this.extension(type, HUt::rgbCyanN);
     }
 
     public LogModule cloud(final String type) {
-        return this.extension(type, HaS::rgbBlueB);
+        return this.extension(type, HUt::rgbBlueB);
     }
 
     private LogModule extension(final String type, final Function<String, String> colorFn) {

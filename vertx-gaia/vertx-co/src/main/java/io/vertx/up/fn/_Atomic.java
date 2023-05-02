@@ -1,8 +1,8 @@
 package io.vertx.up.fn;
 
-import io.horizon.annotations.HighLevel;
+import io.horizon.annotations.HighOrder;
 import io.horizon.fn.HFn;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 
@@ -51,19 +51,19 @@ class _Atomic extends HFn {
         return Monad.passion(input, Arrays.asList(executors));
     }
 
-    @HighLevel(value = HaS.class)
+    @HighOrder(HUt.class)
     public static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
-        return HaS.pool(pool, key, poolFn);
+        return HUt.pool(pool, key, poolFn);
     }
 
-    @HighLevel(value = HaS.class)
+    @HighOrder(HUt.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
-        return HaS.poolThread(pool, poolFn);
+        return HUt.poolThread(pool, poolFn);
     }
 
-    @HighLevel(value = HaS.class)
+    @HighOrder(HUt.class)
     public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
-        return HaS.poolThread(pool, poolFn, key);
+        return HUt.poolThread(pool, poolFn, key);
     }
 
     /**

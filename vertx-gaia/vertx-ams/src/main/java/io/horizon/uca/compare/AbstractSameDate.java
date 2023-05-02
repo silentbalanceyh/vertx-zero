@@ -1,6 +1,6 @@
 package io.horizon.uca.compare;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -24,15 +24,15 @@ abstract class AbstractSameDate extends AbstractSame {
          * 1) Convert to instant first
          * 2) When `unit` is null, do not comparing other kind of here.
          */
-        final Instant oldInstant = HaS.parseFull(valueOld.toString())
+        final Instant oldInstant = HUt.parseFull(valueOld.toString())
             .toInstant();
-        final Instant newInstant = HaS.parseFull(valueNew.toString())
+        final Instant newInstant = HUt.parseFull(valueNew.toString())
             .toInstant();
         /*
          * Compared by unit
          */
-        final LocalDateTime datetimeOld = HaS.toDateTime(oldInstant);
-        final LocalDateTime datetimeNew = HaS.toDateTime(newInstant);
+        final LocalDateTime datetimeOld = HUt.toDateTime(oldInstant);
+        final LocalDateTime datetimeNew = HUt.toDateTime(newInstant);
         return this.eqDate(datetimeOld, datetimeNew);
     }
 

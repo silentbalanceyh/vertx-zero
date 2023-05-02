@@ -17,7 +17,7 @@ class CSubset {
     static JsonArray subset(final JsonArray array, final Predicate<JsonObject> matchFn) {
         return HFn.runOr(new JsonArray(), () -> {
             final JsonArray subset = new JsonArray();
-            HaS.itJArray(array).filter(matchFn).forEach(subset::add);
+            HUt.itJArray(array).filter(matchFn).forEach(subset::add);
             return subset;
         }, array, matchFn);
     }

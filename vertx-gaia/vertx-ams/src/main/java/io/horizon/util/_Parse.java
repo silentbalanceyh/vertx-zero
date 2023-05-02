@@ -9,6 +9,9 @@ import java.util.Date;
  * @author lang : 2023/4/27
  */
 class _Parse extends _Net {
+    protected _Parse() {
+    }
+
     /**
      * 将字符串literal转换成 Date类型（和JDK老版本对接）
      *

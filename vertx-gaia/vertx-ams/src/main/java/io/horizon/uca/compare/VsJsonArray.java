@@ -1,6 +1,6 @@
 package io.horizon.uca.compare;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -19,7 +19,7 @@ final class VsJsonArray extends AbstractSame {
     public boolean isAnd(final Object valueOld, final Object valueNew) {
         final String valueOStr = valueOld.toString();
         final String valueNStr = valueNew.toString();
-        if (HaS.isJArray(valueOStr) && HaS.isJArray(valueNStr)) {
+        if (HUt.isJArray(valueOStr) && HUt.isJArray(valueNStr)) {
             final JsonArray arrayOld = this.toJArray(valueOld);
             final JsonArray arrayNew = this.toJArray(valueNew);
             if (arrayNew.size() != arrayOld.size()) {
@@ -36,9 +36,9 @@ final class VsJsonArray extends AbstractSame {
                     return Objects.equals(valueOld, valueNew);
                 } else {
                     final Set<String> diffSet = this.fieldType.ruleUnique();
-                    return HaS.itJArray(arrayOld).allMatch(jsonOld -> HaS.itJArray(arrayNew).anyMatch(jsonNew -> {
-                        final JsonObject checkedNew = HaS.elementSubset(jsonNew, diffSet);
-                        final JsonObject checkedOld = HaS.elementSubset(jsonOld, diffSet);
+                    return HUt.itJArray(arrayOld).allMatch(jsonOld -> HUt.itJArray(arrayNew).anyMatch(jsonNew -> {
+                        final JsonObject checkedNew = HUt.elementSubset(jsonNew, diffSet);
+                        final JsonObject checkedOld = HUt.elementSubset(jsonOld, diffSet);
                         return checkedNew.equals(checkedOld);
                     }));
                 }
@@ -76,7 +76,7 @@ final class VsJsonArray extends AbstractSame {
     private JsonArray toJArray(final Object value) {
         if (value instanceof JsonArray) {
             return (JsonArray) value;
-        } else if (HaS.isJArray(value)) {
+        } else if (HUt.isJArray(value)) {
             return new JsonArray(value.toString());
         } else {
             return new JsonArray().add(value);

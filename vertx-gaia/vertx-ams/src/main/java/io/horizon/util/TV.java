@@ -22,7 +22,7 @@ class TV {
         return list.stream()
             .filter(Objects::nonNull)
             .map(supplier)
-            .filter(HaS::isNotNil)
+            .filter(HUt::isNotNil)
             .collect(Collectors.toSet());
     }
 
@@ -34,7 +34,7 @@ class TV {
                 .map(item -> (JsonObject) item)
                 .filter(item -> item.getValue(field) instanceof String)
                 .map(item -> item.getString(field))
-                .filter(HaS::isNotNil)
+                .filter(HUt::isNotNil)
                 .collect(Collectors.toSet());
         }
         return set;
@@ -42,7 +42,7 @@ class TV {
 
     static String vString(final JsonArray array, final String field) {
         final Set<String> set = new HashSet<>();
-        HaS.itJArray(array).map(json -> json.getString(field))
+        HUt.itJArray(array).map(json -> json.getString(field))
             .filter(Objects::nonNull)
             .forEach(set::add);
         if (1 == set.size()) {
@@ -85,7 +85,7 @@ class TV {
         if (TIs.isNil(clsStr)) {
             return defaultValue;
         }
-        return HaS.clazz(clsStr, defaultValue);
+        return HUt.clazz(clsStr, defaultValue);
     }
 
     static Class<?> vClass(final JsonObject json, final String field,
@@ -96,12 +96,12 @@ class TV {
         if (TIs.isNil(clsStr)) {
             implCls = defaultValue;
         } else {
-            implCls = HaS.clazz(clsStr, defaultValue);
+            implCls = HUt.clazz(clsStr, defaultValue);
         }
         if (Objects.isNull(implCls)) {
             return null;
         }
-        if (HaS.isImplement(implCls, interfaceCls)) {
+        if (HUt.isImplement(implCls, interfaceCls)) {
             return implCls;
         } else {
             return null;

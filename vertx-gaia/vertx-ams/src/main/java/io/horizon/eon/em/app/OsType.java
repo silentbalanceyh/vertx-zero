@@ -1,6 +1,6 @@
 package io.horizon.eon.em.app;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -13,7 +13,7 @@ public enum OsType {
     WINDOWS;        // WINDOWS
 
     public static OsType from(final String os) {
-        if (HaS.isNil(os)) {
+        if (HUt.isNil(os)) {
             return OsType.NA;
         }
         if (os.startsWith("Windows")) {

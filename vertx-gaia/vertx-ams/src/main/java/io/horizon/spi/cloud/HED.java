@@ -3,7 +3,7 @@ package io.horizon.spi.cloud;
 import io.horizon.annotations.Development;
 import io.horizon.atom.common.KPair;
 import io.horizon.eon.VString;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ class T {
     }
 
     static String generate(final String packageName, final String className, final int length) {
-        final KPair pair = HaS.randomRsa(length);
+        final KPair pair = HUt.randomRsa(length);
         // PRIVATE_KEY
         final List<String> source = new ArrayList<>();
         source.add("package " + packageName + ";");
@@ -90,6 +90,6 @@ class T {
         source.add("        return new KPair(PUBLIC_KEY, PRIVATE_KEY);");
         source.add("    }");
         source.add("}");
-        return HaS.fromJoin(source, "\n");
+        return HUt.fromJoin(source, "\n");
     }
 }

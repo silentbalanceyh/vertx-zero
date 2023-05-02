@@ -2,7 +2,7 @@ package io.horizon.uca.cache;
 
 import io.horizon.eon.em.uca.CcMode;
 import io.horizon.exception.internal.CcModeNullException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.Future;
 
 import java.util.Objects;
@@ -22,12 +22,12 @@ import java.util.function.Supplier;
 public interface Cc<K, V> {
 
     static <K, V> V pool(final ConcurrentMap<K, V> input, final K key, final Supplier<V> supplier) {
-        return HaS.pool(input, key, supplier);
+        return HUt.pool(input, key, supplier);
     }
 
 
     static <V> V pool(final ConcurrentMap<String, V> input, final Supplier<V> supplier) {
-        return HaS.poolThread(input, supplier);
+        return HUt.poolThread(input, supplier);
     }
 
     static <V> Cc<String, V> openThread() {

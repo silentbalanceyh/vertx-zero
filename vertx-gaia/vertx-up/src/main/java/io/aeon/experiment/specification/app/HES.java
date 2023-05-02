@@ -2,10 +2,10 @@ package io.aeon.experiment.specification.app;
 
 import io.aeon.runtime.CRunning;
 import io.horizon.atom.app.KApp;
-import io.horizon.atom.cloud.HOI;
 import io.horizon.eon.VValue;
 import io.horizon.spi.cloud.HET;
 import io.horizon.uca.log.Annal;
+import io.macrocosm.atom.HOI;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

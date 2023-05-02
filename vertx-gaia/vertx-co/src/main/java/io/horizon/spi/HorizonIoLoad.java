@@ -23,7 +23,7 @@ public class HorizonIoLoad implements HorizonIo {
     }
 
     @Override
-    public Class<?> ofAnnal() {
+    public Class<?> ofLogger() {
         return ZeroAmbient.getPlugin("logger");
     }
 

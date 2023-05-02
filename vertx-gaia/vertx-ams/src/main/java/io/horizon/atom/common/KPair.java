@@ -1,6 +1,6 @@
 package io.horizon.atom.common;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class KPair implements Serializable {
     }
 
     public boolean valid() {
-        return HaS.isNotNil(this.privateKey) && HaS.isNotNil(this.publicKey);
+        return HUt.isNotNil(this.privateKey) && HUt.isNotNil(this.publicKey);
     }
 
     @Override

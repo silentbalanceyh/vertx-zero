@@ -1,7 +1,7 @@
 package io.horizon.exception;
 
 import io.horizon.eon.error.ErrorMessage;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * 和资源文件绑定的检查异常类，通常在编程过程中抛出该异常
@@ -14,7 +14,7 @@ public abstract class DaemonException extends ProgramException {
 
     public DaemonException(final Class<?> clazz, final Object... args) {
         super(null);
-        this.message = HaS.fromError(ErrorMessage.EXCEPTION_DAEMON, clazz, this.getCode(), args);
+        this.message = HUt.fromError(ErrorMessage.EXCEPTION_DAEMON, clazz, this.getCode(), args);
     }
 
     @Override

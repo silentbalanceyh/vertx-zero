@@ -6,7 +6,7 @@ import io.horizon.exception.WebException;
 import io.horizon.exception.web._412ArgumentNullException;
 import io.horizon.specification.uca.HLogger;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -21,13 +21,13 @@ class HThrow {
      */
     static void out(final Class<?> errorCls, final Object... args) {
         if (BootingException.class == errorCls.getSuperclass()) {
-            final BootingException error = HaS.instance(errorCls, args);
+            final BootingException error = HUt.instance(errorCls, args);
             if (null != error) {
                 callerAt(error::caller, error::getMessage);
                 throw error;
             }
         } else if (WebException.class == errorCls.getSuperclass()) {
-            final WebException error = HaS.instance(errorCls, args);
+            final WebException error = HUt.instance(errorCls, args);
             if (null != error) {
                 callerAt(error::caller, error::getMessage);
                 throw error;
@@ -38,7 +38,7 @@ class HThrow {
     static void outBug(final HLogger logger,
                        final Class<? extends ProgramException> zeroClass,
                        final Object... args) throws ProgramException {
-        final ProgramException error = HaS.instance(zeroClass, args);
+        final ProgramException error = HUt.instance(zeroClass, args);
         if (null != error) {
             if (Objects.nonNull(logger)) {
                 logger.fatal(error);
@@ -64,7 +64,7 @@ class HThrow {
 
     static void outWeb(final Class<? extends WebException> webClass,
                        final Object... args) {
-        final WebException error = HaS.instance(webClass, args);
+        final WebException error = HUt.instance(webClass, args);
         if (null != error) {
             callerAt(error::caller, error::getMessage);
             throw error;
@@ -74,7 +74,7 @@ class HThrow {
     static void outWeb(final HLogger logger,
                        final Class<? extends WebException> webClass,
                        final Object... args) {
-        final WebException error = HaS.instance(webClass, args);
+        final WebException error = HUt.instance(webClass, args);
         if (null != error) {
             if (Objects.nonNull(logger)) {
                 logger.warn(error.getMessage());
@@ -86,7 +86,7 @@ class HThrow {
     static void outBoot(final HLogger logger,
                         final Class<? extends BootingException> upClass,
                         final Object... args) {
-        final BootingException error = HaS.instance(upClass, args);
+        final BootingException error = HUt.instance(upClass, args);
         if (null != error) {
             if (Objects.nonNull(logger)) {
                 logger.fatal(error);
@@ -97,7 +97,7 @@ class HThrow {
 
     static void outBoot(final Class<? extends BootingException> upClass,
                         final Object... args) {
-        final BootingException error = HaS.instance(upClass, args);
+        final BootingException error = HUt.instance(upClass, args);
         if (null != error) {
             callerAt(error::caller, error::getMessage);
             throw error;
@@ -112,7 +112,7 @@ class HThrow {
             }
         } else if (condition instanceof final String check) {
             // If string, condition = empty or null, throw Error
-            if (HaS.isNil(check)) {
+            if (HUt.isNil(check)) {
                 outWeb(_412ArgumentNullException.class, clazz, message);
             }
         } else if (Objects.isNull(condition)) {

@@ -16,6 +16,9 @@ import java.util.Properties;
  * @author lang : 2023/4/28
  */
 class _Io extends _Inverse {
+    protected _Io() {
+    }
+
     /**
      * 文件夹和文件拼接，去掉多余字符的版本，如多个 // 或 \\
      *

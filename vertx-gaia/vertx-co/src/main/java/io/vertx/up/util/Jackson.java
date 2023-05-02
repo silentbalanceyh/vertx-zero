@@ -13,7 +13,7 @@ import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -141,7 +141,7 @@ final class Jackson {
                     }
                 } else {
                     /* 3.2. Address the middle search **/
-                    if (HaS.isJObject(curVal)) {
+                    if (HUt.isJObject(curVal)) {
                         final JsonObject continueNode = current.getJsonObject(path);
                         /* 4.Extract new key **/
                         final String[] continueKeys =
@@ -160,7 +160,7 @@ final class Jackson {
     static <T> JsonArray zip(final JsonArray array, final String fieldFrom,
                              final String fieldOn,
                              final ConcurrentMap<T, JsonArray> grouped, final String fieldTo) {
-        HaS.itJArray(array).forEach(json -> {
+        HUt.itJArray(array).forEach(json -> {
             final T fieldV = (T) json.getValue(fieldFrom, null);
             final JsonArray data;
             if (Objects.nonNull(fieldV)) {
@@ -168,11 +168,11 @@ final class Jackson {
             } else {
                 data = new JsonArray();
             }
-            if (HaS.isNil(fieldTo)) {
+            if (HUt.isNil(fieldTo)) {
                 json.put(fieldOn, data);
             } else {
                 final JsonArray replaced = new JsonArray();
-                HaS.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
+                HUt.itJArray(data).forEach(each -> replaced.add(each.getValue(fieldTo)));
                 json.put(fieldOn, replaced);
             }
         });
@@ -226,8 +226,8 @@ final class Jackson {
 
     // ---------------------- Jackson Advanced for Smart Serilization / DeSerialization
     private static <T> String deserializeSmart(final String literal, final Class<T> type) {
-        if (HaS.isJObject(literal) || HaS.isJArray(literal)) {
-            if (HaS.isJArray(literal)) {
+        if (HUt.isJObject(literal) || HUt.isJArray(literal)) {
+            if (HUt.isJArray(literal)) {
                 return deserializeSmart(new JsonArray(literal), type);
             } else {
                 return deserializeSmart(new JsonObject(literal), type);
@@ -261,7 +261,7 @@ final class Jackson {
     }
 
     private static <T> String deserializeSmart(final JsonArray item, final Class<T> type) {
-        HaS.itJArray(item).forEach(json -> deserializeSmart(json, type));
+        HUt.itJArray(item).forEach(json -> deserializeSmart(json, type));
         return item.encode();
     }
 
@@ -275,9 +275,9 @@ final class Jackson {
             } else if (value instanceof String) {
                 // T -> JsonObject / JsonArray
                 final String literal = (String) value;
-                if (HaS.isJArray(literal)) {
+                if (HUt.isJArray(literal)) {
                     item.put(field, serializeSmart(new JsonArray(literal)));
-                } else if (HaS.isJObject(literal)) {
+                } else if (HUt.isJObject(literal)) {
                     item.put(field, serializeSmart(new JsonObject(literal)));
                 }
             }
@@ -286,7 +286,7 @@ final class Jackson {
     }
 
     private static <T, R extends Iterable> R serializeSmart(final JsonArray item) {
-        HaS.itJArray(item).forEach(json -> serializeSmart(json));
+        HUt.itJArray(item).forEach(json -> serializeSmart(json));
         return (R) item;
     }
 
@@ -324,15 +324,15 @@ final class Jackson {
     }
 
     static ChangeFlag flag(final JsonObject recordN, final JsonObject recordO) {
-        if (HaS.isNil(recordO)) {
-            if (HaS.isNil(recordN)) {
+        if (HUt.isNil(recordO)) {
+            if (HUt.isNil(recordN)) {
                 return ChangeFlag.NONE;
             } else {
                 /* Old = null, New = not null, ADD */
                 return ChangeFlag.ADD;
             }
         } else {
-            if (HaS.isNil(recordN)) {
+            if (HUt.isNil(recordN)) {
                 /* Old = not null, New = null, DELETE */
                 return ChangeFlag.DELETE;
             } else {
@@ -377,14 +377,14 @@ final class Jackson {
 
     @SuppressWarnings("unchecked")
     static <T> T decodeJ(final String literal) {
-        if (HaS.isNil(literal)) {
+        if (HUt.isNil(literal)) {
             return null;
         }
         final String trimInput = literal.trim();
         if (trimInput.startsWith(VString.LEFT_BRACE)) {
-            return (T) HaS.toJObject(literal);
+            return (T) HUt.toJObject(literal);
         } else if (trimInput.startsWith(VString.LEFT_SQUARE)) {
-            return (T) HaS.toJArray(literal);
+            return (T) HUt.toJArray(literal);
         }
         return null;
     }

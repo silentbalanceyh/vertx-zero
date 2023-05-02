@@ -19,6 +19,9 @@ import java.util.stream.Stream;
  * @author lang : 2023/4/27
  */
 class _It extends _Is {
+    protected _It() {
+    }
+
     /**
      * 按天遍历日期区间
      *

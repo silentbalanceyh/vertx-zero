@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._412ArgumentNullException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -98,7 +98,7 @@ final class Invoker {
             ex.printStackTrace();
             if (Future.class.isAssignableFrom(returnType)) {
                 // Async Calling
-                final WebException error = HaS.failWeb(null, ex, true); // Instance.errorWeb(ex);
+                final WebException error = HUt.failWeb(null, ex, true); // Instance.errorWeb(ex);
                 result = Future.failedFuture(error);
             } else {
                 // Sync Calling
@@ -197,7 +197,7 @@ final class Invoker {
     }
 
     private static boolean isEqualAnd(final Class<?> clazz, final Class<?> interfaceCls) {
-        return clazz == interfaceCls || HaS.isImplement(clazz, interfaceCls);
+        return clazz == interfaceCls || HUt.isImplement(clazz, interfaceCls);
     }
 
     private static boolean isMatch(final Method method, final String name, final Class<?>[] arguments) {

@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
  * @author lang : 2023/4/28
  */
 class _Element extends _EDS {
+    protected _Element() {
+    }
+
     /**
      * 针对数组执行拷贝，支持泛型数组的拷贝动作
      *
@@ -695,7 +698,7 @@ class _Element extends _EDS {
      * @return 统计结果
      */
     public static ConcurrentMap<String, Integer> elementCount(final JsonArray input, final JsonArray fieldArray) {
-        final Set<String> fieldSet = HaS.toSet(fieldArray);
+        final Set<String> fieldSet = HUt.toSet(fieldArray);
         return CCount.count(input, fieldSet);
     }
 

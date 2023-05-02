@@ -1,6 +1,6 @@
 package io.horizon.uca.cache;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -25,13 +25,13 @@ class CcThread<V> implements Cc<String, V> {
     @Override
     public V pick(final Supplier<V> supplier) {
         //        final ConcurrentMap<String, V> pool = this.store.data();
-        return HaS.poolThread(this.store, supplier);
+        return HUt.poolThread(this.store, supplier);
     }
 
     @Override
     public V pick(final Supplier<V> supplier, final String key) {
         //        final ConcurrentMap<String, V> pool = this.store.data();
-        return HaS.poolThread(this.store, supplier, key);
+        return HUt.poolThread(this.store, supplier, key);
     }
 
     @Override

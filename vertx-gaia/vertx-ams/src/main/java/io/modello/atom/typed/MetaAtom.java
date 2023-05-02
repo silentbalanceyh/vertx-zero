@@ -2,7 +2,7 @@ package io.modello.atom.typed;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -43,7 +43,7 @@ public class MetaAtom implements Serializable {
 
     // Elementary
     public MetaAtom add(final String name, final String alias, final Class<?> type) {
-        if (HaS.isNotNil(name)) {
+        if (HUt.isNotNil(name)) {
             /* JsonArray */
             final MetaField typeItem = MetaField.create(name, alias, type);
             this.shapeMap.put(name, typeItem);
@@ -61,7 +61,7 @@ public class MetaAtom implements Serializable {
     }
 
     private MetaAtom addInternal(final String name, final String alias, final Collection<MetaField> children) {
-        if (HaS.isNotNil(name)) {
+        if (HUt.isNotNil(name)) {
             this.complex = true;
             // Add field type first
             final Class<?> fieldType = children instanceof List ? JsonArray.class : JsonObject.class;
@@ -162,7 +162,7 @@ public class MetaAtom implements Serializable {
             // index = 3
             final JsonArray secondary = data.getJsonArray(VValue.THREE);
 
-            if (HaS.isNotNil(fields) && HaS.isNotNil(secondary)) {
+            if (HUt.isNotNil(fields) && HUt.isNotNil(secondary)) {
                 // parent processing
                 final ConcurrentMap<Integer, String> parentMap = new ConcurrentHashMap<>();
 
@@ -176,7 +176,7 @@ public class MetaAtom implements Serializable {
                 for (int idx = 0; idx < length; idx++) {
                     final Object item = fields.getValue(idx);
                     final String field = this.typeField(item);
-                    if (HaS.isNotNil(field)) {
+                    if (HUt.isNotNil(field)) {
                         final Class<?> type = this.type(field);
                         if (JsonArray.class != type) {
                             this.typeList.add(type);
@@ -198,7 +198,7 @@ public class MetaAtom implements Serializable {
                     final Object item = secondary.getValue(idx);
                     final String field = this.typeField(item);
                     final String parent = parentMap.getOrDefault(idx, null);
-                    if (HaS.isNotNil(field) && HaS.isNotNil(parent)) {
+                    if (HUt.isNotNil(field) && HUt.isNotNil(parent)) {
                         /*
                          * Find type based on parent/child both
                          */
@@ -209,7 +209,7 @@ public class MetaAtom implements Serializable {
         } else {
             // index = 2
             final JsonArray fields = data.getJsonArray(VValue.ONE);
-            if (HaS.isNotNil(fields)) {
+            if (HUt.isNotNil(fields)) {
                 fields.forEach(item -> {
                     final String field = this.typeField(item);
                     this.typeList.add(this.type(field));

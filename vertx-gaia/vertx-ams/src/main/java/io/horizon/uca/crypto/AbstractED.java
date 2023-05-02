@@ -7,7 +7,7 @@ import io.horizon.fn.HFn;
 import io.horizon.runtime.Macrocosm;
 import io.horizon.spi.cloud.HED;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -53,19 +53,19 @@ public abstract class AbstractED<P extends PublicKey, V extends PrivateKey> impl
          * 2. Extract the default ( jar -> Service Loader )
          * 3. Extract the app ( Classpath )
          */
-        final String hedCls = HaS.envWith(Macrocosm.HED_COMPONENT, VString.EMPTY);
+        final String hedCls = HUt.envWith(Macrocosm.HED_COMPONENT, VString.EMPTY);
         HED hed = null;
 
 
         // Z_HED
-        if (HaS.isNotNil(hedCls)) {
-            hed = HaS.instance(hedCls);
+        if (HUt.isNotNil(hedCls)) {
+            hed = HUt.instance(hedCls);
         }
 
 
         // META-INF/services/io.vertx.up.experiment.mixture.HED
         if (Objects.isNull(hed)) {
-            hed = HaS.service(HED.class);
+            hed = HUt.service(HED.class);
         }
         final Annal logger = Annal.get(this.getClass());
         if (Objects.isNull(hed)) {

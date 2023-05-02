@@ -1,7 +1,7 @@
 package io.horizon.uca.log.internal;
 
-import io.horizon.util.HaS;
 import io.horizon.uca.log.Annal;
+import io.horizon.util.HUt;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -16,7 +16,7 @@ public abstract class AbstractAnnal implements Annal {
                        final String message,
                        final Object... rest) {
         if (fnPre.get()) {
-            final String formatted = HaS.fromMessageB(message, rest);
+            final String formatted = HUt.fromMessageB(message, rest);
             fnLog.accept(formatted, null);
         }
     }

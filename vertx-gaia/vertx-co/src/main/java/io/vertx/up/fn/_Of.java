@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -63,11 +63,11 @@ class _Of extends _If {
 
     // 合并专用方法（三个重载）
     public static Function<JsonObject, Future<JsonObject>> ofMerge(final JsonObject input) {
-        return t -> Future.succeededFuture(HaS.valueMerge(input, t));
+        return t -> Future.succeededFuture(HUt.valueMerge(input, t));
     }
 
     public static <T> Function<T, Future<JsonObject>> ofMerge(final JsonObject input, final String field) {
-        return t -> Future.succeededFuture(HaS.valueMerge(input, field, t));
+        return t -> Future.succeededFuture(HUt.valueMerge(input, field, t));
     }
 
     public static <T, V> Consumer<JsonObject> ofMerge(final String field, final Function<V, T> executor) {

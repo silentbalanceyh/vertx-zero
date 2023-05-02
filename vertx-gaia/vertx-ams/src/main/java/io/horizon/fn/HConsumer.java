@@ -2,7 +2,7 @@ package io.horizon.fn;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.ProgramException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -18,7 +18,7 @@ class HConsumer {
 
     public static <T> void bugIt(final JsonObject inputJ,
                                  final ProgramBiConsumer<T, String> consumer) throws ProgramException {
-        if (HaS.isNotNil(inputJ)) {
+        if (HUt.isNotNil(inputJ)) {
             for (final String name : inputJ.fieldNames()) {
                 final Object value = inputJ.getValue(name);
                 if (Objects.nonNull(value)) {

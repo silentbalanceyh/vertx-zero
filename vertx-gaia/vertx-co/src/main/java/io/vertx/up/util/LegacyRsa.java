@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.up.fn.Fn;
 import org.apache.commons.codec.binary.Base64;
 
@@ -36,7 +36,7 @@ class LegacyRsa {
     private static RSAPublicKey loadRSAPublicKeyByFile(final String keyPath)
         throws Exception {
         // 1. loading Public Key string by given path
-        final String publicKeyStr = HaS.ioString(keyPath);
+        final String publicKeyStr = HUt.ioString(keyPath);
         //2. generate Public Key Object
         final byte[] buffer = Base64.decodeBase64(publicKeyStr);
         final KeyFactory keyFactory = KeyFactory.getInstance("RSA");

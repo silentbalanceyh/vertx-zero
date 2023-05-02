@@ -3,12 +3,12 @@ package io.horizon.exception.internal;
 import io.horizon.annotations.Development;
 import io.horizon.eon.error.ErrorCode;
 import io.horizon.exception.InternalException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 public class EmptyIoException extends InternalException {
 
     public EmptyIoException(final Class<?> caller, final String filename) {
-        super(caller, HaS.fromMessage(ErrorCode._11002.M(), filename));
+        super(caller, HUt.fromMessage(ErrorCode._11002.M(), filename));
     }
 
     @Override

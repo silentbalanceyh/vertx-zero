@@ -4,7 +4,8 @@ package io.horizon.util;
  * @author lang : 2023/4/28
  */
 class _Color {
-
+    protected _Color() {
+    }
 
     /*
      * flag(N|B)(Color)       String.format （只支持单参）

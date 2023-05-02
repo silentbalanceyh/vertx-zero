@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  *
  * @author lang : 2023/4/27
  */
-public class HaS extends _Value {
+public class HUt extends _Value {
     /*
      * 构造函数只能被子类调用，不可以在其他地方调用，所以此处是工具类的重新设计，原理
      * 1. Java 中的静态方法可以从父类继承，但是不可以从接口初获得
@@ -25,7 +25,7 @@ public class HaS extends _Value {
      * 子类：private 的构造函数 + final 不可继承类
      * 这种类最终会导致二者合并形成统一方法区间
      */
-    protected HaS() {
+    protected HUt() {
     }
 
     // ---------------- 格式化函数

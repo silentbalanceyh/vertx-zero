@@ -22,7 +22,7 @@ class HEnv {
 
     static String readEnv(final String name, final String defaultValue) {
         final String parsed = System.getenv(name);
-        return HaS.isNil(parsed) ? defaultValue : parsed;
+        return HUt.isNil(parsed) ? defaultValue : parsed;
     }
 
     static <T> T readEnv(final String name, final Class<T> clazz) {
@@ -35,7 +35,7 @@ class HEnv {
      */
     static <T> T readEnv(final String name, final T defaultValue, final Class<T> clazz) {
         final String literal = readEnv(name, VString.EMPTY);
-        if (HaS.isNil(literal)) {
+        if (HUt.isNil(literal)) {
             return defaultValue;
         }
 
@@ -62,7 +62,7 @@ class HEnv {
             final String name = it.nextElement();
             final String value = properties.getProperty(name);
             // .env.development （环境变量设置，JDK 11之后带参数执行）
-            if (HaS.isNotNil(value)) {
+            if (HUt.isNotNil(value)) {
                 envMap.put(name, value);
                 envResult.put(name, value);
             }

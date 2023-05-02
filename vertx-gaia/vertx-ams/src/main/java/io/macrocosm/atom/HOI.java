@@ -1,4 +1,4 @@
-package io.horizon.atom.cloud;
+package io.macrocosm.atom;
 
 import io.horizon.atom.app.KApp;
 import io.horizon.atom.app.KTenant;

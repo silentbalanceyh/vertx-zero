@@ -14,6 +14,6 @@ public class HIsTc {
         item.put("name", new JsonObject()
             .put("email", "lang.yu@hpe.com"));
         final Object value = item.getValue("name");
-        Assert.assertTrue(HaS.isJObject(value));
+        Assert.assertTrue(HUt.isJObject(value));
     }
 }

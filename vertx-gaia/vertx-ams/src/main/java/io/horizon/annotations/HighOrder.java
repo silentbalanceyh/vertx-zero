@@ -11,6 +11,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface HighLevel {
+public @interface HighOrder {
     Class<?> value();
 }

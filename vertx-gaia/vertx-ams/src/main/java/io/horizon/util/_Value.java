@@ -15,6 +15,9 @@ import java.util.function.Function;
  * @author lang : 2023/4/27
  */
 class _Value extends _To {
+    protected _Value() {
+    }
+
     /**
      * （计算过时区）获取当前时间，转换成 Date 值
      *

@@ -1,7 +1,7 @@
 package io.horizon.atom.common;
 
 import io.horizon.eon.em.typed.MetaSource;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
@@ -29,7 +29,7 @@ public class Metadata implements Serializable {
              * Source parsed here.
              */
             final MetaSource source =
-                HaS.toEnum(input.getString(KEY_TYPE), MetaSource.class);
+                HUt.toEnum(input.getString(KEY_TYPE), MetaSource.class);
             final JsonObject content = input.getJsonObject(KEY_CONTENT);
             /*
              * Parser applying
@@ -61,11 +61,11 @@ public class Metadata implements Serializable {
 
     private JsonObject fromFile(final JsonObject content) {
         final String path = content.getString("path");
-        if (HaS.isNil(path)) {
+        if (HUt.isNil(path)) {
             return new JsonObject();
         } else {
             try {
-                return HaS.ioJObject(path);
+                return HUt.ioJObject(path);
             } catch (final Throwable ex) {
                 return new JsonObject();
             }

@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.specification.uca.HLogger;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 /**
  * @author lang : 2023/4/28
@@ -38,7 +38,7 @@ class _Fail extends _Bug {
      */
     public static void failAt(final ExceptionActuator actuator, final HLogger logger,
                               final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.failAt(actuator, logger);
         }
     }
@@ -50,7 +50,7 @@ class _Fail extends _Bug {
      * @param input    输入
      */
     public static void failAt(final ExceptionActuator actuator, final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             HActuator.failAt(actuator, null);
         }
     }
@@ -106,7 +106,7 @@ class _Fail extends _Bug {
      */
     public static <T> T failOr(final T defaultValue, final ExceptionSupplier<T> supplier,
                                final Object... input) {
-        if (HaS.isNotNull(input)) {
+        if (HUt.isNotNull(input)) {
             return HSupplier.failOr(defaultValue, supplier, (HLogger) null);
         } else {
             return defaultValue;

@@ -1,6 +1,6 @@
 package io.vertx.up.util;
 
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -64,7 +64,7 @@ final class To {
 
     static HttpMethod toMethod(final Supplier<String> supplier, final HttpMethod defaultValue) {
         final String method = supplier.get();
-        if (HaS.isNil(method)) {
+        if (HUt.isNil(method)) {
             return defaultValue;
         } else {
             return HttpMethod.valueOf(method);

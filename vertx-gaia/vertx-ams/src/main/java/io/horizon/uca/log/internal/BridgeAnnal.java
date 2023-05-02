@@ -3,7 +3,7 @@ package io.horizon.uca.log.internal;
 import io.horizon.eon.VMessage;
 import io.horizon.spi.HorizonIo;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +26,8 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
 
     public BridgeAnnal(final Class<?> clazz) {
         // Class<?> inject = ZeroAmbient.getPlugin("logger");
-        final HorizonIo io = HaS.service(HorizonIo.class);
-        Class<?> inject = Objects.isNull(io) ? null : io.ofAnnal();
+        final HorizonIo io = HUt.service(HorizonIo.class);
+        Class<?> inject = Objects.isNull(io) ? null : io.ofLogger();
         if (null == inject) {
             inject = Log4JAnnal.class;
             LOGGER.debug(VMessage.Annal.INTERNAL, clazz.getName());
@@ -35,7 +35,7 @@ public class BridgeAnnal extends AbstractAnnal implements Annal {
             LOGGER.debug(VMessage.Annal.CONFIGURED, inject.getName(), clazz.getName());
         }
         final Class<?> cacheKey = inject;
-        this.logger = OUTED.computeIfAbsent(clazz, (key) -> HaS.instance(cacheKey, key));
+        this.logger = OUTED.computeIfAbsent(clazz, (key) -> HUt.instance(cacheKey, key));
     }
 
     public BridgeAnnal(final Annal logger) {

@@ -10,7 +10,7 @@ import io.horizon.runtime.Macrocosm;
 import io.horizon.specification.typed.TCopy;
 import io.horizon.specification.typed.TJson;
 import io.horizon.uca.log.Annal;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
@@ -65,7 +65,7 @@ public class KDatabase implements Serializable, TCopy<KDatabase>, TJson {
     }
 
     public static KDatabase configure(final JsonObject databaseJ) {
-        final JsonObject jooq = HaS.valueJObject(databaseJ);
+        final JsonObject jooq = HUt.valueJObject(databaseJ);
         final KDatabase database = new KDatabase();
         database.fromJson(jooq);
         return database;
@@ -134,11 +134,11 @@ public class KDatabase implements Serializable, TCopy<KDatabase>, TJson {
     }
 
     public String getSmartPassword() {
-        final Boolean enabled = HaS.envWith(Macrocosm.HED_ENABLED, false, Boolean.class);
+        final Boolean enabled = HUt.envWith(Macrocosm.HED_ENABLED, false, Boolean.class);
         LOGGER.info("[HED] Encrypt of HED enabled: {0}", enabled);
         if (enabled) {
             // HED_ENABLED=true
-            return HaS.decryptRSAV(this.password);
+            return HUt.decryptRSAV(this.password);
         } else {
             return this.password;
         }
@@ -204,9 +204,9 @@ public class KDatabase implements Serializable, TCopy<KDatabase>, TJson {
 
     @Override
     public void fromJson(final JsonObject data) {
-        if (HaS.isNotNil(data)) {
+        if (HUt.isNotNil(data)) {
             // category
-            this.category = HaS.toEnum(() -> data.getString(VName.CATEGORY), DsCategory.class, DsCategory.MYSQL5);
+            this.category = HUt.toEnum(() -> data.getString(VName.CATEGORY), DsCategory.class, DsCategory.MYSQL5);
             // hostname
             this.hostname = data.getString(VName.HOSTNAME);
             // port
@@ -220,8 +220,8 @@ public class KDatabase implements Serializable, TCopy<KDatabase>, TJson {
             this.password = data.getString(VName.PASSWORD);
             this.driverClassName = data.getString("driverClassName");
             // options
-            final JsonObject options = HaS.valueJObject(data, VName.OPTIONS);
-            if (HaS.isNotNil(options)) {
+            final JsonObject options = HUt.valueJObject(data, VName.OPTIONS);
+            if (HUt.isNotNil(options)) {
                 this.options.mergeIn(options);
                 LOGGER.info("Database Options: {0}", this.options.encode());
             }

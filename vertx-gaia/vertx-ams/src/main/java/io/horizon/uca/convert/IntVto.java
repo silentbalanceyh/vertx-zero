@@ -1,7 +1,7 @@
 package io.horizon.uca.convert;
 
 import io.horizon.eon.VValue;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -25,16 +25,16 @@ public class IntVto implements Vto<Integer> {
                 /*
                  * String -> Integer
                  */
-                return HaS.isInteger(value.toString()) ?
+                return HUt.isInteger(value.toString()) ?
                     Integer.parseInt(value.toString()) :
                     VValue.RANGE;
-            } else if (HaS.isInteger(type)) {
+            } else if (HUt.isInteger(type)) {
                 /*
                  * Long -> Integer
                  * Short -> Integer
                  */
                 return Integer.parseInt(value.toString());
-            } else if (HaS.isDecimal(type)) {
+            } else if (HUt.isDecimal(type)) {
                 /*
                  * Double -> Integer
                  * Float -> Integer

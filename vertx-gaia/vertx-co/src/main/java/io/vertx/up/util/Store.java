@@ -1,7 +1,7 @@
 package io.vertx.up.util;
 
 import io.horizon.uca.cache.Cc;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
@@ -30,7 +30,7 @@ final class Store {
      */
     static ConfigStoreOptions getJson(final String filename) {
         return Fn.failOr(() -> {
-            final JsonObject data = HaS.ioJObject(filename);
+            final JsonObject data = HUt.ioJObject(filename);
             return CC_STORE.pick(() -> new ConfigStoreOptions()
                 .setType(StoreType.JSON.key())
                 .setConfig(data), filename);
@@ -68,7 +68,7 @@ final class Store {
                                               final StoreFormat format) {
         return Fn.failOr(() -> {
             final JsonObject config = new JsonObject()
-                .put(StoreConfig.PATH.key(), HaS.ioPath(filename));
+                .put(StoreConfig.PATH.key(), HUt.ioPath(filename));
             return CC_STORE.pick(() -> new ConfigStoreOptions()
                 .setType(StoreType.FILE.key())
                 .setFormat(format.key())

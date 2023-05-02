@@ -7,6 +7,9 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang : 2023/4/30
  */
 class _Inverse extends _From {
+    protected _Inverse() {
+    }
+
     /**
      * （尺寸逆向）哈希表的逆向操作，直接将一个哈希表做逆向的聚集计算，生成逆向哈希表
      *

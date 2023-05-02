@@ -1,7 +1,7 @@
 package io.horizon.uca.cache;
 
 import io.horizon.exception.internal.NotImplementException;
-import io.horizon.util.HaS;
+import io.horizon.util.HUt;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -32,7 +32,7 @@ class CcMemory<K, V> implements Cc<K, V> {
     @Override
     public V pick(final Supplier<V> supplier, final K key) {
         //        final ConcurrentMap<K, V> pool = this.store.data();
-        return HaS.pool(this.store, key, supplier);
+        return HUt.pool(this.store, key, supplier);
     }
 
     @Override
