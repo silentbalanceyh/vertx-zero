@@ -11,5 +11,5 @@ package io.horizon.specification.typed;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface TCopy<T> {
-    T copy();
+    <CHILD extends T> CHILD copy();
 }

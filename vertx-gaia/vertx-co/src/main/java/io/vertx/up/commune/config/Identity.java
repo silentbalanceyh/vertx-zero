@@ -44,22 +44,22 @@ public class Identity implements Serializable, TCopy<Identity> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Identity)) {
+        if (!(o instanceof final Identity identity)) {
             return false;
         }
-        final Identity identity = (Identity) o;
         return this.identifier.equals(identity.identifier) &&
             this.sigma.equals(identity.sigma) &&
             this.identifierComponent.equals(identity.identifierComponent);
     }
 
     @Override
-    public Identity copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends Identity> CHILD copy() {
         final Identity identity = new Identity();
         identity.identifier = this.identifier;
         identity.sigma = this.sigma;
         identity.identifierComponent = this.identifierComponent;
-        return identity;
+        return (CHILD) identity;
     }
 
     @Override

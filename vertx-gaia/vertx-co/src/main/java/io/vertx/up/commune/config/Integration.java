@@ -200,11 +200,12 @@ public class Integration implements TJson, Serializable, TCopy<Integration> {
     }
 
     @Override
-    public Integration copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends Integration> CHILD copy() {
         final Integration integration = new Integration();
         final JsonObject data = this.toJson().copy();
         integration.fromJson(data);
-        return integration;
+        return (CHILD) integration;
     }
 
     @Override
@@ -261,10 +262,9 @@ public class Integration implements TJson, Serializable, TCopy<Integration> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Integration)) {
+        if (!(o instanceof final Integration that)) {
             return false;
         }
-        final Integration that = (Integration) o;
         return this.endpoint.equals(that.endpoint) &&
             this.port.equals(that.port) &&
             this.protocol.equals(that.protocol) &&

@@ -1,6 +1,6 @@
 package io.vertx.up.secure.validation;
 
-import io.aeon.runtime.H2H;
+import io.aeon.runtime.CRunning;
 import io.horizon.eon.VString;
 import io.horizon.exception.WebException;
 import io.reactivex.Observable;
@@ -32,7 +32,7 @@ public class Validator {
 
     private static final ConcurrentMap<String, Map<String, List<Rule>>>
         RULERS = new ConcurrentHashMap<>();
-    private static final ConcurrentMap<String, JsonObject> STORED = H2H.CC_CODEX.store();
+    private static final ConcurrentMap<String, JsonObject> STORED = CRunning.CC_CODEX.store();
 
     /**
      * Validate the method parameters based on javax.validation: Hibernate Validator.

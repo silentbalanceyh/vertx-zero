@@ -3,7 +3,7 @@ package io.aeon.atom.iras;
 import io.aeon.atom.config.HPlot;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
-import io.aeon.runtime.H1H;
+import io.aeon.runtime.CRunning;
 import io.horizon.eon.em.app.AeonMode;
 import io.horizon.eon.em.app.AeonRuntime;
 import io.vertx.core.json.JsonObject;
@@ -61,7 +61,7 @@ public class HAeon implements Serializable {
             return null;
         }
         // 初始化
-        return H1H.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
+        return CRunning.CC_AEON.pick(() -> new HAeon(configJ), kiddJ.hashCode());
     }
 
     private void initRepo(final JsonObject configuration) {

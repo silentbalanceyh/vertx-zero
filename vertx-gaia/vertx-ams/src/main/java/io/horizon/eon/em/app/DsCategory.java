@@ -1,6 +1,6 @@
 package io.horizon.eon.em.app;
 
-public enum DatabaseType {
+public enum DsCategory {
     /* MySQL */
     MYSQL5,     // MySQL 5.x
     MYSQL8,     // MySQL 8.x

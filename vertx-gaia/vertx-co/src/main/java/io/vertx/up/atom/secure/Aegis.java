@@ -170,7 +170,8 @@ public class Aegis implements Serializable, Comparable<Aegis>, TCopy<Aegis> {
     }
 
     @Override
-    public Aegis copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends Aegis> CHILD copy() {
         final Aegis aegis = new Aegis();
         // Final
         aegis.authorizer.setResource(this.authorizer.getResource());
@@ -186,7 +187,7 @@ public class Aegis implements Serializable, Comparable<Aegis>, TCopy<Aegis> {
         aegis.order = this.order;
         aegis.path = this.path;
         aegis.type = this.type;
-        return aegis;
+        return (CHILD) aegis;
     }
 
     @Override
@@ -194,10 +195,9 @@ public class Aegis implements Serializable, Comparable<Aegis>, TCopy<Aegis> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Aegis)) {
+        if (!(o instanceof final Aegis wall)) {
             return false;
         }
-        final Aegis wall = (Aegis) o;
         return this.order == wall.order &&
             Objects.equals(this.path, wall.path) &&
             this.type == wall.type &&

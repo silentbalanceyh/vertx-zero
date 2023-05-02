@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.jooq;
 
-import io.horizon.eon.em.app.DatabaseSource;
+import io.horizon.eon.em.app.DsSource;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
@@ -63,9 +63,9 @@ public class JooqPin {
                     // Database Environment Connected
                     final JsonObject databaseJ;
                     if (Database.HISTORY.equals(key)) {
-                        databaseJ = MatureOn.envDatabase(options, DatabaseSource.HISTORY);
+                        databaseJ = MatureOn.envDatabase(options, DsSource.HISTORY);
                     } else {
-                        databaseJ = MatureOn.envDatabase(options, DatabaseSource.PRIMARY);
+                        databaseJ = MatureOn.envDatabase(options, DsSource.PRIMARY);
                     }
                     final DataPool pool = DataPool.create(Database.configure(databaseJ));
                     final Configuration configuration = pool.configuration();

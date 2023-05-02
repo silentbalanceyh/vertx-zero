@@ -7,6 +7,6 @@ package io.horizon.runtime.cache;
  *
  * @author lang : 2023/4/24
  */
-public interface CStore extends CUca {
+public interface CStore extends CUca, CApp {
 
 }

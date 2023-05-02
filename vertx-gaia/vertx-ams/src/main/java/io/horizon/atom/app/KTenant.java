@@ -1,4 +1,4 @@
-package io.aeon.experiment.specification.power;
+package io.horizon.atom.app;
 
 import java.io.Serializable;
 

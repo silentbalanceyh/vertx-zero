@@ -2,7 +2,7 @@ package io.vertx.up.uca.jooq;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.app.DatabaseFormat;
+import io.horizon.eon.em.app.DsFormat;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -39,7 +39,7 @@ public final class UxJooq {
      * New Structure for usage
      */
     private transient final JqFlow workflow;
-    private transient DatabaseFormat format = DatabaseFormat.JSON;
+    private transient DsFormat format = DsFormat.JSON;
 
     public <T> UxJooq(final Class<T> clazz, final JooqDsl dsl) {
         /* New exception to avoid programming missing */
@@ -87,7 +87,7 @@ public final class UxJooq {
         return JqCond.compress(criteria);
     }
 
-    public UxJooq on(final DatabaseFormat format) {
+    public UxJooq on(final DsFormat format) {
         this.format = format;
         return this;
     }

@@ -1,9 +1,9 @@
-package io.horizon.specification.modeler;
+package io.horizon.specification.app;
 
 import io.horizon.eon.VEnv;
 import io.horizon.eon.VString;
 import io.horizon.specification.typed.TJson;
-import io.vertx.up.util.Ut;
+import io.horizon.util.HaS;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ public interface HApp extends Serializable, TJson {
      * Also you could provide your only implementation to replace some configuration.
      */
     static String ns(final String appName) {
-        return Ut.isNil(appName) ? null : Ut.fromMessage(VEnv.APP.NS, appName);
+        return HaS.isNil(appName) ? null : HaS.fromMessage(VEnv.APP.NS, appName);
     }
 
     static String ns(final String appName, final String identifier) {

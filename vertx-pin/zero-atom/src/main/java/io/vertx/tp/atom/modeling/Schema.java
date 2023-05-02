@@ -3,7 +3,7 @@ package io.vertx.tp.atom.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
-import io.horizon.specification.modeler.HApp;
+import io.horizon.specification.app.HApp;
 import io.horizon.specification.modeler.HLinkage;
 
 import java.util.List;

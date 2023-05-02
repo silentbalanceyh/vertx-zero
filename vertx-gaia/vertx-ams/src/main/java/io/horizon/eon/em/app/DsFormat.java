@@ -1,5 +1,5 @@
 package io.horizon.eon.em.app;
 
-public enum DatabaseFormat {
+public enum DsFormat {
     ENTITY, JSON
 }

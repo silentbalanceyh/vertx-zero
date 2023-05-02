@@ -4,7 +4,7 @@ import io.aeon.experiment.mu.KClass;
 import io.aeon.experiment.mu.KHybrid;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.shape.AbstractHModel;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAttribute;

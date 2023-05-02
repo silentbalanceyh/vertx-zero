@@ -1,7 +1,6 @@
 package io.aeon.atom.secure;
 
-import io.aeon.runtime.H1H;
-import io.aeon.runtime.H3H;
+import io.aeon.runtime.CRunning;
 import io.horizon.cloud.secure.HAdmit;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.secure.ActPhase;
@@ -98,7 +97,7 @@ public class HCatena implements Serializable {
             return null;
         }
 
-        final HAdmit dm = (HAdmit) H1H.CCT_EVENT.pick(() -> Ut.instance(admitCls),
+        final HAdmit dm = (HAdmit) CRunning.CCT_EVENT.pick(() -> Ut.instance(admitCls),
             // <sigma> / <name>
             sigma + VString.SLASH + admitCls.getName());
         return dm.bind(sigma);
@@ -111,7 +110,7 @@ public class HCatena implements Serializable {
         final String code = Ut.valueString(requestJ, KName.CODE);
         Ut.requireNonNull(sigma, code);
         // Store KApp information
-        return H3H.CC_PERMIT.pick(() -> permit(requestJ), sigma + VString.SLASH + code);
+        return CRunning.CC_PERMIT.pick(() -> permit(requestJ), sigma + VString.SLASH + code);
     }
 
     // ----------- 单独取数 -----------

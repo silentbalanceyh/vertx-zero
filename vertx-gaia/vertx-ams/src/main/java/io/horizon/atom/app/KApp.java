@@ -1,12 +1,11 @@
-package io.aeon.experiment.specification.power;
+package io.horizon.atom.app;
 
-import io.aeon.runtime.H3H;
+import io.horizon.eon.VName;
 import io.horizon.eon.VString;
-import io.horizon.specification.modeler.HApp;
+import io.horizon.runtime.cache.CStore;
+import io.horizon.specification.app.HApp;
+import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.Database;
-import io.vertx.up.eon.KName;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class KApp implements Serializable {
     private String appKey;         // X-App-Key
     private String code;           // code
 
-    private Database database;     // 数据库专用引用
+    private KDatabase database;     // 数据库专用引用
 
     // -------------- 实例化应用 ----------------------
     private KApp(final String name) {
@@ -54,30 +53,30 @@ public class KApp implements Serializable {
 
     public KApp bind(final JsonObject unityApp) {
         /* appId, appKey, code */
-        final JsonObject appJ = Ut.valueJObject(unityApp);
-        this.appId = Ut.valueString(appJ, KName.APP_ID);
-        this.appKey = Ut.valueString(appJ, KName.APP_KEY);
-        this.code = Ut.valueString(appJ, KName.CODE);
+        final JsonObject appJ = HaS.valueJObject(unityApp);
+        this.appId = HaS.valueString(appJ, VName.APP_ID);
+        this.appKey = HaS.valueString(appJ, VName.APP_KEY);
+        this.code = HaS.valueString(appJ, VName.CODE);
 
         /* sigma / language */
-        this.sigma = Ut.valueString(appJ, KName.SIGMA);
-        this.language = Ut.valueString(appJ, KName.LANGUAGE);
+        this.sigma = HaS.valueString(appJ, VName.SIGMA);
+        this.language = HaS.valueString(appJ, VName.LANGUAGE);
 
         {
-            this.dimJ.put(KName.SIGMA, this.sigma);
-            this.dimJ.put(KName.LANGUAGE, this.language);
+            this.dimJ.put(VName.SIGMA, this.sigma);
+            this.dimJ.put(VName.LANGUAGE, this.language);
 
-            this.dimA.put(KName.APP_ID, this.appId);
-            this.dimA.put(KName.APP_KEY, this.appKey);
+            this.dimA.put(VName.APP_ID, this.appId);
+            this.dimA.put(VName.APP_KEY, this.appKey);
 
-            this.dimB.put(KName.NAME, this.name);
-            this.dimB.put(KName.NAMESPACE, this.ns);
+            this.dimB.put(VName.NAME, this.name);
+            this.dimB.put(VName.NAMESPACE, this.ns);
         }
 
         /* database */
-        final JsonObject sourceJ = Ut.valueJObject(appJ, KName.SOURCE);
-        if (Ut.isNotNil(sourceJ)) {
-            this.database = new Database();
+        final JsonObject sourceJ = HaS.valueJObject(appJ, VName.SOURCE);
+        if (HaS.isNotNil(sourceJ)) {
+            this.database = new KDatabase();
             this.database.fromJson(sourceJ);
         }
 
@@ -93,7 +92,7 @@ public class KApp implements Serializable {
          * */
         Objects.requireNonNull(namespace);
         if (!namespace.equals(this.ns)) {
-            final ConcurrentMap<String, KApp> store = H3H.CC_APP.store();
+            final ConcurrentMap<String, KApp> store = CStore.CC_APP.store();
             //            store.clear(this.ns);
             store.remove(this.ns);
             this.ns = namespace;
@@ -111,7 +110,7 @@ public class KApp implements Serializable {
 
     /* 必须是完整同步才执行填充 */
     public KApp synchro() {
-        final Map<String, KApp> store = H3H.CC_APP.store();
+        final Map<String, KApp> store = CStore.CC_APP.store();
         store.put(this.ns, this);
         store.put(this.appKey, this);
         store.put(this.appId, this);
@@ -142,8 +141,9 @@ public class KApp implements Serializable {
         return this.ns;
     }
 
-    public Database database() {
-        return this.database;
+    @SuppressWarnings("unchecked")
+    public <T extends KDatabase> T database() {
+        return (T) this.database;
     }
 
     public JsonObject dimJ() {
@@ -171,12 +171,12 @@ public class KApp implements Serializable {
      */
     public JsonObject dataJ() {
         final JsonObject parameters = new JsonObject();
-        parameters.put(KName.APP_KEY, this.appKey);
-        parameters.put(KName.APP_ID, this.appId);
-        parameters.put(KName.LANGUAGE, this.language);
-        parameters.put(KName.SIGMA, this.sigma);
-        parameters.put(KName.NAME, this.name);
-        parameters.put(KName.NAMESPACE, this.ns);
+        parameters.put(VName.APP_KEY, this.appKey);
+        parameters.put(VName.APP_ID, this.appId);
+        parameters.put(VName.LANGUAGE, this.language);
+        parameters.put(VName.SIGMA, this.sigma);
+        parameters.put(VName.NAME, this.name);
+        parameters.put(VName.NAMESPACE, this.ns);
         return parameters;
     }
 

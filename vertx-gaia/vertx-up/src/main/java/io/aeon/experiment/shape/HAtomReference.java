@@ -7,7 +7,7 @@ import io.aeon.experiment.reference.RQuote;
 import io.aeon.experiment.reference.RResult;
 import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KPoint;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAtom;

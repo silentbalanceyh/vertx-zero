@@ -2,7 +2,7 @@ package io.vertx.up.runtime.env;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.app.DatabaseSource;
+import io.horizon.eon.em.app.DsSource;
 import io.horizon.runtime.Macrocosm;
 import io.horizon.specification.runtime.Mature;
 import io.horizon.uca.cache.Cc;
@@ -65,12 +65,12 @@ public class MatureOn implements Macrocosm {
     }
 
     // Database Connected ( Multi Support )
-    public static JsonObject envDatabase(final JsonObject database, final DatabaseSource mode) {
+    public static JsonObject envDatabase(final JsonObject database, final DsSource mode) {
         final AttrSet set;
-        if (DatabaseSource.WORKFLOW == mode) {
+        if (DsSource.WORKFLOW == mode) {
             // Workflow
             set = envDatabase(DBW_HOST, DBW_PORT, DBW_INSTANCE);
-        } else if (DatabaseSource.HISTORY == mode) {
+        } else if (DsSource.HISTORY == mode) {
             // History
             set = envDatabase(DBH_HOST, DBH_PORT, DBH_INSTANCE);
         } else {

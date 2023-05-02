@@ -1,7 +1,7 @@
 package io.horizon.spi.cloud;
 
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.runtime.H3H;
+import io.aeon.runtime.CRunning;
+import io.horizon.atom.app.KApp;
 import io.horizon.spi.environment.UnityAmbient;
 import io.horizon.spi.environment.UnityApp;
 import io.vertx.core.Future;
@@ -45,7 +45,7 @@ public class AmbientHighway extends AbstractHET {
          * - code
          */
         final String name = Ut.valueString(unityApp, KName.NAME);
-        return H3H.CC_APP.pick(
+        return CRunning.CC_APP.pick(
             /*
              * 1. 按名称构造
              * 2. 绑定附加数据

@@ -1,6 +1,6 @@
 package io.horizon.spi.modeler;
 
-import io.aeon.runtime.H2H;
+import io.aeon.runtime.CRunning;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -59,7 +59,7 @@ public class ExModulat implements Modulat {
      * "mXXX" = configuration json that stored into B_BLOCK ( Multi tables )
      */
     private Future<JsonObject> moduleAdmin(final String appId) {
-        return H2H.CCA_DATA_MODULE.pick(() -> {
+        return CRunning.CCA_DATA_MODULE.pick(() -> {
             final Ark ark = Ark.configure();
             return ark.modularize(appId)
                 .compose(data -> Ux.future((JsonObject) data));
@@ -75,7 +75,7 @@ public class ExModulat implements Modulat {
      * All the configuration page will be built in above `moduleAdmin` method for detail configuration.
      */
     private Future<JsonObject> moduleBag(final String appId) {
-        return H2H.CCA_META_ENTRY.pick(() -> {
+        return CRunning.CCA_META_ENTRY.pick(() -> {
             final Ark ark = Ark.bag();
             return ark.modularize(appId)
                 .compose(data -> Ux.future((JsonArray) data));

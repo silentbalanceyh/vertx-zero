@@ -2,7 +2,7 @@ package io.horizon.spi.mixture;
 
 import io.aeon.experiment.mixture.HLoad;
 import io.aeon.experiment.specification.app.HES;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;

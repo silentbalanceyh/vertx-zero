@@ -59,7 +59,8 @@ public class JtApp implements Serializable, TCopy<JtApp> {
     private transient Database source;
 
     @Override
-    public JtApp copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends JtApp> CHILD copy() {
         final JtApp app = new JtApp();
         // App
         app.appId = this.appId;
@@ -80,12 +81,12 @@ public class JtApp implements Serializable, TCopy<JtApp> {
         app.auditor = this.auditor.copy();
         // Database
         app.source = this.source.copy();
-        return app;
+        return (CHILD) app;
     }
 
     @Override
     public String toString() {
-        return "JtEnv{" +
+        return "JtApp{" +
             "appId='" + this.appId + '\'' +
             ", appKey='" + this.appKey + '\'' +
             ", sigma='" + this.sigma + '\'' +

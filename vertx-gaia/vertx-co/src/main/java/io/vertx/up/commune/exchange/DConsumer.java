@@ -130,11 +130,12 @@ public class DConsumer implements Serializable, TJson, TCopy<DConsumer> {
     }
 
     @Override
-    public DConsumer copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends DConsumer> CHILD copy() {
         final DConsumer consumer = new DConsumer();
         final JsonObject data = this.toJson().copy();
         consumer.fromJson(data);
-        return consumer;
+        return (CHILD) consumer;
     }
 
     public boolean isValid() {

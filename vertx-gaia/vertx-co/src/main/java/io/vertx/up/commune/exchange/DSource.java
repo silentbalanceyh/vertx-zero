@@ -108,7 +108,8 @@ public class DSource implements Serializable, TCopy<DSource> {
     }
 
     @Override
-    public DSource copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends DSource> CHILD copy() {
         final DSource source = new DSource();
         source.component = this.component;
         source.componentConfig.clear();
@@ -116,6 +117,6 @@ public class DSource implements Serializable, TCopy<DSource> {
         source.key = this.key;
         source.source = this.source;
         source.types.addAll(this.types);
-        return source;
+        return (CHILD) source;
     }
 }

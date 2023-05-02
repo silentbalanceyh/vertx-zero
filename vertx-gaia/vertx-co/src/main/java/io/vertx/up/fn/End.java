@@ -1,6 +1,6 @@
 package io.vertx.up.fn;
 
-import io.aeon.runtime.H3H;
+import io.aeon.runtime.CRunning;
 import io.horizon.specification.action.HCombiner;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -46,7 +46,7 @@ class End {
         if (Objects.isNull(clazz)) {
             return Future.succeededFuture(json);
         }
-        final HCombiner<JsonObject> combiner = (HCombiner<JsonObject>) H3H.CC_COMBINER.pick(() -> Ut.instance(clazz), clazz.getName());
+        final HCombiner<JsonObject> combiner = (HCombiner<JsonObject>) CRunning.CC_COMBINER.pick(() -> Ut.instance(clazz), clazz.getName());
         return combiner.combine(json);
     }
 

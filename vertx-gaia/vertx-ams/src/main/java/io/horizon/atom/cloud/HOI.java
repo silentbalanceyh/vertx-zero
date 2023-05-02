@@ -1,10 +1,10 @@
-package io.aeon.atom.secure;
+package io.horizon.atom.cloud;
 
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.experiment.specification.power.KTenant;
+import io.horizon.atom.app.KApp;
+import io.horizon.atom.app.KTenant;
+import io.horizon.eon.VName;
 import io.horizon.eon.em.app.AppMode;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,9 +22,9 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class Hoi implements Serializable {
+public class HOI implements Serializable {
     // 多层租户
-    private final ConcurrentMap<String, Hoi> children = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, HOI> children = new ConcurrentHashMap<>();
     // 应用模式
     private final AppMode mode;
     /*
@@ -54,20 +54,20 @@ public class Hoi implements Serializable {
     // 应用引用
     private KApp app;
 
-    private Hoi(final AppMode mode) {
+    private HOI(final AppMode mode) {
         this.mode = mode;
     }
 
-    public static Hoi create(final AppMode mode) {
-        return new Hoi(mode);
+    public static HOI create(final AppMode mode) {
+        return new HOI(mode);
     }
 
-    public Hoi bind(final KApp app) {
+    public HOI bind(final KApp app) {
         this.app = app;
         return this;
     }
 
-    public Hoi bind(final KTenant tenant) {
+    public HOI bind(final KTenant tenant) {
         this.tenant = tenant;
         return this;
     }
@@ -101,12 +101,12 @@ public class Hoi implements Serializable {
 
         if (AppMode.CUBE != this.mode && Objects.nonNull(this.tenant)) {
             // tenantId
-            qr.put(KName.Tenant.ID, this.tenant.id());
+            qr.put(VName.TENANT_ID, this.tenant.id());
         }
         return qr;
     }
 
-    public Hoi child(final String tenantId) {
+    public HOI child(final String tenantId) {
         return this.children.getOrDefault(tenantId, null);
     }
 }

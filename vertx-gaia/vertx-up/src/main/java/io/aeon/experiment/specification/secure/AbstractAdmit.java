@@ -1,8 +1,8 @@
 package io.aeon.experiment.specification.secure;
 
 import io.aeon.atom.secure.HPermit;
-import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.app.HES;
+import io.horizon.atom.cloud.HOI;
 import io.horizon.cloud.secure.HAdmit;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.core.Future;
@@ -20,7 +20,7 @@ import java.util.function.Function;
  */
 public abstract class AbstractAdmit implements HAdmit {
     protected transient HAtom atom;
-    protected transient Hoi owner;
+    protected transient HOI owner;
 
     @Override
     public HAdmit bind(final HAtom atom) {

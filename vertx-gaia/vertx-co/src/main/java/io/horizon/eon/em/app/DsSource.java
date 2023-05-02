@@ -1,6 +1,6 @@
 package io.horizon.eon.em.app;
 
-public enum DatabaseSource {
+public enum DsSource {
     // Default Value ( Major Database configured by 'provider' )
     PRIMARY,
     // History Value ( configured by 'orbit' )

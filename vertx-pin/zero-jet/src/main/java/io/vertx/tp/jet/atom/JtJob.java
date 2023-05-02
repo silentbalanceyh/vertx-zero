@@ -2,8 +2,8 @@ package io.vertx.tp.jet.atom;
 
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.sch.KTimer;
+import io.horizon.atom.app.KApp;
 import io.horizon.eon.em.scheduler.JobType;
 import io.horizon.spi.environment.Ambient;
 import io.vertx.core.json.JsonObject;

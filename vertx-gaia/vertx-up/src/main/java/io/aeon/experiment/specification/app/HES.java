@@ -1,14 +1,14 @@
 package io.aeon.experiment.specification.app;
 
-import io.aeon.atom.secure.Hoi;
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.runtime.H3H;
+import io.aeon.runtime.CRunning;
+import io.horizon.atom.app.KApp;
+import io.horizon.atom.cloud.HOI;
 import io.horizon.eon.VValue;
 import io.horizon.spi.cloud.HET;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -51,7 +51,7 @@ public final class HES {
     public static Future<Boolean> configure() {
         return Ux.channel(HET.class,
             () -> Boolean.FALSE,
-            // 1. 初始化所有应用（H3H.CC_APP就绪）
+            // 1. 初始化所有应用（CRunning.CC_APP就绪）
             het -> het.initialize().compose(initialized -> {
                 /*
                  * 先计算当前应用类型，基础维度是 sigma（统一标识符），根据 sigma 执行缓存创建
@@ -61,7 +61,7 @@ public final class HES {
                  *
                  * 任何场景下都执行的是 sigma 的缓存处理，且可直接根据 sigma 的值执行 Hoi 提取
                  */
-                H3H.CC_APP.store().values().forEach(app -> {
+                CRunning.CC_APP.store().values().forEach(app -> {
                     final JsonObject inputJ = app.dataJ();
                     /*
                      * CC_APP / CC_HOI 不同点
@@ -69,8 +69,8 @@ public final class HES {
                      * 2）（租户级）CC_HOI则不然，它包含了 sigma（开启租户时的租户标识）
                      */
                     final String sigma = Ut.valueString(inputJ, KName.SIGMA);
-                    H3H.CC_OI.pick(() -> {
-                        final Hoi hoi = het.configure(inputJ);
+                    CRunning.CC_OI.pick(() -> {
+                        final HOI hoi = het.configure(inputJ);
                         LOGGER.info(MSG_HOI, sigma, inputJ.encode(), hoi.mode());
                         return hoi;
                     }, sigma);
@@ -80,17 +80,17 @@ public final class HES {
         );
     }
 
-    public static Hoi caller(final String sigma) {
-        return H3H.CC_OI.store(sigma);
+    public static HOI caller(final String sigma) {
+        return CRunning.CC_OI.store(sigma);
     }
 
-    public static Hoi callee(final String sigma, final String tenant) {
+    public static HOI callee(final String sigma, final String tenant) {
         if (Objects.isNull(tenant) || Objects.isNull(sigma)) {
             return null;
         }
         // 提取租户，此时 sigma 必定和 tenant 同维度，而
         // 传入的 tenant 可能是「空间租户」
-        final Hoi hoi = caller(sigma);
+        final HOI hoi = caller(sigma);
         if (Objects.isNull(hoi)) {
             return null;
         }
@@ -107,7 +107,7 @@ public final class HES {
         /*
          * 无填充模式，key = value，此时 key 就是应用程序名称
          */
-        return H3H.CC_APP.pick(() -> KApp.instance(name), name);
+        return CRunning.CC_APP.pick(() -> KApp.instance(name), name);
     }
 
     /*
@@ -125,11 +125,11 @@ public final class HES {
         KApp app = null;
         if (Ut.isNotNil(sigma)) {
             // 按sigma查找
-            app = H3H.CC_APP.store(sigma);
+            app = CRunning.CC_APP.store(sigma);
         }
         if (Ut.isNotNil(key) && Objects.isNull(app)) {
             // 按key查找
-            app = H3H.CC_APP.store(key);
+            app = CRunning.CC_APP.store(key);
         }
         return Objects.isNull(app) ? connect() : app;
     }
@@ -141,7 +141,7 @@ public final class HES {
      * 2. 填充最终上下文环境提取当前应用，调用 values()，只有一个则返回
      */
     public static KApp connect() {
-        final Set<KApp> appSet = new HashSet<>(H3H.CC_APP.store().values());
+        final Set<KApp> appSet = new HashSet<>(CRunning.CC_APP.store().values());
         KApp env = null;
         if (VValue.ONE == appSet.size()) {
             env = appSet.iterator().next();

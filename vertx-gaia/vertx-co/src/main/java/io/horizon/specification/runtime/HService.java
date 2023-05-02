@@ -1,6 +1,6 @@
 package io.horizon.specification.runtime;
 
-import io.aeon.runtime.H1H;
+import io.aeon.runtime.CRunning;
 import io.horizon.eon.VValue;
 import io.horizon.util.HaS;
 import io.vertx.up.util.Ut;
@@ -49,7 +49,7 @@ public class HService {
         if (Objects.isNull(interfaceCls) || !interfaceCls.isInterface()) {
             return null;
         }
-        return (T) H1H.CC_SPI.pick(() -> {
+        return (T) CRunning.CC_SPI.pick(() -> {
             // HService instance
             final HService service = new HService(interfaceCls, loader);
             return service.service();

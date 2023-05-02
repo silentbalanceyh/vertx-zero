@@ -3,13 +3,13 @@ package io.aeon.experiment.mu;
 import io.aeon.experiment.mixture.HOne;
 import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
-import io.horizon.uca.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

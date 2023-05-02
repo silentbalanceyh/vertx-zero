@@ -1,6 +1,6 @@
 package io.aeon.atom.secure;
 
-import io.aeon.runtime.H3H;
+import io.aeon.runtime.CRunning;
 import io.horizon.cloud.secure.HAdmit;
 import io.horizon.eon.em.secure.ActPhase;
 import io.vertx.core.Future;
@@ -26,7 +26,7 @@ public class HSemi {
     public static HSemi create(final HPermit permit) {
         Objects.requireNonNull(permit);
         // 缓存组件，和 HPermit 一致
-        return H3H.CC_SEMI.pick(() -> new HSemi(permit), permit.keyCache());
+        return CRunning.CC_SEMI.pick(() -> new HSemi(permit), permit.keyCache());
     }
 
     // DM -> configure

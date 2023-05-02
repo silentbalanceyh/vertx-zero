@@ -2,7 +2,7 @@ package io.aeon.experiment.shape;
 
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VString;

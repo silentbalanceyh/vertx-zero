@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.atom;
 
 import cn.vertxup.workflow.cv.WfPool;
 import cn.vertxup.workflow.domain.tables.pojos.WFlow;
-import io.aeon.experiment.specification.power.KFlow;
+import io.aeon.experiment.specification.KFlow;
 import io.vertx.tp.error._404WorkflowNullException;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRequest;

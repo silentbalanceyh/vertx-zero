@@ -1,9 +1,9 @@
 package io.horizon.spi.cloud;
 
-import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.app.HES;
-import io.aeon.experiment.specification.power.KApp;
-import io.aeon.experiment.specification.power.KTenant;
+import io.horizon.atom.app.KApp;
+import io.horizon.atom.app.KTenant;
+import io.horizon.atom.cloud.HOI;
 import io.horizon.eon.em.app.AppMode;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
@@ -17,15 +17,15 @@ import java.util.Objects;
  */
 public abstract class AbstractHET implements HET {
     @Override
-    public Hoi configure(final JsonObject input) {
+    public HOI configure(final JsonObject input) {
         final String tenantId = Ut.valueString(input, KName.Tenant.ID);
-        final Hoi hoi;
+        final HOI hoi;
         if (Ut.isNil(tenantId)) {
             // 独立模式
-            hoi = Hoi.create(AppMode.CUBE);
+            hoi = HOI.create(AppMode.CUBE);
         } else {
             // 多租户 -> 子类可切换成多层
-            hoi = Hoi.create(AppMode.SPACE);
+            hoi = HOI.create(AppMode.SPACE);
         }
 
         // 租户配置流程

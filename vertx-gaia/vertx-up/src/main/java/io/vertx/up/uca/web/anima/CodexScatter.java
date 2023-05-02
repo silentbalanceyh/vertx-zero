@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.anima;
 
-import io.aeon.runtime.H2H;
+import io.aeon.runtime.CRunning;
 import io.horizon.eon.VMessage;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
@@ -31,7 +31,7 @@ public class CodexScatter implements Scatter<Vertx> {
                 final JsonObject ruleData = Ut.ioYaml(filename);
                 if (null != ruleData && !ruleData.isEmpty()) {
                     // File the codex map about the rule definitions.
-                    final ConcurrentMap<String, JsonObject> store = H2H.CC_CODEX.store();
+                    final ConcurrentMap<String, JsonObject> store = CRunning.CC_CODEX.store();
                     store.put(rule.substring(0, rule.lastIndexOf(VString.DOT)), ruleData);
                     // ZeroCodex.getCodex().put(rule.substring(0, rule.lastIndexOf(Strings.DOT)), ruleData);
                 }

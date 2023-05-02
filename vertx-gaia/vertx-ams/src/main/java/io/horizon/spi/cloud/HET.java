@@ -1,6 +1,6 @@
 package io.horizon.spi.cloud;
 
-import io.aeon.atom.secure.Hoi;
+import io.horizon.atom.cloud.HOI;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.action.HCommand;
 import io.vertx.core.Future;
@@ -16,7 +16,7 @@ import io.vertx.core.json.JsonObject;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface HET extends HCommand<JsonObject, Hoi> {
+public interface HET extends HCommand<JsonObject, HOI> {
 
     /*
      * 最终形成的结构如：
@@ -37,7 +37,7 @@ public interface HET extends HCommand<JsonObject, Hoi> {
      * 执行全局化调用，且请求过来的时候初始化 Hoi，它的初始化依靠 XHeader 中的核心数据
      */
     @Override
-    Hoi configure(JsonObject input);
+    HOI configure(JsonObject input);
 
     /*
      * 连接当前系统构造核心配置数据集

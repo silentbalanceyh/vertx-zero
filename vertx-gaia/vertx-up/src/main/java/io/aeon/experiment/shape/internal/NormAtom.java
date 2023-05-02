@@ -1,7 +1,7 @@
 package io.aeon.experiment.shape.internal;
 
 import io.aeon.experiment.shape.AbstractHAtom;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HModel;
 
 /**

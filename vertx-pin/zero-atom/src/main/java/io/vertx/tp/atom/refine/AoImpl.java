@@ -2,12 +2,13 @@ package io.vertx.tp.atom.refine;
 
 import io.aeon.experiment.mixture.HLoad;
 import io.aeon.experiment.specification.app.HES;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;
 import io.horizon.spi.mixture.HLoadAtom;
 import io.horizon.spi.robin.Switcher;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
@@ -19,7 +20,6 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

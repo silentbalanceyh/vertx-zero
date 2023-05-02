@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.uca.component;
 
-import io.aeon.experiment.specification.power.KFlow;
+import io.aeon.experiment.specification.KFlow;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409InValidInstanceException;

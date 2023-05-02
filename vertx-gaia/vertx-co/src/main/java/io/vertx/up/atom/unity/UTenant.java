@@ -134,7 +134,8 @@ public class UTenant implements Serializable, TCopy<UTenant> {
     }
 
     @Override
-    public UTenant copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends UTenant> CHILD copy() {
         final UTenant tenant = new UTenant();
         tenant.application = this.application.copy();
         tenant.global = this.global.copy();
@@ -149,7 +150,7 @@ public class UTenant implements Serializable, TCopy<UTenant> {
         // Integration
         tenant.integrationMap.clear();
         this.integrationMap.forEach((key, integration) -> tenant.integrationMap.put(key, integration.copy()));
-        return tenant;
+        return (CHILD) tenant;
     }
 
     @Override

@@ -115,9 +115,10 @@ class PartyB extends AbstractParty {
     }
 
     @Override
-    public OkB copy() {
+    @SuppressWarnings("unchecked")
+    public <CHILD extends OkB> CHILD copy() {
         final PartyB okB = new PartyB(this.partyA, this.integration.copy());
         okB.options.mergeIn(this.options.copy());
-        return okB;
+        return (CHILD) okB;
     }
 }

@@ -195,6 +195,7 @@ public interface VName {
     String DEPT_ID = "deptId";                   /* Department Id */
     String DEPT = "dept";                        /* Dept */
     String TEAM_ID = "teamId";                   /* Team Id */
+    String TENANT_ID = "tenantId";               /* Tenant Id */
     String TEAM = "team";                        /* Team */
     String WORK_NUMBER = "workNumber";           /* Work Number */
 

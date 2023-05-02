@@ -2,6 +2,7 @@ package io.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
+import io.horizon.runtime.cache.CStore;
 import io.horizon.specification.action.HEvent;
 import io.horizon.uca.cache.Cc;
 
@@ -11,7 +12,7 @@ import io.horizon.uca.cache.Cc;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface H1H {
+interface CH1H extends CStore {
     /*
      * CC_AEON:  Aeon系统启动后的核心配置缓存
      * CC_BOOT:  Aeon系统启动过后的所有使用类清单（组件接口集）

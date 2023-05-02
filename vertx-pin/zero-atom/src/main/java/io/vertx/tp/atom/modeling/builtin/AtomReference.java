@@ -3,7 +3,7 @@ package io.vertx.tp.atom.modeling.builtin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.shape.HAtomReference;
-import io.aeon.experiment.specification.power.KApp;
+import io.horizon.atom.app.KApp;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
