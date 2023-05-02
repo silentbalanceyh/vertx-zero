@@ -1,6 +1,6 @@
 package io.aeon.experiment.mu;
 
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRule;
@@ -19,9 +19,9 @@ import java.util.List;
 public class KAttribute implements HAttribute, Serializable {
     private final DataFormat format;
 
-    private final List<TypeField> shapes = new ArrayList<>();
+    private final List<MetaField> shapes = new ArrayList<>();
 
-    private final TypeField type;
+    private final MetaField type;
     private final KTag tag;
     private HRule rule;
 
@@ -63,7 +63,7 @@ public class KAttribute implements HAttribute, Serializable {
         final Class<?> type = Ut.clazz(config.getString(KName.TYPE), String.class);
         final String name = config.getString(KName.NAME);
         final String alias = config.getString(KName.ALIAS);
-        this.type = TypeField.create(name, alias, type);
+        this.type = MetaField.create(name, alias, type);
 
         /*
          * Format is not elementary, expand the `fields` lookup range
@@ -76,7 +76,7 @@ public class KAttribute implements HAttribute, Serializable {
                 if (Ut.isNotNil(field)) {
                     final String fieldAlias = item.getString(KName.ALIAS, null);
                     final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
-                    this.shapes.add(TypeField.create(field, fieldAlias, subType));
+                    this.shapes.add(MetaField.create(field, fieldAlias, subType));
                 }
             });
             this.type.add(this.shapes);
@@ -111,12 +111,12 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public TypeField field() {
+    public MetaField field() {
         return this.type;
     }
 
     @Override
-    public List<TypeField> fields() {
+    public List<MetaField> fields() {
         return this.shapes;
     }
 }

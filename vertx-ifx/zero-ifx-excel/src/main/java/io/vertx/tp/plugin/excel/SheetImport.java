@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.exception.web._500InternalServerException;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;

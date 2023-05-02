@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -68,7 +68,7 @@ public abstract class AbstractExIn implements ExIn {
         rowMap.clear();
     }
 
-    protected BiConsumer<Cell, TypeAtom> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
+    protected BiConsumer<Cell, MetaAtom> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
                                                       final String field) {
         return (dataCell, shape) -> {
             /*

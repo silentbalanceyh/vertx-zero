@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.tpl;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VValue;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
@@ -26,7 +26,7 @@ public class BlueTpl implements ExTpl {
     }
 
     @Override
-    public void applyStyle(final Sheet sheet, final TypeAtom MetaAtom) {
+    public void applyStyle(final Sheet sheet, final MetaAtom metaAtom) {
         /*
          * 读取可见区域
          */
@@ -37,7 +37,7 @@ public class BlueTpl implements ExTpl {
             final Row first = sheet.getRow(VValue.IDX);
             this.applyFirst(first);
             final int dataStart;
-            if (MetaAtom.isComplex()) {
+            if (metaAtom.isComplex()) {
                 /*
                  * 处理 Title 行
                  */
@@ -66,7 +66,7 @@ public class BlueTpl implements ExTpl {
             final int num = sheet.getPhysicalNumberOfRows();
             for (int idx = dataStart; idx < num; idx++) {
                 final Row data = sheet.getRow(idx);
-                this.applyData(data, MetaAtom);
+                this.applyData(data, metaAtom);
             }
         }
     }
@@ -98,11 +98,11 @@ public class BlueTpl implements ExTpl {
         }
     }
 
-    private void applyData(final Row dataRow, final TypeAtom MetaAtom) {
+    private void applyData(final Row dataRow, final MetaAtom metaAtom) {
         final int enCells = dataRow.getPhysicalNumberOfCells();
         for (int idx = 0; idx < enCells; idx++) {
             final Cell cell = dataRow.getCell(idx);
-            final Class<?> type = MetaAtom.type(idx);
+            final Class<?> type = metaAtom.type(idx);
             this.dye.onData(cell, type);
         }
     }

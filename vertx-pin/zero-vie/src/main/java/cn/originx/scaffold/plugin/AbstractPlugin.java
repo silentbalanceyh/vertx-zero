@@ -1,7 +1,7 @@
 package cn.originx.scaffold.plugin;
 
 import cn.originx.cv.OxCv;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.error._501FabricIssueException;

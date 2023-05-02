@@ -2,14 +2,14 @@ package io.horizon.spi.component;
 
 import cn.vertxup.ambient.service.DatumService;
 import cn.vertxup.ambient.service.DatumStub;
-import io.horizon.eon.em.GlossaryType;
+import io.horizon.eon.em.uca.DictType;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ambient.uca.dict.Dpm;
 import io.vertx.up.commune.exchange.DSource;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ExAmbientDictionary implements Dictionary {
              */
             final List<Future<ConcurrentMap<String, JsonArray>>> futures = new ArrayList<>();
             sources.forEach(source -> {
-                final GlossaryType type = source.getSourceType();
+                final DictType type = source.getSourceType();
                 final Dpm dpm = Dpm.get(type);
                 if (Objects.nonNull(dpm)) {
                     futures.add(dpm.fetchAsync(source, paramMap));

@@ -1,29 +1,29 @@
-package io.horizon.eon.em;
+package io.horizon.eon.em.app;
 
 import io.horizon.util.HaS;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public enum TypeOs {
+public enum OsType {
     NA,             // NA
     MAC_OS,         // Mac Os
     UNIX,           // UNIX
     LINUX,          // LINUX
     WINDOWS;        // WINDOWS
 
-    public static TypeOs from(final String os) {
+    public static OsType from(final String os) {
         if (HaS.isNil(os)) {
-            return TypeOs.NA;
+            return OsType.NA;
         }
         if (os.startsWith("Windows")) {
-            return TypeOs.WINDOWS;
+            return OsType.WINDOWS;
         } else if (os.startsWith("Linux")) {
-            return TypeOs.LINUX;
+            return OsType.LINUX;
         } else if (os.startsWith("Mac")) {
-            return TypeOs.MAC_OS;
+            return OsType.MAC_OS;
         } else {
-            return TypeOs.UNIX;
+            return OsType.UNIX;
         }
     }
 }

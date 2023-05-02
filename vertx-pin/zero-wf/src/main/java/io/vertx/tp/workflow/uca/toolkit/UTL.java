@@ -2,7 +2,7 @@ package io.vertx.tp.workflow.uca.toolkit;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.runtime.WRecord;

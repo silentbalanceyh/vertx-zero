@@ -1,5 +1,6 @@
 package io.horizon.specification.uca;
 
+import io.horizon.runtime.cache.CStore;
 import io.horizon.uca.fs.LocalFs;
 import io.vertx.core.Future;
 
@@ -15,7 +16,7 @@ public interface HFS {
     // 创建默认的本地文件系统接口
 
     static HFS common() {
-        return CACHE.CCT_FS.pick(LocalFs::new);
+        return CStore.CCT_FS.pick(LocalFs::new);
     }
 
     /* 创建目录：    mkdir -p            */

@@ -3,8 +3,8 @@ package io.vertx.tp.crud.refine;
 import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KModule;
 import io.horizon.atom.common.Kv;
-import io.horizon.atom.modeler.TypeAtom;
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaAtom;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -126,7 +126,7 @@ class IxData {
         return parameters;
     }
 
-    static TypeAtom atom(final IxMod active, final JsonArray columns) {
+    static MetaAtom atom(final IxMod active, final JsonArray columns) {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
@@ -135,9 +135,9 @@ class IxData {
         /*
          * First module for calculation
          */
-        final TypeAtom atom = TypeAtom.create();
+        final MetaAtom atom = MetaAtom.create();
         final KModule module = active.module();
-        final List<TypeField> fieldList = new ArrayList<>();
+        final List<MetaField> fieldList = new ArrayList<>();
 
         final KModule connect = active.connect();
         if (Objects.nonNull(connect)) {
@@ -149,7 +149,7 @@ class IxData {
         return atom;
     }
 
-    private static List<TypeField> field(final KModule module, final Envelop envelop,
+    private static List<MetaField> field(final KModule module, final Envelop envelop,
                                          final ConcurrentMap<String, String> headerMap) {
         final UxJooq jooq = IxPin.jooq(module, envelop);
         final JqAnalyzer analyzer = jooq.analyzer();
@@ -157,10 +157,10 @@ class IxData {
         /*
          * Processing for TypeField list building
          */
-        final List<TypeField> fieldList = new ArrayList<>();
+        final List<MetaField> fieldList = new ArrayList<>();
         headerMap.forEach((field, alias) -> {
             final Class<?> type = typeMap.getOrDefault(field, String.class);
-            fieldList.add(TypeField.create(field, alias, type));
+            fieldList.add(MetaField.create(field, alias, type));
         });
         return fieldList;
     }

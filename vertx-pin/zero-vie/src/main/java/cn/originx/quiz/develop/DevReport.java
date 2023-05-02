@@ -3,8 +3,8 @@ package cn.originx.quiz.develop;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.modeler.TypeAtom;
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaAtom;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;
@@ -32,7 +32,7 @@ class DevReport {
         builder.append("identifier: ").append(atom.identifier()).append(VString.NEW_LINE);
         builder.append("sigma: ").append(atom.sigma()).append(VString.NEW_LINE);
         builder.append("language: ").append(atom.language()).append(VString.NEW_LINE);
-        final TypeAtom metaAtom = atom.shape();
+        final MetaAtom metaAtom = atom.shape();
         builder.append("Complex? ").append(metaAtom.isComplex()).append(VString.NEW_LINE);
 
         // Atom -> Model
@@ -83,7 +83,7 @@ class DevReport {
 
     private static String outAttribute(final HAttribute attribute, final KReference reference) {
         final StringBuilder builder = new StringBuilder();
-        final TypeField attr = attribute.field();
+        final MetaField attr = attribute.field();
 
         final KTag tag = attribute.tag();
 
@@ -105,7 +105,7 @@ class DevReport {
         }
         if (attr.isComplex()) {
             builder.append("\t").append("isComplex = ").append(attr.isComplex()).append(" children = ").append(VString.NEW_LINE);
-            final List<TypeField> children = attr.children();
+            final List<MetaField> children = attr.children();
             children.forEach(field -> {
                 builder.append("\t\t").append(VString.LEFT_BRACKET).append(field.name())
                     .append(",").append(field.alias()).append(VString.RIGHT_BRACKET).append(VString.COMMA);

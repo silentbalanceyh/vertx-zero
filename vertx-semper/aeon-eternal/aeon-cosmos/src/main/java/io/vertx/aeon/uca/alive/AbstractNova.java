@@ -4,7 +4,7 @@ import io.aeon.atom.iras.HRepo;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
 import io.horizon.cloud.program.HNova;
-import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.eon.em.app.AeonRuntime;
 import io.horizon.runtime.Macrocosm;
 import io.horizon.specification.uca.HFS;
 import io.vertx.core.Future;
@@ -29,10 +29,10 @@ public class AbstractNova implements HNova {
         return this;
     }
 
-    protected Future<Boolean> normalize(final ConcurrentMap<RTEAeon, HRepo> repoMap) {
-        final HRepo kzeroP = repoMap.get(RTEAeon.kzero);
-        final HRepo kiddP = repoMap.get(RTEAeon.kidd);
-        final HRepo kinectP = repoMap.get(RTEAeon.kinect);
+    protected Future<Boolean> normalize(final ConcurrentMap<AeonRuntime, HRepo> repoMap) {
+        final HRepo kzeroP = repoMap.get(AeonRuntime.kzero);
+        final HRepo kiddP = repoMap.get(AeonRuntime.kidd);
+        final HRepo kinectP = repoMap.get(AeonRuntime.kinect);
 
         final HFS fs = HFS.common();
         final String language = Ut.envWith(Macrocosm.Z_LANG, KWeb.ARGS.V_LANGUAGE);

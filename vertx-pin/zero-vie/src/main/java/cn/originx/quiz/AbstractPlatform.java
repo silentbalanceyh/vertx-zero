@@ -9,7 +9,7 @@ import cn.originx.stellaris.OkA;
 import cn.originx.uca.elasticsearch.EsIndex;
 import cn.originx.uca.graphic.Plotter;
 import cn.originx.uca.graphic.TopologyPlotter;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;

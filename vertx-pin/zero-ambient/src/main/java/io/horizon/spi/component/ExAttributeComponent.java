@@ -1,6 +1,6 @@
 package io.horizon.spi.component;
 
-import io.horizon.eon.em.GlossaryType;
+import io.horizon.eon.em.uca.DictType;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -56,7 +56,7 @@ public abstract class ExAttributeComponent {
             /*
              * Dpm
              */
-            final GlossaryType type = sourceDict.getSourceType();
+            final DictType type = sourceDict.getSourceType();
             final Dpm dpm = Dpm.get(type);
             if (Objects.nonNull(dpm)) {
                 /*
@@ -134,7 +134,9 @@ public abstract class ExAttributeComponent {
             if (definition.containsKey(KName.SOURCE_NORM)) {
                 final JsonObject normData = Ut.valueJObject(definition.getJsonObject(KName.SOURCE_NORM));
                 return normData.getValue(value.toString(), value);
-            } else return value;
+            } else {
+                return value;
+            }
         }
     }
 }

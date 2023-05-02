@@ -3,8 +3,8 @@ package io.aeon.experiment.shape;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.specification.power.KApp;
-import io.horizon.atom.modeler.TypeAtom;
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaAtom;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
@@ -118,13 +118,13 @@ public abstract class AbstractHAtom implements HAtom {
 
     @Override
     public Class<?> type(final String field) {
-        final TypeField attribute = this.metadata.type(field);
+        final MetaField attribute = this.metadata.type(field);
         return Objects.isNull(attribute) ? String.class : attribute.type();
     }
 
     /** 返回 Shape 对象 */
     @Override
-    public TypeAtom shape() {
+    public MetaAtom shape() {
         return this.metadata.shape();
     }
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.horizon.eon.em.DSMode;
+import io.horizon.eon.em.app.DatabaseSource;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.JooqPin;
 import io.vertx.up.util.Ut;
@@ -132,17 +132,17 @@ public class KModule implements Serializable {
         return this.connect.point(identifier);
     }
 
-    public DSMode getMode() {
+    public DatabaseSource getMode() {
         if (Objects.isNull(this.mode)) {
-            return DSMode.PRIMARY;
+            return DatabaseSource.PRIMARY;
         } else {
-            return Ut.toEnum(() -> this.mode, DSMode.class, DSMode.PRIMARY);
+            return Ut.toEnum(() -> this.mode, DatabaseSource.class, DatabaseSource.PRIMARY);
         }
     }
 
-    public void setMode(final DSMode mode) {
+    public void setMode(final DatabaseSource mode) {
         if (Objects.isNull(mode)) {
-            this.mode = DSMode.PRIMARY.name();
+            this.mode = DatabaseSource.PRIMARY.name();
         } else {
             this.mode = mode.name();
         }

@@ -15,43 +15,43 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  * Type for data structure
  */
-public class TypeAtom implements Serializable {
+public class MetaAtom implements Serializable {
     /*
      * When complex = true, mapping
      */
-    private final ConcurrentMap<String, TypeField> shapeMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, MetaField> shapeMap = new ConcurrentHashMap<>();
     private final List<Class<?>> typeList = new ArrayList<>();
 
     private boolean complex = Boolean.FALSE;
 
-    private TypeAtom() {
+    private MetaAtom() {
     }
 
-    public static TypeAtom create() {
-        return new TypeAtom();
+    public static MetaAtom create() {
+        return new MetaAtom();
     }
 
     // JsonArray
-    public TypeAtom add(final String name, final String alias, final List<TypeField> children) {
+    public MetaAtom add(final String name, final String alias, final List<MetaField> children) {
         return this.addInternal(name, alias, children);
     }
 
     // JsonObject
-    public TypeAtom add(final String name, final String alias, final Set<TypeField> children) {
+    public MetaAtom add(final String name, final String alias, final Set<MetaField> children) {
         return this.addInternal(name, alias, children);
     }
 
     // Elementary
-    public TypeAtom add(final String name, final String alias, final Class<?> type) {
+    public MetaAtom add(final String name, final String alias, final Class<?> type) {
         if (HaS.isNotNil(name)) {
             /* JsonArray */
-            final TypeField typeItem = TypeField.create(name, alias, type);
+            final MetaField typeItem = MetaField.create(name, alias, type);
             this.shapeMap.put(name, typeItem);
         }
         return this;
     }
 
-    public TypeAtom add(final TypeField field) {
+    public MetaAtom add(final MetaField field) {
         final String name = field.name();
         this.shapeMap.put(name, field);
         if (field.isComplex()) {
@@ -60,14 +60,14 @@ public class TypeAtom implements Serializable {
         return this;
     }
 
-    private TypeAtom addInternal(final String name, final String alias, final Collection<TypeField> children) {
+    private MetaAtom addInternal(final String name, final String alias, final Collection<MetaField> children) {
         if (HaS.isNotNil(name)) {
             this.complex = true;
             // Add field type first
             final Class<?> fieldType = children instanceof List ? JsonArray.class : JsonObject.class;
             this.add(name, alias, fieldType);
             // Here should contains subtypes
-            final TypeField child = this.shapeMap.getOrDefault(name, null);
+            final MetaField child = this.shapeMap.getOrDefault(name, null);
             child.add(children);
         }
         return this;
@@ -82,7 +82,7 @@ public class TypeAtom implements Serializable {
     }
 
     public boolean isComplex(final String name) {
-        final TypeField item = this.shapeMap.getOrDefault(name, null);
+        final MetaField item = this.shapeMap.getOrDefault(name, null);
         if (Objects.isNull(item)) {
             return false;
         } else {
@@ -91,7 +91,7 @@ public class TypeAtom implements Serializable {
     }
 
     public int size(final String name) {
-        final TypeField typeItem = this.shapeMap.getOrDefault(name, null);
+        final MetaField typeItem = this.shapeMap.getOrDefault(name, null);
         if (Objects.nonNull(typeItem)) {
             return typeItem.children().size();
         } else {
@@ -103,7 +103,7 @@ public class TypeAtom implements Serializable {
         return this.shapeMap.size();
     }
 
-    public TypeField item(final String name) {
+    public MetaField item(final String name) {
         return this.shapeMap.getOrDefault(name, null);
     }
 
@@ -114,12 +114,12 @@ public class TypeAtom implements Serializable {
     }
 
     public Class<?> type(final String field) {
-        final TypeField item = this.shapeMap.getOrDefault(field, null);
+        final MetaField item = this.shapeMap.getOrDefault(field, null);
         return Objects.isNull(item) ? null : item.type();
     }
 
     public Class<?> type(final String field, final String childField) {
-        final TypeField item = this.shapeMap.getOrDefault(field, null);
+        final MetaField item = this.shapeMap.getOrDefault(field, null);
         if (Objects.isNull(item)) {
             return null;
         } else {
@@ -154,7 +154,7 @@ public class TypeAtom implements Serializable {
      *
      * Flatted for complex type here
      */
-    public TypeAtom analyzed(final JsonArray data) {
+    public MetaAtom analyzed(final JsonArray data) {
         this.typeList.clear();
         if (this.complex) {
             // index = 2

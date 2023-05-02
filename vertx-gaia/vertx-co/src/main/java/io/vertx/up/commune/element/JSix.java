@@ -1,7 +1,7 @@
 package io.vertx.up.commune.element;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 

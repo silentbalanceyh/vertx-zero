@@ -1,4 +1,4 @@
-package io.horizon.eon.em.cloud;
+package io.horizon.eon.em.app;
 
 /**
  * 应用专用维度
@@ -8,7 +8,7 @@ package io.horizon.eon.em.cloud;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public enum ModeApp {
+public enum AppMode {
     /*
      * 「独立模式」
      * 等价维度（现在使用的模式）

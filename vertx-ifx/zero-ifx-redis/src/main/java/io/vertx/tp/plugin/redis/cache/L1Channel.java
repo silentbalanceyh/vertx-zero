@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.redis.cache;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 
 import java.util.concurrent.ConcurrentMap;

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonArray;

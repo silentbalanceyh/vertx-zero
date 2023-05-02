@@ -1,7 +1,7 @@
 package io.aeon.experiment.mixture;
 
 import io.aeon.experiment.specification.KModule;
-import io.horizon.eon.em.DSMode;
+import io.horizon.eon.em.app.DatabaseSource;
 import io.vertx.core.MultiMap;
 import io.vertx.tp.plugin.database.DS;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -32,8 +32,8 @@ class HOneJooq implements HOne<UxJooq> {
         // ================ Build UxJooq Object ===================
         final UxJooq dao;
         // 1. Extract Mode from 'IxModule' for data source switching
-        final DSMode mode = module.getMode();
-        if (DSMode.DYNAMIC == mode) {
+        final DatabaseSource mode = module.getMode();
+        if (DatabaseSource.DYNAMIC == mode) {
             dao = Ux.channelS(DS.class,
                 /* `provider` configured */
                 () -> Ux.Jooq.on(daoCls),
@@ -41,10 +41,10 @@ class HOneJooq implements HOne<UxJooq> {
                 ds -> Ux.Jooq.on(daoCls, ds.switchDs(headers))
             );
         } else {
-            if (DSMode.HISTORY == mode) {
+            if (DatabaseSource.HISTORY == mode) {
                 /* `orbit` configured */
                 dao = Ux.Jooq.ons(daoCls);
-            } else if (DSMode.EXTENSION == mode) {
+            } else if (DatabaseSource.EXTENSION == mode) {
                 final String modeKey = module.getModeKey();
                 if (Ut.isNil(modeKey)) {
                     /* `provider` configured */

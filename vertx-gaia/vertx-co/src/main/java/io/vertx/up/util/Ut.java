@@ -2,7 +2,7 @@ package io.vertx.up.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.runtime.HService;
 import io.horizon.util.HaS;
 import io.vertx.config.ConfigStoreOptions;

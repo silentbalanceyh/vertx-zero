@@ -1,4 +1,4 @@
-package io.horizon.eon.em;
+package io.horizon.eon.em.typed;
 
 public enum CompressLevel {
 

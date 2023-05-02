@@ -1,12 +1,15 @@
-package io.horizon.specification.uca;
+package io.horizon.runtime.cache;
 
 import io.horizon.annotations.Memory;
+import io.horizon.specification.uca.HFS;
 import io.horizon.uca.cache.Cc;
 
 /**
+ * 包内专用抽象组件缓存
+ *
  * @author lang : 2023/5/2
  */
-interface CACHE {
+interface CUca {
     /*
      * HFS 抽象缓存
      */

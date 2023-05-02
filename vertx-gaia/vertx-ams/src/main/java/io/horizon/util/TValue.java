@@ -1,6 +1,6 @@
 package io.horizon.util;
 
-import io.horizon.atom.config.Metadata;
+import io.horizon.atom.common.Metadata;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;

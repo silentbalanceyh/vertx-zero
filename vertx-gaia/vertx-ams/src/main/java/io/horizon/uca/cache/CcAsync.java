@@ -1,6 +1,6 @@
 package io.horizon.uca.cache;
 
-import io.horizon.eon.em.CcMode;
+import io.horizon.eon.em.uca.CcMode;
 import io.horizon.exception.internal.OperationException;
 import io.vertx.core.Future;
 

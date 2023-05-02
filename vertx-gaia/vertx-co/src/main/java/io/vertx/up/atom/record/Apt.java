@@ -1,6 +1,6 @@
 package io.vertx.up.atom.record;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.fn.Actuator;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;

@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
@@ -36,7 +36,7 @@ public class PureIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final TypeAtom MetaAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final MetaAtom metaAtom) {
         /* Data Range */
         ExFn.itSheet(this.sheet, dataRange, (dataRow, rowIndex) -> {
             /* Build Data Col Range */
@@ -49,7 +49,7 @@ public class PureIn extends AbstractExIn {
                 /* Field / Value */
                 final String field = table.field(cellIndex);
                 if (Objects.nonNull(field)) {
-                    final Class<?> type = MetaAtom.type(field);
+                    final Class<?> type = metaAtom.type(field);
                     final Object value = this.extractValue(dataCell, type);
 
                     /* Stored into record */

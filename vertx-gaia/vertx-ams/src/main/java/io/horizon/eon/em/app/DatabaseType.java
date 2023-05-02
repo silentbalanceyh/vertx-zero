@@ -1,4 +1,4 @@
-package io.horizon.eon.em;
+package io.horizon.eon.em.app;
 
 public enum DatabaseType {
     /* MySQL */

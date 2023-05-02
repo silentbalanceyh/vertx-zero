@@ -1,6 +1,6 @@
 package io.vertx.up.uca.wffs.script;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 import org.apache.commons.jexl3.JexlContext;

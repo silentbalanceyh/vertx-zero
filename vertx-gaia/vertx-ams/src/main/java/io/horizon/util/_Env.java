@@ -3,7 +3,7 @@ package io.horizon.util;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VEnv;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.TypeOs;
+import io.horizon.eon.em.app.OsType;
 
 import java.util.Properties;
 import java.util.concurrent.ConcurrentMap;
@@ -12,9 +12,9 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang : 2023/4/28
  */
 class _Env extends _End {
-    public static TypeOs envOs() {
+    public static OsType envOs() {
         // os.name
-        return TypeOs.from(System.getProperty(VEnv.PROP.OS_NAME));
+        return OsType.from(System.getProperty(VEnv.PROP.OS_NAME));
     }
 
     /**

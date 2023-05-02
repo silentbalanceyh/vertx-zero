@@ -1,6 +1,6 @@
 package io.vertx.tp.ambient.uca.dict;
 
-import io.horizon.eon.em.GlossaryType;
+import io.horizon.eon.em.uca.DictType;
 import io.vertx.core.Future;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonArray;
@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public interface Dpm {
-    static Dpm get(final GlossaryType type) {
+    static Dpm get(final DictType type) {
         return DpmTool.POOL_DPM.getOrDefault(type, null);
     }
 

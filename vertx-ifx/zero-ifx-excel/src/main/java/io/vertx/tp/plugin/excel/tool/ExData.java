@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.tool;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
@@ -57,7 +57,7 @@ class ExData {
     }
 
     static boolean generateHeader(final Sheet sheet, final String identifier,
-                                  final JsonArray tableData, final TypeAtom MetaAtom) {
+                                  final JsonArray tableData, final MetaAtom metaAtom) {
         final Consumer<Integer> consumer = width -> {
             /*
              * Row creation
@@ -85,7 +85,7 @@ class ExData {
                 Fn.jvmAt(() -> sheet.addMergedRegion(region));
             }
         };
-        if (MetaAtom.isComplex()) {
+        if (metaAtom.isComplex()) {
             /*
              * Complex workflow processing
              */

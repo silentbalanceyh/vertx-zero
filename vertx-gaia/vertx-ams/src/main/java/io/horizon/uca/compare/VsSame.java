@@ -1,6 +1,6 @@
 package io.horizon.uca.compare;
 
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -22,7 +22,7 @@ interface VsSame {
         return Objects.isNull(type) ? null : POOL_VS.POOL_SAME.getOrDefault(type, null);
     }
 
-    static VsSame get(final TypeField type) {
+    static VsSame get(final MetaField type) {
         final VsSame same = get(type.type());
         if (Objects.isNull(same)) {
             return null;

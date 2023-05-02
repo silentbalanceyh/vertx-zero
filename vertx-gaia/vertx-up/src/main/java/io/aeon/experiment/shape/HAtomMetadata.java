@@ -1,7 +1,7 @@
 package io.aeon.experiment.shape;
 
-import io.horizon.atom.modeler.TypeAtom;
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaAtom;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
 
@@ -17,7 +17,7 @@ public class HAtomMetadata {
 
     private transient final HModel modelRef;
     private transient final String identifier;
-    private transient final TypeAtom metaAtom = TypeAtom.create();
+    private transient final MetaAtom metaAtom = MetaAtom.create();
 
 
     public HAtomMetadata(final HModel modelRef) {
@@ -33,7 +33,7 @@ public class HAtomMetadata {
              * Why ?
              */
             Objects.requireNonNull(attr);
-            final TypeField field = attr.field();
+            final MetaField field = attr.field();
 /*            if (Objects.isNull(attr)) {
                 if (Objects.isNull(this.htFieldFn)) {
                     field = null;
@@ -74,13 +74,13 @@ public class HAtomMetadata {
         return this.metaAtom.alias();
     }
 
-    public TypeAtom shape() {
+    public MetaAtom shape() {
         return this.metaAtom;
     }
 
     // ==================== HtField Information ==================
-    public ConcurrentMap<String, TypeField> types() {
-        final ConcurrentMap<String, TypeField> typeMap = new ConcurrentHashMap<>();
+    public ConcurrentMap<String, MetaField> types() {
+        final ConcurrentMap<String, MetaField> typeMap = new ConcurrentHashMap<>();
         this.modelRef.attribute().forEach((name) -> {
             final HAttribute attribute = this.modelRef.attribute(name);
             typeMap.put(name, attribute.field());
@@ -88,7 +88,7 @@ public class HAtomMetadata {
         return typeMap;
     }
 
-    public TypeField type(final String field) {
+    public MetaField type(final String field) {
         final HAttribute attribute = this.modelRef.attribute(field);
         if (Objects.isNull(attribute)) {
             return null;

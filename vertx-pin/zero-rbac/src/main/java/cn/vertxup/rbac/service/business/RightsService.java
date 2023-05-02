@@ -7,7 +7,7 @@ import cn.vertxup.rbac.domain.tables.pojos.RRolePerm;
 import cn.vertxup.rbac.domain.tables.pojos.SPermSet;
 import cn.vertxup.rbac.domain.tables.pojos.SPermission;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

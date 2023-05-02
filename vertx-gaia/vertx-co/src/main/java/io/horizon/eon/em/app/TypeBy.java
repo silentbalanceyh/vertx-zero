@@ -1,4 +1,4 @@
-package io.horizon.eon.em.cloud;
+package io.horizon.eon.em.app;
 
 /*
  * New Structure for different interface ( Default value )

@@ -1,8 +1,8 @@
 package io.horizon.util;
 
-import io.horizon.atom.config.HugeFile;
+import io.horizon.atom.common.HugeFile;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.CompressLevel;
+import io.horizon.eon.em.typed.CompressLevel;
 import io.horizon.fn.HFn;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

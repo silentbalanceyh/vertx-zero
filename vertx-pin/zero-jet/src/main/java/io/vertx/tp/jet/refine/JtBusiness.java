@@ -1,7 +1,7 @@
 package io.vertx.tp.jet.refine;
 
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.horizon.eon.em.MappingMode;
+import io.horizon.eon.em.uca.AopType;
 import io.horizon.spi.environment.Ambient;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
@@ -63,7 +63,7 @@ class JtBusiness {
             /*
              * DualMapping
              */
-            final MappingMode mode = Ut.toEnum(service::getMappingMode, MappingMode.class, MappingMode.NONE);
+            final AopType mode = Ut.toEnum(service::getMappingMode, AopType.class, AopType.NONE);
             final BTree mapping = new BTree();
             /*
              * The mode != NONE means that there must contain configuration

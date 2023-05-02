@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.aeon.experiment.mu.KAttribute;
 import io.aeon.experiment.mu.KTag;
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.eon.em.typed.DataFormat;
@@ -178,7 +178,7 @@ class AtomAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public TypeField field() {
+    public MetaField field() {
         return this.attribute.field();
     }
 
@@ -188,7 +188,7 @@ class AtomAttribute implements HAttribute, Serializable {
      * @return {@link List}
      */
     @Override
-    public List<TypeField> fields() {
+    public List<MetaField> fields() {
         return this.attribute.fields();
     }
 

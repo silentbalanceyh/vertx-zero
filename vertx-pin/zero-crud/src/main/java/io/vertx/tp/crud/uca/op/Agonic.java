@@ -1,6 +1,6 @@
 package io.vertx.tp.crud.uca.op;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

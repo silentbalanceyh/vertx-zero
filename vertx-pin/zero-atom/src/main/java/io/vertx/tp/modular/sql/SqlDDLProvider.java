@@ -3,7 +3,7 @@ package io.vertx.tp.modular.sql;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.modeler.KeyType;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.modeling.Schema;

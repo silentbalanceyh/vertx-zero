@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.database;
 
-import io.horizon.eon.em.DatabaseType;
+import io.horizon.eon.em.app.DatabaseType;
 import org.jooq.SQLDialect;
 
 import java.util.concurrent.ConcurrentHashMap;

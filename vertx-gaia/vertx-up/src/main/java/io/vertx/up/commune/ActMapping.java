@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.eon.em.MappingMode;
+import io.horizon.eon.em.uca.AopType;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
@@ -50,7 +50,7 @@ public abstract class ActMapping implements Serializable {
         if (Objects.isNull(mapping)) {
             return false;
         }
-        if (MappingMode.BEFORE != mapping.getMode() && MappingMode.AROUND != mapping.getMode()) {
+        if (AopType.BEFORE != mapping.getMode() && AopType.AROUND != mapping.getMode()) {
             return false;
         }
         return mapping.valid();
@@ -63,7 +63,7 @@ public abstract class ActMapping implements Serializable {
         if (Objects.isNull(mapping)) {
             return false;
         }
-        if (MappingMode.AFTER != mapping.getMode() && MappingMode.AROUND != mapping.getMode()) {
+        if (AopType.AFTER != mapping.getMode() && AopType.AROUND != mapping.getMode()) {
             return false;
         }
         return mapping.valid();

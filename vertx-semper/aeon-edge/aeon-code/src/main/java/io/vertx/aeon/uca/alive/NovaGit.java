@@ -1,7 +1,7 @@
 package io.vertx.aeon.uca.alive;
 
 import io.aeon.atom.iras.HRepo;
-import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.eon.em.app.AeonRuntime;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.git.GitClient;
 import io.vertx.tp.plugin.git.GitInfix;
@@ -22,7 +22,7 @@ import java.util.function.Function;
 public class NovaGit extends AbstractNova {
 
     @Override
-    public Future<Boolean> configure(final ConcurrentMap<RTEAeon, HRepo> repoMap) {
+    public Future<Boolean> configure(final ConcurrentMap<AeonRuntime, HRepo> repoMap) {
         /*
          * 1. （公库）下载代码到 /var/tmp/zero-aeon/kzero 中
          *    （私库）下载代码到 /var/tmp/zero-aeon/kidd 中
@@ -36,7 +36,7 @@ public class NovaGit extends AbstractNova {
          */
         final Refer refKinect = new Refer();
         // kinect 客户端
-        final HRepo zeroP = repoMap.get(RTEAeon.kinect);
+        final HRepo zeroP = repoMap.get(AeonRuntime.kinect);
         final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
         // 连接 kzero / kidd
         return this.connect(repoMap)
@@ -80,16 +80,16 @@ public class NovaGit extends AbstractNova {
      * 如果不存在该库则     git clone
      * 如果已存在该库则     git pull
      */
-    private Future<Boolean> connect(final ConcurrentMap<RTEAeon, HRepo> repoMap) {
+    private Future<Boolean> connect(final ConcurrentMap<AeonRuntime, HRepo> repoMap) {
         // kidd / kzero 下载
-        final Function<RTEAeon, Future<Boolean>> connectFn = (runtime) -> {
+        final Function<AeonRuntime, Future<Boolean>> connectFn = (runtime) -> {
             final HRepo zeroP = repoMap.get(runtime);
             final GitClient zeroC = GitInfix.createClient(this.vertx, zeroP);
             return zeroC.connectAsync(true).compose(nil -> Ux.futureT());
         };
         final List<Future<Boolean>> futures = new ArrayList<>();
-        futures.add(connectFn.apply(RTEAeon.kzero));
-        futures.add(connectFn.apply(RTEAeon.kidd));
+        futures.add(connectFn.apply(AeonRuntime.kzero));
+        futures.add(connectFn.apply(AeonRuntime.kidd));
         return Fn.combineB(futures);
     }
 }

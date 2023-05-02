@@ -1,4 +1,4 @@
-package io.horizon.atom.config;
+package io.horizon.atom.common;
 
 import io.horizon.exception.internal.EmptyIoException;
 import io.horizon.fn.HFn;

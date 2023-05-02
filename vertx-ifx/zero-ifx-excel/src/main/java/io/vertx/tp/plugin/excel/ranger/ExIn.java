@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -17,5 +17,5 @@ public interface ExIn {
 
     ExBound applyTable(ExTable table, Row row, Cell cell, Integer limitation);
 
-    ExTable applyData(ExTable table, ExBound dataRange, Cell cell, TypeAtom MetaAtom);
+    ExTable applyData(ExTable table, ExBound dataRange, Cell cell, MetaAtom metaAtom);
 }

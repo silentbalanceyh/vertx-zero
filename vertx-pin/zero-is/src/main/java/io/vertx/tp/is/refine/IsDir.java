@@ -4,7 +4,7 @@ import cn.vertxup.integration.domain.tables.daos.IDirectoryDao;
 import cn.vertxup.integration.domain.tables.pojos.IDirectory;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

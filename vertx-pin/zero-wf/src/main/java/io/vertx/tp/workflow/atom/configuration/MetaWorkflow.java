@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.horizon.eon.em.DSMode;
+import io.horizon.eon.em.app.DatabaseSource;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Database;
@@ -83,7 +83,7 @@ public class MetaWorkflow {
     public Database camundaDatabase() {
         if (Ut.isNotNil(this.database) && Objects.isNull(this.camundaDatabase)) {
             // Database Environment Connected
-            final JsonObject databaseJ = MatureOn.envDatabase(this.database, DSMode.WORKFLOW);
+            final JsonObject databaseJ = MatureOn.envDatabase(this.database, DatabaseSource.WORKFLOW);
             this.camundaDatabase = Database.configure(databaseJ);
         }
         return this.camundaDatabase;

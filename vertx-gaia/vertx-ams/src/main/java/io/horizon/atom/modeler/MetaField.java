@@ -18,7 +18,7 @@ import java.util.function.Function;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class TypeField implements Serializable {
+public class MetaField implements Serializable {
     /**
      * field = HTField
      *
@@ -35,7 +35,7 @@ public class TypeField implements Serializable {
      * }
      * // </code></pre>
      */
-    private final ConcurrentMap<String, TypeField> childMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, MetaField> childMap = new ConcurrentHashMap<>();
     /**
      * JsonArray Support only, the whole data structure is as following:
      *
@@ -51,7 +51,7 @@ public class TypeField implements Serializable {
      * }
      * // </code></pre>
      */
-    private final List<TypeField> children = new ArrayList<>();
+    private final List<MetaField> children = new ArrayList<>();
     /** Current field name */
     private final String name;
     /** Current field alias */
@@ -69,25 +69,25 @@ public class TypeField implements Serializable {
 
     // -------------------- Constructor -----------------------
 
-    private TypeField(final String name, final String alias) {
+    private MetaField(final String name, final String alias) {
         this(name, alias, String.class);
     }
 
-    private TypeField(final String name, final String alias, final Class<?> type) {
+    private MetaField(final String name, final String alias, final Class<?> type) {
         this.name = name;
         this.alias = alias;
         this.type = Objects.isNull(type) ? String.class : type;
     }
 
-    public static TypeField create(final String name, final String alias, final Class<?> type) {
-        return new TypeField(name, alias, type);
+    public static MetaField create(final String name, final String alias, final Class<?> type) {
+        return new MetaField(name, alias, type);
     }
 
-    public static TypeField create(final String name, final String alias) {
-        return new TypeField(name, alias);
+    public static MetaField create(final String name, final String alias) {
+        return new MetaField(name, alias);
     }
 
-    public TypeField ruleUnique(final Set<String> diffSet) {
+    public MetaField ruleUnique(final Set<String> diffSet) {
         if (Objects.nonNull(diffSet)) {
             this.unique.clear();
             this.unique.addAll(diffSet);
@@ -99,7 +99,7 @@ public class TypeField implements Serializable {
         return this.unique;
     }
 
-    public void add(final Collection<TypeField> children) {
+    public void add(final Collection<MetaField> children) {
         if (Objects.nonNull(children)) {
             children.forEach(item -> {
                 /*
@@ -121,7 +121,7 @@ public class TypeField implements Serializable {
     }
 
     public String name(final String field) {
-        return this.children(field, TypeField::name);
+        return this.children(field, MetaField::name);
     }
 
     public String alias() {
@@ -129,7 +129,7 @@ public class TypeField implements Serializable {
     }
 
     public String alias(final String field) {
-        return this.children(field, TypeField::alias);
+        return this.children(field, MetaField::alias);
     }
 
     public Class<?> type() {
@@ -137,18 +137,18 @@ public class TypeField implements Serializable {
     }
 
     public Class<?> type(final String field) {
-        return this.children(field, TypeField::type);
+        return this.children(field, MetaField::type);
     }
 
-    public List<TypeField> children() {
+    public List<MetaField> children() {
         return this.children;
     }
 
-    private <T> T children(final String field, final Function<TypeField, T> function) {
+    private <T> T children(final String field, final Function<MetaField, T> function) {
         if (HaS.isNil(field)) {
             return null;
         } else {
-            final TypeField item = this.childMap.getOrDefault(field, null);
+            final MetaField item = this.childMap.getOrDefault(field, null);
             if (Objects.isNull(item)) {
                 return null;
             } else {

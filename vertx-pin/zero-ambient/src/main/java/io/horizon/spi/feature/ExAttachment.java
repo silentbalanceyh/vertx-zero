@@ -2,7 +2,7 @@ package io.horizon.spi.feature;
 
 import cn.vertxup.ambient.domain.tables.daos.XAttachmentDao;
 import cn.vertxup.ambient.domain.tables.pojos.XAttachment;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.spi.business.ExIo;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;

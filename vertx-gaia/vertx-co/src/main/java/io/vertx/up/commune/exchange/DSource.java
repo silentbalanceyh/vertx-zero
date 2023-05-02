@@ -1,10 +1,10 @@
 package io.vertx.up.commune.exchange;
 
-import io.horizon.eon.em.GlossaryType;
+import io.horizon.eon.em.uca.DictType;
 import io.horizon.specification.typed.TCopy;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -31,7 +31,7 @@ public class DSource implements Serializable, TCopy<DSource> {
     /*
      * SourceType of current source definition
      */
-    private GlossaryType source;
+    private DictType source;
     /*
      * Another source of ASSIST here
      */
@@ -44,8 +44,8 @@ public class DSource implements Serializable, TCopy<DSource> {
          * Source normalize for `source type`
          */
         final String source = definition.getString("source");
-        this.source = Ut.toEnum(() -> source, GlossaryType.class, GlossaryType.NONE);
-        if (GlossaryType.CATEGORY == this.source || GlossaryType.TABULAR == this.source) {
+        this.source = Ut.toEnum(() -> source, DictType.class, DictType.NONE);
+        if (DictType.CATEGORY == this.source || DictType.TABULAR == this.source) {
             /*
              * Different definition for
              * 1) CATEGORY / TABULAR
@@ -56,7 +56,7 @@ public class DSource implements Serializable, TCopy<DSource> {
                     .map(item -> (String) item)
                     .forEach(this.types::add);
             }
-        } else if (GlossaryType.ASSIST == this.source) {
+        } else if (DictType.ASSIST == this.source) {
             /*
              * Different definition for
              * ASSIST
@@ -79,7 +79,7 @@ public class DSource implements Serializable, TCopy<DSource> {
     private DSource() {
     }
 
-    public GlossaryType getSourceType() {
+    public DictType getSourceType() {
         return this.source;
     }
 

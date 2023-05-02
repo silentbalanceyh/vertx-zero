@@ -2,7 +2,7 @@ package io.vertx.tp.modular.acc;
 
 import cn.vertxup.atom.domain.tables.daos.MAccDao;
 import cn.vertxup.atom.domain.tables.pojos.MAcc;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

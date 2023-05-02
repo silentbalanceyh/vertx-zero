@@ -1,6 +1,6 @@
 package io.horizon.uca.compare;
 
-import io.horizon.atom.modeler.TypeField;
+import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.uca.cache.Cc;
@@ -47,7 +47,7 @@ public class Vs implements Serializable {
      * 2. The data type is fixed: JsonObject / JsonArray.
      * 3. And the HTField type contains `children` and isComplex = true
      */
-    private transient final ConcurrentMap<String, TypeField> typeMap = new ConcurrentHashMap<>();
+    private transient final ConcurrentMap<String, MetaField> typeMap = new ConcurrentHashMap<>();
     /**
      * Ignored field that could be set from object.
      *
@@ -57,7 +57,7 @@ public class Vs implements Serializable {
      */
     private transient final Set<String> ignores = new HashSet<>();
 
-    private Vs(final ConcurrentMap<String, TypeField> mapType) {
+    private Vs(final ConcurrentMap<String, MetaField> mapType) {
         /*
          * this reference following rules
          * - mapType: stored current field = type
@@ -70,7 +70,7 @@ public class Vs implements Serializable {
         }
     }
 
-    public static Vs create(final String identifier, final ConcurrentMap<String, TypeField> mapType) {
+    public static Vs create(final String identifier, final ConcurrentMap<String, MetaField> mapType) {
         return CC_VS.pick(() -> new Vs(mapType), identifier);
         // Fn.po?l(POOL_VS, identifier, () -> new Vs(mapType));
     }
@@ -82,7 +82,7 @@ public class Vs implements Serializable {
         return Objects.isNull(same) ? Objects.nonNull(value) : same.ok(value);
     }
 
-    public static boolean isChange(final Object valueOld, final Object valueNew, final TypeField htField) {
+    public static boolean isChange(final Object valueOld, final Object valueNew, final MetaField htField) {
         return !isSame(valueOld, valueNew, () -> VsSame.get(htField));
     }
 
@@ -196,7 +196,7 @@ public class Vs implements Serializable {
     }
 
     public boolean isChange(final Object valueOld, final Object valueNew, final String attribute) {
-        final TypeField fieldType = this.typeMap.getOrDefault(attribute, null);
+        final MetaField fieldType = this.typeMap.getOrDefault(attribute, null);
         final boolean isChanged = isChange(valueOld, valueNew, fieldType);
         LOGGER.info("Field compared: name = {0}, type = {1}, result = {2}",
             attribute, fieldType.type(), isChanged);
@@ -204,7 +204,7 @@ public class Vs implements Serializable {
     }
 
     public boolean isValue(final Object value, final String attribute) {
-        final TypeField fieldType = this.typeMap.getOrDefault(attribute, null);
+        final MetaField fieldType = this.typeMap.getOrDefault(attribute, null);
         return isValue(value, fieldType.type());
     }
 }

@@ -1,7 +1,7 @@
 package cn.originx.scaffold.stdn;
 
 import cn.originx.refine.Ox;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

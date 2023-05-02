@@ -2,7 +2,7 @@ package io.aeon.atom.secure;
 
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.power.KTenant;
-import io.horizon.eon.em.cloud.ModeApp;
+import io.horizon.eon.em.app.AppMode;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 
@@ -26,7 +26,7 @@ public class Hoi implements Serializable {
     // 多层租户
     private final ConcurrentMap<String, Hoi> children = new ConcurrentHashMap<>();
     // 应用模式
-    private final ModeApp mode;
+    private final AppMode mode;
     /*
      * 此处区别一下 KApp 对象的内容
      * > 业务层面的应用概念，该应用不支持动态建模，只包含了基本信息如
@@ -54,11 +54,11 @@ public class Hoi implements Serializable {
     // 应用引用
     private KApp app;
 
-    private Hoi(final ModeApp mode) {
+    private Hoi(final AppMode mode) {
         this.mode = mode;
     }
 
-    public static Hoi create(final ModeApp mode) {
+    public static Hoi create(final AppMode mode) {
         return new Hoi(mode);
     }
 
@@ -72,7 +72,7 @@ public class Hoi implements Serializable {
         return this;
     }
 
-    public ModeApp mode() {
+    public AppMode mode() {
         return this.mode;
     }
 
@@ -99,7 +99,7 @@ public class Hoi implements Serializable {
         // sigma / language
         qr.mergeIn(this.app.dimJ(), true);
 
-        if (ModeApp.CUBE != this.mode && Objects.nonNull(this.tenant)) {
+        if (AppMode.CUBE != this.mode && Objects.nonNull(this.tenant)) {
             // tenantId
             qr.put(KName.Tenant.ID, this.tenant.id());
         }

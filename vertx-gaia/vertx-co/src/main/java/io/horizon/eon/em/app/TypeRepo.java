@@ -1,4 +1,4 @@
-package io.horizon.eon.em.cloud;
+package io.horizon.eon.em.app;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

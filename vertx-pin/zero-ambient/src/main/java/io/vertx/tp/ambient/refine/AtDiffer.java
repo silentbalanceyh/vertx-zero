@@ -3,8 +3,8 @@ package io.vertx.tp.ambient.refine;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.aeon.experiment.mu.KMarker;
-import io.horizon.atom.modeler.TypeField;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.atom.modeler.MetaField;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
@@ -94,7 +94,7 @@ class AtDiffer {
     private static XActivityChange createChange(final HAttribute attribute) {
         final XActivityChange change = new XActivityChange();
         change.setKey(UUID.randomUUID().toString());
-        final TypeField field = attribute.field();
+        final MetaField field = attribute.field();
         Objects.requireNonNull(field);
         change.setFieldName(field.name());
         change.setFieldAlias(field.alias());

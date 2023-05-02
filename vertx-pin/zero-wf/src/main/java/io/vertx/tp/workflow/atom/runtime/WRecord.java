@@ -6,7 +6,7 @@ import cn.vertxup.workflow.cv.em.TodoStatus;
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.spi.business.ExActivity;
 import io.horizon.spi.component.Dictionary;
 import io.vertx.core.Future;

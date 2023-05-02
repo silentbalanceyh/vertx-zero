@@ -1,7 +1,7 @@
 package io.horizon.util;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.CompressLevel;
+import io.horizon.eon.em.typed.CompressLevel;
 import io.horizon.fn.HFn;
 
 import java.io.ByteArrayOutputStream;

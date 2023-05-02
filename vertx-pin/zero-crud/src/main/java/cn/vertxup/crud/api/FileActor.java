@@ -1,7 +1,7 @@
 package cn.vertxup.crud.api;
 
 import io.aeon.experiment.specification.KModule;
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
@@ -103,7 +103,7 @@ public class FileActor {
                         /*
                          * The system will calculate the type definition of static module
                          */
-                        final TypeAtom atom = Ix.onAtom(active, (JsonArray) columns);
+                        final MetaAtom atom = Ix.onAtom(active, (JsonArray) columns);
                         return this.client.exportAsync(in.getTable(), (JsonArray) data, atom);
                     } else {
                         return Ux.future(Buffer.buffer());

@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
@@ -70,7 +70,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final TypeAtom MetaAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final MetaAtom metaAtom) {
         /*
          * Build data column range based on current cell and table
          * 1) table means ExTable for range
@@ -98,7 +98,7 @@ public class ComplexIn extends AbstractExIn {
             /*
              * In first iterator for first row, the system should build `complexMap`
              */
-            ExFn.itRow(row, bound, this.cellConsumer(record, rowMap, table, MetaAtom));
+            ExFn.itRow(row, bound, this.cellConsumer(record, rowMap, table, metaAtom));
             this.extractComplex(complexMap, rowMap);
 
             // ----------------- Other row -------------------
@@ -109,7 +109,7 @@ public class ComplexIn extends AbstractExIn {
             if (1 < size) {
                 for (int idx = 1; idx < size; idx++) {
                     final Row dataRow = rowList.get(idx);
-                    ExFn.itRow(dataRow, bound, this.cellConsumer(rowMap, table, MetaAtom));
+                    ExFn.itRow(dataRow, bound, this.cellConsumer(rowMap, table, metaAtom));
                     this.extractComplex(complexMap, rowMap);
                 }
             }
@@ -126,7 +126,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ExRecord record, final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final TypeAtom MetaAtom) {
+                                                   final ExTable table, final MetaAtom metaAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
@@ -136,10 +136,10 @@ public class ComplexIn extends AbstractExIn {
                     /*
                      * Do Processing
                      */
-                    this.cellConsumer(rowMap, field).accept(dataCell, MetaAtom);
+                    this.cellConsumer(rowMap, field).accept(dataCell, metaAtom);
                 } else {
                     /* Pure Workflow */
-                    final Class<?> type = MetaAtom.type(field);
+                    final Class<?> type = metaAtom.type(field);
                     final Object value = this.extractValue(dataCell, type);
                     record.put(field, value);
                 }
@@ -150,7 +150,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final TypeAtom MetaAtom) {
+                                                   final ExTable table, final MetaAtom metaAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
@@ -159,7 +159,7 @@ public class ComplexIn extends AbstractExIn {
                     /*
                      * Data Structure for complex data
                      */
-                    this.cellConsumer(rowMap, field).accept(dataCell, MetaAtom);
+                    this.cellConsumer(rowMap, field).accept(dataCell, metaAtom);
                 }
             } else {
                 this.logger().warn("Field (index = {0}) could not be found", cellIndex);

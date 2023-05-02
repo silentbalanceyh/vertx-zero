@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.refine;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;

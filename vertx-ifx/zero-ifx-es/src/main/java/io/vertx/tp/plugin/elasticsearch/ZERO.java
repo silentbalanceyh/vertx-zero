@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.elasticsearch;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.json.JsonObject;
 
 import java.util.concurrent.ConcurrentHashMap;

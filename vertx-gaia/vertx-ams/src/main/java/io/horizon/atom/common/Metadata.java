@@ -1,6 +1,6 @@
-package io.horizon.atom.config;
+package io.horizon.atom.common;
 
-import io.horizon.eon.em.modeler.MetaSource;
+import io.horizon.eon.em.typed.MetaSource;
 import io.horizon.util.HaS;
 import io.vertx.core.json.JsonObject;
 

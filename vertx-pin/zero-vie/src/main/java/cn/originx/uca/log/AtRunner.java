@@ -6,7 +6,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
 import io.vertx.core.Future;

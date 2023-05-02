@@ -3,7 +3,7 @@ package io.vertx.up.unity;
 import io.aeon.experiment.rule.RuleTerm;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.specification.modeler.HRecord;
 import io.vertx.core.*;

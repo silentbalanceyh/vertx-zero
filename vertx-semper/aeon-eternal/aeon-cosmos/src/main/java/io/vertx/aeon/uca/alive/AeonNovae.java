@@ -5,7 +5,7 @@ import io.aeon.atom.iras.HBoot;
 import io.aeon.atom.iras.HRepo;
 import io.aeon.eon.HPath;
 import io.horizon.cloud.program.HNova;
-import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.eon.em.app.AeonRuntime;
 import io.horizon.specification.uca.HFS;
 import io.vertx.core.Future;
 import io.vertx.up.util.Ut;
@@ -56,7 +56,7 @@ public class AeonNovae extends AbstractNovae {
          * 第一步      o                   o                    x
          * 第二步
          */
-        final ConcurrentMap<RTEAeon, HRepo> repo = aeon.inRepo();
+        final ConcurrentMap<AeonRuntime, HRepo> repo = aeon.inRepo();
         final HBoot boot = aeon.inBoot();
         final HNova nova = boot.pick(HNova.class, this.vertx);
         return nova.configure(repo);
@@ -70,7 +70,7 @@ public class AeonNovae extends AbstractNovae {
 
 
         // 提取 Kinect 运行库
-        final HRepo repo = aeon.inRepo(RTEAeon.kinect);
+        final HRepo repo = aeon.inRepo(AeonRuntime.kinect);
         // 构造默认目录
         final String name = aeon.inName();
         // Build

@@ -3,7 +3,7 @@ package io.vertx.tp.atom.refine;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.uca.compare.Vs;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

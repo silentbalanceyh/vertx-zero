@@ -1,14 +1,12 @@
 package io.horizon.runtime.cache;
 
 /**
- * 组件缓存，作为 H1H, H2H, H3H 的抽象类，用于存储组件的 Cc 架构
- * - HComponent
- * --- H1H
- * --- H2H
- * --- H3H
+ * 缓存归口统一处理
+ * - CUca: 全局组件缓存
+ * - CApp：全局应用缓存
  *
  * @author lang : 2023/4/24
  */
-public interface CStore {
+public interface CStore extends CUca {
 
 }

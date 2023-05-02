@@ -3,7 +3,7 @@ package io.vertx.tp.crud.refine;
 import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KModule;
 import io.horizon.atom.common.Kv;
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
 import io.vertx.core.Future;
@@ -61,7 +61,7 @@ public class Ix {
         return IxData.parameters(in);
     }
 
-    public static TypeAtom onAtom(final IxMod active, final JsonArray columns) {
+    public static MetaAtom onAtom(final IxMod active, final JsonArray columns) {
         return IxData.atom(active, columns);
     }
 

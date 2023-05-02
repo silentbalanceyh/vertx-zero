@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.WebException;
@@ -44,7 +44,7 @@ class SheetExport {
     }
 
     void exportData(final String identifier, final JsonArray data,
-                    final TypeAtom MetaAtom, final Handler<AsyncResult<Buffer>> handler) {
+                    final MetaAtom metaAtom, final Handler<AsyncResult<Buffer>> handler) {
         /*
          * 1. Workbook created first
          * Each time if you want to export the data to excel file, here you must create
@@ -75,7 +75,7 @@ class SheetExport {
          * 1) When shape is null, the data type of each cell is detected by data literal
          * 2) When shape contains value, the data type of each cell is defined by Shape
          * */
-        final boolean headed = ExFn.generateHeader(sheet, identifier, data, MetaAtom);
+        final boolean headed = ExFn.generateHeader(sheet, identifier, data, metaAtom);
 
         /*
          * 4. Data Part of current excel file
@@ -84,8 +84,8 @@ class SheetExport {
         /*
          * Type processing
          */
-        if (Objects.nonNull(MetaAtom)) {
-            MetaAtom.analyzed(data);
+        if (Objects.nonNull(metaAtom)) {
+            metaAtom.analyzed(data);
         }
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
             /*
@@ -97,7 +97,7 @@ class SheetExport {
             /*
              * Generate banner of title for usage
              */
-            if (MetaAtom.isComplex()) {
+            if (metaAtom.isComplex()) {
                 /*
                  * 1,2,3,4
                  */
@@ -111,7 +111,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, MetaAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.types());
                 }
             } else {
                 if (actualIdx <= 2) {
@@ -124,7 +124,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, MetaAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.types());
                 }
             }
 
@@ -134,7 +134,7 @@ class SheetExport {
         /*
          * 5. Apply for style based on Tpl extraction
          */
-        this.helper.brush(workbook, sheet, MetaAtom);
+        this.helper.brush(workbook, sheet, metaAtom);
 
         /*
          * 6. Adjust column width
@@ -167,9 +167,9 @@ class SheetExport {
     }
 
     Future<Buffer> exportData(final String identifier, final JsonArray data,
-                              final TypeAtom MetaAtom) {
+                              final MetaAtom metaAtom) {
         final Promise<Buffer> promise = Promise.promise();
-        this.exportData(identifier, data, MetaAtom, this.callback(promise));
+        this.exportData(identifier, data, metaAtom, this.callback(promise));
         return promise.future();
     }
 

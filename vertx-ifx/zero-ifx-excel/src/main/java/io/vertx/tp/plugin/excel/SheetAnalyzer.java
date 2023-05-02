@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
 import io.vertx.tp.plugin.booting.KConnect;
@@ -39,7 +39,7 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet to find all the data and definition part
      */
-    public Set<ExTable> analyzed(final ExBound bound, final TypeAtom typeAtom) {
+    public Set<ExTable> analyzed(final ExBound bound, final MetaAtom metaAtom) {
         if (DevEnv.devExcelRange()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
@@ -75,7 +75,7 @@ public class SheetAnalyzer implements Serializable {
                         return null;
                     } else {
                         final Integer limit = range.get(cell.hashCode());
-                        return this.analyzed(row, cell, limit, typeAtom);
+                        return this.analyzed(row, cell, limit, metaAtom);
                     }
                 }).filter(Objects::nonNull).forEach(tables::add);
             }
@@ -109,13 +109,13 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet from row to cell to build each table.
      */
-    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final TypeAtom typeAtom) {
+    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final MetaAtom metaAtom) {
         /* Build ExTable */
         final ExTable table = this.create(row, cell);
 
         /* ExIn build */
         final ExIn in;
-        if (Objects.nonNull(typeAtom) && typeAtom.isComplex()) {
+        if (Objects.nonNull(metaAtom) && metaAtom.isComplex()) {
             in = new ComplexIn(this.sheet).bind(this.evaluator);
         } else {
             in = new PureIn(this.sheet).bind(this.evaluator);
@@ -127,7 +127,7 @@ public class SheetAnalyzer implements Serializable {
         /*
          * Data processing
          */
-        return in.applyData(table, dataRange, cell, typeAtom);
+        return in.applyData(table, dataRange, cell, metaAtom);
     }
 
     private ExTable create(final Row row, final Cell cell) {

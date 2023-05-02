@@ -1,7 +1,7 @@
 package io.vertx.tp.workflow.uca.toolkit;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

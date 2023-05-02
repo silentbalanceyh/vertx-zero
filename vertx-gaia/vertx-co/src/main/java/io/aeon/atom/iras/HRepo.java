@@ -1,7 +1,7 @@
 package io.aeon.atom.iras;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.horizon.eon.em.cloud.TypeRepo;
+import io.horizon.eon.em.app.TypeRepo;
 import io.horizon.runtime.Macrocosm;
 import io.vertx.up.util.Ut;
 

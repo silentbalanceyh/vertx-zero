@@ -2,7 +2,7 @@ package io.vertx.up.runtime;
 
 import io.aeon.eon.HPath;
 import io.aeon.experiment.specification.app.HES;
-import io.horizon.eon.em.TypeOs;
+import io.horizon.eon.em.app.OsType;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -45,7 +45,7 @@ public class ZeroArcane {
      * Era: 纪元、年代
      */
     public static void startEra() {
-        final TypeOs osType = Ut.envOs();
+        final OsType os = Ut.envOs();
         /*
          * 判断是否开启了开发环境
          * 路径下是否包含：.env.development 环境变量文件，如存在该文件，则挂载设置环境变量
@@ -54,7 +54,7 @@ public class ZeroArcane {
          */
         if (Ut.ioExist(HPath.ENV_DEVELOPMENT)) {
             // 1. 设置环境变量
-            LOG.Env.warn(ZeroArcane.class, MSG_DEVELOPMENT, osType.name(), HPath.ENV_DEVELOPMENT);
+            LOG.Env.warn(ZeroArcane.class, MSG_DEVELOPMENT, os.name(), HPath.ENV_DEVELOPMENT);
             final Properties properties = Ut.ioProperties(HPath.ENV_DEVELOPMENT);
             final ConcurrentMap<String, String> written = Ut.envOut(properties);
             // 2. 打印环境变量

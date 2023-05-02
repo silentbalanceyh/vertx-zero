@@ -4,10 +4,10 @@ import io.aeon.atom.secure.Hoi;
 import io.aeon.experiment.specification.app.HES;
 import io.aeon.experiment.specification.power.KApp;
 import io.aeon.experiment.specification.power.KTenant;
-import io.horizon.eon.em.cloud.ModeApp;
+import io.horizon.eon.em.app.AppMode;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -22,10 +22,10 @@ public abstract class AbstractHET implements HET {
         final Hoi hoi;
         if (Ut.isNil(tenantId)) {
             // 独立模式
-            hoi = Hoi.create(ModeApp.CUBE);
+            hoi = Hoi.create(AppMode.CUBE);
         } else {
             // 多租户 -> 子类可切换成多层
-            hoi = Hoi.create(ModeApp.SPACE);
+            hoi = Hoi.create(AppMode.SPACE);
         }
 
         // 租户配置流程

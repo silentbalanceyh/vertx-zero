@@ -2,7 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 
@@ -52,7 +52,7 @@ public interface HAtom extends
      */
     String atomKey(JsonObject options);
 
-    TypeAtom shape();
+    MetaAtom shape();
 
     <T extends HModel> T model();
     // =================== Basic method of current atom ===========

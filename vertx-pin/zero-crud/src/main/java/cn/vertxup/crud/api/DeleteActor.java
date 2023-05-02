@@ -1,6 +1,6 @@
 package cn.vertxup.crud.api;
 
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.crud.cv.Addr;

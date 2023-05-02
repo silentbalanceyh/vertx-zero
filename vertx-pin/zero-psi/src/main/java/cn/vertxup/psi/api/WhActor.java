@@ -2,7 +2,7 @@ package cn.vertxup.psi.api;
 
 import cn.vertxup.psi.domain.tables.daos.PPosDao;
 import cn.vertxup.psi.domain.tables.daos.PWhDao;
-import io.horizon.eon.em.ValueBool;
+import io.horizon.eon.em.typed.ValueBool;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.psi.cv.Addr;

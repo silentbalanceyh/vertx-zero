@@ -4,8 +4,8 @@ import io.aeon.atom.config.HPlot;
 import io.aeon.eon.HName;
 import io.aeon.eon.HPath;
 import io.aeon.runtime.H1H;
-import io.horizon.eon.em.cloud.ModeAeon;
-import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.eon.em.app.AeonMode;
+import io.horizon.eon.em.app.AeonRuntime;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.runtime.env.MatureOn;
@@ -23,9 +23,9 @@ import static io.aeon.refine.Ho.LOG;
  */
 public class HAeon implements Serializable {
     // 代码仓库
-    private final ConcurrentMap<RTEAeon, HRepo> repos = new ConcurrentHashMap<>();
+    private final ConcurrentMap<AeonRuntime, HRepo> repos = new ConcurrentHashMap<>();
     // 三种模式核心支持
-    private final ModeAeon mode;
+    private final AeonMode mode;
     // 工作目录
     private final String workspace;
     private final String name;
@@ -38,7 +38,7 @@ public class HAeon implements Serializable {
     /* 三种库 */
     private HAeon(final JsonObject configuration) {
         this.mode = Ut.toEnum(() -> Ut.valueString(configuration, KName.MODE),
-            ModeAeon.class, ModeAeon.MIN);
+            AeonMode.class, AeonMode.MIN);
         // 上层工作区
         this.name = Ut.valueString(configuration, HName.NAME);
         this.workspace = Ut.valueString(configuration, HName.WORKSPACE, HPath.WORKSPACE);
@@ -67,7 +67,7 @@ public class HAeon implements Serializable {
     private void initRepo(final JsonObject configuration) {
         final JsonObject repoJ = Ut.valueJObject(configuration, HName.REPO);
         Ut.<JsonObject>itJObject(repoJ, (itemJ, field) -> {
-            final RTEAeon repoType = Ut.toEnum(() -> field, RTEAeon.class, null);
+            final AeonRuntime repoType = Ut.toEnum(() -> field, AeonRuntime.class, null);
             if (Objects.nonNull(repoType)) {
                 final HRepo repo = Ut.deserialize(itemJ, HRepo.class);
                 // 绑定仓库工作区：workspace + runtime
@@ -86,7 +86,7 @@ public class HAeon implements Serializable {
         return this.plot;
     }
 
-    public ModeAeon inMode() {
+    public AeonMode inMode() {
         return this.mode;
     }
 
@@ -98,11 +98,11 @@ public class HAeon implements Serializable {
         return this.name;
     }
 
-    public HRepo inRepo(final RTEAeon runtime) {
+    public HRepo inRepo(final AeonRuntime runtime) {
         return this.repos.getOrDefault(runtime, null);
     }
 
-    public ConcurrentMap<RTEAeon, HRepo> inRepo() {
+    public ConcurrentMap<AeonRuntime, HRepo> inRepo() {
         return this.repos;
     }
 

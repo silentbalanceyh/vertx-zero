@@ -7,7 +7,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.service.application.AppStub;
 import cn.vertxup.ambient.service.application.InitStub;
 import cn.vertxup.workflow.domain.tables.pojos.WTodo;
-import io.horizon.eon.em.ChangeFlag;
+import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HRecord;

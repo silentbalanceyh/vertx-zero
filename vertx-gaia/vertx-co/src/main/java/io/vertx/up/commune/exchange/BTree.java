@@ -1,6 +1,6 @@
 package io.vertx.up.commune.exchange;
 
-import io.horizon.eon.em.MappingMode;
+import io.horizon.eon.em.uca.AopType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
@@ -36,7 +36,7 @@ public class BTree implements Serializable {
     /*
      * Configured `MappingMode` and `Class<?>`
      */
-    private MappingMode mode = MappingMode.NONE;
+    private AopType mode = AopType.NONE;
     private Class<?> component;
 
     public BTree() {
@@ -82,7 +82,7 @@ public class BTree implements Serializable {
      * 3) DualMapping ( Bind Life Cycle )
      * 4) valid() -> boolean Check whether the mapping is enabled.
      */
-    public MappingMode getMode() {
+    public AopType getMode() {
         return this.mode;
     }
 
@@ -90,7 +90,7 @@ public class BTree implements Serializable {
         return this.component;
     }
 
-    public BTree bind(final MappingMode mode) {
+    public BTree bind(final AopType mode) {
         this.mode = mode;
         return this;
     }
@@ -101,7 +101,7 @@ public class BTree implements Serializable {
     }
 
     public boolean valid() {
-        return MappingMode.NONE != this.mode;
+        return AopType.NONE != this.mode;
     }
 
     // -------------  Get by identifier ----------------------------

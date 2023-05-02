@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.horizon.eon.em.DSMode;
-import io.horizon.eon.em.DatabaseType;
+import io.horizon.eon.em.app.DatabaseSource;
+import io.horizon.eon.em.app.DatabaseType;
 import io.horizon.runtime.Macrocosm;
 import io.horizon.specification.typed.TCopy;
 import io.horizon.specification.typed.TJson;
@@ -89,20 +89,20 @@ public class Database implements Serializable, TJson, TCopy<Database> {
 
     public static Database getCurrent() {
         if (Objects.isNull(DATABASE)) {
-            DATABASE = getDatabase(DSMode.PRIMARY, "jooq", CURRENT);
+            DATABASE = getDatabase(DatabaseSource.PRIMARY, "jooq", CURRENT);
         }
         return DATABASE.copy();
     }
 
     public static Database getHistory() {
-        return getDatabase(DSMode.HISTORY, "jooq", HISTORY);
+        return getDatabase(DatabaseSource.HISTORY, "jooq", HISTORY);
     }
 
     public static Database getCamunda() {
-        return getDatabase(DSMode.WORKFLOW, KName.Flow.WORKFLOW, KName.DATABASE);
+        return getDatabase(DatabaseSource.WORKFLOW, KName.Flow.WORKFLOW, KName.DATABASE);
     }
 
-    private static Database getDatabase(final DSMode mode, final String... keys) {
+    private static Database getDatabase(final DatabaseSource mode, final String... keys) {
         final JsonObject raw = Database.VISITOR.read();
         final JsonObject jooq = Ut.visitJObject(raw, keys);
         final JsonObject jooqJ = MatureOn.envDatabase(jooq, mode);

@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.eon.em.ValueBool;
+import io.horizon.eon.em.typed.ValueBool;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._500InternalServerException;

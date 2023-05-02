@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.horizon.eon.em.ValueBool;
+import io.horizon.eon.em.typed.ValueBool;
 
 import java.lang.annotation.*;
 

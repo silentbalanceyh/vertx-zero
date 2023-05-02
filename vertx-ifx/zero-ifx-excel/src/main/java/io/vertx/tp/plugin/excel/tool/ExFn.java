@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.tool;
 
-import io.horizon.atom.modeler.TypeAtom;
+import io.horizon.atom.modeler.MetaAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.excel.ranger.ExBound;
 import io.vertx.up.util.Ut;
@@ -208,8 +208,8 @@ public class ExFn {
     }
 
     public static boolean generateHeader(final Sheet sheet, final String identifier,
-                                         final JsonArray tableData, final TypeAtom MetaAtom) {
-        return ExData.generateHeader(sheet, identifier, tableData, MetaAtom);
+                                         final JsonArray tableData, final MetaAtom metaAtom) {
+        return ExData.generateHeader(sheet, identifier, tableData, metaAtom);
     }
 
     public static void generateHeader(final Sheet sheet, final Integer index,

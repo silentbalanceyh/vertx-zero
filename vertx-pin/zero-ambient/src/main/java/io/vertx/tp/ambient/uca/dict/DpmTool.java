@@ -1,7 +1,7 @@
 package io.vertx.tp.ambient.uca.dict;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.GlossaryType;
+import io.horizon.eon.em.uca.DictType;
 import io.vertx.core.MultiMap;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -16,12 +16,12 @@ import java.util.concurrent.ConcurrentMap;
  */
 class DpmTool {
 
-    static final ConcurrentMap<GlossaryType, Dpm> POOL_DPM = new ConcurrentHashMap<GlossaryType, Dpm>() {
+    static final ConcurrentMap<DictType, Dpm> POOL_DPM = new ConcurrentHashMap<DictType, Dpm>() {
         {
-            this.put(GlossaryType.ASSIST, Ut.instance(DpmAssist.class));
-            this.put(GlossaryType.CATEGORY, Ut.instance(DpmCategory.class));
-            this.put(GlossaryType.TABULAR, Ut.instance(DpmTabular.class));
-            this.put(GlossaryType.DAO, Ut.instance(DpmDao.class));
+            this.put(DictType.ASSIST, Ut.instance(DpmAssist.class));
+            this.put(DictType.CATEGORY, Ut.instance(DpmCategory.class));
+            this.put(DictType.TABULAR, Ut.instance(DpmTabular.class));
+            this.put(DictType.DAO, Ut.instance(DpmDao.class));
         }
     };
 
