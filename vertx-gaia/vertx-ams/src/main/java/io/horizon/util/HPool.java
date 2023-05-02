@@ -31,14 +31,6 @@ final class HPool {
             throw new PoolNullException(HPool.class);
         }
         return pool.computeIfAbsent(key, k -> poolFn.get());
-        //        V reference = pool.get(key);
-        //        if (Objects.isNull(reference)) {
-        //            reference = poolFn.get();
-        //            if (Objects.nonNull(reference)) {
-        //                pool.put(key, reference);
-        //            }
-        //        }
-        //        return reference;
         // Caused by: java.lang.IllegalStateException: Recursive update
         //        return pool.computeIfAbsent(key, k -> poolFn.get());
     }

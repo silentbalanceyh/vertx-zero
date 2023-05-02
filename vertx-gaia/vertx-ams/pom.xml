@@ -9,7 +9,6 @@
         <version>0.9.1</version>
     </parent>
 
-    <groupId>io.zero</groupId>
     <artifactId>vertx-ams</artifactId>
     <name>Kernel:「vertx-ams」Agreed Metadata Specification</name>
     <dependencies>

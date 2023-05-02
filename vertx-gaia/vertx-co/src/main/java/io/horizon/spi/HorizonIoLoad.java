@@ -1,6 +1,8 @@
 package io.horizon.spi;
 
+import io.horizon.exception.internal.EmptyIoException;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroAmbient;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.uca.yaml.Node;
@@ -30,11 +32,16 @@ public class HorizonIoLoad implements HorizonIo {
     @Override
     public JsonObject ofFailure() {
         if (MESSAGE.isEmpty()) {
-            final InputStream in = Ut.ioStream(FILENAME);
-            // Do not throw out EmptyStreamException when up.god.file does not existing.
-            if (null != in) {
-                MESSAGE.mergeIn(Ut.ioYaml(FILENAME));
+            try {
+                final InputStream in = Fn.jvmOr(() -> Ut.ioStream(FILENAME));
+                // Do not throw out EmptyStreamException when up.god.file does not existing.
+                if (null != in) {
+                    MESSAGE.mergeIn(Ut.ioYaml(FILENAME));
+                }
+            } catch (final EmptyIoException ex) {
+                // Ignore
             }
+
         }
         return MESSAGE;
         //        // Pick up message from MESSAGE cache.

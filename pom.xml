@@ -410,7 +410,7 @@
             </dependency>
             <!-- Zero Specification -->
             <dependency>
-                <groupId>io.zero</groupId>
+                <groupId>cn.vertxup</groupId>
                 <artifactId>vertx-ams</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -2012,7 +2012,7 @@
                     <version>${maven.plugin.staging}</version>
                     <extensions>true</extensions>
                     <configuration>
-                        <serverId>vertx-zero</serverId>
+                        <serverId>oss</serverId>
                         <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                         <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
@@ -2108,6 +2108,7 @@
                 </configuration>
             </plugin>
             <!-- Deploy Only -->
+            <!--
             <plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven.plugin.pgp}</version>
@@ -2126,6 +2127,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>

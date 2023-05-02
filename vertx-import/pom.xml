@@ -54,7 +54,7 @@
                 <version>${jooq.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.zero</groupId>
+                <groupId>cn.vertxup</groupId>
                 <artifactId>vertx-ams</artifactId>
                 <version>${zero.version}</version>
             </dependency>

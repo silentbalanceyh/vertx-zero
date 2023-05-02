@@ -12,7 +12,7 @@
     <name>Kernel:「vertx-co」Infrastructure</name>
     <dependencies>
         <dependency>
-            <groupId>io.zero</groupId>
+            <groupId>cn.vertxup</groupId>
             <artifactId>vertx-ams</artifactId>
         </dependency>
         <!-- Code Gen -->
