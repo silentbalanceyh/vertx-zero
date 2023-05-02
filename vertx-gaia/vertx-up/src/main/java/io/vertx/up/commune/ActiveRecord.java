@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;

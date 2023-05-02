@@ -3,7 +3,7 @@ package io.vertx.tp.atom.refine;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.spi.robin.Switcher;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

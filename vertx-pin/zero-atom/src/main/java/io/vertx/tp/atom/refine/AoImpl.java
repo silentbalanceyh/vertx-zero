@@ -5,7 +5,7 @@ import io.aeon.experiment.specification.app.HES;
 import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.spi.mixture.HLoadAtom;
 import io.horizon.spi.robin.Switcher;
 import io.horizon.uca.cache.Cc;

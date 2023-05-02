@@ -1,6 +1,6 @@
 package io.vertx.up.commune;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.horizon.eon.em.web.HttpStatusCode;

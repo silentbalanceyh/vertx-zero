@@ -3,7 +3,7 @@ package io.vertx.tp.modular.dao;
 import io.horizon.eon.VValue;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.dao.internal.*;

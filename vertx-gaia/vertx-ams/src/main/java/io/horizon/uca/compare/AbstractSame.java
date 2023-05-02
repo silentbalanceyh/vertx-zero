@@ -1,8 +1,8 @@
 package io.horizon.uca.compare;
 
-import io.horizon.atom.modeler.MetaField;
 import io.horizon.spi.typed.VsExtension;
 import io.horizon.util.HaS;
+import io.modello.atom.typed.MetaField;
 
 import java.util.Objects;
 import java.util.ServiceLoader;

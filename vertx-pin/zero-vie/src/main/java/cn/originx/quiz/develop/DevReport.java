@@ -3,11 +3,11 @@ package cn.originx.quiz.develop;
 import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.modeler.MetaAtom;
-import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;
+import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.typed.MetaField;
 
 import java.util.List;
 import java.util.Objects;

@@ -10,7 +10,7 @@ import cn.vertxup.workflow.domain.tables.pojos.WTodo;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.Environment;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.spi.plugin.AfterPlugin;
 import io.horizon.spi.plugin.AspectPlugin;
 import io.vertx.core.Future;

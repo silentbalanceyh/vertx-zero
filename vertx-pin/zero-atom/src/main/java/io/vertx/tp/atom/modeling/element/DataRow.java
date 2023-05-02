@@ -1,6 +1,6 @@
 package io.vertx.tp.atom.modeling.element;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;
 import org.jooq.Converter;

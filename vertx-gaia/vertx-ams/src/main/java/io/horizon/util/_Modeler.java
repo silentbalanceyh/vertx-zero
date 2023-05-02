@@ -1,6 +1,6 @@
 package io.horizon.util;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonArray;
 
 /**

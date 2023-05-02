@@ -1,7 +1,7 @@
 package io.horizon.spi.modeler;
 
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

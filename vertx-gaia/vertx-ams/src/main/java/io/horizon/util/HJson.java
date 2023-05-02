@@ -2,7 +2,7 @@ package io.horizon.util;
 
 import io.horizon.eon.em.Result;
 import io.horizon.fn.HFn;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

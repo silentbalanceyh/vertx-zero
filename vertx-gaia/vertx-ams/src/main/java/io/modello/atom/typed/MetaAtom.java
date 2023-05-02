@@ -1,4 +1,4 @@
-package io.horizon.atom.modeler;
+package io.modello.atom.typed;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;

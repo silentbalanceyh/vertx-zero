@@ -1,11 +1,11 @@
 package io.horizon.uca.compare;
 
-import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
+import io.modello.atom.typed.MetaField;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;

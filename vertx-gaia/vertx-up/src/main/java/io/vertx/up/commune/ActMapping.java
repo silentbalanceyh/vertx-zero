@@ -1,7 +1,7 @@
 package io.vertx.up.commune;
 
 import io.horizon.eon.em.uca.AopType;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.uca.adminicle.FieldMapper;

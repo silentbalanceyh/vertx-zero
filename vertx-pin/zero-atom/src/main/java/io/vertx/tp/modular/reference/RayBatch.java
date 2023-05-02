@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.reference;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.unity.Ux;

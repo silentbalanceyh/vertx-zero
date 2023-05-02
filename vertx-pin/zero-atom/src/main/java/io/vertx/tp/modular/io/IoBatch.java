@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.io;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.modular.plugin.IoHub;
 

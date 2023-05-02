@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.horizon.atom.modeler.MetaAtom;
+import io.modello.atom.typed.MetaAtom;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import org.apache.poi.ss.usermodel.Workbook;

@@ -5,7 +5,7 @@ import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.Message;

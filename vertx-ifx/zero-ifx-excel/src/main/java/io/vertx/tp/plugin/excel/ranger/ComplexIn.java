@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.modello.atom.typed.MetaAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExRecord;

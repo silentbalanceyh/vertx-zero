@@ -4,7 +4,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.horizon.atom.common.Kv;
 import io.horizon.fn.TiConsumer;
 import io.horizon.specification.modeler.HAttribute;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

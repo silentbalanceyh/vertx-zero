@@ -1,8 +1,8 @@
 package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KTag;
-import io.horizon.atom.modeler.MetaField;
 import io.horizon.eon.em.typed.DataFormat;
+import io.modello.atom.typed.MetaField;
 
 import java.util.List;
 

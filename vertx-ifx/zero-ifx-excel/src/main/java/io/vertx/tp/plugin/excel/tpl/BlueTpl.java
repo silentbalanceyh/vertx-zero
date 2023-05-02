@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel.tpl;
 
-import io.horizon.atom.modeler.MetaAtom;
 import io.horizon.eon.VValue;
+import io.modello.atom.typed.MetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
 import org.apache.poi.ss.usermodel.Cell;

@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;

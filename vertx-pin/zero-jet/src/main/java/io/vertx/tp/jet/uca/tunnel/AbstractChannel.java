@@ -1,6 +1,6 @@
 package io.vertx.tp.jet.uca.tunnel;
 
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtChannel;
 import io.horizon.spi.jet.JtComponent;

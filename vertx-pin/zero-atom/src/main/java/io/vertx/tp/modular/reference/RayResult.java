@@ -3,7 +3,7 @@ package io.vertx.tp.modular.reference;
 import io.aeon.experiment.reference.RResult;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.em.typed.DataFormat;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

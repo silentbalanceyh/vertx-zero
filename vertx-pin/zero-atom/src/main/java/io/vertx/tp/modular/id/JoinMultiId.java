@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.error._417PrimaryKeySizeException;

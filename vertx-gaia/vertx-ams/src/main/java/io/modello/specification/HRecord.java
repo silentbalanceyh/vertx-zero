@@ -1,4 +1,4 @@
-package io.horizon.specification.modeler;
+package io.modello.specification;
 
 import io.horizon.eon.VValue;
 import io.horizon.specification.typed.TJson;

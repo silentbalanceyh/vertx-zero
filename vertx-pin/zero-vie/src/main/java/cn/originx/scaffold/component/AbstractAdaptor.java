@@ -4,7 +4,7 @@ import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.horizon.spi.robin.Switcher;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

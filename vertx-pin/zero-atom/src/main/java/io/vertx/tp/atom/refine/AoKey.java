@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.refine;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.specification.modeler.HRecord;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
