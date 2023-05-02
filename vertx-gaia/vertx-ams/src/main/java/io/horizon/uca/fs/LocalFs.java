@@ -1,15 +1,15 @@
-package io.vertx.up.uca.fs;
+package io.horizon.uca.fs;
 
-import io.horizon.cloud.app.HFS;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
+import io.horizon.eon.VMessage;
+import io.horizon.fn.HFn;
+import io.horizon.specification.uca.HFS;
+import io.horizon.uca.log.LogAs;
+import io.horizon.util.HaS;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
-
-import static io.aeon.refine.Ho.LOG;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
@@ -19,18 +19,18 @@ public class LocalFs implements HFS {
     public boolean mkdir(final String dirName) {
         final File file = new File(dirName);
         if (!file.exists()) {
-            LOG.Fs.info(this.getClass(), Info.IO_CMD_MKDIR, file.getAbsolutePath());
-            Fn.jvmAt(() -> FileUtils.forceMkdir(file));
+            LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_MKDIR, file.getAbsolutePath());
+            HFn.jvmAt(() -> FileUtils.forceMkdir(file));
         }
         return true;
     }
 
     @Override
     public boolean rm(final String filename) {
-        final File file = Ut.ioFile(filename);
+        final File file = HaS.ioFile(filename);
         if (Objects.nonNull(file) && file.exists()) {
-            LOG.Fs.info(this.getClass(), Info.IO_CMD_RM, file.getAbsolutePath());
-            Fn.jvmAt(() -> FileUtils.forceDelete(file));
+            LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_RM, file.getAbsolutePath());
+            HFn.jvmAt(() -> FileUtils.forceDelete(file));
         }
         return true;
     }
@@ -45,28 +45,29 @@ public class LocalFs implements HFS {
                 // The target must be directory
                 if (fileSrc.isFile()) {
                     // File -> Directory
-                    LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFileToDirectory");
-                    Fn.jvmAt(() -> FileUtils.copyFileToDirectory(fileSrc, fileDst, true));
+                    LogAs.Fs.info(this.getClass(),
+                        VMessage.HFS.IO_CMD_CP, nameFrom, nameTo, "copyFileToDirectory");
+                    HFn.jvmAt(() -> FileUtils.copyFileToDirectory(fileSrc, fileDst, true));
                 } else {
                     if (fileSrc.getName().equals(fileDst.getName())) {
                         // Directory -> Directory ( Overwrite )
-                        LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectory");
-                        Fn.jvmAt(() -> FileUtils.copyDirectory(fileSrc, fileDst, true));
+                        LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_CP, nameFrom, nameTo, "copyDirectory");
+                        HFn.jvmAt(() -> FileUtils.copyDirectory(fileSrc, fileDst, true));
                     } else {
                         // Directory -> Directory / ( Children )
-                        LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyDirectoryToDirectory");
-                        Fn.jvmAt(() -> FileUtils.copyDirectoryToDirectory(fileSrc, fileDst));
+                        LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_CP, nameFrom, nameTo, "copyDirectoryToDirectory");
+                        HFn.jvmAt(() -> FileUtils.copyDirectoryToDirectory(fileSrc, fileDst));
                     }
                 }
             } else {
                 // File -> File
                 if (fileSrc.isFile()) {
-                    LOG.Fs.info(this.getClass(), Info.IO_CMD_CP, nameFrom, nameTo, "copyFile");
-                    Fn.jvmAt(() -> FileUtils.copyFile(fileSrc, fileDst, true));
+                    LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_CP, nameFrom, nameTo, "copyFile");
+                    HFn.jvmAt(() -> FileUtils.copyFile(fileSrc, fileDst, true));
                 }
             }
         } else {
-            LOG.Fs.warn(this.getClass(), Info.ERR_CMD_CP, nameFrom, nameTo);
+            LogAs.Fs.warn(this.getClass(), VMessage.HFS.ERR_CMD_CP, nameFrom, nameTo);
         }
         return true;
     }
@@ -77,18 +78,18 @@ public class LocalFs implements HFS {
         if (fileSrc.exists()) {
             final File fileTo = new File(nameTo);
             final File fileToP = fileTo.getParentFile();
-            LOG.Fs.info(this.getClass(), Info.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileToP.getAbsolutePath());
+            LogAs.Fs.info(this.getClass(), VMessage.HFS.IO_CMD_MOVE, fileSrc.getAbsolutePath(), fileToP.getAbsolutePath());
             if (fileSrc.isDirectory()) {
                 // 目录拷贝：目录 -> 目录
-                Fn.jvmAt(() -> FileUtils.moveDirectory(fileSrc, fileTo));
+                HFn.jvmAt(() -> FileUtils.moveDirectory(fileSrc, fileTo));
             } else {
                 // 文件拷贝（替换原始文件）
-                if (Ut.ioExist(nameTo)) {
+                if (HaS.ioExist(nameTo)) {
                     // Fix: org.apache.commons.io.FileExistsException:
                     //      File element in parameter 'null' already exists:
                     this.rm(nameTo);
                 }
-                Fn.jvmAt(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
+                HFn.jvmAt(() -> FileUtils.moveFile(fileSrc, fileTo, StandardCopyOption.REPLACE_EXISTING));
             }
         }
         return true;

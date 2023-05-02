@@ -1,7 +1,7 @@
 package io.horizon.cloud.boot;
 
 import io.aeon.atom.iras.HAeon;
-import io.horizon.cloud.action.HEvent;
+import io.horizon.specification.action.HEvent;
 import io.vertx.core.Future;
 
 /**

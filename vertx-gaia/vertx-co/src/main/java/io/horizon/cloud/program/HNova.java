@@ -1,8 +1,8 @@
 package io.horizon.cloud.program;
 
 import io.aeon.atom.iras.HRepo;
-import io.horizon.cloud.action.HEvent;
 import io.horizon.eon.em.cloud.RTEAeon;
+import io.horizon.specification.action.HEvent;
 
 import java.util.concurrent.ConcurrentMap;
 

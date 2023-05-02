@@ -2,7 +2,7 @@ package io.horizon.fn;
 
 import io.horizon.exception.AbstractException;
 import io.horizon.exception.ProgramException;
-import io.horizon.specification.component.HLogger;
+import io.horizon.specification.uca.HLogger;
 import io.horizon.util.HaS;
 
 import java.util.function.Supplier;

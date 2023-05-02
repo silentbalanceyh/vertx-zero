@@ -1,6 +1,6 @@
 package io.vertx.tp.ambient.refine;
 
-import io.horizon.cloud.app.HFS;
+import io.horizon.specification.uca.HFS;
 import io.horizon.spi.business.ExIo;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;

@@ -1,7 +1,7 @@
 package io.horizon.uca.compare;
 
 import io.horizon.atom.modeler.TypeField;
-import io.horizon.specification.typed.TEqual;
+import io.horizon.spi.typed.VsExtension;
 import io.horizon.util.HaS;
 
 import java.util.Objects;
@@ -13,12 +13,12 @@ import java.util.ServiceLoader;
 abstract class AbstractSame implements VsSame {
     protected transient final Class<?> type;
     protected transient TypeField fieldType;
-    private transient TEqual found;
+    private transient VsExtension found;
 
     public AbstractSame(final Class<?> type) {
         this.type = type;
-        final ServiceLoader<TEqual> loader = ServiceLoader.load(TEqual.class, TEqual.class.getClassLoader());
-        for (final TEqual TEquation : loader) {
+        final ServiceLoader<VsExtension> loader = ServiceLoader.load(VsExtension.class, VsExtension.class.getClassLoader());
+        for (final VsExtension TEquation : loader) {
             this.found = TEquation;
             if (Objects.nonNull(this.found)) {
                 break;

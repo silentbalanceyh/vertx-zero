@@ -1,4 +1,4 @@
-package io.horizon.cloud.action;
+package io.horizon.specification.action;
 
 import io.horizon.exception.web._501NotSupportException;
 import io.vertx.core.Future;

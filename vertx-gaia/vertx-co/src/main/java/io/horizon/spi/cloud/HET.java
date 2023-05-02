@@ -1,8 +1,8 @@
 package io.horizon.spi.cloud;
 
 import io.aeon.atom.secure.Hoi;
-import io.horizon.cloud.action.HCommand;
 import io.horizon.exception.web._501NotSupportException;
+import io.horizon.specification.action.HCommand;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 

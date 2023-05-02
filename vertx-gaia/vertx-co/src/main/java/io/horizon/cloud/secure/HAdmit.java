@@ -1,7 +1,7 @@
 package io.horizon.cloud.secure;
 
 import io.aeon.atom.secure.HPermit;
-import io.horizon.cloud.action.HEvent;
+import io.horizon.specification.action.HEvent;
 import io.horizon.specification.modeler.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

@@ -1,8 +1,7 @@
-package io.horizon.cloud.app;
+package io.horizon.specification.uca;
 
-import io.aeon.runtime.H1H;
+import io.horizon.uca.fs.LocalFs;
 import io.vertx.core.Future;
-import io.vertx.up.uca.fs.LocalFs;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
@@ -14,8 +13,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface HFS {
     // 创建默认的本地文件系统接口
+
     static HFS common() {
-        return H1H.CCT_FS.pick(LocalFs::new);
+        return CACHE.CCT_FS.pick(LocalFs::new);
     }
 
     /* 创建目录：    mkdir -p            */

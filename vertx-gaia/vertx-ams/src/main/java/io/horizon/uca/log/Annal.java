@@ -1,7 +1,7 @@
 package io.horizon.uca.log;
 
 import io.horizon.annotations.Memory;
-import io.horizon.specification.component.HLogger;
+import io.horizon.specification.uca.HLogger;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.internal.BridgeAnnal;
 import io.horizon.uca.log.internal.Log4JAnnal;

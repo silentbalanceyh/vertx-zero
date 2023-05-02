@@ -1,7 +1,7 @@
 package io.horizon.fn;
 
 import io.horizon.exception.AbstractException;
-import io.horizon.specification.component.HLogger;
+import io.horizon.specification.uca.HLogger;
 
 import java.util.function.Supplier;
 

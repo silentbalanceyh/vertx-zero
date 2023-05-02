@@ -1,7 +1,7 @@
 package io.horizon.cloud.secure;
 
 import io.aeon.atom.secure.HCatena;
-import io.horizon.cloud.action.HEvent;
+import io.horizon.specification.action.HEvent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

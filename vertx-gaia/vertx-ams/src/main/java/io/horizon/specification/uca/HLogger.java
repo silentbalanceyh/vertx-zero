@@ -1,4 +1,4 @@
-package io.horizon.specification.component;
+package io.horizon.specification.uca;
 
 /**
  * @author lang : 2023/4/28

@@ -1,7 +1,7 @@
 package io.horizon.cloud.program;
 
 import io.aeon.atom.iras.HAeon;
-import io.horizon.cloud.action.HEvent;
+import io.horizon.specification.action.HEvent;
 
 /**
  * 「持续在线」

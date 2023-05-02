@@ -2,8 +2,7 @@ package io.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
-import io.horizon.cloud.action.HEvent;
-import io.horizon.cloud.app.HFS;
+import io.horizon.specification.action.HEvent;
 import io.horizon.uca.cache.Cc;
 
 /**
@@ -28,7 +27,6 @@ public interface H1H {
      */
     @SuppressWarnings("all")
     Cc<String, HEvent> CCT_EVENT = Cc.openThread();
-    Cc<String, HFS> CCT_FS = Cc.openThread();
 
 
     /*

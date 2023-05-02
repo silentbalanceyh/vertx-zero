@@ -4,7 +4,7 @@ import io.horizon.exception.BootingException;
 import io.horizon.exception.ProgramException;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._412ArgumentNullException;
-import io.horizon.specification.component.HLogger;
+import io.horizon.specification.uca.HLogger;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HaS;
 

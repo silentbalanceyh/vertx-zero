@@ -1,6 +1,6 @@
 package io.horizon.spi.ui;
 
-import io.horizon.cloud.action.HCombiner;
+import io.horizon.specification.action.HCombiner;
 import io.vertx.core.json.JsonObject;
 
 /*

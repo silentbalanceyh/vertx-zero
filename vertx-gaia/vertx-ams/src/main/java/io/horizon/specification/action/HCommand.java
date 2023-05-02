@@ -1,4 +1,4 @@
-package io.horizon.cloud.action;
+package io.horizon.specification.action;
 
 import io.vertx.core.json.JsonObject;
 

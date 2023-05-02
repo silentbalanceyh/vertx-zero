@@ -3,7 +3,7 @@ package io.horizon.fn;
 import io.horizon.exception.BootingException;
 import io.horizon.exception.ProgramException;
 import io.horizon.exception.WebException;
-import io.horizon.specification.component.HLogger;
+import io.horizon.specification.uca.HLogger;
 
 /**
  * @author lang : 2023/4/28

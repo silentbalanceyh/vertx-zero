@@ -1,4 +1,4 @@
-package io.horizon.specification.typed;
+package io.horizon.spi.typed;
 
 /**
  * 比较扩展专用方法
@@ -8,7 +8,7 @@ package io.horizon.specification.typed;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface TEqual {
+public interface VsExtension {
 
     /**
      * @param valueOld {@link Object} input old
