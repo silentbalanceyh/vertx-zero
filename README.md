@@ -113,6 +113,17 @@ If you want to use Zero framework, you can add following dependency into you `po
 </parent>
 ```
 
+**JDK 17+**, vert.x 4.x
+
+```xml
+
+<parent>
+    <artifactId>vertx-import</artifactId>
+    <groupId>cn.vertxup</groupId>
+    <version>0.9.1</version>
+</parent>
+```
+
 ### 3.2. Start Up ( Core )
 
 In your project, you can provide main entry only as following to run Zero \( Annotated with `@Up` \) .

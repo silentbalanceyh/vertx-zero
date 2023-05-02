@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.vertxup</groupId>
         <artifactId>vertx-gaia</artifactId>
-        <version>0.9.0-SNAPSHOT</version>
+        <version>0.9.1</version>
     </parent>
 
     <groupId>io.zero</groupId>
