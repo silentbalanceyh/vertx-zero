@@ -2,11 +2,11 @@ package io.vertx.up.uca.yaml;
 
 import io.horizon.eon.VString;
 import io.horizon.uca.cache.Cc;
-import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
+import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;
@@ -16,9 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author lang
  */
 public class ZeroLime implements Node<ConcurrentMap<String, String>> {
-    /*
-     * Avoid dead-lock for internal
-     */
+
     private static final Annal LOGGER = Annal.get(ZeroLime.class);
 
     private static final Cc<String, String> CC_INTERNAL = Cc.open();

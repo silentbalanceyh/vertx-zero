@@ -5,7 +5,7 @@
     <parent>
         <artifactId>vertx-zero</artifactId>
         <groupId>cn.vertxup</groupId>
-        <version>0.9.1</version>
+        <version>0.9.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>vertx-import</artifactId>
@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <encoding>UTF-8</encoding>
-        <zero.version>0.9.0-SNAPSHOT</zero.version>
+        <zero.version>0.9.0</zero.version>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
     <dependencies>

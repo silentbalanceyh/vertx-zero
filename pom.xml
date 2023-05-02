@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.vertxup</groupId>
     <artifactId>vertx-zero</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.0</version>
     <name>「vertx-zero」Zero Framework</name>
     <description>Vertx Zero Framework is a tool for Service Mesh Micro Service.</description>
     <url>http://www.vertxup.cn</url>
@@ -2108,8 +2108,7 @@
                 </configuration>
             </plugin>
             <!-- Deploy Only -->
-            <!--
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>${maven.plugin.pgp}</version>
                 <executions>
@@ -2126,8 +2125,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            -->
+            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
