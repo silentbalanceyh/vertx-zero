@@ -2,6 +2,7 @@ package io.aeon.runtime;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
+import io.horizon.annotations.Memory;
 import io.horizon.runtime.cache.CStore;
 import io.horizon.specification.action.HEvent;
 import io.horizon.uca.cache.Cc;
@@ -17,16 +18,18 @@ interface CH1H extends CStore {
      * CC_AEON:  Aeon系统启动后的核心配置缓存
      * CC_BOOT:  Aeon系统启动过后的所有使用类清单（组件接口集）
      */
+    @Memory(HAeon.class)
     Cc<Integer, HAeon> CC_AEON = Cc.open();
+    @Memory(HBoot.class)
     Cc<Integer, HBoot> CC_BOOT = Cc.open();
 
 
     /*
      * 「线程级」
      * CCT_EVENT: Aeon中的所有Event集合
-     * CCT_FS:    Aeon中的存储IO（文件系统、远程文件系统）组件访问集
      */
     @SuppressWarnings("all")
+    @Memory(HEvent.class)
     Cc<String, HEvent> CCT_EVENT = Cc.openThread();
 
 
@@ -37,5 +40,6 @@ interface CH1H extends CStore {
      *            - /META-INF/services/aeon/        Aeon Enabled
      *            - /META-INF/services/             Zero Extension Enabled
      */
+    @Memory(Object.class)
     Cc<Class<?>, Object> CC_SPI = Cc.open();
 }
