@@ -92,5 +92,9 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-buffer</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-co</artifactId>
+        </dependency>
     </dependencies>
 </project>

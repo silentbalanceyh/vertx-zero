@@ -65,7 +65,7 @@ public class Database extends KDatabase {
         if (Objects.isNull(DATABASE)) {
             DATABASE = getDatabase(DsSource.PRIMARY, "jooq", CURRENT);
         }
-        return (Database) DATABASE.copy();
+        return DATABASE.copy();
     }
 
     public static Database getHistory() {
