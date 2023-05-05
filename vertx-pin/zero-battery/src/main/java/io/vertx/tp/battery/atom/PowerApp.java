@@ -1,7 +1,10 @@
 package io.vertx.tp.battery.atom;
 
+import io.horizon.annotations.Memory;
 import io.horizon.spi.modeler.Modulat;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -16,7 +19,17 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class PowerApp implements Serializable {
 
-    private static final ConcurrentMap<String, PowerApp> POWER_POOL = new ConcurrentHashMap<>();
+    /*
+     * 「应用模块集」
+     * 用于存储 BBag + BBlock 等应用模块配置集
+     */
+    @Memory(Future.class)
+    public static final Cc<String, Future<JsonArray>> CCA_BAG_DATA = Cc.openA();
+    @Memory(Future.class)
+    public static final Cc<String, Future<JsonObject>> CCA_BAG_ADMIN = Cc.openA();
+
+    @Memory(Future.class)
+    private static final Cc<String, Future<PowerApp>> CCA_APP_POWER = Cc.openA();
 
     private final transient String appId;
     private final transient ConcurrentMap<String, PowerBlock> blocks = new ConcurrentHashMap<>();
@@ -42,7 +55,7 @@ public class PowerApp implements Serializable {
     }
 
     public static Future<Boolean> flush(final String appId) {
-        POWER_POOL.remove(appId);
+        CCA_APP_POWER.remove(appId);
         return initialize(appId).compose(nil -> Ux.futureT());
     }
 
@@ -53,15 +66,12 @@ public class PowerApp implements Serializable {
         /*
          * Ke.channel
          */
-        if (POWER_POOL.containsKey(appId)) {
-            return Ux.future(POWER_POOL.getOrDefault(appId, null));
-        } else {
-            return Ux.channel(Modulat.class, JsonObject::new, modulat -> modulat.extension(appId)).compose(config -> {
+        return CCA_APP_POWER.pick(() -> Ux.channel(Modulat.class, JsonObject::new,
+            modulat -> modulat.extension(appId)).compose(config -> {
                 final PowerApp power = new PowerApp(appId, config);
-                POWER_POOL.put(appId, power);
                 return Ux.future(power);
-            });
-        }
+            }
+        ), appId);
     }
 
 

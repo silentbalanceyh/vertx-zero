@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.eventbus.Message;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.InvokerNullException;
 
 /**
@@ -20,7 +19,6 @@ public class JetSelector {
         Invoker invoker = null;
         if (void.class == returnType || Void.class == returnType) {
 
-
             /*
              * 「Async Support」
              * Method return type is: void/Void
@@ -29,13 +27,13 @@ public class JetSelector {
              */
             if (Envelop.class == paramCls) {
                 // void method(Envelop)
-                invoker = Ut.singleton(PingInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(PingInvoker::new, PingInvoker.class.getName()); // Ut.?ingleton(PingInvoker.class);
             } else if (Message.class.isAssignableFrom(paramCls)) {
                 // void method(Message<Envelop>)
-                invoker = Ut.singleton(MessageInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(MessageInvoker::new, MessageInvoker.class.getName()); // Ut.?ingleton(MessageInvoker.class);
             } else {
                 // void method(T)
-                invoker = Ut.singleton(PingTInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(PingTInvoker::new, PingTInvoker.class.getName()); // Ut.?ingleton(PingTInvoker.class);
             }
         } else if (Envelop.class == returnType) {
 
@@ -49,10 +47,10 @@ public class JetSelector {
             if (Envelop.class == paramCls) {
                 // Envelop method(Envelop)
                 // Rpc supported.
-                invoker = Ut.singleton(SyncInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(SyncInvoker::new, SyncInvoker.class.getName()); // Ut.?ingleton(SyncInvoker.class);
             } else {
                 // Envelop method(I)
-                invoker = Ut.singleton(DimInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(DimInvoker::new, DimInvoker.class.getName()); // Ut.?ingleton(DimInvoker.class);
             }
         } else if (Future.class.isAssignableFrom(returnType)) {
 
@@ -66,11 +64,11 @@ public class JetSelector {
             if (Envelop.class == paramCls) {
                 // Future<T> method(Envelop)
                 // Rpc supported.
-                invoker = Ut.singleton(FutureInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(FutureInvoker::new, FutureInvoker.class.getName()); // Ut.?ingleton(FutureInvoker.class);
             } else {
                 // Future<T> method(I)
                 // Rpc supported.
-                invoker = Ut.singleton(AsyncInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(AsyncInvoker::new, AsyncInvoker.class.getName()); // Ut.?ingleton(AsyncInvoker.class);
             }
         } else {
 
@@ -91,7 +89,7 @@ public class JetSelector {
                 // Java direct type, except Message<T> / Envelop
                 // T method(I)
                 // Rpc supported.
-                invoker = Ut.singleton(DynamicInvoker.class);
+                invoker = CACHE.CCT_INVOKER.pick(DynamicInvoker::new, DynamicInvoker.class.getName()); // Ut.?ingleton(DynamicInvoker.class);
             }
         }
         Fn.outBoot(null == invoker, LOGGER,

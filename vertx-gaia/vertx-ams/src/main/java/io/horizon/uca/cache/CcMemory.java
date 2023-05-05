@@ -39,4 +39,10 @@ class CcMemory<K, V> implements Cc<K, V> {
     public V store(final K key) {
         return this.store.getOrDefault(key, null);
     }
+
+    @Override
+    public boolean remove(final K key) {
+        this.store.remove(key);
+        return false;
+    }
 }

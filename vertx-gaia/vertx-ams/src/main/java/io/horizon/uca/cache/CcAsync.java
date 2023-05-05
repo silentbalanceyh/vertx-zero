@@ -73,4 +73,9 @@ class CcAsync<K, V> implements Cc<K, Future<V>> {
     public boolean isEmpty() {
         return this.cc.isEmpty();
     }
+
+    @Override
+    public boolean remove(final K key) {
+        return this.cc.remove(key);
+    }
 }

@@ -1,9 +1,9 @@
 package io.horizon.spi.modeler;
 
-import io.aeon.runtime.CRunning;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.tp.battery.atom.PowerApp;
 import io.vertx.tp.battery.uca.dock.Ark;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -64,7 +64,7 @@ public class ExModulat implements Modulat {
      * 输入的格式
      */
     private Future<JsonObject> moduleAdmin(final String appId) {
-        return CRunning.CCA_DATA_MODULE.pick(() -> {
+        return PowerApp.CCA_BAG_ADMIN.pick(() -> {
             final Ark ark = Ark.configure();
             return ark.modularize(appId)
                 .compose(data -> Ux.future((JsonObject) data));
@@ -80,7 +80,7 @@ public class ExModulat implements Modulat {
      * All the configuration page will be built in above `moduleAdmin` method for detail configuration.
      */
     private Future<JsonObject> moduleBag(final String appId) {
-        return CRunning.CCA_META_ENTRY.pick(() -> {
+        return PowerApp.CCA_BAG_DATA.pick(() -> {
             final Ark ark = Ark.bag();
             return ark.modularize(appId)
                 .compose(data -> Ux.future((JsonArray) data));
