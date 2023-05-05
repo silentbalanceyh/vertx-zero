@@ -30,7 +30,18 @@ final class HPool {
             // ERR-10004, 缓存传入 pool 不可为空
             throw new PoolNullException(HPool.class);
         }
-        return pool.computeIfAbsent(key, k -> poolFn.get());
+        /*
+         * 双重检查，防止并发
+         */
+        V value = pool.get(key);
+        if (Objects.isNull(value)) {
+            value = poolFn.get();
+            if (Objects.nonNull(value)) {
+                pool.put(key, value);
+            }
+        }
+        return value;
+        // return pool.computeIfAbsent(key, k -> poolFn.get());
         // Caused by: java.lang.IllegalStateException: Recursive update
         //        return pool.computeIfAbsent(key, k -> poolFn.get());
     }
