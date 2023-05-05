@@ -34,15 +34,15 @@ public class Log4JAnnal extends AbstractAnnal implements Annal {
             this.logger.warn(ex.getMessage());
         } else {
             this.logger.error(ex.getMessage());
-            final Boolean isDebug = HUt.envWith(Macrocosm.DEV_JVM_STACK, Boolean.FALSE, Boolean.class);
-            if (isDebug) {
-                /*
-                 * 堆栈信息打印条件
-                 * 1. 开启了 DEV_JVM_STACK 环境变量
-                 * 2. 传入异常不可为空
-                 */
-                ex.printStackTrace();
-            }
+        }
+        final Boolean isDebug = HUt.envWith(Macrocosm.DEV_JVM_STACK, Boolean.FALSE, Boolean.class);
+        if (isDebug) {
+            /*
+             * 堆栈信息打印条件
+             * 1. 开启了 DEV_JVM_STACK 环境变量
+             * 2. 传入异常不可为空
+             */
+            ex.printStackTrace();
         }
     }
 

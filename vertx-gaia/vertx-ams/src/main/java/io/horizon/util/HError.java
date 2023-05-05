@@ -89,7 +89,8 @@ class HError {
     }
 
     static WebException failWeb(final Class<? extends WebException> clazz, final Object... args) {
-        return HFn.runOr(Objects.isNull(clazz),
+        // Fix：此处必须追加 <WebException> 泛型，否则会抛出转型异常
+        return HFn.<WebException>runOr(Objects.isNull(clazz),
             // 特殊情况，编程过程中忘了传入 clazz
             () -> new _500InternalServerException(clazz, "WebException class is null"),
             // 正常情况，传入 clazz

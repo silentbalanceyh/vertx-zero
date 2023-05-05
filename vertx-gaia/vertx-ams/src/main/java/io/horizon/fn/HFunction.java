@@ -23,7 +23,6 @@ class HFunction {
                 logger.fatal(ex);
             }
             // 自定义异常
-            ex.printStackTrace();
             throw ex;
         } catch (final Throwable ex) {
             // 环境变量开启时打印异常堆栈
@@ -43,8 +42,6 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
-            // 自定义异常
-            ex.printStackTrace();
             // 日志记录器追加
             return defaultValue;
         } catch (final Throwable ex) {
@@ -65,7 +62,6 @@ class HFunction {
                 logger.fatal(ex);
             }
             // 自定义异常
-            ex.printStackTrace();
             throw ex;
         } catch (final Exception ex) {
             if (Objects.nonNull(logger)) {
