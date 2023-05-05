@@ -1,8 +1,8 @@
 package io.horizon.util;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
@@ -88,15 +88,15 @@ public class HUt extends _Value {
     }
 
     // ---------------- 池化函数
-    public static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn, final String key) {
+    public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
         return HPool.poolThread(pool, poolFn, key);
     }
 
-    public static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn) {
+    public static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn) {
         return HPool.poolThread(pool, poolFn, null);
     }
 
-    public static <K, V> V pool(final Map<K, V> pool, final K key, final Supplier<V> poolFn) {
+    public static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
         return HPool.pool(pool, key, poolFn);
     }
 

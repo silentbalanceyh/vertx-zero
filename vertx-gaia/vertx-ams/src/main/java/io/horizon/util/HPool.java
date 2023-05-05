@@ -3,8 +3,8 @@ package io.horizon.util;
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.PoolNullException;
 
-import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 /**
@@ -14,7 +14,7 @@ final class HPool {
     private HPool() {
     }
 
-    static <V> V poolThread(final Map<String, V> pool, final Supplier<V> poolFn, final String key) {
+    static <V> V poolThread(final ConcurrentMap<String, V> pool, final Supplier<V> poolFn, final String key) {
         final String threadName = Thread.currentThread().getName();
         final String keyPool;
         if (TIs.isNil(key)) {
@@ -25,7 +25,7 @@ final class HPool {
         return pool(pool, keyPool, poolFn);
     }
 
-    static <K, V> V pool(final Map<K, V> pool, final K key, final Supplier<V> poolFn) {
+    static <K, V> V pool(final ConcurrentMap<K, V> pool, final K key, final Supplier<V> poolFn) {
         if (Objects.isNull(pool)) {
             // ERR-10004, 缓存传入 pool 不可为空
             throw new PoolNullException(HPool.class);
