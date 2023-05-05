@@ -52,11 +52,16 @@ public class ExModulat implements Modulat {
     }
 
     /*
-     * This is for administration in development center
+     * 该方法会提取应用存储专用的配置信息，该配置信息会被存储到 B_BLOCK 表中，开发中心可修订
+     * 配置程序，如：
      * {
      *     "store": "mXXX"
      * }
-     * "mXXX" = configuration json that stored into B_BLOCK ( Multi tables )
+     * 格式，最终使用时用
+     * mXXX = configuration
+     * 的 JSON 格式
+     *
+     * 输入的格式
      */
     private Future<JsonObject> moduleAdmin(final String appId) {
         return CRunning.CCA_DATA_MODULE.pick(() -> {

@@ -14,7 +14,13 @@ import java.util.Objects;
 import static io.vertx.tp.battery.refine.Bk.LOG;
 
 public class BkInit {
-
+    /**
+     * 模块化初始化，根据应用直接处理模块本身的初始化
+     *
+     * @param vertx Vertx 实例
+     *
+     * @return 返回初始化结果
+     */
     public static Future<Boolean> initModulat(final Vertx vertx) {
         return Ke.mapApp(appJ -> {
             final String appKey = Ut.valueString(appJ, KName.KEY);
@@ -26,7 +32,7 @@ public class BkInit {
             return modulat.extension(appJ).compose(nil -> Ux.futureT());
         }, (result) -> {
             final boolean initialized = result.stream().allMatch(item -> item);
-            LOG.Init.warn(BkInit.class, "Modulat configuration initialized!! Size = {0}, Ret = {1}",
+            LOG.Init.info(BkInit.class, "Modulat configuration initialized!! Size = {0}, Ret = {1}",
                 String.valueOf(result.size()), initialized);
             return Ux.future(initialized);
         });

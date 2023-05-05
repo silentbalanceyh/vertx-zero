@@ -209,12 +209,26 @@ class HJson {
         }
     }
 
+    @SuppressWarnings("unchecked")
     static JsonObject toJObject(final Object value) {
+        /* 解决 Map 级的直接转换 */
         final JsonObject result = new JsonObject();
         HFn.runAt(() -> {
-            if (isJObject(value)) {
+            if (Map.class.isAssignableFrom(value.getClass())) {
+                /*
+                 * Map 类型直接转换成 Map来处理，包括 ConcurrentMap，不这样处理出来的最终结果
+                 * 可能导致 JsonObject 为 {} 而不是 { "key": "value" }
+                 */
+                result.mergeIn(toJObject((Map<String, Object>) value), true);
+            } else if (isJObject(value)) {
+                /*
+                 * 第二判断是否为 JsonObject 类型，如果是则直接合并，不需要再次转换
+                 */
                 result.mergeIn((JsonObject) value, true);
             } else {
+                /*
+                 * 最后根据格式转换成 JsonObject
+                 */
                 result.mergeIn(toJObject(value.toString()), true);
             }
         }, value);
@@ -224,7 +238,14 @@ class HJson {
     static JsonArray toJArray(final Object value) {
         final JsonArray result = new JsonArray();
         HFn.runAt(() -> {
-            if (isJArray(value)) {
+            if (Collection.class.isAssignableFrom(value.getClass())) {
+                // 优先考虑集合型转换
+                if (value instanceof Set<?>) {
+                    result.addAll(toJArray((Set<?>) value));
+                } else if (value instanceof List<?>) {
+                    result.addAll(toJArray((List<?>) value));
+                }
+            } else if (isJArray(value)) {
                 result.addAll((JsonArray) value);
             } else {
                 final JsonArray direct = toJArray(value.toString());

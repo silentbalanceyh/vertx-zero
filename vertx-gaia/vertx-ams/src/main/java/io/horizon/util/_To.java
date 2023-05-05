@@ -423,8 +423,7 @@ class _To extends _Reflect {
      * @return JsonObject
      */
     public static JsonObject toJObject(final String literal, final Function<JsonObject, JsonObject> itemFn) {
-        final JsonObject parsed = HJson.toJObject(literal);
-        return Objects.isNull(itemFn) ? parsed : itemFn.apply(parsed);
+        return HJson.toJObject(literal, itemFn);
     }
 
     /**

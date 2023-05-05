@@ -39,6 +39,9 @@ class ArkConfigure extends AbstractArk {
                 }
             });
             return Fn.combineM(futures);
-        }).compose(map -> Ux.future(Ut.toJObject(map)));
+        }).compose(map -> {
+            final JsonObject result = Ut.toJObject(map);
+            return Ux.future(result);
+        });
     }
 }
