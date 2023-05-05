@@ -109,6 +109,7 @@ public class MetaLimit extends AbstractStep {
                     return Ux.Jooq.on(daoCls).updateAsync(entities)
                         .compose(nil -> Ux.future(new JsonObject()));
                 });
-            });
+            })
+            .otherwise(Ux.otherwise(JsonObject::new));
     }
 }

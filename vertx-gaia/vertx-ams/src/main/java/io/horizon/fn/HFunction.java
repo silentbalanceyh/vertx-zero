@@ -22,6 +22,8 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
+            // 自定义异常
+            ex.printStackTrace();
             throw ex;
         } catch (final Throwable ex) {
             // 环境变量开启时打印异常堆栈
@@ -41,6 +43,8 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
+            // 自定义异常
+            ex.printStackTrace();
             // 日志记录器追加
             return defaultValue;
         } catch (final Throwable ex) {
@@ -56,13 +60,16 @@ class HFunction {
         try {
             final R ret = function.apply(null);
             return Objects.isNull(ret) ? defaultValue : ret;
-        } catch (final Exception ex) {
+        } catch (final AbstractException ex) {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
-            // DEBUG:
-            if (ex instanceof AbstractException) {
-                throw (AbstractException) ex;
+            // 自定义异常
+            ex.printStackTrace();
+            throw ex;
+        } catch (final Exception ex) {
+            if (Objects.nonNull(logger)) {
+                logger.fatal(ex);
             }
             // 日志记录器追加
             return defaultValue;
@@ -71,7 +78,6 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
-            // ex.printStackTrace();
             return defaultValue;
         }
     }
