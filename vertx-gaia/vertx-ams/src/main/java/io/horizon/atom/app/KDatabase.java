@@ -12,7 +12,6 @@ import io.horizon.specification.typed.TJson;
 import io.horizon.uca.log.Annal;
 import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.commune.config.Database;
 
 import java.io.Serializable;
 import java.sql.DriverManager;
@@ -231,11 +230,11 @@ public class KDatabase implements Serializable, TCopy<KDatabase>, TJson {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Database copy() {
+    public <CHILD extends KDatabase> CHILD copy() {
         final JsonObject json = this.toJson().copy();
-        final Database database = new Database();
+        final KDatabase database = new KDatabase();
         database.fromJson(json);
-        return database;
+        return (CHILD) database;
     }
 
     @Override

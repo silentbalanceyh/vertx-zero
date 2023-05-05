@@ -89,4 +89,13 @@ public class Database extends KDatabase {
         database.fromJson(jooq);
         return database;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Database copy() {
+        final JsonObject json = this.toJson().copy();
+        final Database database = new Database();
+        database.fromJson(json);
+        return database;
+    }
 }
