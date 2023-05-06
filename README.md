@@ -1,6 +1,6 @@
 # Zero Framework
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)  [![Build Status](https://travis-ci.org/silentbalanceyh/vertx-zero.svg?branch=master)](https://travis-ci.org/silentbalanceyh/vertx-zero)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/cn.vertxup/vertx-zero/)  [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 Zero is a middleware framework based on [Vert.x](http://vertx.io) and it could help software engineers focus on business
 requirements instead of technical detail of Vert.x. The original idea of this framework came
@@ -40,37 +40,64 @@ Zero Framework ( Latest Version ) contains five major projects as following:
 
 ### 1.2. Usage Links
 
-* **Examples**: In latest version, all zero original example demos have been moved
-  to <https://github.com/silentbalanceyh/vertx-zero-example>.
-* **Training Courses**: The official chinese training courses has been deployed to [Gitbook](https://www.gitbook.com/),
-  the course link is [《Zero冥思录》](https://lang-yu.gitbook.io/zero/).
-* **Vert.x**: If you want to study basic vert.x development skills, you can refer the
-  tutorial: [《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/).
-* **English Docs**: You can refer origin documents on link: [Old Official Document](DOCUMENT.md).
+| Name                                                                   | Comment                                                                                                                                                               |
+|------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Zero Ui](https://www.vertxui.cn)                                      | Zero UI Framework based on React and Ant Design.                                                                                                                      |
+| [Zero Ai](https://www.vertxai.cn)                                      | Zero Ai Toolkit for rapid development.                                                                                                                                |
+| [Zero Example](https://github.com/silentbalanceyh/vertx-zero-example)  | Zero original example demos for beginner.                                                                                                                             |
+| [Old Official Document](DOCUMENT.md)                                   | The previous zero document before `0.4.8`, EN version.                                                                                                                |
+| [《Zero冥思录》](https://lang-yu.gitbook.io/zero/)                          | The core training course for beginner to study Zero Framework, CN version.                                                                                            |
+| [《Vert.x逐陆记》](https://lang-yu.gitbook.io/vert-x/)                      | The basic vert.x framework training course, ( In Progress )                                                                                                           |
+| [《Zero云平台白皮书》](https://www.vertx-cloud.cn/document/doc-web/index.html) | The specification and guide for developer to process zero cloud platform / application. ( Include Zero Extension, Zero UI, Aeon Platform & Zero Ai etc ), CN version. |
 
-### 1.3. Related Open Source
+### 1.3. Agreed Metadata Specification ( AMS )
 
-* [Zero UI](http://www.vertxui.cn)：The front-end scaffold framework that are designed for zero based
-  on [React](https://reactjs.org/) with [Ant-Design](https://ant-design.gitee.io/), [Ant-V](https://antv.vision/).
-* [Zero Ai](http://www.vertxai.cn): The auto script tools for zero full stack framework development.
+In latest version `0.9.0`, I have published a new project `vertx-ams` under `vertx-gaia` project, it's a shared library
+that could be cross Vertx, Spring and other project etc, it provide common features of JVM language and could help you
+to do development more efficiently instead of `Util`. For more details you can
+refer [《9.标准化》](https://www.vertx-cloud.cn/document/doc-web/index.html#_%E6%A0%87%E5%87%86%E5%8C%96).
+
+The reference link is : <https://gitee.com/silentbalanceyh/vertx-zero/tree/master/vertx-gaia/vertx-ams>, you can add
+following segment to your own project:
+
+```xml
+
+<dependency>
+    <artifactId>vertx-ams</artifactId>
+    <groupId>cn.vertxup</groupId>
+    <version>${ZERO_VERSION}</version>
+</dependency>
+```
 
 ## 2. Overlook
 
-Here I provide a nother view to let you know Zero Framework, the whole progress is about **80%**, please wait for
-version `1.0` released.
+Here I provide another view to let you know Zero Framework for more details.
 
 ### 2.1. Modulat
 
 **Zero Extension** has been designed and re-factor to modulat environment, you can configure the modules as required,
+all the modules could support following:
+
+* OSGI Specification
+* JDK 9 Module
+
 here are some standard modules in Zero Extension.
 
-![](/doc/_image/extension.png)
+![](./doc/_image/extension.png)
 
 ### 2.2. Topology
 
 The whole **Zero Framework ( Aeon Environment )** is as following:
 
-![](/doc/_image/arch.png)
+![](./doc/_image/arch.png)
+
+### 2.3. Modeling
+
+The latest version `0.9.0` has involved the specification of Industry Modeling to support more factors:
+
+* ISO Specification such as ISO-27001, ISO-20000, ISO-9001 etc.
+* Eclipse Modeling Framework supported ( EMF ), include UML generator for reverse engineering.
+* BPMN 2.0 Specification supported.
 
 ### 2.3. Schematic
 
@@ -78,11 +105,11 @@ I have published the design schematic diagram of zero
 to: [Zero Architecture](https://www.edrawmax.cn/online/share.html?code=6a3c11741e9411edab98b3f29ce75cdd), you can refer
 the interaction graphic online and this working is on going. The main diagram of **Zero Booting** is as following:
 
-![](/doc/_image/booting.png)
+![](./doc/_image/booting.png)
 
 ## 3. Envrionment
 
-* **Back-End**: You can download scaffold project from <https://github.com/silentbalanceyh/vertx-zero-scaffold> to
+* **Back-End**: You can download scaffold project from <https://gitee.com/silentbalanceyh/vertx-zero-scaffold> to
   initialize zero environment.
 * **Front-End**: You can use command `ai init -name` instead,
   refer [Front-End Initialize](http://www.vertxai.cn/document/doc-web/module-ai.html#.init).
@@ -91,14 +118,14 @@ the interaction graphic online and this working is on going. The main diagram of
 
 If you want to use Zero framework, you can add following dependency into you `pom.xml` to use Zero:
 
-**JDK 8**, vert.x 3.9.x
+**JDK 17+**, vert.x 4.x
 
 ```xml
 
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
-    <version>0.6.2</version>
+    <version>0.9.0</version>
 </parent>
 ```
 
@@ -113,14 +140,14 @@ If you want to use Zero framework, you can add following dependency into you `po
 </parent>
 ```
 
-**JDK 17+**, vert.x 4.x
+**JDK 8**, vert.x 3.9.x
 
 ```xml
 
 <parent>
     <artifactId>vertx-import</artifactId>
     <groupId>cn.vertxup</groupId>
-    <version>0.9.0</version>
+    <version>0.6.2</version>
 </parent>
 ```
 
@@ -216,7 +243,7 @@ From `0.8.0`, if you want to use Zero Extension of Dynamic Modeling, you need th
 of <https://github.com/silentbalanceyh/vertx-zero/tree/master/vertx-pin/zero-vista>. The latest version
 is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is not needed in Core Framework.
 
-> Above issue has been fixed in `0.8.1`.
+> Above issue has been fixed in `0.9.0`.
 
 ## 5. Other Information
 
@@ -232,23 +259,31 @@ is `0.8.0-SNAPSHOT`, you can modify the version and rebuild it. This feature is 
 | System Information                | Zero Version | Type       | System Status |
 |-----------------------------------|--------------|------------|---------------|
 | TLK Video Mobile System           | 0.4.6        | Commercial | Deprecated    |
+| ISCCC Enterprise Evaluation       | 0.8.1        | Commercial | Running       |
+| Digitization Cooperation Office   | 0.8.1        | Commercial | Running       |
+| Commercial Opportunity Management | 0.8.1        | Commercial | Running       |
+| Fruit PSI Management System       | 0.8.1        | Commercial | Running       |
+| Government Procurement System     | 0.8.1        | Commercial | Running       |
+| Invoice Verification Connector    | 0.8.1        | Commercial | Running       |
 | CMDB Platform of Bank             | Latest       | Commercial | Running       |
-| ITSM/ITIL Platform of Bank        | Latest       | Commercial | Running       |
-| Integration of Bank               | Latest       | Commercial | Running       |
-| Zero Training Demo                | Latest       | Internal   | Running       |
+| ITSM Platform of Bank             | Latest       | Commercial | Running       |
+| Integration of PBC Bank           | Latest       | Commercial | Running       |
+| ISO27000 Management Platform      | Latest       | Commercial | Running       |
+| Zero Training Platform            | Latest       | Internal   | Running       |
 | Data Analyzing Exam               | Latest       | Internal   | Running       |
-| Commercial Opportunity Management | Latest       | Internal   | Running       |
+| Aeon Native Cloud Platform        | Latest       | Internal   | In Progress   |
+| Development Center                | Latest       | Internal   | In Progress   |
+| K8S Integration Monitor System    | Latest       | Internal   | In Progress   |
+| Medical Appliance Management      | Latest       | Commercial | In Progress   |
 | Hotel Management Platform         | Latest       | Commercial | In Progress   |
-| ISO27000 Management Platform      | Latest       | Commercial | In Progress   |
 | IoT Control System                | Latest       | Commercial | In Progress   |
-| Medical Workflow Management       | Latest       | Commercial | In Progress   |
-| Aeon Development Platform         | Latest       | Internal   | In Progress   |
+| Specification Management Platform | Latest       | Commercial | In Progress   |
 
 ### 5.2. WeChat Group
 
-You can send request to me: `445191171` to contact with the author team of zero.
+You can send request to me: `445191171` to contact with the author of zero.
 
-![](/doc/_image/chat.jpg)
+<img src="./doc/_image/chat.jpg" width="258" height="258" alt="作者微信"/>
 
 ## DESIGNED IN CHINA（中国设计）
 
