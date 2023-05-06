@@ -1,6 +1,7 @@
 package io.vertx.up.verticle;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.up.annotations.Ipc;
@@ -8,7 +9,6 @@ import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.invoker.Invoker;
 import io.vertx.up.uca.invoker.InvokerUtil;
@@ -103,7 +103,7 @@ public class ZeroHttpWorker extends AbstractVerticle {
                     outputMap.put(value.getClass(), new HashSet<>());
                 }
             });
-            outputMap.forEach((key, value) -> LOGGER.info(Info.MSG_INVOKER, key, Ut.toString(value), String.valueOf(value.size())));
+            outputMap.forEach((key, value) -> LOGGER.info(INFO.ZeroHttpWorker.MSG_INVOKER, key, Ut.toString(value), String.valueOf(value.size())));
         }
     }
 }

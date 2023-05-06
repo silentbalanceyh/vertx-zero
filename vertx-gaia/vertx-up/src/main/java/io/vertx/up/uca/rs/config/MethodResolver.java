@@ -49,7 +49,7 @@ class MethodResolver {
         }
         // 2. Ignore this method.
         if (null == result) {
-            LOGGER.debug(Info.METHOD_IGNORE, method.getName());
+            LOGGER.debug(INFO.METHOD_IGNORE, method.getName());
         }
         return result;
     }
@@ -58,7 +58,7 @@ class MethodResolver {
         final int modifiers = method.getModifiers();
         final boolean valid = Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers) && !Modifier.isNative(modifiers);
         if (!valid) {
-            LOGGER.debug(Info.METHOD_MODIFIER, method.getName());
+            LOGGER.debug(INFO.METHOD_MODIFIER, method.getName());
         }
         return valid;
     }

@@ -1,6 +1,7 @@
 package io.vertx.up.uca.jooq.util;
 
 import io.horizon.eon.VString;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -9,7 +10,6 @@ import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;
@@ -62,7 +62,7 @@ public class JqTool {
         if (data.containsKey("criteria")) {
             data.put("criteria", criteria(data.getJsonObject("criteria"), mojo, ignoreSet));
         }
-        LOGGER.info(Info.INQUIRY_MESSAGE, data.encode());
+        LOGGER.info(INFO.INQUIRY_MESSAGE, data.encode());
         return Qr.create(data);
     }
 

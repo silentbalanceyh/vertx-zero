@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-interface Pool {
+interface CACHE {
 
     ConcurrentMap<Class<?>, Rigor> RIGORS = new ConcurrentHashMap<Class<?>, Rigor>() {
         {

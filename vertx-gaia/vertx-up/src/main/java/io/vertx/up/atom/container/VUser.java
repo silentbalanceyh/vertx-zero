@@ -1,12 +1,12 @@
 package io.vertx.up.atom.container;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.AuthProvider;
 import io.vertx.ext.auth.User;
 import io.vertx.ext.auth.authorization.Authorization;
-import io.horizon.uca.log.Annal;
 
 /**
  * Talk holder for set default user.
@@ -30,13 +30,13 @@ public class VUser implements User {
     public User isAuthorized(
         final String authority,
         final Handler<AsyncResult<Boolean>> resultHandler) {
-        LOGGER.info(Info.VIRTUAL_USER, this.principal);
+        LOGGER.info(INFO.VIRTUAL_USER, this.principal);
         return this;
     }
 
     @Override
     public User clearCache() {
-        LOGGER.info(Info.VIRTUAL_USER, this.principal);
+        LOGGER.info(INFO.VIRTUAL_USER, this.principal);
         return null;
     }
 
@@ -48,7 +48,7 @@ public class VUser implements User {
     @Override
     public void setAuthProvider(
         final AuthProvider authProvider) {
-        LOGGER.info(Info.VIRTUAL_USER, this.principal);
+        LOGGER.info(INFO.VIRTUAL_USER, this.principal);
     }
 
     @Override

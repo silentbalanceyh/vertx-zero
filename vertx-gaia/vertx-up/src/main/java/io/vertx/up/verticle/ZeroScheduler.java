@@ -46,16 +46,16 @@ public class ZeroScheduler extends AbstractVerticle {
             final Set<Mission> missions = STORE.fetch();
             /* Whether there exist Mission definition */
             if (missions.isEmpty()) {
-                LOGGER.info(Info.JOB_EMPTY);
+                LOGGER.info(INFO.ZeroScheduler.JOB_EMPTY);
             } else {
-                LOGGER.info(Info.JOB_MONITOR, missions.size());
+                LOGGER.info(INFO.ZeroScheduler.JOB_MONITOR, missions.size());
                 /* Start each job here by different types */
                 final List<Future<Void>> futures = new ArrayList<>();
                 missions.forEach(mission -> futures.add(this.start(mission)));
-                Fn.combineT(futures).onSuccess(nil -> LOGGER.info(Info.JOB_STARTED));
+                Fn.combineT(futures).onSuccess(nil -> LOGGER.info(INFO.ZeroScheduler.JOB_STARTED));
             }
         } else {
-            LOGGER.info(Info.JOB_CONFIG_NULL);
+            LOGGER.info(INFO.ZeroScheduler.JOB_CONFIG_NULL);
         }
     }
 
@@ -84,7 +84,7 @@ public class ZeroScheduler extends AbstractVerticle {
              * Invoke here to provide input
              */
             if (DevEnv.devJobBoot()) {
-                LOGGER.info(Info.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
+                LOGGER.info(INFO.ZeroScheduler.JOB_AGHA_SELECTED, agha.getClass(), mission.getCode(), mission.getType());
             }
             /*
              * If job type is ONCE, it's not started

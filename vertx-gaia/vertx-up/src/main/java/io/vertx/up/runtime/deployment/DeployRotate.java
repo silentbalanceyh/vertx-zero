@@ -1,5 +1,6 @@
 package io.vertx.up.runtime.deployment;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.json.JsonObject;
@@ -8,7 +9,6 @@ import io.vertx.up.annotations.Worker;
 import io.vertx.up.atom.agent.Arrange;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.em.DeployMode;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;
 import io.vertx.up.util.Ut;
@@ -42,7 +42,7 @@ public class DeployRotate implements Rotate {
             /* DeployMode */
             final DeployMode mode = arrange.getMode();
             if (DeployMode.CONFIG == mode) {
-                LOGGER.info(Info.INFO_ROTATE, mode);
+                LOGGER.info(INFO.INFO_ROTATE, mode);
                 /* Options initialized */
                 initOptions(arrange.getOptions());
             }
@@ -74,7 +74,7 @@ public class DeployRotate implements Rotate {
 
         /* Worker = false */
         options.setWorker(false);
-        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
+        LOGGER.info(INFO.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
         return options;
     }
 
@@ -93,7 +93,7 @@ public class DeployRotate implements Rotate {
 
         /* Worker = false */
         options.setWorker(true);
-        LOGGER.info(Info.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
+        LOGGER.info(INFO.VTC_OPT, options.getInstances(), options.isHa(), options.toJson());
         return options;
     }
 
@@ -109,11 +109,11 @@ public class DeployRotate implements Rotate {
             }
         } else {
             options = new DeploymentOptions();
-            final int instances = Ut.invoke(annotation, Key.INSTANCES);
+            final int instances = Ut.invoke(annotation, NAME.INSTANCES);
             options.setInstances(instances);
         }
         // 1. Instance
-        final boolean ha = Ut.invoke(annotation, Key.HA);
+        final boolean ha = Ut.invoke(annotation, NAME.HA);
         // 2. Record Log information
         options.setHa(ha);
         // deprecated: options.setIsolationGroup(group);

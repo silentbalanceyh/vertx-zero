@@ -19,7 +19,7 @@ public class PutRotator extends AbstractRotator {
          */
         final HttpPut httpPut = new HttpPut(this.configPath(request, params));
         final StringEntity body = this.dataJson(params);
-        this.logger().info(Message.HTTP_REQUEST, request.getPath(), request.getMethod(), params);
+        this.logger().info(INFO.HTTP_REQUEST, request.getPath(), request.getMethod(), params);
         return this.sendEntity(httpPut, body, request.getHeaders());
     }
 }

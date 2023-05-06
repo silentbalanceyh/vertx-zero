@@ -38,10 +38,10 @@ public class WingSelector {
          * 1. type for first level
          * 2. subtype for second level
          */
-        final ConcurrentMap<String, Supplier<Wings>> subtype = Pool.SELECT_POOL.get(type.getType());
+        final ConcurrentMap<String, Supplier<Wings>> subtype = CACHE.SELECT_POOL.get(type.getType());
         final Wings selected;
         if (Objects.isNull(subtype) || subtype.isEmpty()) {
-            selected = Pool.SELECT_POOL.get(MediaType.APPLICATION_JSON_TYPE.getType())
+            selected = CACHE.SELECT_POOL.get(MediaType.APPLICATION_JSON_TYPE.getType())
                 .get(MediaType.APPLICATION_JSON_TYPE.getSubtype()).get();
         } else {
             final Supplier<Wings> wings = subtype.get(type.getSubtype());

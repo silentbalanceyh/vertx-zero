@@ -1,7 +1,9 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.container.MessageModel;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServerOptions;
@@ -9,7 +11,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.registry.Uddi;
 import io.vertx.up.uca.registry.UddiRegistry;
 
@@ -32,17 +33,17 @@ public class ZeroHttpRegistry extends AbstractVerticle {
         final EventBus bus = this.vertx.eventBus();
         bus.<JsonObject>consumer(KWeb.ADDR.EBS_REGISTRY_START, result -> {
             final JsonObject data = result.body();
-            final String name = data.getString(Registry.NAME);
+            final String name = data.getString(VName.NAME);
             final HttpServerOptions options =
-                new HttpServerOptions(data.getJsonObject(Registry.OPTIONS));
+                new HttpServerOptions(data.getJsonObject(VName.OPTIONS));
             final String[] uris =
-                data.getString(Registry.URIS).split(VString.COMMA);
+                data.getString(VName.URIS).split(VString.COMMA);
             final Set<String> uriData = new TreeSet<>(Arrays.asList(uris));
             // Write the data to registry.
             this.registry.registryHttp(name, options, Etat.RUNNING);
             this.registry.registryRoute(name, options, uriData);
 
-            LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
+            LOGGER.info(INFO.ZeroRegistry.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
                 name, KWeb.ADDR.EBS_REGISTRY_START);
         });
     }

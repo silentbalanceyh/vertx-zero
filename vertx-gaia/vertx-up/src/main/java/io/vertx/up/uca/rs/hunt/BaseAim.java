@@ -1,7 +1,9 @@
 package io.vertx.up.uca.rs.hunt;
 
+import io.horizon.exception.WebException;
 import io.horizon.fn.Actuator;
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.http.Cookie;
@@ -13,10 +15,8 @@ import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KWeb;
-import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._500DeliveryErrorException;
 import io.vertx.up.exception.web._500EntityCastException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.invoker.InvokerUtil;
 import io.vertx.up.uca.rs.mime.Analyzer;
@@ -156,7 +156,7 @@ public abstract class BaseAim {
                 if (Objects.nonNull(session)) {
                     // Fix: 3.9.1 cookie error of null pointer
                     final Cookie cookie = context.request().getCookie("vertx-web.session");
-                    this.getLogger().debug(Info.SESSION_ID, context.request().path(),
+                    this.getLogger().debug(INFO.SESSION_ID, context.request().path(),
                         session.id(), Objects.isNull(cookie) ? null : cookie.getValue());
                 }
             }

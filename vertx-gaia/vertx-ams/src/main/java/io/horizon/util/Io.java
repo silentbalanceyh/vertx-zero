@@ -250,7 +250,7 @@ final class Io {
         return HFn.failOr(() -> {
             final File file = ioFile(filename);
             return HFn.failOr(() -> {
-                LOG.io(__MESSAGE.Io.INF_PATH, file.getAbsolutePath());
+                LOG.io(INFO.Io.INF_PATH, file.getAbsolutePath());
                 return file.getAbsolutePath();
             }, file);
         }, filename);

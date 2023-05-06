@@ -39,14 +39,14 @@ public class UxPool {
     // Put Operation
     public <K, V> Future<Kv<K, V>> put(final K key, final V value) {
         return Fn.<Kv<K, V>>pack(future -> this.client.put(key, value, res -> {
-            LOGGER.debug(Info.POOL_PUT, key, value, this.name);
+            LOGGER.debug(INFO.UxPool.POOL_PUT, key, value, this.name);
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
 
     public <K, V> Future<Kv<K, V>> put(final K key, final V value, int expiredSecs) {
         return Fn.<Kv<K, V>>pack(future -> this.client.<K, V>put(key, value, expiredSecs, res -> {
-            LOGGER.debug(Info.POOL_PUT_TIMER, key, value, this.name, String.valueOf(expiredSecs));
+            LOGGER.debug(INFO.UxPool.POOL_PUT_TIMER, key, value, this.name, String.valueOf(expiredSecs));
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "put"));
         }));
     }
@@ -54,7 +54,7 @@ public class UxPool {
     // Remove
     public <K, V> Future<Kv<K, V>> remove(final K key) {
         return Fn.<Kv<K, V>>pack(future -> this.client.<K, V>remove(key, res -> {
-            LOGGER.debug(Info.POOL_REMOVE, key, this.name);
+            LOGGER.debug(INFO.UxPool.POOL_REMOVE, key, this.name);
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "remove"));
         }));
     }
@@ -62,7 +62,7 @@ public class UxPool {
     // Get
     public <K, V> Future<V> get(final K key) {
         return Fn.<V>pack(future -> this.client.get(key, res -> {
-            LOGGER.debug(Info.POOL_GET, key, this.name, false);
+            LOGGER.debug(INFO.UxPool.POOL_GET, key, this.name, false);
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
@@ -75,14 +75,14 @@ public class UxPool {
 
     public <K, V> Future<V> get(final K key, final boolean once) {
         return Fn.<V>pack(future -> this.client.get(key, once, res -> {
-            LOGGER.debug(Info.POOL_GET, key, this.name, once);
+            LOGGER.debug(INFO.UxPool.POOL_GET, key, this.name, once);
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "get"));
         }));
     }
 
     public Future<Boolean> clear() {
         return Fn.<Boolean>pack(future -> this.client.clear(res -> {
-            LOGGER.debug(Info.POOL_CLEAR, this.name);
+            LOGGER.debug(INFO.UxPool.POOL_CLEAR, this.name);
             Fn.pack(res, future, Ut.failWeb(_500PoolInternalException.class, this.getClass(), this.name, "clear"));
         }));
     }

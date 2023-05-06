@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.router;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Route;
@@ -7,7 +8,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.util.Ut;
@@ -27,16 +27,16 @@ public class FilterAxis implements Axis<Router> {
     public void mount(final Router router) {
         // Extract Event foreach
         FILTERS.forEach((path, events) -> events.forEach(event -> Fn.runAt(null == event, LOGGER,
-            () -> LOGGER.warn(Info.NULL_EVENT, this.getClass().getName()),
+            () -> LOGGER.warn(INFO.NULL_EVENT, this.getClass().getName()),
             () -> {
                 // Path for filter
                 final Route route = router.route();
 
-                Hub<Route> hub = Pool.CC_HUB_URI.pick(() -> Ut.instance(UriHub.class));
+                Hub<Route> hub = CACHE.CC_HUB_URI.pick(() -> Ut.instance(UriHub.class));
                 // Fn.po?lThread(Pool.URIHUBS, () -> Ut.instance(UriHub.class));
                 hub.mount(route, event);
                 // Consumes/Produces
-                hub = Pool.CC_HUB_MEDIA.pick(() -> Ut.instance(MediaHub.class));
+                hub = CACHE.CC_HUB_MEDIA.pick(() -> Ut.instance(MediaHub.class));
                 // Fn.po?lThread(Pool.MEDIAHUBS, () -> Ut.instance(MediaHub.class));
                 hub.mount(route, event);
                 // Filter Handler execution

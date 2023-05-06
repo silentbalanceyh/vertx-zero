@@ -1,13 +1,13 @@
 package io.vertx.up.uca.rs.regular;
 
-import io.vertx.up.atom.Rule;
 import io.horizon.exception.WebException;
+import io.vertx.up.atom.Rule;
 
 import java.util.Collection;
 
 public interface Ruler {
     static Ruler get(final String type) {
-        return Pool.RULERS.get(type);
+        return CACHE.RULERS.get(type);
     }
 
     static WebException verify(final Collection<Rule> rules,

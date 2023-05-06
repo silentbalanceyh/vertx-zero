@@ -1,6 +1,7 @@
 package io.vertx.up.verticle;
 
 import io.horizon.eon.em.container.MessageModel;
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.impl.ConcurrentHashSet;
@@ -9,7 +10,6 @@ import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.micro.discovery.ApiOrigin;
 import io.vertx.up.uca.micro.discovery.Origin;
@@ -76,7 +76,7 @@ public class ZeroApiWorker extends AbstractVerticle {
                 Runner.run(() -> this.discoveryAdded(counter, discovery, added, services), "discovery-added");
                 // Wait for result
                 counter.await();
-                LOGGER.info(Info.REG_REFRESHED, added.size(), updated.size(), deleted.size());
+                LOGGER.info(INFO.ZeroApiWorker.REG_REFRESHED, added.size(), updated.size(), deleted.size());
             }, LOGGER);
         });
     }
@@ -120,7 +120,7 @@ public class ZeroApiWorker extends AbstractVerticle {
                         // Remove from Set
                         REGISTRY.remove(id);
                     } else {
-                        LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Delete");
+                        LOGGER.info(INFO.ZeroApiWorker.REG_FAILURE, result.cause().getMessage(), "Delete");
                     }
                 });
             })
@@ -138,7 +138,7 @@ public class ZeroApiWorker extends AbstractVerticle {
                     // Update successfully
                     this.successFinished(record);
                 } else {
-                    LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), "Update");
+                    LOGGER.info(INFO.ZeroApiWorker.REG_FAILURE, result.cause().getMessage(), "Update");
                 }
             }))
             .dispose();
@@ -167,7 +167,7 @@ public class ZeroApiWorker extends AbstractVerticle {
                         // Add to Sets
                         REGISTRY.add(item.getRegistration());
                     } else {
-                        LOGGER.info(Info.REG_FAILURE, result.cause().getMessage(), flag);
+                        LOGGER.info(INFO.ZeroApiWorker.REG_FAILURE, result.cause().getMessage(), flag);
                     }
                 });
             }
@@ -228,7 +228,7 @@ public class ZeroApiWorker extends AbstractVerticle {
             record.getLocation().getString(Origin.HOST),
             String.valueOf(record.getLocation().getInteger(Origin.PORT)),
             record.getMetadata().getString(Origin.PATH));
-        LOGGER.debug(Info.REG_SUCCESS, record.getStatus(),
+        LOGGER.debug(INFO.ZeroApiWorker.REG_SUCCESS, record.getStatus(),
             record.getType(), record.getName(),
             endpoint, key, id);
     }

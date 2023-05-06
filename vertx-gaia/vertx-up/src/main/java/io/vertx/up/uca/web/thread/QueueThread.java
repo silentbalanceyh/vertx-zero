@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.thread;
 
-import io.vertx.up.atom.worker.Receipt;
 import io.horizon.uca.log.Annal;
+import io.vertx.up.atom.worker.Receipt;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.ReceiptExtractor;
 import io.vertx.up.util.Ut;
@@ -29,7 +29,7 @@ public class QueueThread extends Thread {
     public void run() {
         if (null != this.reference) {
             this.receipts.addAll(this.extractor.extract(this.reference));
-            LOGGER.info(Info.SCANNED_RECEIPTS, this.reference.getName(),
+            LOGGER.info(INFO.SCANNED_RECEIPTS, this.reference.getName(),
                 this.receipts.size());
         }
     }

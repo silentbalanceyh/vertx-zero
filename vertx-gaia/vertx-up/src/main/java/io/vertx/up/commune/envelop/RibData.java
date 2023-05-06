@@ -1,6 +1,7 @@
 package io.vertx.up.commune.envelop;
 
 
+import io.horizon.eon.VName;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KWeb;
@@ -17,7 +18,7 @@ class RibData {
      */
     @SuppressWarnings("all")
     static <T> T get(final JsonObject data) {
-        if (Objects.isNull(data) || !data.containsKey(Key.DATA)) {
+        if (Objects.isNull(data) || !data.containsKey(VName.DATA)) {
             /*
              * 2 situations:
              * 1) data = null
@@ -25,7 +26,7 @@ class RibData {
              */
             return null;
         } else {
-            final Object value = data.getValue(Key.DATA);
+            final Object value = data.getValue(VName.DATA);
             if (Objects.isNull(value)) {
                 /*
                  * `data` key value is null.
@@ -42,8 +43,8 @@ class RibData {
      */
     static <T> T get(final JsonObject data, final Class<?> clazz) {
         T reference = null;
-        if (data.containsKey(Key.DATA)) {
-            final Object value = data.getValue(Key.DATA);
+        if (data.containsKey(VName.DATA)) {
+            final Object value = data.getValue(VName.DATA);
             reference = Rib.deserialize(value, clazz);
         }
         return reference;
@@ -66,8 +67,8 @@ class RibData {
     @SuppressWarnings("unchecked")
     static <T> T get(final JsonObject data, final Class<?> clazz, final Integer index) {
         T reference = null;
-        if (data.containsKey(Key.DATA)) {
-            final Object rawData = data.getValue(Key.DATA);
+        if (data.containsKey(VName.DATA)) {
+            final Object rawData = data.getValue(VName.DATA);
             /* Check whether data is complex object */
             if (rawData instanceof JsonObject) {
                 final JsonObject raw = (JsonObject) rawData;
@@ -152,8 +153,8 @@ class RibData {
          * }
          */
         JsonObject itRef = data;
-        if (data.containsKey(Key.DATA)) {
-            itRef = data.getJsonObject(Key.DATA);
+        if (data.containsKey(VName.DATA)) {
+            itRef = data.getJsonObject(VName.DATA);
         }
 
         /*

@@ -1,9 +1,9 @@
 package io.vertx.up.unity;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.plugin.JobClient;
 import io.vertx.up.uca.job.plugin.JobInfix;
 
@@ -18,7 +18,7 @@ public class UxJob {
     // Start job
     public Future<Boolean> startAsync(final String code) {
         return Fn.pack(future -> this.client.startAsync(code, res -> {
-            LOGGER.info(Info.JOB_START, code, res.result());
+            LOGGER.info(INFO.UxJob.JOB_START, code, res.result());
             future.complete(Boolean.TRUE);
         }));
     }
@@ -27,7 +27,7 @@ public class UxJob {
     public Future<Boolean> stopAsync(final String code) {
         return Fn.pack(future -> this.client.stopAsync(code,
             res -> {
-                LOGGER.info(Info.JOB_STOP, code);
+                LOGGER.info(INFO.UxJob.JOB_STOP, code);
                 future.complete(Boolean.TRUE);
             }));
     }
@@ -36,7 +36,7 @@ public class UxJob {
     public Future<Boolean> resumeAsync(final String code) {
         return Fn.pack(future -> this.client.resumeAsync(code,
             res -> {
-                LOGGER.info(Info.JOB_RESUME, code);
+                LOGGER.info(INFO.UxJob.JOB_RESUME, code);
                 future.complete(Boolean.TRUE);
             }));
     }

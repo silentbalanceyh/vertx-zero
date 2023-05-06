@@ -1,5 +1,6 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
+import io.horizon.annotations.Memory;
 import io.horizon.uca.cache.Cc;
 import jakarta.ws.rs.core.MediaType;
 
@@ -10,8 +11,9 @@ import java.util.function.Supplier;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-interface Pool {
+interface CACHE {
 
+    @Memory(Wings.class)
     Cc<String, Wings> CC_WINGS = Cc.openThread();
 
     ConcurrentMap<String, ConcurrentMap<String, Supplier<Wings>>> SELECT_POOL = new ConcurrentHashMap<>() {

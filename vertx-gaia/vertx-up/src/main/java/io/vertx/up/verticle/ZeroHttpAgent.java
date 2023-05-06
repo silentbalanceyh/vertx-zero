@@ -1,8 +1,11 @@
 package io.vertx.up.verticle;
 
+import io.horizon.eon.VName;
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
@@ -12,7 +15,6 @@ import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
 import io.vertx.up.extension.Ares;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.uca.monitor.MeasureAxis;
@@ -29,6 +31,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * Default Http Server agent for router handlers.
@@ -46,28 +49,28 @@ public class ZeroHttpAgent extends AbstractVerticle {
     @Override
     public void start() {
         /* 1.Call router hub to mount common **/
-        final Axis<Router> routerAxis = Pool.CC_ROUTER.pick(
+        final Axis<Router> routerAxis = CACHE.CC_ROUTER.pick(
             () -> new RouterAxis(this.vertx), RouterAxis.class.getName());
         // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
 
         /* 2.Call route hub to mount defined **/
-        final Axis<Router> axis = Pool.CC_ROUTER.pick(
+        final Axis<Router> axis = CACHE.CC_ROUTER.pick(
             EventAxis::new, EventAxis.class.getName());
 
         /* 3.Call route hub to mount walls **/
-        final Axis<Router> wallAxis = Pool.CC_ROUTER.pick(
+        final Axis<Router> wallAxis = CACHE.CC_ROUTER.pick(
             () -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
         // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
 
 
         /* 4.Call route hub to mount filters **/
-        final Axis<Router> filterAxis = Pool.CC_ROUTER.pick(
+        final Axis<Router> filterAxis = CACHE.CC_ROUTER.pick(
             FilterAxis::new, FilterAxis.class.getName());
         // Fn.po?lThread(Pool.FILTERS, FilterAxis::new);
 
 
         /* 5.Call route to mount Measure **/
-        final Axis<Router> monitorAxis = Pool.CC_ROUTER.pick(
+        final Axis<Router> monitorAxis = CACHE.CC_ROUTER.pick(
             () -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + false);
         // Fn.po?lThread(Pool.MEANSURES, () -> new MeansureAxis(this.vertx, false));
 
@@ -146,7 +149,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
         if (VValue.ZERO == out.getAndIncrement()) {
             // 1. Build logs for current server;
             final String portLiteral = String.valueOf(port);
-            ZeroHttpAgent.LOGGER.info(Info.HTTP_SERVERS, this.getClass().getSimpleName(), this.deploymentID(),
+            LOGGER.info(INFO.ZeroHttpAgent.HTTP_SERVERS, this.getClass().getSimpleName(), this.deploymentID(),
                 portLiteral);
             final List<Route> routes = router.getRoutes();
             final Map<String, Set<Route>> routeMap = new TreeMap<>();
@@ -167,18 +170,24 @@ public class ZeroHttpAgent extends AbstractVerticle {
                     tree.add(path);
                 }
             }
+
             routeMap.forEach((path, routeSet) -> routeSet.forEach(route ->
-                ZeroHttpAgent.LOGGER.info(Info.MAPPED_ROUTE, this.getClass().getSimpleName(), path,
-                    route.toString())));
+                LOGGER.info(INFO.ZeroHttpAgent.MAPPED_ROUTE, this.getClass().getSimpleName(), path,
+                    this.optionRegistry(route))));
             // 3. Endpoint Publish
             final String address =
                 MessageFormat.format("http://{0}:{1}/",
                     Ut.netIPv4(), portLiteral);
-            ZeroHttpAgent.LOGGER.info(Info.HTTP_LISTEN, this.getClass().getSimpleName(), address);
+            LOGGER.info(INFO.ZeroHttpAgent.HTTP_LISTEN, this.getClass().getSimpleName(), address);
             // 4. Send configuration to Event bus
             final String name = ZeroHttpAgent.SERVICES.get(port);
             this.startRegistry(name, options, tree);
         }
+    }
+
+    private String optionRegistry(final Route route) {
+        return "method =" + Ut.fromJoin(Optional.ofNullable(route.methods()).orElse(new HashSet<>())
+            .stream().map(HttpMethod::name).collect(Collectors.toSet()));
     }
 
     private void startRegistry(final String name,
@@ -190,7 +199,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
             // Send Data to Event Bus
             final EventBus bus = this.vertx.eventBus();
             final String address = KWeb.ADDR.EBS_REGISTRY_START;
-            ZeroHttpAgent.LOGGER.info(Info.MICRO_REGISTRY_SEND, this.getClass().getSimpleName(), name, address);
+            LOGGER.info(INFO.ZeroHttpAgent.MICRO_REGISTRY_SEND, this.getClass().getSimpleName(), name, address);
             bus.publish(address, data);
         }
     }
@@ -199,11 +208,11 @@ public class ZeroHttpAgent extends AbstractVerticle {
                                   final HttpServerOptions options,
                                   final Set<String> tree) {
         final JsonObject data = new JsonObject();
-        data.put(Registry.NAME, name);
-        data.put(Registry.OPTIONS, options.toJson());
+        data.put(VName.NAME, name);
+        data.put(VName.OPTIONS, options.toJson());
         // No Uri
         if (null != tree) {
-            data.put(Registry.URIS, Ut.fromJoin(tree));
+            data.put(VName.URIS, Ut.fromJoin(tree));
         }
         return data;
     }

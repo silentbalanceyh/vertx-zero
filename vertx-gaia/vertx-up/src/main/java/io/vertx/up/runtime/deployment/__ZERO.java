@@ -1,6 +1,6 @@
 package io.vertx.up.runtime.deployment;
 
-interface Info {
+interface INFO {
 
     String INFO_ROTATE = "Zero container will select new DeployMode ( mode = {0} ).";
 
@@ -8,7 +8,7 @@ interface Info {
         "instances = {0}, ha = {1}, content = {2}";
 }
 
-interface Key {
+interface NAME {
 
     String TYPE = "type";
 

@@ -35,7 +35,7 @@ public interface Emitter {
                  * 1) WebToken interface and default implementation is `username/password` of `Basic`
                  * 2) You can provide your own token implementation such as other authorization
                  */
-                return Pool.CC_EMITTER.pick(() -> new StandardEmitter(integration), integration.hashCode());
+                return CACHE.CC_EMITTER.pick(() -> new StandardEmitter(integration), integration.hashCode());
                 // return Fn.po?l(Pool.POOL_EMITTER, integration.hashCode(), () -> new StandardEmitter(integration));
             } else {
                 /*
@@ -45,7 +45,7 @@ public interface Emitter {
                  * The implementation is HttpURLConnection ( for old mode )
                  * It could set `TLS / SSL` of https
                  */
-                return Pool.CC_EMITTER.pick(() -> new LegacyEmitter(integration), integration.hashCode());
+                return CACHE.CC_EMITTER.pick(() -> new LegacyEmitter(integration), integration.hashCode());
                 // return Fn.po?l(Pool.POOL_EMITTER, integration.hashCode(), () -> new LegacyEmitter(integration));
             }
         }

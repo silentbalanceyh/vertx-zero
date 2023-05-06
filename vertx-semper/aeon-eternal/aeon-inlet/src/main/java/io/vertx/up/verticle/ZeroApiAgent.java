@@ -34,20 +34,20 @@ public class ZeroApiAgent extends AbstractVerticle {
     public void start() {
         /* 1.Call router hub to mount commont **/
         final Axis<Router> routerAxiser =
-            Pool.CC_ROUTER.pick(() -> new RouterAxis(this.vertx), RouterAxis.class.getName());
+            CACHE.CC_ROUTER.pick(() -> new RouterAxis(this.vertx), RouterAxis.class.getName());
 
         // Fn.po?lThread(Pool.ROUTERS, () -> new RouterAxis(this.vertx));
         /* 2.Call route hub to mount walls **/
         final Axis<Router> wallAxiser =
-            Pool.CC_ROUTER.pick(() -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
+            CACHE.CC_ROUTER.pick(() -> Ut.instance(WallAxis.class, this.vertx), WallAxis.class.getName());
         // Fn.po?lThread(Pool.WALLS, () -> Ut.instance(WallAxis.class, this.vertx));
         /* 3.Health route */
         final Axis<Router> montiorAxiser =
-            Pool.CC_ROUTER.pick(() -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + true);
+            CACHE.CC_ROUTER.pick(() -> new MeasureAxis(this.vertx, false), MeasureAxis.class.getName() + "/" + true);
 
         Fn.outBug(() -> ZeroGrid.getGatewayOptions().forEach((port, option) -> {
             /* Mount to api hub **/
-            final Axis<Router> axiser = Pool.CC_ROUTER.pick(
+            final Axis<Router> axiser = CACHE.CC_ROUTER.pick(
                 () -> Ut.instance(PointAxis.class, option, this.vertx), PointAxis.class.getName());
             // Fn.po?lThread(Pool.APIS, () -> Ut.instance(PointAxis.class, option, this.vertx));
             /* Single server processing **/
@@ -75,12 +75,12 @@ public class ZeroApiAgent extends AbstractVerticle {
         final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (VValue.ZERO == out.getAndIncrement()) {
             final String portLiteral = String.valueOf(port);
-            LOGGER.info(Info.API_GATEWAY, this.getClass().getSimpleName(), this.deploymentID(),
+            LOGGER.info(INFO.ZeroApiAgent.API_GATEWAY, this.getClass().getSimpleName(), this.deploymentID(),
                 portLiteral);
             final String address =
                 MessageFormat.format("http://{0}:{1}/",
                     options.getHost(), portLiteral);
-            LOGGER.info(Info.API_LISTEN, this.getClass().getSimpleName(), address);
+            LOGGER.info(INFO.ZeroApiAgent.API_LISTEN, this.getClass().getSimpleName(), address);
         }
     }
 }

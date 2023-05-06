@@ -291,7 +291,7 @@ public class JqAnalyzer {
         String columnField = columnName(field);
         Fn.outBoot(null == columnField, LOGGER,
             JooqFieldMissingException.class, UxJooq.class, field, this.entityCls);
-        LOGGER.debug(Info.JOOQ_FIELD, field, columnField);
+        LOGGER.debug(INFO.JOOQ_FIELD, field, columnField);
         /*
          * Old code for field construct, following code will caurse Type/DataType missing
          * DSL.field(DSL.name(targetField));
@@ -337,11 +337,11 @@ public class JqAnalyzer {
         if (Ut.isNil(pojo)) {
             this.pojo = null;
         } else {
-            LOGGER.debug(Info.JOOQ_BIND, pojo, clazz);
+            LOGGER.debug(INFO.JOOQ_BIND, pojo, clazz);
             this.pojo = Mirror.create(UxJooq.class).mount(pojo)
                 .mojo().bindColumn(this.mapping);
             // When bind pojo, the system will analyze columns
-            LOGGER.debug(Info.JOOQ_MOJO, this.pojo.getIn(), this.pojo.getInColumn());
+            LOGGER.debug(INFO.JOOQ_MOJO, this.pojo.getIn(), this.pojo.getInColumn());
         }
     }
 

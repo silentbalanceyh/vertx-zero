@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.plugin;
 
-interface Info {
+interface INFO {
 
     String IS_RUNNING = "( Job ) The job {0} has already been running !!!";
 

@@ -15,7 +15,7 @@ public abstract class BaseRuler implements Ruler {
         final WebException error = new _400ValidationRuleException(
             this.getClass(), field, value, message);
         error.readable(message);
-        this.getLogger().info(Info.MSG_FAILURE, error.toJson());
+        this.getLogger().info(INFO.MSG_FAILURE, error.toJson());
         return error;
     }
 

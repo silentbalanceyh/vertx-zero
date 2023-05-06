@@ -1,6 +1,6 @@
 package io.vertx.up.secure.validation;
 
-interface Info {
+interface INFO {
 
     String BUNDLE_FOUND = "{0} found.";
 

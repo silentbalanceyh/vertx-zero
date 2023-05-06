@@ -22,7 +22,7 @@ interface CACHE {
 /**
  * @author lang : 2023/4/28
  */
-interface __MESSAGE {
+interface INFO {
     interface Io {
         String INF_PATH = "「I/O」Absolute path is hitted: {0}.";
     }

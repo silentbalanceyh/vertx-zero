@@ -39,7 +39,7 @@ class BoltWhich implements Bolt {
         if (config.noAuthentication()) {
             // Log
             if (LOG_LEE[0].getAndSet(Boolean.FALSE)) {
-                LOGGER.warn(Info.AUTH_401_METHOD, config);
+                LOGGER.warn(INFO.AUTH_401_METHOD, config);
             }
             return null;
         }
@@ -48,7 +48,7 @@ class BoltWhich implements Bolt {
         if (Objects.isNull(lee)) {
             // Log
             if (LOG_LEE[1].getAndSet(Boolean.FALSE)) {
-                LOGGER.warn(Info.AUTH_401_SERVICE, config.getType());
+                LOGGER.warn(INFO.AUTH_401_SERVICE, config.getType());
             }
             return null;
         }
@@ -56,7 +56,7 @@ class BoltWhich implements Bolt {
         if (Objects.isNull(handler)) {
             // Log
             if (LOG_LEE[2].getAndSet(Boolean.FALSE)) {
-                LOGGER.warn(Info.AUTH_401_HANDLER, config.getType());
+                LOGGER.warn(INFO.AUTH_401_HANDLER, config.getType());
             }
         }
         return handler;

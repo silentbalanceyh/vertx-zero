@@ -5,7 +5,7 @@ import io.horizon.eon.em.scheduler.JobType;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-interface Pool {
+interface CACHE {
     ConcurrentMap<JobType, Agha> AGHAS = new ConcurrentHashMap<>() {
         {
             this.put(JobType.FIXED, new FixedAgha());

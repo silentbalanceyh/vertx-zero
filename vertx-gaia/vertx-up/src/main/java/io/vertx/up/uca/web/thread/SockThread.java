@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.thread;
 
-import io.vertx.up.atom.worker.Remind;
 import io.horizon.uca.log.Annal;
+import io.vertx.up.atom.worker.Remind;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.SockExtractor;
 import io.vertx.up.util.Ut;
@@ -32,7 +32,7 @@ public class SockThread extends Thread {
     public void run() {
         if (null != this.reference) {
             this.reminds.addAll(this.extractor.extract(this.reference));
-            LOGGER.info(Info.SCANNED_SOCKS, this.reference.getName(),
+            LOGGER.info(INFO.SCANNED_SOCKS, this.reference.getName(),
                 this.reminds.size());
         }
     }

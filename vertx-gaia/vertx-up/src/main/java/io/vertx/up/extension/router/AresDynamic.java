@@ -53,13 +53,13 @@ class AresDynamic extends AbstractAres {
         // Extract class that are implemented
         final Class<?> clazz = ZeroAmbient.getPlugin(KName.ROUTER);
         if (VValue.ZERO == LOG_FLAG_START.getAndIncrement()) {
-            this.logger().info(Info.DYNAMIC_DETECT, name);
+            this.logger().info(INFO.DYNAMIC_DETECT, name);
         }
         // The condition for skip
         if (Objects.nonNull(clazz) && Ut.isImplement(clazz, Ares.class)) {
             final JsonObject configRouter = this.configuration.copy();
             if (VValue.ONE == LOG_FLAG_END.getAndIncrement()) {
-                this.logger().info(Info.DYNAMIC_FOUND, name, clazz.getName(), configRouter.encode());
+                this.logger().info(INFO.DYNAMIC_FOUND, name, clazz.getName(), configRouter.encode());
             }
 
             // Mount Ares of Dynamic Router
@@ -70,7 +70,7 @@ class AresDynamic extends AbstractAres {
         } else {
             if (VValue.ONE == LOG_FLAG_END.getAndIncrement()) {
                 final String className = Fn.runOr(null, () -> null == clazz ? null : clazz.getName(), clazz);
-                this.logger().info(Info.DYNAMIC_SKIP, name, className);
+                this.logger().info(INFO.DYNAMIC_SKIP, name, className);
             }
         }
     }

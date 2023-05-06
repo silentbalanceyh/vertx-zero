@@ -44,8 +44,8 @@ public class AeonBridge {
                 .dispose())
             .dispose();
         /* 5.Log out address report **/
-        LOGGER.info(Info.ADDRESS_IN, ADDRESS.size());
-        ADDRESS.forEach(item -> LOGGER.info(Info.ADDRESS_ITEM, item));
+        LOGGER.info(INFO.ADDRESS_IN, ADDRESS.size());
+        ADDRESS.forEach(item -> LOGGER.info(INFO.ADDRESS_ITEM, item));
     }
 
     /*

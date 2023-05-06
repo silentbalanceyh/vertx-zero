@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.config;
 
-interface Info {
+interface INFO {
 
     String AGENT_HIT = "( Agent ) The standard verticle " +
         "{0} will be deployed.";
@@ -18,9 +18,4 @@ interface Info {
 
     String METHOD_MODIFIER = "( Ignored ) Method name = {0} access scope is invalid, " +
         "the scope must be public non-static.";
-}
-
-interface Key {
-
-    String TYPE = "type";
 }

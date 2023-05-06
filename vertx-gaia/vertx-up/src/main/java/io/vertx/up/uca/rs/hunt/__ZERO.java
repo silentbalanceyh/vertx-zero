@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.hunt;
 
-interface Info {
+interface INFO {
 
     String PARAM_FLOW = "Container begin to scan parameters: type = {0}.";
 

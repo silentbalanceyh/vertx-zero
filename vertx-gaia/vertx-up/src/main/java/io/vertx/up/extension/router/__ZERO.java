@@ -3,7 +3,7 @@ package io.vertx.up.extension.router;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-interface Info {
+interface INFO {
     String DYNAMIC_DETECT = "( {0} ) The system is detecting dynamic routing component...";
 
     String DYNAMIC_SKIP = "( {0} ) Skip dynamic routing because clazz is null or class {1} is not assignable from \"io.vertx.up.extension.router.PlugRouter\".";

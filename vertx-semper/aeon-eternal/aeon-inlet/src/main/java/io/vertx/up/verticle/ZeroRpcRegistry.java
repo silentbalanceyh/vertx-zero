@@ -1,6 +1,7 @@
 package io.vertx.up.verticle;
 
 import io.horizon.eon.em.container.MessageModel;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.RpcOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
 
@@ -32,7 +32,7 @@ public class ZeroRpcRegistry extends AbstractVerticle {
             this.registry.registryRpc(options, Etat.RUNNING);
             this.registry.registryIpcs(options, Tunnel.IPCS.keySet());
 
-            LOGGER.info(Info.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
+            LOGGER.info(INFO.ZeroRegistry.MICRO_REGISTRY_CONSUME, this.getClass().getSimpleName(),
                 options.getName(), KWeb.ADDR.EBS_IPC_START);
         });
     }

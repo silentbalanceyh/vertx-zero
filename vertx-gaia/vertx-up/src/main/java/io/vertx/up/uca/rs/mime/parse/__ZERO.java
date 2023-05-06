@@ -1,6 +1,6 @@
 package io.vertx.up.uca.rs.mime.parse;
 
-interface Info {
+interface INFO {
     String RESOLVER = "( Resolver ) Select resolver {0} " +
         "for Content-Type {1} when request to {2}";
 

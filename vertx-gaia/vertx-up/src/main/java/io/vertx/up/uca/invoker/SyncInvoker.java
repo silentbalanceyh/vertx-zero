@@ -30,7 +30,7 @@ public class SyncInvoker extends AbstractInvoker {
                        final Message<Envelop> message) {
         // LOG
         this.getLogger().info(
-            Info.MSG_DIRECT,
+            INFO.MSG_DIRECT,
             this.getClass(),
             method.getReturnType(),
             method.getName(),
@@ -49,7 +49,7 @@ public class SyncInvoker extends AbstractInvoker {
                      final Vertx vertx) {
         // LOG
         this.getLogger().info(
-            Info.MSG_RPC,
+            INFO.MSG_RPC,
             this.getClass(),
             method.getReturnType(),
             method.getName(),
@@ -67,7 +67,7 @@ public class SyncInvoker extends AbstractInvoker {
                               final I input, final Handler<AsyncResult<O>> handler) {
         // LOG
         this.getLogger().info(
-            Info.MSG_HANDLE,
+            INFO.MSG_HANDLE,
             this.getClass(),
             method.getReturnType(),
             method.getName(),

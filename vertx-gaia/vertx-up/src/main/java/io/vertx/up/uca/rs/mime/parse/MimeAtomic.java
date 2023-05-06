@@ -1,12 +1,12 @@
 package io.vertx.up.uca.rs.mime.parse;
 
 import io.horizon.eon.em.container.MimeFlow;
+import io.horizon.exception.WebException;
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.horizon.exception.WebException;
-import io.horizon.uca.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
 import io.vertx.up.uca.rs.mime.resolver.SolveResolver;
@@ -74,17 +74,17 @@ public class MimeAtomic<T> implements Atomic<T> {
             final String resolver;
             if (null == header) {
                 resolver = content.getString("default");
-                LOGGER.info(Info.RESOLVER_DEFAULT, resolver, context.request().absoluteURI());
+                LOGGER.info(INFO.RESOLVER_DEFAULT, resolver, context.request().absoluteURI());
             } else {
                 final MediaType type = MediaType.valueOf(header);
                 final JsonObject resolverMap = content.getJsonObject(type.getType());
                 resolver = resolverMap.getString(type.getSubtype());
-                LOGGER.info(Info.RESOLVER, resolver, header, context.request().absoluteURI());
+                LOGGER.info(INFO.RESOLVER, resolver, header, context.request().absoluteURI());
             }
             return CC_RESOLVER.pick(() -> Ut.instance(resolver), resolver);
             // Fn.po?lThread(POOL_RESOLVER, () -> Ut.instance(resolver), resolver);
         } else {
-            LOGGER.info(Info.RESOLVER_CONFIG, resolverCls, header);
+            LOGGER.info(INFO.RESOLVER_CONFIG, resolverCls, header);
             /*
              * Split workflow
              * Resolver or Solve

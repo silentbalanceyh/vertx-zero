@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.thread;
 
-import io.vertx.up.atom.agent.Event;
 import io.horizon.uca.log.Annal;
+import io.vertx.up.atom.agent.Event;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.uca.rs.config.EventExtractor;
 import io.vertx.up.util.Ut;
@@ -29,7 +29,7 @@ public class EndPointThread extends Thread {
     public void run() {
         if (null != this.reference) {
             this.events.addAll(this.extractor.extract(this.reference));
-            LOGGER.info(Info.SCANNED_EVENTS, this.reference.getName(),
+            LOGGER.info(INFO.SCANNED_EVENTS, this.reference.getName(),
                 this.events.size());
         }
     }

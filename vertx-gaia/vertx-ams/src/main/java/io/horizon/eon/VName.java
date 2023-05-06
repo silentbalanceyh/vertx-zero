@@ -173,6 +173,7 @@ public interface VName {
     String METHOD = "method";                    /* Web: http method */
     String SESSION = "session";                  /* Web: session */
     String URI = "uri";                          /* Web: http path */
+    String URIS = "uris";                        /* Web: http path */
     String ROUTER = "router";                    /* Web: Router */
     String URI_IMPACT = "impactUri";             /* Web: http impact uri */
     String URI_REQUEST = "requestUri";           /* Web: http path ( normalized ) contains path such as `/api/:code/name` instead of actual */

@@ -1,10 +1,10 @@
 package io.vertx.up.uca.job.plugin;
 
 import io.horizon.eon.em.scheduler.JobStatus;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.List;
@@ -63,19 +63,19 @@ class JobPool {
                  * If `RUNNING`
                  * Do not started here because it's running now
                  */
-                LOGGER.info(Info.IS_RUNNING, code);
+                LOGGER.info(INFO.IS_RUNNING, code);
             } else if (JobStatus.ERROR == status) {
                 /*
                  * If `ERROR`
                  * Could not started here
                  */
-                LOGGER.warn(Info.IS_ERROR, code);
+                LOGGER.warn(INFO.IS_ERROR, code);
             } else if (JobStatus.STARTING == status) {
                 /*
                  * If `STARTING`
                  * Could not started here
                  */
-                LOGGER.warn(Info.IS_STARTING, code);
+                LOGGER.warn(INFO.IS_STARTING, code);
             } else {
                 if (JobStatus.STOPPED == status) {
                     /*
@@ -105,7 +105,7 @@ class JobPool {
                 /*
                  * Other status is invalid
                  */
-                LOGGER.info(Info.NOT_RUNNING, mission.getCode(), status);
+                LOGGER.info(INFO.NOT_RUNNING, mission.getCode(), status);
             }
         });
     }
@@ -164,7 +164,7 @@ class JobPool {
     private static void uniform(final Long timeId, final Consumer<Mission> consumer) {
         final String code = RUNNING.get(timeId);
         if (Ut.isNil(code)) {
-            LOGGER.info(Info.IS_STOPPED, timeId);
+            LOGGER.info(INFO.IS_STOPPED, timeId);
         } else {
             uniform(code, consumer);
         }

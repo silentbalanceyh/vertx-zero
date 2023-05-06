@@ -59,7 +59,7 @@ class LegacyEmitter extends AbstractEmitter {
 
     private String send(final String uri, final HttpMethod method, final MediaType mediaType, final String content) {
         return Fn.failOr(null, () -> {
-            this.logger().info(Message.HTTP_REQUEST, uri, method, content);
+            this.logger().info(INFO.HTTP_REQUEST, uri, method, content);
             final String contentType = Objects.isNull(mediaType) ? MediaType.APPLICATION_JSON : mediaType.toString();
 
             /* Cert trusted */
@@ -84,7 +84,7 @@ class LegacyEmitter extends AbstractEmitter {
             /* Convert to content */
             final String response = Ut.ioString(conn.getInputStream());
             final String normalized = new String(response.getBytes(), StandardCharsets.UTF_8);
-            this.logger().info(Message.HTTP_RESPONSE, normalized);
+            this.logger().info(INFO.HTTP_RESPONSE, normalized);
             return normalized;
         }, uri, method, content);
     }

@@ -2,6 +2,7 @@ package io.vertx.up.verticle;
 
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.container.ServerType;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.RpcOptions;
@@ -11,7 +12,6 @@ import io.vertx.grpc.VertxServerBuilder;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
@@ -76,13 +76,13 @@ public class ZeroRpcAgent extends AbstractVerticle {
         final AtomicInteger out = ZeroGrid.ATOMIC_LOG.get(port);
         if (VValue.ONE == out.getAndIncrement()) {
             if (handler.succeeded()) {
-                LOGGER.info(Info.RPC_LISTEN, Ut.netIPv4(), String.valueOf(options.getPort()));
+                LOGGER.info(INFO.ZeroRpcAgent.RPC_LISTEN, Ut.netIPv4(), String.valueOf(options.getPort()));
                 // Started to write data in etcd center.
-                LOGGER.info(Info.ETCD_SUCCESS, this.registry.getConfig());
+                LOGGER.info(INFO.ZeroRpcAgent.ETCD_SUCCESS, this.registry.getConfig());
                 // Status registry
                 this.startRegistry(options);
             } else {
-                LOGGER.info(Info.RPC_FAILURE, null == handler.cause() ? "None" : handler.cause().getMessage());
+                LOGGER.info(INFO.ZeroRpcAgent.RPC_FAILURE, null == handler.cause() ? "None" : handler.cause().getMessage());
             }
         }
     }
@@ -91,7 +91,7 @@ public class ZeroRpcAgent extends AbstractVerticle {
         // Rpc Agent is only valid in Micro mode
         final EventBus bus = this.vertx.eventBus();
         final String address = KWeb.ADDR.EBS_IPC_START;
-        LOGGER.info(Info.IPC_REGISTRY_SEND, this.getClass().getSimpleName(), options.getName(), address);
+        LOGGER.info(INFO.ZeroRpcAgent.IPC_REGISTRY_SEND, this.getClass().getSimpleName(), options.getName(), address);
         bus.publish(address, options.toJson());
     }
 }

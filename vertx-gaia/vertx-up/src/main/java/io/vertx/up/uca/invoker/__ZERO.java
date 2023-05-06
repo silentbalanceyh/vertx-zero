@@ -2,7 +2,7 @@ package io.vertx.up.uca.invoker;
 
 import io.horizon.uca.cache.Cc;
 
-interface Info {
+interface INFO {
 
     String MSG_DIRECT = "( Invoker ) Invoker = {0}, ReturnType = {1}, Method = {2}, Class = {3}.";
 

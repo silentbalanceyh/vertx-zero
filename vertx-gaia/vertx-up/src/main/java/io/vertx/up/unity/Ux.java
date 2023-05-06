@@ -3,8 +3,9 @@ package io.vertx.up.unity;
 import io.aeon.experiment.rule.RuleTerm;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.eon.em.secure.AuthWall;
+import io.horizon.eon.em.typed.ChangeFlag;
+import io.horizon.exception.WebException;
 import io.modello.specification.HRecord;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
@@ -30,7 +31,6 @@ import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroYml;
 import io.vertx.up.secure.Lee;
@@ -1187,7 +1187,7 @@ public final class Ux {
          */
         public static UxJooq ons(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, ZeroYml.lime.jooq.orbit);
-            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), "HIS-" + dsl.poolKey());
+            return CACHE.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), "HIS-" + dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL_HIS, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
@@ -1209,7 +1209,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz) {
             final JooqDsl dsl = JooqInfix.getDao(clazz);
-            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return CACHE.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
@@ -1223,7 +1223,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final DataPool pool) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, pool);
-            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return CACHE.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
 
@@ -1237,7 +1237,7 @@ public final class Ux {
          */
         public static UxJooq on(final Class<?> clazz, final String key) {
             final JooqDsl dsl = JooqInfix.getDao(clazz, key);
-            return Cache.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
+            return CACHE.CC_JOOQ.pick(() -> new UxJooq(clazz, dsl), dsl.poolKey());
             // return Fn.po?lThread(Cache.JOOQ_POOL, () -> new UxJooq(clazz, dsl), dsl.poolKey());
         }
     }
@@ -1261,7 +1261,7 @@ public final class Ux {
     public static class Pool {
 
         public static UxPool on(final String name) {
-            return Cache.CC_UX_POOL.pick(() -> new UxPool(name), name);
+            return CACHE.CC_UX_POOL.pick(() -> new UxPool(name), name);
             // return Fn.po?l(Cache.MAP_POOL, name, () -> new UxPool(name));
         }
 
@@ -1278,7 +1278,7 @@ public final class Ux {
 
     public static class Ldap {
         public static UxLdap on(final Integration integration) {
-            return Cache.CC_LDAP.pick(() -> new UxLdap(integration), String.valueOf(integration.hashCode()));
+            return CACHE.CC_LDAP.pick(() -> new UxLdap(integration), String.valueOf(integration.hashCode()));
         }
     }
 

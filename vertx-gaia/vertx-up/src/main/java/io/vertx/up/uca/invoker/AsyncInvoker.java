@@ -36,7 +36,7 @@ public class AsyncInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_DIRECT,
+            INFO.MSG_DIRECT,
             this.getClass(),
             returnType,
             method.getName(),
@@ -81,7 +81,7 @@ public class AsyncInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_HANDLE,
+            INFO.MSG_HANDLE,
             this.getClass(),
             returnType,
             method.getName(),
@@ -126,7 +126,7 @@ public class AsyncInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_RPC,
+            INFO.MSG_RPC,
             this.getClass(),
             returnType,
             method.getName(),

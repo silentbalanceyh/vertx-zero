@@ -87,9 +87,9 @@ public class ValidatorBundleLocator implements ResourceBundleLocator {
         }
 
         if (rb != null) {
-            LOGGER.debug(Info.BUNDLE_FOUND, this.bundleName);
+            LOGGER.debug(INFO.BUNDLE_FOUND, this.bundleName);
         } else {
-            LOGGER.debug(Info.BUNDLE_NOT_FOUND, this.bundleName);
+            LOGGER.debug(INFO.BUNDLE_NOT_FOUND, this.bundleName);
         }
 
         return rb;

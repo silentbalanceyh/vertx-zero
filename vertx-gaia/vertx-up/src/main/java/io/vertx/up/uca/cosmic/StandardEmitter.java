@@ -63,14 +63,14 @@ class StandardEmitter extends AbstractEmitter {
         /*
          * Build Rotator instances
          */
-        final Function<Integration, Rotator> executor = Pool.POOL_ROTATOR_FN.get(request.getMethod());
+        final Function<Integration, Rotator> executor = CACHE.POOL_ROTATOR_FN.get(request.getMethod());
         if (Objects.isNull(executor)) {
             return VString.EMPTY;
         } else {
             /*
              * Cached rotator, the default is integration request definition.
              */
-            final Rotator rotator = Pool.CC_ROTATOR.pick(
+            final Rotator rotator = CACHE.CC_ROTATOR.pick(
                 () -> executor.apply(this.integration()).bind(this.client), request.hashCode());
             // Fn.po?l(Pool.POOL_ROTATOR, request.hashCode(), () -> executor.apply(this.integration()).bind(this.client));
             /*

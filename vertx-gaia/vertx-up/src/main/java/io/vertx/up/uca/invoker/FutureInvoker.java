@@ -42,7 +42,7 @@ public class FutureInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_DIRECT,
+            INFO.MSG_DIRECT,
             this.getClass(),
             returnType,
             method.getName(),
@@ -79,7 +79,7 @@ public class FutureInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_DIRECT,
+            INFO.MSG_DIRECT,
             this.getClass(),
             returnType,
             method.getName(),
@@ -120,7 +120,7 @@ public class FutureInvoker extends AbstractInvoker {
 
         // LOG
         this.getLogger().info(
-            Info.MSG_RPC,
+            INFO.MSG_RPC,
             this.getClass(),
             returnType,
             method.getName(),

@@ -19,7 +19,7 @@ public class PostRotator extends AbstractRotator {
          * */
         final HttpPost httpPost = new HttpPost(this.configPath(request, params));
         final StringEntity body = this.dataJson(params);
-        this.logger().info(Message.HTTP_REQUEST, request.getPath(), request.getMethod(), params);
+        this.logger().info(INFO.HTTP_REQUEST, request.getPath(), request.getMethod(), params);
         return this.sendEntity(httpPost, body, request.getHeaders());
     }
 }

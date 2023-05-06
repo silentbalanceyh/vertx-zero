@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.thread;
 
-interface Info {
+interface INFO {
     String SCANNED_EVENTS = "( {1} Event ) The endpoint {0} scanned {1} events of Event, " +
         "will be mounted to routing system.";
 

@@ -26,7 +26,7 @@ public class DimInvoker extends AbstractInvoker {
                        final Message<Envelop> message) {
         // Log
         this.getLogger().info(
-            Info.MSG_DIRECT,
+            INFO.MSG_DIRECT,
             this.getClass(),
             method.getReturnType(),
             method.getName(),
@@ -46,7 +46,7 @@ public class DimInvoker extends AbstractInvoker {
                      final Vertx vertx) {
         // Log
         this.getLogger().info(
-            Info.MSG_RPC,
+            INFO.MSG_RPC,
             this.getClass(),
             method.getReturnType(),
             method.getName(),
@@ -65,7 +65,7 @@ public class DimInvoker extends AbstractInvoker {
                               final I input, final Handler<AsyncResult<O>> handler) {
         // Log
         this.getLogger().info(
-            Info.MSG_HANDLE,
+            INFO.MSG_HANDLE,
             this.getClass(),
             method.getReturnType(),
             method.getName(),

@@ -1,6 +1,8 @@
 package io.vertx.up.uca.rs.hunt;
 
 import io.horizon.atom.common.Kv;
+import io.horizon.exception.WebException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServerRequest;
@@ -11,10 +13,8 @@ import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.atom.container.VInstance;
 import io.vertx.up.commune.Envelop;
-import io.horizon.exception.WebException;
 import io.vertx.up.exception.web._411ContentLengthException;
 import io.vertx.up.extension.pointer.PluginExtension;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.secure.validation.Validator;
 import io.vertx.up.uca.rs.announce.Rigor;
 
@@ -96,7 +96,7 @@ class Flower {
                                     final Object value) {
         final Rigor rigor = Rigor.get(type);
         if (null == rigor) {
-            LOGGER.warn(Info.RIGOR_NOT_FOUND, type);
+            LOGGER.warn(INFO.RIGOR_NOT_FOUND, type);
             context.next();
         } else {
             final WebException error = rigor.verify(rulers, value);

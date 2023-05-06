@@ -10,7 +10,7 @@ import io.vertx.up.atom.worker.Mission;
 public interface Agha {
 
     static Agha get(final JobType type) {
-        return Pool.AGHAS.getOrDefault(type, new OnceAgha());
+        return CACHE.AGHAS.getOrDefault(type, new OnceAgha());
     }
 
     /**

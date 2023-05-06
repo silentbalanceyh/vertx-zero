@@ -36,7 +36,7 @@ class IpcDiffer implements Differ<RoutingContext> {
                 this.getClass(), method);
         } else {
             // Mode 6: Ipc channel enabled
-            aim = Pool.CC_AIMS.pick(() -> Ut.instance(IpcAim.class), "Mode Ipc");
+            aim = CACHE.CC_AIMS.pick(() -> Ut.instance(IpcAim.class), "Mode Ipc");
             // Fn.po?l(Pool.AIMS, Thread.currentThread().getName() + "-mode-ipc",() -> Ut.instance(IpcAim.class));
         }
         return aim;
