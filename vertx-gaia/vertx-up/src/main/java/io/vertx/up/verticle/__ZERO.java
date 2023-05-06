@@ -52,7 +52,7 @@ interface INFO {
 
         String HTTP_SERVERS = "( Http Server ) {0} (id = {1}) Agent has deployed HTTP Server on {2}.";
 
-        String MAPPED_ROUTE = "( Uri Register ) \"{1}\" has been deployed by {0}, Options = {2}.";
+        String MAPPED_ROUTE = "( Uri Register ) \"{1}\" has been deployed by {0}, Method = {2}.";
         String HTTP_LISTEN = "( Http Server ) {0} Http Server has been started successfully. Endpoint: {1}.";
         String MICRO_REGISTRY_SEND = "---> {2} ( Http Server ) {0} ( name = {1} ) " +
             "is sending data to internal address.";

@@ -186,7 +186,7 @@ public class ZeroHttpAgent extends AbstractVerticle {
     }
 
     private String optionRegistry(final Route route) {
-        return "method =" + Ut.fromJoin(Optional.ofNullable(route.methods()).orElse(new HashSet<>())
+        return Ut.fromJoin(Optional.ofNullable(route.methods()).orElse(new HashSet<>())
             .stream().map(HttpMethod::name).collect(Collectors.toSet()));
     }
 
