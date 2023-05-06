@@ -56,112 +56,34 @@
         </repository>
     </distributionManagement>
     <properties>
-        <!-- RC Version Ok -->
-        <jackson.version>2.15.0</jackson.version>
-        <jackson.databind.version>2.15.0</jackson.databind.version>
-        <jackson.extension.version>2.15.0</jackson.extension.version>
-
+        <!-- ====================== Java 语言基础依赖 ============================ -->
         <!-- Java Projection Basic Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <java.target.version>11</java.target.version>
         <encoding>UTF-8</encoding>
 
+        <!-- ====================== Vert.x 核心依赖 ============================== -->
         <!-- Vertx Framework Version -->
         <vertx.version>4.4.1</vertx.version>
         <stack.version>4.4.1</stack.version>
 
-        <jcabi.version>0.24.1</jcabi.version>
-        <jersey.version>3.1.1</jersey.version>
-        <javax.el.version>3.0.1-b06</javax.el.version>
+        <!-- Vertx Depend: Jackson -->
+        <jackson.version>2.15.0</jackson.version>
+        <jackson.databind.version>2.15.0</jackson.databind.version>
+        <jackson.extension.version>2.15.0</jackson.extension.version>
 
-        <!-- Database Needed -->
-        <hikari.cp.version>5.0.1</hikari.cp.version>
-        <jooq.version>3.18.3</jooq.version>
-        <vertx.jooq.version>6.5.5</vertx.jooq.version>
-        <mysql.version>8.0.33</mysql.version>
-
-        <!-- Java Reflection -->
-        <reflect.asm.version>1.11.9</reflect.asm.version>
-        <lombok.version>1.18.26</lombok.version>
-        <asm.version>9.5</asm.version>
-        <cglib.version>3.3.0</cglib.version>
-        <reflection.version>0.10.2</reflection.version>
-
-        <!-- Etcd -->
-        <etcd.version>2.18.0</etcd.version>
-
-        <!-- Bean Validation -->
-        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
-
-        <jwt.version>4.4.0</jwt.version>
-        <jetbrains.version>23.1.0</jetbrains.version>
-        <guice.version>5.1.0</guice.version>
-        <guava.version>31.1-jre</guava.version>
-        <scala.version>2.13.11-M1</scala.version>
-        <feign.version>8.18.0</feign.version>
-        <joda.version>2.12.5</joda.version>
-        <codehaus.janino.version>3.1.9</codehaus.janino.version>
-        <codehaus.mojo.version>1.23</codehaus.mojo.version>
-        <ignite.version>2.15.0</ignite.version>
-        <mongodb.async.version>3.12.13</mongodb.async.version>
-        <poi.version>5.2.3</poi.version>
-        <poi.schema.version>4.1.2</poi.schema.version>
-        <jedis.version>4.4.0-m2</jedis.version>
-        <j2objc.version>2.8</j2objc.version>
-        <checker.version>3.34.0</checker.version>
-
-        <!-- elasticsearch version -->
-        <elasticsearch.version>8.7.1</elasticsearch.version>
-        <elasticsearch.client.version>7.17.10</elasticsearch.client.version>
-
-        <!-- neo4j search -->
-        <neo4j.version>5.8.0</neo4j.version>
-
-        <!-- Apache Common -->
-        <common.jexl.version>3.3</common.jexl.version>
-        <common.lang3.version>3.12.0</common.lang3.version>
-        <common.logging.version>1.2</common.logging.version>
-        <common.net.version>3.9.0</common.net.version>
-        <common.codec.version>1.15</common.codec.version>
-        <common.cli.version>1.5.0</common.cli.version>
-        <common.io.version>2.11.0</common.io.version>
-        <common.collection4.version>4.4</common.collection4.version>
-        <common.text.version>1.10.0</common.text.version>
-        <!-- For Security: CVE-2022-45047 -->
-        <sshd.version>2.9.2</sshd.version>
-
-        <http.async.client.version>4.1.5</http.async.client.version>
-        <http.client.version>4.5.14</http.client.version>
-        <http.core.version>4.4.16</http.core.version>
-
-        <!-- Liquibase -->
-        <liquibase.version>4.21.1</liquibase.version>
-
-        <!-- Rpc -->
+        <!-- Vertx Depend: GRPC -->
         <vertx.grpc.version>1.6.1</vertx.grpc.version>
-        <grpc.version>1.54.1</grpc.version>
-        <protobuf.version>3.22.4</protobuf.version>
-        <annotation.api.version>6.0.53</annotation.api.version>
-        <gson.version>2.10.1</gson.version>
-        <picoli.version>4.7.3</picoli.version>
 
-        <!-- Yaml -->
-        <yaml.version>2.0</yaml.version>
-        <hdr.version>2.1.12</hdr.version>
-
-        <!-- Vert.x Addition -->
+        <!-- Vertx Depend: Addition -->
         <rxjava2.version>2.2.21</rxjava2.version>
-        <netty.tcnative.version>2.0.60.Final</netty.tcnative.version>
+        <netty.tcnative.version>2.0.61.Final</netty.tcnative.version>
         <netty.version>4.1.92.Final</netty.version>
         <io.termd.version>1.1.9</io.termd.version>
 
-        <!-- Upload Issue -->
-        <hazelcast.version>5.2.3</hazelcast.version>
-        <swagger.version>1.6.0</swagger.version>
-        <error.prone.version>2.18.0</error.prone.version>
-        <reactive.streams.version>1.0.4</reactive.streams.version>
-        <zookeeper.version>3.8.1</zookeeper.version>
+
+        <!-- ====================== JSR 规范相关依赖 ============================== -->
         <!-- JSR -->
         <!--
             <jsr311.version>1.1.1</jsr311.version>          Replaced by Jersey-Common
@@ -176,31 +98,148 @@
         <jsr338.version>2.2</jsr338.version>
         <jaxb.version>2.4.0-b180830.0359</jaxb.version>
 
+        <jcabi.version>0.24.1</jcabi.version>
+        <jersey.version>3.1.1</jersey.version>
+        <javax.el.version>3.0.1-b06</javax.el.version>
+
         <!-- New Uniform Version -->
         <jakarta.activation.version>2.0.1</jakarta.activation.version>
         <jakarta.xml.bind.version>4.0.0</jakarta.xml.bind.version>
         <jakarta.el.version>5.0.0-M1</jakarta.el.version>
 
-        <!-- Testing -->
-        <junit.version>4.13.2</junit.version>
 
+        <!-- ====================== Google 相关依赖 ============================== -->
+        <!-- Google Lib -->
+        <google.guice.version>5.1.0</google.guice.version>
+        <google.guava.version>31.1-jre</google.guava.version>
+        <google.errorprone.version>2.18.0</google.errorprone.version>
+
+        <!-- Etcd Client -->
+        <google.etcd.version>2.18.0</google.etcd.version>
+
+        <!-- Grpc / Gson -->
+        <google.grpc.version>1.54.1</google.grpc.version>
+        <google.protobuf.version>3.22.4</google.protobuf.version>
+        <google.gson.version>2.10.1</google.gson.version>
+
+
+        <!-- ====================== Eclipse 相关依赖 ============================= -->
+        <!-- Eclipse: Git -->
+        <eclipse.git.version>6.5.0.202303070854-r</eclipse.git.version>
+
+
+        <!-- ====================== Apache 相关依赖 ============================== -->
+        <!-- Apache Common -->
+        <common.jexl.version>3.3</common.jexl.version>
+        <common.lang3.version>3.12.0</common.lang3.version>
+        <common.logging.version>1.2</common.logging.version>
+        <common.net.version>3.9.0</common.net.version>
+        <common.codec.version>1.15</common.codec.version>
+        <common.cli.version>1.5.0</common.cli.version>
+        <common.io.version>2.11.0</common.io.version>
+        <common.collection4.version>4.4</common.collection4.version>
+        <common.text.version>1.10.0</common.text.version>
+        <!-- Apache: Http Components -->
+        <http.async.client.version>4.1.5</http.async.client.version>
+        <http.client.version>4.5.14</http.client.version>
+        <http.core.version>4.4.16</http.core.version>
+        <!-- Apache POI: Excel -->
+        <poi.version>5.2.3</poi.version>
+        <poi.schema.version>4.1.2</poi.schema.version>
+
+        <annotation.api.version>6.0.53</annotation.api.version>
+
+
+        <!-- ====================== 数据库相关依赖 ============================== -->
+        <!-- Database -->
+        <hikari.cp.version>5.0.1</hikari.cp.version>
+        <jooq.version>3.18.3</jooq.version>
+        <jooq.vertx.version>6.5.5</jooq.vertx.version>
+        <!-- Database: RDBMS -->
+        <mysql.version>8.0.33</mysql.version>
+        <!-- Database: Liquibase -->
+        <liquibase.version>4.21.1</liquibase.version>
+        <!-- Database: MongoDb -->
+        <mongodb.async.version>3.12.13</mongodb.async.version>
+        <!-- Database: Neo4j -->
+        <neo4j.version>5.8.0</neo4j.version>
+
+        <!-- elasticsearch version -->
+        <elasticsearch.version>8.7.1</elasticsearch.version>
+        <elasticsearch.client.version>7.17.10</elasticsearch.client.version>
+
+
+        <!-- ====================== Java反射相关 ============================== -->
+        <!-- Java Reflection -->
+        <reflect.asm.version>1.11.9</reflect.asm.version>
+        <lombok.version>1.18.26</lombok.version>
+        <asm.version>9.5</asm.version>
+        <cglib.version>3.3.0</cglib.version>
+        <reflection.version>0.10.2</reflection.version>
+        <javassist.version>3.29.2-GA</javassist.version>
+
+
+        <!-- ====================== 第三方特殊依赖 ============================= -->
+        <!-- Bean Validation -->
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
+
+        <!-- Third Part -->
+        <jetbrains.version>23.1.0</jetbrains.version>
+        <scala.version>2.13.11-M1</scala.version>
+        <feign.version>8.18.0</feign.version>
+        <joda.version>2.12.5</joda.version>
+        <ignite.version>2.15.0</ignite.version>
+        <jedis.version>4.4.0-m2</jedis.version>
+        <j2objc.version>2.8</j2objc.version>
+        <checker.version>3.34.0</checker.version>
+        <picoli.version>4.7.3</picoli.version>
+        <hdr.version>2.1.12</hdr.version>
+
+        <!-- Yaml -->
+        <yaml.version>2.0</yaml.version>
+
+        <!-- Upload Issue -->
+        <hazelcast.version>5.2.3</hazelcast.version>
+        <swagger.version>1.6.0</swagger.version>
+        <reactive.streams.version>1.0.4</reactive.streams.version>
+        <zookeeper.version>3.8.1</zookeeper.version>
+
+
+        <!-- ====================== AOP相关 ============================== -->
         <!-- AspectJ -->
         <aspectj.version>1.9.19</aspectj.version>
-        <javassist.version>3.29.2-GA</javassist.version>
+
+        <codehaus.janino.version>3.1.9</codehaus.janino.version>
+        <codehaus.mojo.version>1.23</codehaus.mojo.version>
+
+
+        <!-- ====================== 安全相关 ============================= -->
+        <jwt.version>4.4.0</jwt.version>
+        <!-- For Security: CVE-2022-45047 -->
+        <sshd.version>2.9.2</sshd.version>
+
+
+        <!-- ====================== 文档专用 ============================= -->
         <!-- Doc -->
         <mdoclet.version>1.4</mdoclet.version>
         <asciidoctor.version>2.2.2</asciidoctor.version>
         <asciidoctor.doc.version>2.2.1</asciidoctor.doc.version>
 
+
+        <!-- ====================== 日志专用 ============================= -->
         <!-- Logging -->
         <log4j2.version>2.20.0</log4j2.version>
         <logback.version>1.4.7</logback.version>
         <logback.cal10n.version>0.8.1</logback.cal10n.version>
         <slf4j.version>2.0.7</slf4j.version>
 
-        <!-- Cloud -->
-        <eclipse.git.version>6.5.0.202303070854-r</eclipse.git.version>
 
+        <!-- ====================== 测试专用 ============================= -->
+        <!-- Testing -->
+        <junit.version>4.13.2</junit.version>
+
+
+        <!-- ====================== Maven插件 ============================= -->
         <!-- Plugin -->
         <maven.plugin.assembly>3.4.2</maven.plugin.assembly>
         <maven.plugin.compiler>3.10.1</maven.plugin.compiler>
@@ -942,7 +981,7 @@
             <dependency>
                 <groupId>io.github.jklingsporn</groupId>
                 <artifactId>vertx-jooq-classic-jdbc</artifactId>
-                <version>${vertx.jooq.version}</version>
+                <version>${jooq.vertx.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.vertx</groupId>
@@ -979,7 +1018,7 @@
             <dependency>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_annotations</artifactId>
-                <version>${error.prone.version}</version>
+                <version>${google.errorprone.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305 -->
             <dependency>
@@ -990,28 +1029,28 @@
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
-                <version>${gson.version}</version>
+                <version>${google.gson.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/io.grpc/grpc-context -->
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-context</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-stub</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-protobuf</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty-shaded</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.apache.tomcat/annotations-api -->
             <dependency>
@@ -1023,7 +1062,7 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-netty</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>io.netty</groupId>
@@ -1039,7 +1078,7 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-core</artifactId>
-                <version>${grpc.version}</version>
+                <version>${google.grpc.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
             <dependency>
@@ -1446,7 +1485,7 @@
             <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
-                <version>${guice.version}</version>
+                <version>${google.guice.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.inject</groupId>
@@ -1462,7 +1501,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <version>${google.guava.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.errorprone</groupId>
@@ -1504,12 +1543,12 @@
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>${protobuf.version}</version>
+                <version>${google.protobuf.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java-util</artifactId>
-                <version>${protobuf.version}</version>
+                <version>${google.protobuf.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.protobuf</groupId>
@@ -1567,7 +1606,7 @@
             <dependency>
                 <groupId>org.mousio</groupId>
                 <artifactId>etcd4j</artifactId>
-                <version>${etcd.version}</version>
+                <version>${google.etcd.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-async -->
             <dependency>
