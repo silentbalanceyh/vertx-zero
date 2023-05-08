@@ -2,7 +2,6 @@ package io.aeon.experiment.shape;
 
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.app.KApp;
 import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
@@ -10,6 +9,7 @@ import io.horizon.specification.modeler.HModel;
 import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.compare.Vs;
+import io.modello.atom.app.KApp;
 import io.modello.atom.typed.MetaAtom;
 import io.modello.atom.typed.MetaField;
 import io.vertx.core.json.JsonObject;

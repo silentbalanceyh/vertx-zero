@@ -1,4 +1,4 @@
-package io.horizon.atom.app;
+package io.modello.atom.app;
 
 import java.io.Serializable;
 

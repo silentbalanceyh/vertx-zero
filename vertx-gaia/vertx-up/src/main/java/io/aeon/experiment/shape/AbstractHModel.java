@@ -3,10 +3,10 @@ package io.aeon.experiment.shape;
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
 import io.horizon.specification.modeler.HReference;
+import io.modello.atom.app.KApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
@@ -45,7 +45,7 @@ public abstract class AbstractHModel implements HModel {
     }
 
     @Override
-    public String file() {
+    public String resource() {
         return this.jsonFile;
     }
 

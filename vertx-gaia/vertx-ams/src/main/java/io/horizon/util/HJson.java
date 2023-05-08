@@ -2,7 +2,6 @@ package io.horizon.util;
 
 import io.horizon.eon.em.Result;
 import io.horizon.fn.HFn;
-import io.modello.specification.HRecord;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -145,15 +144,6 @@ class HJson {
                 return new JsonObject();
             }
         }
-    }
-
-    static JsonArray toJArray(final HRecord[] records) {
-        final JsonArray result = new JsonArray();
-        if (Objects.nonNull(records)) {
-            Arrays.stream(records).map(HRecord::toJson)
-                .forEach(result::add);
-        }
-        return result;
     }
 
     static JsonArray toJArray(final JsonArray array, final Function<JsonObject, JsonObject> executor) {

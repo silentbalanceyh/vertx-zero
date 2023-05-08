@@ -1,9 +1,9 @@
 package io.horizon.spi.cloud;
 
 import io.aeon.runtime.CRunning;
-import io.horizon.atom.app.KApp;
 import io.horizon.spi.environment.UnityAmbient;
 import io.horizon.spi.environment.UnityApp;
+import io.modello.atom.app.KApp;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

@@ -1,10 +1,10 @@
-package io.horizon.atom.app;
+package io.modello.atom.app;
 
 import io.horizon.eon.VName;
 import io.horizon.eon.VString;
 import io.horizon.runtime.cache.CStore;
-import io.horizon.specification.app.HApp;
 import io.horizon.util.HUt;
+import io.modello.util.HMs;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;
@@ -39,7 +39,7 @@ public class KApp implements Serializable {
     // -------------- 实例化应用 ----------------------
     private KApp(final String name) {
         this.name = name;
-        this.ns = HApp.ns(name);
+        this.ns = HMs.nsApp(name); // HApp.ns(name);
     }
 
     // JtJob 专用实例化应用的新方法

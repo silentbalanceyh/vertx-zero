@@ -1,5 +1,7 @@
 package io.horizon.util;
 
+import io.horizon.exception.internal.SPINullException;
+
 import java.util.*;
 
 /**
@@ -38,7 +40,12 @@ final class HSPI {
         }
     }
 
-    static <T> T service(final Class<T> interfaceCls, final ClassLoader loader) {
+    static <T> T service(final Class<T> interfaceCls, final Class<?> caller, final boolean strict) {
+        final ClassLoader loader = Optional.ofNullable(caller).map(Class::getClassLoader).orElse(null);
+        return service(interfaceCls, loader, strict);
+    }
+
+    static <T> T service(final Class<T> interfaceCls, final ClassLoader loader, final boolean strict) {
         final Collection<T> collection = services(interfaceCls, loader);
         final T service;
         if (!collection.isEmpty()) {
@@ -46,13 +53,9 @@ final class HSPI {
         } else {
             service = null;
         }
-        //        if (Objects.isNull(service)) {
-        //            throw new SPINullException(HSPI.class);
-        //        }
+        if (Objects.isNull(service) && strict) {
+            throw new SPINullException(HSPI.class);
+        }
         return service;
-    }
-
-    static <T> T service(final Class<T> interfaceCls) {
-        return service(interfaceCls, null);
     }
 }

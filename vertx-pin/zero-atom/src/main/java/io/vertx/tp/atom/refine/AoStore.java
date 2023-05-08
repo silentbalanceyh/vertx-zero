@@ -3,14 +3,12 @@ package io.vertx.tp.atom.refine;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.internal.EmptyIoException;
-import io.horizon.specification.app.HApp;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.init.AoPin;
 import io.vertx.tp.atom.modeling.builtin.DataModel;
 import io.vertx.tp.atom.modeling.builtin.DataSchema;
 import io.vertx.up.util.Ut;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 
 ;
@@ -25,10 +23,10 @@ class AoStore {
         final String prefix = AoPin.getConfig().getNamespace();
         if (Ut.isNil(prefix)) {
             // Default namespace
-            return HApp.ns(appName);
+            return Ut.nsApp(appName);
         } else {
             // Configured namespace
-            return MessageFormat.format(prefix, appName);
+            return Ut.fromMessage(prefix, appName);
         }
     }
 

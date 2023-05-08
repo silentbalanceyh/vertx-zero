@@ -1,9 +1,9 @@
 package io.horizon.runtime.cache;
 
 import io.horizon.annotations.Memory;
-import io.horizon.atom.app.KApp;
 import io.horizon.uca.cache.Cc;
 import io.macrocosm.atom.HOI;
+import io.modello.atom.app.KApp;
 
 /**
  * @author lang : 2023/5/2

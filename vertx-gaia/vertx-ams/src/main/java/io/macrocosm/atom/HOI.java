@@ -1,9 +1,9 @@
 package io.macrocosm.atom;
 
-import io.horizon.atom.app.KApp;
-import io.horizon.atom.app.KTenant;
 import io.horizon.eon.VName;
 import io.horizon.eon.em.app.AppMode;
+import io.modello.atom.app.KApp;
+import io.modello.atom.app.KTenant;
 import io.vertx.core.json.JsonObject;
 
 import java.io.Serializable;

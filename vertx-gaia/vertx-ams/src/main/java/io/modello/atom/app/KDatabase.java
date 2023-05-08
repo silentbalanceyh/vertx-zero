@@ -1,4 +1,4 @@
-package io.horizon.atom.app;
+package io.modello.atom.app;
 
 import com.fasterxml.jackson.databind.JsonObjectDeserializer;
 import com.fasterxml.jackson.databind.JsonObjectSerializer;

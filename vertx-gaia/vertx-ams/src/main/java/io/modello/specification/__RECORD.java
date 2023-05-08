@@ -5,8 +5,9 @@ import io.horizon.eon.VValue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-/*
- * Package scope here, checking here
+/**
+ * 当前包中的专用接口，只提供给 {@link HRecord} 接口继承，用于区分不同类型
+ * 的API 分类专用，而不至于将所有接口放在一个文件中。
  */
 interface Check {
     /*

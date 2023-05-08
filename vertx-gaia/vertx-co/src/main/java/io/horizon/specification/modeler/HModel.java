@@ -2,9 +2,9 @@ package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.atom.app.KApp;
 import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.app.HApp;
+import io.modello.atom.app.KApp;
+import io.modello.specification.app.HApp;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package io.modello.specification;
+package io.modello.specification.element;
 
 import java.io.Serializable;
 
@@ -14,8 +14,18 @@ import java.io.Serializable;
  * 字段属性维度包括：
  *
  * <pre><code>
- * 1.
+ * 1. name: 类型名称
+ * 2. type：绑定的Java类型
+ * 3. value：类型对应内部值
  * </code></pre>
+ *
+ * 此类型为原始属性类型，针对 EMF 部分，类型描述包括：
+ *
+ * <pre><code>
+ *
+ * </code></pre>
+ *
+ * 其中 type 的分析要依赖固定实现类中的 SPI 接口做类型分析来计算Java语言中的绑定类型（防止类型丢失）。
  *
  * @author lang : 2023/5/5
  */

@@ -2,7 +2,7 @@ package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.aeon.experiment.shape.AbstractHAtom;
-import io.horizon.atom.app.KApp;
+import io.modello.atom.app.KApp;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 

@@ -3,10 +3,10 @@ package io.aeon.experiment.mixture;
 import io.aeon.experiment.shape.internal.NormAtom;
 import io.aeon.experiment.shape.internal.NormModel;
 import io.aeon.experiment.specification.app.HES;
-import io.horizon.atom.app.KApp;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HModel;
 import io.horizon.uca.cache.Cc;
+import io.modello.atom.app.KApp;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.exception.web._409IdentifierConflictException;
 

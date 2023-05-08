@@ -1,9 +1,6 @@
-package io.horizon.specification.app;
+package io.modello.specification.app;
 
-import io.horizon.eon.VEnv;
-import io.horizon.eon.VString;
 import io.horizon.specification.typed.TJson;
-import io.horizon.util.HUt;
 
 import java.io.Serializable;
 
@@ -16,14 +13,14 @@ public interface HApp extends Serializable, TJson {
      * Modular belong to `Origin X Engine`
      * It's critical extension in zero framework, it could do dynamic modular on DDL in database
      * Also you could provide your only implementation to replace some configuration.
+    //    static String ns(final String appName) {
+    //        return HUt.isNil(appName) ? null : HUt.fromMessage(VEnv.APP.NS, appName);
+    //    }
+    //
+    //    static String ns(final String appName, final String identifier) {
+    //        return ns(appName) + VString.DASH + identifier;
+    //    }
      */
-    static String ns(final String appName) {
-        return HUt.isNil(appName) ? null : HUt.fromMessage(VEnv.APP.NS, appName);
-    }
-
-    static String ns(final String appName, final String identifier) {
-        return ns(appName) + VString.DASH + identifier;
-    }
 
     /* Uniform Model identifier */
     String identifier();
@@ -62,5 +59,5 @@ public interface HApp extends Serializable, TJson {
     /*
      * Uniform File Path for initialize
      */
-    String file();
+    String resource();
 }

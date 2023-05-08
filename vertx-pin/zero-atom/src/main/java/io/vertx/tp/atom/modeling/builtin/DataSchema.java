@@ -120,7 +120,7 @@ public class DataSchema implements Schema {
     }
 
     @Override
-    public String file() {
+    public String resource() {
         return this.jsonFile;
     }
 

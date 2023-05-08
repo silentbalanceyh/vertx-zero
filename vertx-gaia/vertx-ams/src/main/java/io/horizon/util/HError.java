@@ -2,7 +2,6 @@ package io.horizon.util;
 
 import io.horizon.exception.WebException;
 import io.horizon.exception.internal.ErrorMissingException;
-import io.horizon.exception.internal.SPINullException;
 import io.horizon.exception.web._500InternalCauseException;
 import io.horizon.exception.web._500InternalServerException;
 import io.horizon.fn.HFn;
@@ -16,11 +15,8 @@ import java.util.Objects;
  */
 class HError {
     static String fromReadable(final int code, final Object... args) {
-        final HorizonIo io = HSPI.service(HorizonIo.class);
-        if (Objects.isNull(io)) {
-            // 此处SPI组件不能为空，必须存在
-            throw new SPINullException(HError.class);
-        }
+        // 此处SPI组件不能为空，必须存在
+        final HorizonIo io = HSPI.service(HorizonIo.class, HError.class, true);
         final JsonObject message = io.ofFailure();
         final String tpl = message.getString(String.valueOf(Math.abs(code)), null);
         if (TIs.isNil(tpl)) {
@@ -35,11 +31,8 @@ class HError {
                             final Object... args) {
         return HFn.failOr(() -> {
             final String key = ("E" + Math.abs(code)).intern();
-            final HorizonIo io = HSPI.service(HorizonIo.class);
-            if (Objects.isNull(io)) {
-                // 此处SPI组件不能为空，必须存在
-                throw new SPINullException(HError.class);
-            }
+            // 此处SPI组件不能为空，必须存在
+            final HorizonIo io = HSPI.service(HorizonIo.class, HError.class, true);
             final JsonObject data = io.ofError();
             if (null != data && data.containsKey(key)) {
                 // 1. Read pattern

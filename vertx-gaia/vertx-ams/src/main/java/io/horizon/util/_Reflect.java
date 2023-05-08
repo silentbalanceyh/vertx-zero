@@ -20,7 +20,25 @@ class _Reflect extends _Random {
      * @return 实例化对象
      */
     public static <T> T service(final Class<T> interfaceCls) {
-        return HSPI.service(interfaceCls);
+        return HSPI.service(interfaceCls, (Class<?>) null, false);
+    }
+
+    /**
+     * 执行SPI级别的实例化操作，Service Provider Interface 的底层执行，带有第二参数限定
+     * 读取此SPI时，走严格模式还是宽松模式
+     * <pre><code>
+     *     1. 严格模式下，如果没有找到对应的实现类，则抛出异常
+     *     2. 非严格模式下，如果没有找到对应的视线类，直接返回 null
+     * </code></pre>
+     *
+     * @param interfaceCls 接口类型
+     * @param strict       是否严格模式
+     * @param <T>          实例化的最终类型
+     *
+     * @return 实例化对象
+     */
+    public static <T> T service(final Class<T> interfaceCls, final boolean strict) {
+        return HSPI.service(interfaceCls, (Class<?>) null, strict);
     }
 
     /**
@@ -34,7 +52,7 @@ class _Reflect extends _Random {
      * @return 实例化对象
      */
     public static <T> T service(final Class<T> interfaceCls, final ClassLoader loader) {
-        return HSPI.service(interfaceCls, loader);
+        return HSPI.service(interfaceCls, loader, false);
     }
 
     /**
