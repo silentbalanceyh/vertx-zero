@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
 import io.horizon.specification.modeler.HLinkage;
 import io.horizon.specification.modeler.HModel;
-import io.modello.specification.app.HApp;
+import io.modello.specification.HApp;
 import io.vertx.tp.atom.modeling.element.DataKey;
 
 import java.util.Set;

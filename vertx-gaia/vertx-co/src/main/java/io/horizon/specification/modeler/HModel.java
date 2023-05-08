@@ -4,7 +4,7 @@ import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.modeler.ModelType;
 import io.modello.atom.app.KApp;
-import io.modello.specification.app.HApp;
+import io.modello.specification.HApp;
 
 import java.util.Set;
 

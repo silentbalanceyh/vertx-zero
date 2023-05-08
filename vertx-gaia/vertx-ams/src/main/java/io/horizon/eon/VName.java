@@ -107,6 +107,7 @@ public interface VName {
     String ORDER = "order";                      /* Common: order */
     String CODE = "code";                        /* Common: code */
     String VALUE = "value";                      /* Common: value */
+    String LITERAL = "literal";                  /* Common: literal */
 
     String LABEL = "label";                      /* Common: label */
     String TYPE = "type";                        /* Common: type for different model */

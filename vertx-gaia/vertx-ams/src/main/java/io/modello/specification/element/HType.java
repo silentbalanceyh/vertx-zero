@@ -1,6 +1,9 @@
 package io.modello.specification.element;
 
+import io.horizon.eon.VString;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 可以跨 EMF 专用的类型接口设计，作为核心底座替换原始的 {@link io.modello.atom.typed.MetaField} 实现做
@@ -11,24 +14,37 @@ import java.io.Serializable;
  *     3. Zero 中的 zero-atom 可用于解析 Excel 文件生成对应的模型
  * </code></pre>
  *
- * 字段属性维度包括：
- *
+ * 字段类型的属性定义：
  * <pre><code>
- * 1. name: 类型名称
- * 2. type：绑定的Java类型
- * 3. value：类型对应内部值
+ *     1. type: Java类型
+ *     2. typeName：Java类型字符串模式
  * </code></pre>
- *
- * 此类型为原始属性类型，针对 EMF 部分，类型描述包括：
- *
- * <pre><code>
- *
- * </code></pre>
- *
- * 其中 type 的分析要依赖固定实现类中的 SPI 接口做类型分析来计算Java语言中的绑定类型（防止类型丢失）。
  *
  * @author lang : 2023/5/5
  */
 public interface HType extends Serializable {
+    /**
+     * Java 类型返回
+     *
+     * @return Java 类型
+     */
+    Class<?> type();
 
+    /**
+     * Java 类型的字符串模式
+     *
+     * @return Java 类型的字符串模式
+     */
+    default String typeName() {
+        return Objects.isNull(this.type()) ? null : this.type().getName();
+    }
+
+    /**
+     * EMF 类型名称返回
+     *
+     * @return EMF 类型
+     */
+    default String eTypeName() {
+        return VString.EMPTY;
+    }
 }
