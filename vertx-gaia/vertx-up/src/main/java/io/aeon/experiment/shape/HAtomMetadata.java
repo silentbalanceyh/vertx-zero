@@ -2,8 +2,8 @@ package io.aeon.experiment.shape;
 
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
-import io.modello.atom.typed.MetaAtom;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaAtom;
+import io.modello.atom.normalize.MetaField;
 
 import java.util.Objects;
 import java.util.Set;

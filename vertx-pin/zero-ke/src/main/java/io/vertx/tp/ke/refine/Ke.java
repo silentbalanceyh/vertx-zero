@@ -2,7 +2,7 @@ package io.vertx.tp.ke.refine;
 
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
-import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.normalize.MetaAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

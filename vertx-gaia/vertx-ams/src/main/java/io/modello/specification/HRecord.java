@@ -13,7 +13,7 @@ import java.io.Serializable;
  *  2.1 ) namespace + identifier should be unique ( Business Scope )
  *  2.2 ) Above format should be global id of one defined model.
  */
-public interface HRecord extends Serializable, Meta, Check, Clone, TJson {
+public interface HRecord extends Serializable, HMeta, HCheck, HClone, TJson {
     /*
      * Provide attribute name and get related value
      * 1) field -> single field value

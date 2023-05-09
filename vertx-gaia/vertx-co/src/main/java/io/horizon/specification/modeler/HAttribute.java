@@ -2,7 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KTag;
 import io.horizon.eon.em.typed.DataFormat;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaField;
 
 import java.util.List;
 

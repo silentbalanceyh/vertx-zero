@@ -1,4 +1,4 @@
-package io.modello.atom.typed;
+package io.modello.atom.normalize;
 
 import io.horizon.util.HUt;
 

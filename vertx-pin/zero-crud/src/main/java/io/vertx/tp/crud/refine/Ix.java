@@ -5,7 +5,7 @@ import io.aeon.experiment.specification.KModule;
 import io.horizon.atom.common.Kv;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
-import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.normalize.MetaAtom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;

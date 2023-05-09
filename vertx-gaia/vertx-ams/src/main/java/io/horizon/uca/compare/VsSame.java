@@ -1,6 +1,6 @@
 package io.horizon.uca.compare;
 
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 

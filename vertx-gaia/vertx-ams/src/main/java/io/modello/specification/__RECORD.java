@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
  * 当前包中的专用接口，只提供给 {@link HRecord} 接口继承，用于区分不同类型
  * 的API 分类专用，而不至于将所有接口放在一个文件中。
  */
-interface Check {
+interface HCheck {
     /*
      * Check whether current record has data
      */
@@ -33,7 +33,7 @@ interface Check {
 /*
  * Package scope here, provide record copying method
  */
-interface Clone {
+interface HClone {
     /*
      * Create new record with `attributes`, the subset of current record.
      */
@@ -53,7 +53,7 @@ interface Clone {
 /*
  * Package scope here, provide metadata extraction interface.
  */
-interface Meta {
+interface HMeta {
     /*
      * JsonObject ( field names ) based on existing data
      */

@@ -2,7 +2,7 @@ package io.horizon.uca.compare;
 
 import io.horizon.spi.typed.VsExtension;
 import io.horizon.util.HUt;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaField;
 
 import java.util.Objects;
 import java.util.ServiceLoader;

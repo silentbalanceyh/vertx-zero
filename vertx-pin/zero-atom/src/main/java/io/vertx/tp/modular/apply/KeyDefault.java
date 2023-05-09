@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.apply;
 
 import cn.vertxup.atom.domain.tables.pojos.MEntity;
-import io.horizon.eon.em.modeler.KeyType;
+import io.modello.eon.em.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;

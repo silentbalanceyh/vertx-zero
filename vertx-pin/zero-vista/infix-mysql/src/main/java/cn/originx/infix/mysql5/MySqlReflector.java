@@ -2,7 +2,7 @@ package cn.originx.infix.mysql5;
 
 import cn.originx.infix.mysql5.cv.MySqlStatement;
 import cn.originx.infix.mysql5.cv.MySqlWord;
-import io.horizon.eon.em.modeler.KeyType;
+import io.modello.eon.em.KeyType;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AbstractReflector;
 
@@ -84,7 +84,7 @@ public class MySqlReflector extends AbstractReflector implements MySqlStatement,
         return columnDetailList
             .stream()
             .filter(item -> {
-                for (Map.Entry<String, Object> col : item.entrySet()) {
+                for (final Map.Entry<String, Object> col : item.entrySet()) {
                     if (col.getKey().equalsIgnoreCase(Metadata.COLUMN)) {
                         return col.getValue().toString().equalsIgnoreCase(column);
                     }

@@ -4,7 +4,8 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MKey;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.modeler.KeyType;
+import io.horizon.uca.log.Annal;
+import io.modello.eon.em.KeyType;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.cv.em.CheckResult;
 import io.vertx.tp.atom.cv.sql.SqlStatement;
@@ -12,7 +13,6 @@ import io.vertx.tp.atom.cv.sql.SqlWord;
 import io.vertx.tp.modular.sql.SqlDDLBuilder;
 import io.vertx.tp.modular.sql.SqlTypeProvider;
 import io.vertx.up.commune.config.Database;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.text.MessageFormat;

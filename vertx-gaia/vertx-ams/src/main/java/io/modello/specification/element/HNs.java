@@ -1,4 +1,4 @@
-package io.modello.specification.rule;
+package io.modello.specification.element;
 
 import io.horizon.eon.VString;
 import io.modello.annotations.EA;

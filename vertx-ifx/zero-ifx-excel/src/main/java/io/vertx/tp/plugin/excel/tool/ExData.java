@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.tool;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.normalize.MetaAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;

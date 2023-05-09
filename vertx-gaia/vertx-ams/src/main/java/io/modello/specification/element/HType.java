@@ -1,12 +1,13 @@
 package io.modello.specification.element;
 
 import io.horizon.eon.VString;
+import io.modello.atom.normalize.MetaField;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 可以跨 EMF 专用的类型接口设计，作为核心底座替换原始的 {@link io.modello.atom.typed.MetaField} 实现做
+ * 可以跨 EMF 专用的类型接口设计，作为核心底座替换原始的 {@link MetaField} 实现做
  * 接口规范设计，同时可以跨框架做依赖对接，如：
  * <pre><code>
  *     1. Spring Framework 中可用于解析模型文件生成对应的模型

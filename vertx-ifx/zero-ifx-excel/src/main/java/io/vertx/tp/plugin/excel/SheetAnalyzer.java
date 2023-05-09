@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.normalize.MetaAtom;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;

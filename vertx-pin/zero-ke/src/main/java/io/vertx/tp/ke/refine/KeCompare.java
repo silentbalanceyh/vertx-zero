@@ -2,8 +2,8 @@ package io.vertx.tp.ke.refine;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.typed.MetaAtom;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaAtom;
+import io.modello.atom.normalize.MetaField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

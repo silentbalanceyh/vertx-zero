@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.modello.atom.typed.MetaAtom;
+import io.modello.atom.normalize.MetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;

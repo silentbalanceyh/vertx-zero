@@ -6,8 +6,8 @@ import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.*;
-import io.modello.atom.typed.MetaAtom;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaAtom;
+import io.modello.atom.normalize.MetaField;
 
 import java.util.List;
 import java.util.Objects;

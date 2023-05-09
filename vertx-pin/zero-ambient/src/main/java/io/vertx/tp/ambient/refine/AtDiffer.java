@@ -7,7 +7,7 @@ import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
-import io.modello.atom.typed.MetaField;
+import io.modello.atom.normalize.MetaField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
 import io.vertx.tp.ke.refine.Ke;
