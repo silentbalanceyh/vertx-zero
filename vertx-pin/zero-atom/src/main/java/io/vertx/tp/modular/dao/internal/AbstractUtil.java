@@ -1,6 +1,7 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.horizon.specification.modeler.HAtom;
+import io.horizon.uca.log.Annal;
+import io.modello.specification.atom.HAtom;
 import io.vertx.tp.atom.cv.em.EventType;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
@@ -10,7 +11,6 @@ import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.util.function.Function;
 

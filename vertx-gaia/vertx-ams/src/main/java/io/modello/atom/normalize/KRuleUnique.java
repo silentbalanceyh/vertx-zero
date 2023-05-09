@@ -1,6 +1,6 @@
-package io.modello.specification.atom;
+package io.modello.atom.normalize;
 
-import io.modello.atom.normalize.KRuleTerm;
+import io.modello.specification.atom.HUnique;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * - 3.6） v v v | v x v - 非正常匹配
  */
-public class RuleUnique implements HUnique, Serializable {
+public class KRuleUnique implements HUnique, Serializable {
     /*
      * 子规则
      * identifier = rule1

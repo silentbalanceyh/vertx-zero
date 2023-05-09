@@ -1,6 +1,7 @@
 package io.horizon.specification.modeler;
 
 import io.modello.specification.HRecord;
+import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;

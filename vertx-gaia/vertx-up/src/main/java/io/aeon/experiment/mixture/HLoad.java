@@ -1,6 +1,6 @@
 package io.aeon.experiment.mixture;
 
-import io.horizon.specification.modeler.HAtom;
+import io.modello.specification.atom.HAtom;
 
 /**
  * Mix Atom Load for different HAtom Loading

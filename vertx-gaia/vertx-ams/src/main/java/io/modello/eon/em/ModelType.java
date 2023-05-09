@@ -1,4 +1,4 @@
-package io.horizon.eon.em.modeler;
+package io.modello.eon.em;
 
 public enum ModelType {
     DIRECT,       // 直接模型（和数据表1对1处理，默认为DIRECT）

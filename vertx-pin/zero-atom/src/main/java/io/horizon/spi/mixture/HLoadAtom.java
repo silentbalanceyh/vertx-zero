@@ -2,8 +2,8 @@ package io.horizon.spi.mixture;
 
 import io.aeon.experiment.mixture.HLoad;
 import io.aeon.experiment.specification.app.HES;
-import io.horizon.specification.modeler.HAtom;
 import io.modello.atom.app.KApp;
+import io.modello.specification.atom.HAtom;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

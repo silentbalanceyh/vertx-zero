@@ -1,6 +1,6 @@
 package io.aeon.experiment.shape;
 
-import io.horizon.specification.modeler.HModel;
+import io.modello.specification.atom.HModel;
 import io.modello.specification.atom.HUnique;
 
 import java.util.Objects;

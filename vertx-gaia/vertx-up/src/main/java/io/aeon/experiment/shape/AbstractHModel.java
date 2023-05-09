@@ -1,10 +1,10 @@
 package io.aeon.experiment.shape;
 
-import io.horizon.specification.modeler.HModel;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.atom.normalize.KMarkAttribute;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HModel;
 import io.modello.specification.atom.HReference;
 import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonObject;

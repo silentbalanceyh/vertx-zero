@@ -1,15 +1,11 @@
 package io.aeon.experiment.shape;
 
 import io.horizon.eon.VString;
-import io.horizon.specification.modeler.HAtom;
-import io.horizon.specification.modeler.HModel;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.compare.Vs;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
-import io.modello.specification.atom.HAttribute;
-import io.modello.specification.atom.HReference;
-import io.modello.specification.atom.HUnique;
+import io.modello.specification.atom.*;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;

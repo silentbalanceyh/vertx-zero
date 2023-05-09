@@ -1,15 +1,11 @@
 package cn.originx.quiz.develop;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.modeler.HAtom;
-import io.horizon.specification.modeler.HModel;
 import io.modello.atom.normalize.KMarkAttribute;
 import io.modello.atom.normalize.RReference;
 import io.modello.atom.normalize.RRule;
-import io.modello.specification.atom.HAttribute;
-import io.modello.specification.atom.HReference;
-import io.modello.specification.atom.HUnique;
+import io.modello.eon.em.ModelType;
+import io.modello.specification.atom.*;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 

@@ -2,10 +2,10 @@ package io.vertx.tp.ambient.uca.differ;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.horizon.eon.VString;
-import io.horizon.specification.modeler.HAtom;
+import io.horizon.uca.cache.Cc;
+import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.cache.Cc;
 
 import java.util.function.Supplier;
 

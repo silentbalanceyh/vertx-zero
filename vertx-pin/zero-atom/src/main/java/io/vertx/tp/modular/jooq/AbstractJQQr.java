@@ -1,7 +1,8 @@
 package io.vertx.tp.modular.jooq;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.modeler.ModelType;
+import io.horizon.uca.log.Annal;
+import io.modello.eon.em.ModelType;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
@@ -10,7 +11,6 @@ import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.tp.modular.query.Ingest;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 

@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.horizon.specification.modeler.HAtom;
+import io.modello.specification.atom.HAtom;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
 

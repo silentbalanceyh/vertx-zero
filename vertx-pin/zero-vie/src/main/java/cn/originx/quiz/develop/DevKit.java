@@ -2,12 +2,12 @@ package cn.originx.quiz.develop;
 
 import cn.originx.quiz.oclick.InstClick;
 import io.horizon.eon.VString;
-import io.horizon.specification.modeler.HAtom;
+import io.horizon.uca.log.Annal;
+import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.booter.Bt;
 import io.vertx.tp.plugin.jooq.JooqInfix;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

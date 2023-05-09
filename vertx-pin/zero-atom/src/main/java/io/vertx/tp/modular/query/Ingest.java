@@ -1,6 +1,6 @@
 package io.vertx.tp.modular.query;
 
-import io.horizon.eon.em.modeler.ModelType;
+import io.modello.eon.em.ModelType;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.error._501IngestImplementException;
 import io.vertx.tp.modular.metadata.AoSentence;

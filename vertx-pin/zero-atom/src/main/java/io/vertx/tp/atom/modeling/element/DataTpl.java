@@ -3,14 +3,14 @@ package io.vertx.tp.atom.modeling.element;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.eon.em.modeler.ModelType;
+import io.horizon.uca.cache.Cc;
+import io.modello.eon.em.ModelType;
 import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.horizon.uca.cache.Cc;
 
 import java.io.Serializable;
 import java.util.Comparator;

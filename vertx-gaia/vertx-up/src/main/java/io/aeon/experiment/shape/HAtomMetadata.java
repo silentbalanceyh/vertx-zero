@@ -1,7 +1,7 @@
 package io.aeon.experiment.shape;
 
-import io.horizon.specification.modeler.HModel;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HModel;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 

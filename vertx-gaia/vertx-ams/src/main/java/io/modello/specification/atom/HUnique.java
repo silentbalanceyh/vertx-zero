@@ -2,6 +2,7 @@ package io.modello.specification.atom;
 
 import io.horizon.util.HUt;
 import io.modello.atom.normalize.KRuleTerm;
+import io.modello.atom.normalize.KRuleUnique;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.Set;
  */
 public interface HUnique {
     static HUnique of(final String content) {
-        return HUt.deserialize(content, RuleUnique.class);
+        return HUt.deserialize(content, KRuleUnique.class);
     }
 
     static HUnique of(final JsonObject content) {
-        return HUt.deserialize(content, RuleUnique.class);
+        return HUt.deserialize(content, KRuleUnique.class);
     }
 
     /**

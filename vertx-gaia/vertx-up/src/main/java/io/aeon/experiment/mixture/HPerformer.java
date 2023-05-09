@@ -1,6 +1,6 @@
 package io.aeon.experiment.mixture;
 
-import io.horizon.specification.modeler.HModel;
+import io.modello.specification.atom.HModel;
 import io.vertx.core.Future;
 import io.vertx.up.unity.Ux;
 

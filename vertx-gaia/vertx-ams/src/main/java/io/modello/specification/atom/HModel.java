@@ -1,12 +1,9 @@
-package io.horizon.specification.modeler;
+package io.modello.specification.atom;
 
-import io.horizon.eon.em.modeler.ModelType;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
+import io.modello.eon.em.ModelType;
 import io.modello.specification.HApp;
-import io.modello.specification.atom.HAttribute;
-import io.modello.specification.atom.HReference;
-import io.modello.specification.atom.HUnique;
 
 import java.util.Set;
 

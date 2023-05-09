@@ -1,11 +1,7 @@
-package io.horizon.specification.modeler;
+package io.modello.specification.atom;
 
 import io.modello.atom.normalize.KMarkAtom;
-import io.modello.specification.atom.HAttribute;
-import io.modello.specification.atom.HReference;
-import io.modello.specification.atom.HUnique;
 import io.modello.specification.meta.HMetaAtom;
-import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 
 import java.util.Set;
@@ -42,7 +38,6 @@ public interface HAtom extends
      *
      * It means that the method could create new
      */
-    @Fluent
     HAtom atom(String identifier);
 
     // =================== Cross Method between two atoms ===========

@@ -1,8 +1,8 @@
 package io.vertx.up.extension.pointer;
 
 import io.aeon.experiment.mixture.HLoad;
-import io.horizon.specification.modeler.HAtom;
 import io.horizon.uca.cache.Cc;
+import io.modello.specification.atom.HAtom;
 import io.vertx.up.util.Ut;
 
 /**

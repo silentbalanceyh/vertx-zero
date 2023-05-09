@@ -1,4 +1,4 @@
-package io.horizon.specification.modeler;
+package io.modello.specification.atom;
 
 import io.horizon.uca.compare.Vs;
 
