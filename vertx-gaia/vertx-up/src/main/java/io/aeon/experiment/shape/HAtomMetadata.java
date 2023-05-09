@@ -2,8 +2,8 @@ package io.aeon.experiment.shape;
 
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
-import io.modello.atom.normalize.MetaAtom;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaAtom;
+import io.modello.specification.meta.HMetaField;
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +17,7 @@ public class HAtomMetadata {
 
     private transient final HModel modelRef;
     private transient final String identifier;
-    private transient final MetaAtom metaAtom = MetaAtom.create();
+    private transient final HMetaAtom metaAtom = HMetaAtom.of();
 
 
     public HAtomMetadata(final HModel modelRef) {
@@ -33,7 +33,7 @@ public class HAtomMetadata {
              * Why ?
              */
             Objects.requireNonNull(attr);
-            final MetaField field = attr.field();
+            final HMetaField field = attr.field();
 /*            if (Objects.isNull(attr)) {
                 if (Objects.isNull(this.htFieldFn)) {
                     field = null;
@@ -74,13 +74,13 @@ public class HAtomMetadata {
         return this.metaAtom.alias();
     }
 
-    public MetaAtom shape() {
+    public HMetaAtom shape() {
         return this.metaAtom;
     }
 
     // ==================== HtField Information ==================
-    public ConcurrentMap<String, MetaField> types() {
-        final ConcurrentMap<String, MetaField> typeMap = new ConcurrentHashMap<>();
+    public ConcurrentMap<String, HMetaField> types() {
+        final ConcurrentMap<String, HMetaField> typeMap = new ConcurrentHashMap<>();
         this.modelRef.attribute().forEach((name) -> {
             final HAttribute attribute = this.modelRef.attribute(name);
             typeMap.put(name, attribute.field());
@@ -88,7 +88,7 @@ public class HAtomMetadata {
         return typeMap;
     }
 
-    public MetaField type(final String field) {
+    public HMetaField type(final String field) {
         final HAttribute attribute = this.modelRef.attribute(field);
         if (Objects.isNull(attribute)) {
             return null;

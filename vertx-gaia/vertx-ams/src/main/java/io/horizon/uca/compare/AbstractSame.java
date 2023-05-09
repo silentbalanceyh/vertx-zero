@@ -2,7 +2,7 @@ package io.horizon.uca.compare;
 
 import io.horizon.spi.typed.VsExtension;
 import io.horizon.util.HUt;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaField;
 
 import java.util.Objects;
 import java.util.ServiceLoader;
@@ -12,7 +12,7 @@ import java.util.ServiceLoader;
  */
 abstract class AbstractSame implements VsSame {
     protected transient final Class<?> type;
-    protected transient MetaField fieldType;
+    protected transient HMetaField fieldType;
     private transient VsExtension found;
 
     public AbstractSame(final Class<?> type) {
@@ -26,7 +26,7 @@ abstract class AbstractSame implements VsSame {
         }
     }
 
-    public VsSame bind(final MetaField fieldType) {
+    public VsSame bind(final HMetaField fieldType) {
         if (Objects.nonNull(fieldType)) {
             this.fieldType = fieldType;
         }

@@ -4,7 +4,7 @@ import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._500InternalServerException;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -44,7 +44,7 @@ class SheetExport {
     }
 
     void exportData(final String identifier, final JsonArray data,
-                    final MetaAtom metaAtom, final Handler<AsyncResult<Buffer>> handler) {
+                    final HMetaAtom metaAtom, final Handler<AsyncResult<Buffer>> handler) {
         /*
          * 1. Workbook created first
          * Each time if you want to export the data to excel file, here you must create
@@ -85,7 +85,7 @@ class SheetExport {
          * Type processing
          */
         if (Objects.nonNull(metaAtom)) {
-            metaAtom.analyzed(data);
+            metaAtom.compile(data);
         }
         Ut.itJArray(data, JsonArray.class, (rowData, index) -> {
             /*
@@ -111,7 +111,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.type());
                 }
             } else {
                 if (actualIdx <= 2) {
@@ -124,7 +124,7 @@ class SheetExport {
                     /*
                      * Data Part
                      */
-                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.types());
+                    ExFn.generateData(sheet, actualIdx, rowData, metaAtom.type());
                 }
             }
 
@@ -167,7 +167,7 @@ class SheetExport {
     }
 
     Future<Buffer> exportData(final String identifier, final JsonArray data,
-                              final MetaAtom metaAtom) {
+                              final HMetaAtom metaAtom) {
         final Promise<Buffer> promise = Promise.promise();
         this.exportData(identifier, data, metaAtom, this.callback(promise));
         return promise.future();

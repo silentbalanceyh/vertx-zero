@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel;
 
 import io.horizon.uca.log.Annal;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -86,7 +86,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Set<ExTable> ingest(final String filename, final MetaAtom metaAtom) {
+    public Set<ExTable> ingest(final String filename, final HMetaAtom metaAtom) {
         return this.ingest.ingest(filename, metaAtom);
     }
 
@@ -96,7 +96,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom) {
+    public Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom) {
         return this.ingest.ingest(in, isXlsx, metaAtom);
     }
 
@@ -106,7 +106,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Future<Set<ExTable>> ingestAsync(final String filename, final MetaAtom metaAtom) {
+    public Future<Set<ExTable>> ingestAsync(final String filename, final HMetaAtom metaAtom) {
         return Future.succeededFuture(this.ingest(filename, metaAtom));
     }
 
@@ -116,7 +116,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom) {
+    public Future<Set<ExTable>> ingestAsync(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom) {
         return Future.succeededFuture(this.ingest(in, isXlsx, metaAtom));
     }
 
@@ -129,7 +129,7 @@ public class ExcelClientImpl implements ExcelClient {
 
     @Override
     @Fluent
-    public ExcelClient ingest(final String filename, final MetaAtom metaAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
+    public ExcelClient ingest(final String filename, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
         handler.handle(this.ingestAsync(filename, metaAtom));
         return this;
     }
@@ -143,7 +143,7 @@ public class ExcelClientImpl implements ExcelClient {
 
     @Override
     @Fluent
-    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
+    public ExcelClient ingest(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<ExTable>>> handler) {
         handler.handle(this.ingestAsync(in, isXlsx, metaAtom));
         return this;
     }
@@ -178,12 +178,12 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final String filename, final MetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler) {
+    public <T> ExcelClient importAsync(final String filename, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler) {
         return this.ingest(filename, metaAtom, res -> handler.handle(this.importer.importAsync(res)));
     }
 
     @Override
-    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler) {
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler) {
         return this.ingest(in, isXlsx, metaAtom, res -> handler.handle(this.importer.importAsync(res)));
     }
 
@@ -193,7 +193,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final String filename, final MetaAtom metaAtom) {
+    public <T> Future<Set<T>> importAsync(final String filename, final HMetaAtom metaAtom) {
         return this.ingestAsync(filename, metaAtom).compose(this.importer::importAsync);
     }
 
@@ -203,7 +203,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom) {
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom) {
         return this.ingestAsync(in, isXlsx, metaAtom).compose(this.importer::importAsync);
     }
 
@@ -213,7 +213,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final String filename, final MetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+    public <T> ExcelClient importAsync(final String filename, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
         return this.ingest(filename, metaAtom, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
     }
 
@@ -223,7 +223,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
+    public <T> ExcelClient importAsync(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom, final Handler<AsyncResult<Set<T>>> handler, final String... includes) {
         return this.ingest(in, isXlsx, metaAtom, res -> handler.handle(this.importer.importAsync(this.ingest.compressAsync(res.result(), includes))));
     }
 
@@ -233,7 +233,7 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final String filename, final MetaAtom metaAtom, final String... includes) {
+    public <T> Future<Set<T>> importAsync(final String filename, final HMetaAtom metaAtom, final String... includes) {
         return this.ingestAsync(filename, metaAtom).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
     }
 
@@ -243,33 +243,33 @@ public class ExcelClientImpl implements ExcelClient {
     }
 
     @Override
-    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom, final String... includes) {
+    public <T> Future<Set<T>> importAsync(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom, final String... includes) {
         return this.ingestAsync(in, isXlsx, metaAtom).compose(tables -> this.ingest.compressAsync(tables, includes)).compose(this.importer::importAsync);
     }
 
     // --------------------- ExTable Exporting -----------------------
     @Override
     public ExcelClient exportAsync(final String identifier, final JsonArray data, final Handler<AsyncResult<Buffer>> handler) {
-        this.exporter.exportData(identifier, data, MetaAtom.create(), handler);
+        this.exporter.exportData(identifier, data, HMetaAtom.of(), handler);
         return this;
     }
 
     @Override
     public ExcelClient exportAsync(final String identifier, final JsonArray data,
-                                   final MetaAtom metaAtom, final Handler<AsyncResult<Buffer>> handler) {
+                                   final HMetaAtom metaAtom, final Handler<AsyncResult<Buffer>> handler) {
         this.exporter.exportData(identifier, data, metaAtom, handler);
         return this;
     }
 
     @Override
     public Future<Buffer> exportAsync(final String identifier, final JsonArray data,
-                                      final MetaAtom metaAtom) {
+                                      final HMetaAtom metaAtom) {
         return this.exporter.exportData(identifier, data, metaAtom);
     }
 
     @Override
     public Future<Buffer> exportAsync(final String identifier, final JsonArray data) {
-        return this.exporter.exportData(identifier, data, MetaAtom.create());
+        return this.exporter.exportData(identifier, data, HMetaAtom.of());
     }
 
     // --------------------- Spec Workflow -----------------------

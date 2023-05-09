@@ -2,8 +2,8 @@ package io.vertx.tp.ke.refine;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.normalize.MetaAtom;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaAtom;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -77,7 +77,7 @@ class KeCompare {
 
     static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                           final List<String> columns,
-                                          final MetaAtom metaAtom) {
+                                          final HMetaAtom metaAtom) {
         final JsonArray combined = new JsonArray();
         final boolean complex;
         if (metaAtom == null) {
@@ -117,7 +117,7 @@ class KeCompare {
                     firstEnHeader.add(itemColumn(column, columnSize));
 
                     // Children column here
-                    final MetaField item = metaAtom.item(column);
+                    final HMetaField item = metaAtom.field(column);
                     if (Objects.nonNull(item)) {
                         /*
                          * Adjust
@@ -160,7 +160,7 @@ class KeCompare {
                         /*
                          * children field
                          */
-                        final MetaField item = metaAtom.item(column);
+                        final HMetaField item = metaAtom.field(column);
                         /*
                          * Only pick first
                          */
@@ -199,7 +199,7 @@ class KeCompare {
                     final int maxIdx = idx;
                     columns.forEach(column -> {
                         if (metaAtom.isComplex(column)) {
-                            final MetaField item = metaAtom.item(column);
+                            final HMetaField item = metaAtom.field(column);
                             final JsonArray columnValue = each.getJsonArray(column);
                             final int valueLength = columnValue.size();
                             if (Ut.isNotNil(columnValue) && 1 < columnValue.size()) {
@@ -267,7 +267,7 @@ class KeCompare {
         return itemString;
     }
 
-    private static void rowChild(final MetaField item, final JsonObject value, final JsonArray row) {
+    private static void rowChild(final HMetaField item, final JsonObject value, final JsonArray row) {
         /*
          * children field
          */

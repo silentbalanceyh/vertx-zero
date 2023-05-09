@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -30,19 +30,19 @@ class SheetIngest {
      * 2. Iterator for Sheet ( By Analyzer )
      */
     Set<ExTable> ingest(final InputStream in, final boolean isXlsx) {
-        return this.ingest(in, isXlsx, MetaAtom.create());
+        return this.ingest(in, isXlsx, HMetaAtom.of());
     }
 
     Set<ExTable> ingest(final String filename) {
-        return this.ingest(filename, MetaAtom.create());
+        return this.ingest(filename, HMetaAtom.of());
     }
 
-    Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final MetaAtom metaAtom) {
+    Set<ExTable> ingest(final InputStream in, final boolean isXlsx, final HMetaAtom metaAtom) {
         final Workbook workbook = this.helper.getWorkbook(in, isXlsx);
         return this.helper.getExTables(workbook, metaAtom);
     }
 
-    Set<ExTable> ingest(final String filename, final MetaAtom metaAtom) {
+    Set<ExTable> ingest(final String filename, final HMetaAtom metaAtom) {
         final Workbook workbook = this.helper.getWorkbook(filename);
         return this.helper.getExTables(workbook, metaAtom);
     }

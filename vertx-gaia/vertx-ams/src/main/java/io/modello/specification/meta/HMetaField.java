@@ -1,6 +1,10 @@
 package io.modello.specification.meta;
 
+import io.horizon.spi.modeler.MetaOn;
+import io.horizon.util.HUt;
 import io.modello.specification.element.HConstraint;
+
+import java.util.Objects;
 
 /**
  * 字段类型专用接口，作为建模最元素级的基础结构，可用来描述任何类型的字段。
@@ -17,6 +21,21 @@ import io.modello.specification.element.HConstraint;
  * @author lang : 2023-05-08
  */
 public interface HMetaField extends HMetaFieldChildren, HMetaFieldKey {
+
+    static HMetaField of(final String name, final String alias) {
+        return of(name, alias, null);
+    }
+
+    static HMetaField of(final String name, final String alias,
+                         final Class<?> type) {
+        final MetaOn metaOn = CACHE.CCT_META_ON.pick(
+            // 缓存 + SPI 双模式，既保证性能又保证扩展
+            () -> HUt.service(MetaOn.class, false),
+            MetaOn.class.getName()
+        );
+        return Objects.isNull(metaOn) ? new MetaField(name, alias, type) : metaOn.field(name, alias, type);
+    }
+
     /**
      * 返回该字段的别名，别名用于设置：
      * <pre><code>
@@ -30,13 +49,13 @@ public interface HMetaField extends HMetaFieldChildren, HMetaFieldKey {
     String alias();
 
     /**
-     * 设置该字段的别名
+     * 返回传入字段 field 的别名
      *
-     * @param alias 别名
+     * @param field 子字段名
      *
      * @return 别名
      */
-    HMetaField alias(String alias);
+    String alias(String field);
 
     /**
      * 返回该字段的名称：
@@ -46,13 +65,13 @@ public interface HMetaField extends HMetaFieldChildren, HMetaFieldKey {
     String name();
 
     /**
-     * 设置该字段的名称
+     * 返回传入字段 field 的名
      *
-     * @param name 字段名称
+     * @param field 子字段名
      *
      * @return 字段名称
      */
-    HMetaField name(String name);
+    String name(String field);
 
     /**
      * 返回该字段的类型
@@ -62,11 +81,11 @@ public interface HMetaField extends HMetaFieldChildren, HMetaFieldKey {
     Class<?> type();
 
     /**
-     * 设置该字段的类型
+     * 返回传入字段 field 的类型
      *
-     * @param type 字段类型
+     * @param field 子字段名
      *
      * @return 字段类型
      */
-    HMetaField type(Class<?> type);
+    Class<?> type(String field);
 }

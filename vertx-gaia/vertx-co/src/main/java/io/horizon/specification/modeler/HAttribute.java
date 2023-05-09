@@ -2,7 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.aeon.experiment.mu.KTag;
 import io.horizon.eon.em.typed.DataFormat;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaField;
 
 import java.util.List;
 
@@ -60,9 +60,9 @@ public interface HAttribute {
     /**
      * The type of current attribute here
      *
-     * @return {@link MetaField}
+     * @return {@link HMetaField}
      */
-    MetaField field();
+    HMetaField field();
 
     /**
      * When current attribute is
@@ -71,5 +71,5 @@ public interface HAttribute {
      *
      * @return {@link List}
      */
-    List<MetaField> fields();
+    List<HMetaField> fields();
 }

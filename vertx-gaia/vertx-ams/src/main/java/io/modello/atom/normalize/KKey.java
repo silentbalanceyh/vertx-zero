@@ -1,5 +1,6 @@
 package io.modello.atom.normalize;
 
+import io.horizon.util.HUt;
 import io.modello.eon.em.KeyType;
 import io.modello.specification.element.HKey;
 
@@ -12,7 +13,7 @@ import java.util.Set;
  * 有此默认实现，可直接省略部分自定义代码，该实现保证在任何无框架的JVM
  * 场景下可以使用。
  *
- * @author lang : 2023-05-09
+ * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KKey implements HKey {
     private final Set<String> fields = new HashSet<>();
@@ -39,15 +40,21 @@ public class KKey implements HKey {
 
     @Override
     public HKey key(final String key) {
+        // 清空
         this.fields.clear();
-        this.fields.add(key);
+        if (HUt.isNotNil(key)) {
+            this.fields.add(key);
+        }
         return this;
     }
 
     @Override
     public HKey key(final Set<String> keys) {
+        // 清空
         this.fields.clear();
-        this.fields.addAll(keys);
+        if (Objects.nonNull(keys) && !keys.isEmpty()) {
+            this.fields.addAll(keys);
+        }
         return this;
     }
 

@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -13,5 +13,5 @@ public interface ExTpl {
      */
     ExTpl bind(Workbook workbook);
 
-    void applyStyle(Sheet sheet, MetaAtom metaAtom);
+    void applyStyle(Sheet sheet, HMetaAtom metaAtom);
 }

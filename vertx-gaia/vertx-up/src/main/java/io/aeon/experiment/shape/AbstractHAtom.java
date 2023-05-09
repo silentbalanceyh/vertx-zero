@@ -10,8 +10,8 @@ import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.compare.Vs;
 import io.modello.atom.app.KApp;
-import io.modello.atom.normalize.MetaAtom;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaAtom;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
@@ -118,13 +118,13 @@ public abstract class AbstractHAtom implements HAtom {
 
     @Override
     public Class<?> type(final String field) {
-        final MetaField attribute = this.metadata.type(field);
+        final HMetaField attribute = this.metadata.type(field);
         return Objects.isNull(attribute) ? String.class : attribute.type();
     }
 
     /** 返回 Shape 对象 */
     @Override
-    public MetaAtom shape() {
+    public HMetaAtom shape() {
         return this.metadata.shape();
     }
 

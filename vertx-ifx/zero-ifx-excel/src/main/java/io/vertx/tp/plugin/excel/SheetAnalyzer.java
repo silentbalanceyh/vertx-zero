@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.tp.plugin.booting.KConnect;
 import io.vertx.tp.plugin.excel.atom.ExKey;
 import io.vertx.tp.plugin.excel.atom.ExTable;
@@ -39,7 +39,7 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet to find all the data and definition part
      */
-    public Set<ExTable> analyzed(final ExBound bound, final MetaAtom metaAtom) {
+    public Set<ExTable> analyzed(final ExBound bound, final HMetaAtom metaAtom) {
         if (DevEnv.devExcelRange()) {
             LOGGER.info("[ Έξοδος ] Scan Range: {0}", bound);
         }
@@ -109,7 +109,7 @@ public class SheetAnalyzer implements Serializable {
     /*
      * Scan sheet from row to cell to build each table.
      */
-    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final MetaAtom metaAtom) {
+    private ExTable analyzed(final Row row, final Cell cell, final Integer limitation, final HMetaAtom metaAtom) {
         /* Build ExTable */
         final ExTable table = this.create(row, cell);
 

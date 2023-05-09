@@ -9,7 +9,7 @@ import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRule;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -178,7 +178,7 @@ class AtomAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public MetaField field() {
+    public HMetaField field() {
         return this.attribute.field();
     }
 
@@ -188,7 +188,7 @@ class AtomAttribute implements HAttribute, Serializable {
      * @return {@link List}
      */
     @Override
-    public List<MetaField> fields() {
+    public List<HMetaField> fields() {
         return this.attribute.fields();
     }
 

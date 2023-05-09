@@ -4,8 +4,8 @@ import io.aeon.experiment.specification.KField;
 import io.aeon.experiment.specification.KModule;
 import io.horizon.atom.common.Kv;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.normalize.MetaAtom;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaAtom;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -126,7 +126,7 @@ class IxData {
         return parameters;
     }
 
-    static MetaAtom atom(final IxMod active, final JsonArray columns) {
+    static HMetaAtom atom(final IxMod active, final JsonArray columns) {
         final ConcurrentMap<String, String> headers = new ConcurrentHashMap<>();
         columns.stream().map(Ix::onColumn).filter(Objects::nonNull).forEach(kv -> {
             /* Calculated */
@@ -135,9 +135,9 @@ class IxData {
         /*
          * First module for calculation
          */
-        final MetaAtom atom = MetaAtom.create();
+        final HMetaAtom atom = HMetaAtom.of();
         final KModule module = active.module();
-        final List<MetaField> fieldList = new ArrayList<>();
+        final List<HMetaField> fieldList = new ArrayList<>();
 
         final KModule connect = active.connect();
         if (Objects.nonNull(connect)) {
@@ -149,18 +149,18 @@ class IxData {
         return atom;
     }
 
-    private static List<MetaField> field(final KModule module, final Envelop envelop,
-                                         final ConcurrentMap<String, String> headerMap) {
+    private static List<HMetaField> field(final KModule module, final Envelop envelop,
+                                          final ConcurrentMap<String, String> headerMap) {
         final UxJooq jooq = IxPin.jooq(module, envelop);
         final JqAnalyzer analyzer = jooq.analyzer();
         final ConcurrentMap<String, Class<?>> typeMap = analyzer.types();
         /*
          * Processing for TypeField list building
          */
-        final List<MetaField> fieldList = new ArrayList<>();
+        final List<HMetaField> fieldList = new ArrayList<>();
         headerMap.forEach((field, alias) -> {
             final Class<?> type = typeMap.getOrDefault(field, String.class);
-            fieldList.add(MetaField.create(field, alias, type));
+            fieldList.add(HMetaField.of(field, alias, type));
         });
         return fieldList;
     }

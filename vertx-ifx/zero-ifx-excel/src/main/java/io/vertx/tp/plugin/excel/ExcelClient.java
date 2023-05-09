@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel;
 
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -39,19 +39,19 @@ public interface ExcelClient extends TpClient<ExcelClient> {
 
     Future<Set<ExTable>> ingestAsync(String filename);
 
-    Future<Set<ExTable>> ingestAsync(String filename, MetaAtom metaAtom);
+    Future<Set<ExTable>> ingestAsync(String filename, HMetaAtom metaAtom);
 
     Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx);
 
-    Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx, MetaAtom metaAtom);
+    Future<Set<ExTable>> ingestAsync(InputStream in, boolean isXlsx, HMetaAtom metaAtom);
 
     Set<ExTable> ingest(String filename);
 
-    Set<ExTable> ingest(String filename, MetaAtom metaAtom);
+    Set<ExTable> ingest(String filename, HMetaAtom metaAtom);
 
     Set<ExTable> ingest(InputStream in, boolean isXlsx);
 
-    Set<ExTable> ingest(InputStream in, boolean isXlsx, MetaAtom metaAtom);
+    Set<ExTable> ingest(InputStream in, boolean isXlsx, HMetaAtom metaAtom);
 
     @Fluent
     ExcelClient ingest(String filename, Handler<AsyncResult<Set<ExTable>>> handler);
@@ -60,45 +60,45 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     // --------------------- ExTable Exporting -----------------------
 
     @Fluent
-    ExcelClient ingest(String filename, MetaAtom metaAtom, Handler<AsyncResult<Set<ExTable>>> handler);
+    ExcelClient ingest(String filename, HMetaAtom metaAtom, Handler<AsyncResult<Set<ExTable>>> handler);
 
     @Fluent
     ExcelClient ingest(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<ExTable>>> handler);
 
     @Fluent
-    ExcelClient ingest(InputStream in, boolean isXlsx, MetaAtom metaAtom, Handler<AsyncResult<Set<ExTable>>> handler);
+    ExcelClient ingest(InputStream in, boolean isXlsx, HMetaAtom metaAtom, Handler<AsyncResult<Set<ExTable>>> handler);
 
     Future<Buffer> exportAsync(String identifier, JsonArray data);
 
     // --------------------- ExTable Loading / Importing -----------------------
 
-    Future<Buffer> exportAsync(String identifier, JsonArray data, MetaAtom metaAtom);
+    Future<Buffer> exportAsync(String identifier, JsonArray data, HMetaAtom metaAtom);
 
     @Fluent
     ExcelClient exportAsync(String identifier, JsonArray data, Handler<AsyncResult<Buffer>> handler);
 
     @Fluent
-    ExcelClient exportAsync(String identifier, JsonArray data, MetaAtom metaAtom, Handler<AsyncResult<Buffer>> handler);
+    ExcelClient exportAsync(String identifier, JsonArray data, HMetaAtom metaAtom, Handler<AsyncResult<Buffer>> handler);
 
     @Fluent
     <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
-    <T> ExcelClient importAsync(String filename, MetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler);
+    <T> ExcelClient importAsync(String filename, HMetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
     <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler);
 
     @Fluent
-    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, MetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler);
+    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, HMetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler);
 
     <T> Future<Set<T>> importAsync(String filename);
 
-    <T> Future<Set<T>> importAsync(String filename, MetaAtom metaAtom);
+    <T> Future<Set<T>> importAsync(String filename, HMetaAtom metaAtom);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx);
 
-    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, MetaAtom metaAtom);
+    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, HMetaAtom metaAtom);
 
     /*
      * Filtered by `includes`
@@ -107,21 +107,21 @@ public interface ExcelClient extends TpClient<ExcelClient> {
     <T> ExcelClient importAsync(String filename, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
-    <T> ExcelClient importAsync(String filename, MetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler, String... includes);
+    <T> ExcelClient importAsync(String filename, HMetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
     <T> ExcelClient importAsync(InputStream in, boolean isXlsx, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     @Fluent
-    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, MetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler, String... includes);
+    <T> ExcelClient importAsync(InputStream in, boolean isXlsx, HMetaAtom metaAtom, Handler<AsyncResult<Set<T>>> handler, String... includes);
 
     <T> Future<Set<T>> importAsync(String filename, String... includes);
 
-    <T> Future<Set<T>> importAsync(String filename, MetaAtom metaAtom, String... includes);
+    <T> Future<Set<T>> importAsync(String filename, HMetaAtom metaAtom, String... includes);
 
     <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, String... includes);
 
-    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, MetaAtom metaAtom, String... includes);
+    <T> Future<Set<T>> importAsync(InputStream in, boolean isXlsx, HMetaAtom metaAtom, String... includes);
 
     Future<JsonArray> extractAsync(final ExTable table);
 

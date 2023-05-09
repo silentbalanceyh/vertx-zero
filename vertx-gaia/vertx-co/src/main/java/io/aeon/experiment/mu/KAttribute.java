@@ -3,7 +3,7 @@ package io.aeon.experiment.mu;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HRule;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -19,9 +19,9 @@ import java.util.List;
 public class KAttribute implements HAttribute, Serializable {
     private final DataFormat format;
 
-    private final List<MetaField> shapes = new ArrayList<>();
+    private final List<HMetaField> shapes = new ArrayList<>();
 
-    private final MetaField type;
+    private final HMetaField type;
     private final KTag tag;
     private HRule rule;
 
@@ -63,7 +63,7 @@ public class KAttribute implements HAttribute, Serializable {
         final Class<?> type = Ut.clazz(config.getString(KName.TYPE), String.class);
         final String name = config.getString(KName.NAME);
         final String alias = config.getString(KName.ALIAS);
-        this.type = MetaField.create(name, alias, type);
+        this.type = HMetaField.of(name, alias, type);
 
         /*
          * Format is not elementary, expand the `fields` lookup range
@@ -76,7 +76,7 @@ public class KAttribute implements HAttribute, Serializable {
                 if (Ut.isNotNil(field)) {
                     final String fieldAlias = item.getString(KName.ALIAS, null);
                     final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
-                    this.shapes.add(MetaField.create(field, fieldAlias, subType));
+                    this.shapes.add(HMetaField.of(field, fieldAlias, subType));
                 }
             });
             this.type.add(this.shapes);
@@ -91,7 +91,8 @@ public class KAttribute implements HAttribute, Serializable {
             /* Bind type into rule */
             this.rule.type(this.type.type());
             /* Unique rule for diffSet */
-            this.type.ruleUnique(this.rule.getUnique());
+            this.type.key(this.rule.getUnique());
+            // this.type.?uleUnique(this.rule.getUnique());
         }
     }
 
@@ -111,12 +112,12 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public MetaField field() {
+    public HMetaField field() {
         return this.type;
     }
 
     @Override
-    public List<MetaField> fields() {
+    public List<HMetaField> fields() {
         return this.shapes;
     }
 }

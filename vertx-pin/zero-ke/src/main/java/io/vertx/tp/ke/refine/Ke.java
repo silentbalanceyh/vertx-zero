@@ -2,7 +2,7 @@ package io.vertx.tp.ke.refine;
 
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -59,7 +59,7 @@ public class Ke {
 
     public static Future<JsonArray> combineAsync(final JsonArray data, final ConcurrentMap<String, String> headers,
                                                  final List<String> columns,
-                                                 final MetaAtom metaAtom) {
+                                                 final HMetaAtom metaAtom) {
         return KeCompare.combineAsync(data, headers, columns, metaAtom);
     }
 

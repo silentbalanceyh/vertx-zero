@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.tool;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExKey;
@@ -57,7 +57,7 @@ class ExData {
     }
 
     static boolean generateHeader(final Sheet sheet, final String identifier,
-                                  final JsonArray tableData, final MetaAtom metaAtom) {
+                                  final JsonArray tableData, final HMetaAtom metaAtom) {
         final Consumer<Integer> consumer = width -> {
             /*
              * Row creation

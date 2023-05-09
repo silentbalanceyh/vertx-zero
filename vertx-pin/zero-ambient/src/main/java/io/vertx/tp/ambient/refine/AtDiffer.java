@@ -7,7 +7,7 @@ import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
-import io.modello.atom.normalize.MetaField;
+import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
 import io.vertx.tp.ke.refine.Ke;
@@ -94,7 +94,7 @@ class AtDiffer {
     private static XActivityChange createChange(final HAttribute attribute) {
         final XActivityChange change = new XActivityChange();
         change.setKey(UUID.randomUUID().toString());
-        final MetaField field = attribute.field();
+        final HMetaField field = attribute.field();
         Objects.requireNonNull(field);
         change.setFieldName(field.name());
         change.setFieldAlias(field.alias());

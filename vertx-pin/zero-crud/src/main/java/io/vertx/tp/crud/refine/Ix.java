@@ -5,7 +5,7 @@ import io.aeon.experiment.specification.KModule;
 import io.horizon.atom.common.Kv;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
@@ -61,7 +61,7 @@ public class Ix {
         return IxData.parameters(in);
     }
 
-    public static MetaAtom onAtom(final IxMod active, final JsonArray columns) {
+    public static HMetaAtom onAtom(final IxMod active, final JsonArray columns) {
         return IxData.atom(active, columns);
     }
 

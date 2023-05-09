@@ -1,6 +1,6 @@
 package io.vertx.tp.plugin.excel.ranger;
 
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
 import io.vertx.tp.plugin.excel.atom.ExTable;
 import io.vertx.tp.plugin.excel.tool.ExFn;
@@ -36,7 +36,7 @@ public class PureIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final MetaAtom metaAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final HMetaAtom metaAtom) {
         /* Data Range */
         ExFn.itSheet(this.sheet, dataRange, (dataRow, rowIndex) -> {
             /* Build Data Col Range */

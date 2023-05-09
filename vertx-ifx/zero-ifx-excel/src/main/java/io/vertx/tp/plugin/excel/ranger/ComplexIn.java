@@ -2,7 +2,7 @@ package io.vertx.tp.plugin.excel.ranger;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.excel.atom.ExRecord;
@@ -70,7 +70,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     @Override
-    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final MetaAtom metaAtom) {
+    public ExTable applyData(final ExTable table, final ExBound dataRange, final Cell cell, final HMetaAtom metaAtom) {
         /*
          * Build data column range based on current cell and table
          * 1) table means ExTable for range
@@ -126,7 +126,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ExRecord record, final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final MetaAtom metaAtom) {
+                                                   final ExTable table, final HMetaAtom metaAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);
@@ -150,7 +150,7 @@ public class ComplexIn extends AbstractExIn {
     }
 
     private BiConsumer<Cell, Integer> cellConsumer(final ConcurrentMap<String, JsonObject> rowMap,
-                                                   final ExTable table, final MetaAtom metaAtom) {
+                                                   final ExTable table, final HMetaAtom metaAtom) {
         return (dataCell, cellIndex) -> {
             /* Field / Value / field should not be null */
             final String field = table.field(cellIndex);

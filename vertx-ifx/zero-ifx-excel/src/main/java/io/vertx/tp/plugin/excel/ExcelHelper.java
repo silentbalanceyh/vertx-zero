@@ -5,7 +5,7 @@ import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.Annal;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -260,7 +260,7 @@ class ExcelHelper {
     /*
      * Get Set<ExSheet> collection based on workbook
      */
-    Set<ExTable> getExTables(final Workbook workbook, final MetaAtom metaAtom) {
+    Set<ExTable> getExTables(final Workbook workbook, final HMetaAtom metaAtom) {
         return Fn.runOr(new HashSet<>(), () -> {
             /* FormulaEvaluator reference */
             final FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -318,7 +318,7 @@ class ExcelHelper {
         }, workbook);
     }
 
-    void brush(final Workbook workbook, final Sheet sheet, final MetaAtom metaAtom) {
+    void brush(final Workbook workbook, final Sheet sheet, final HMetaAtom metaAtom) {
         if (Objects.nonNull(this.tpl)) {
             this.tpl.bind(workbook);
             this.tpl.applyStyle(sheet, metaAtom);

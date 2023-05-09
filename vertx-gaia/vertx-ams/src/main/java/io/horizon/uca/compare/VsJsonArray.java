@@ -1,6 +1,7 @@
 package io.horizon.uca.compare;
 
 import io.horizon.util.HUt;
+import io.modello.specification.element.HKey;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -35,7 +36,8 @@ final class VsJsonArray extends AbstractSame {
                 if (Objects.isNull(this.fieldType)) {
                     return Objects.equals(valueOld, valueNew);
                 } else {
-                    final Set<String> diffSet = this.fieldType.ruleUnique();
+                    final HKey key = this.fieldType.key();
+                    final Set<String> diffSet = key.keys(); // this.fieldType.key();
                     return HUt.itJArray(arrayOld).allMatch(jsonOld -> HUt.itJArray(arrayNew).anyMatch(jsonNew -> {
                         final JsonObject checkedNew = HUt.elementSubset(jsonNew, diffSet);
                         final JsonObject checkedOld = HUt.elementSubset(jsonOld, diffSet);

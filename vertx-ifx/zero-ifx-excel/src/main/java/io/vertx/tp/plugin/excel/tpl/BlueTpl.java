@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.excel.tpl;
 
 import io.horizon.eon.VValue;
-import io.modello.atom.normalize.MetaAtom;
+import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.tp.plugin.excel.ExTpl;
 import org.apache.poi.ss.usermodel.Cell;
@@ -26,7 +26,7 @@ public class BlueTpl implements ExTpl {
     }
 
     @Override
-    public void applyStyle(final Sheet sheet, final MetaAtom metaAtom) {
+    public void applyStyle(final Sheet sheet, final HMetaAtom metaAtom) {
         /*
          * 读取可见区域
          */
@@ -98,7 +98,7 @@ public class BlueTpl implements ExTpl {
         }
     }
 
-    private void applyData(final Row dataRow, final MetaAtom metaAtom) {
+    private void applyData(final Row dataRow, final HMetaAtom metaAtom) {
         final int enCells = dataRow.getPhysicalNumberOfCells();
         for (int idx = 0; idx < enCells; idx++) {
             final Cell cell = dataRow.getCell(idx);
