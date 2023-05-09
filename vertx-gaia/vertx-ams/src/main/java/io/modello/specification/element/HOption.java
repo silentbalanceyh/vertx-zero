@@ -2,7 +2,6 @@ package io.modello.specification.element;
 
 import io.modello.annotations.EA;
 import io.modello.eon.VEmf;
-import io.modello.specification.ui.HJsx;
 
 /**
  * 项结构，在前端和后端都可以使用，主要包含四个核心属性
@@ -30,7 +29,14 @@ import io.modello.specification.ui.HJsx;
  * @author lang : 2023-05-08
  */
 @EA.Node(VEmf.N_LITERALS)
-public interface HOption extends HJsx {
+public interface HOption {
+    /**
+     * 前端绑定需使用的 key 绑定，针对 React 部分
+     *
+     * @return 主键
+     */
+    String key();
+
     /**
      * eLiterals 中的 name 属性
      *
