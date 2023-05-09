@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.reference;
 
 import io.aeon.experiment.reference.RResult;
-import io.modello.specification.HRecord;
 import io.horizon.specification.modeler.HReference;
-import io.horizon.specification.modeler.HRule;
+import io.modello.atom.normalize.RRule;
+import io.modello.specification.HRecord;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -44,7 +44,7 @@ public abstract class AbstractRay<T> implements AoRay<T> {
     protected transient ConcurrentMap<String, RaySource> input =
         new ConcurrentHashMap<>();
     /**
-     * The hashmap reference of `field = {@link HRule}`.
+     * The hashmap reference of `field = {@link RRule}`.
      */
     protected transient ConcurrentMap<String, RResult> output =
         new ConcurrentHashMap<>();

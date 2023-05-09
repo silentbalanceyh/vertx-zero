@@ -4,9 +4,10 @@ import cn.vertxup.ambient.domain.tables.daos.XActivityChangeDao;
 import cn.vertxup.ambient.domain.tables.daos.XActivityDao;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
-import io.aeon.experiment.mu.KMarker;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAtom;
+import io.modello.atom.normalize.KMarkAtom;
+import io.modello.eon.em.Marker;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._409TrackableConflictException;
@@ -49,8 +50,8 @@ public abstract class AbstractSchism implements Schism {
      */
     protected Set<String> onTrack() {
         Objects.requireNonNull(this.atom);
-        final KMarker marker = this.atom.marker();
-        return marker.onTrack();
+        final KMarkAtom marker = this.atom.marker();
+        return marker.enabled(Marker.track);
     }
 
     protected Future<JsonObject> createActivity(final XActivity activity, final List<XActivityChange> changes) {

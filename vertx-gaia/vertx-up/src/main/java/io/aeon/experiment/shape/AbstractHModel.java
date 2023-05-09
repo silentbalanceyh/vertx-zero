@@ -1,12 +1,12 @@
 package io.aeon.experiment.shape;
 
-import io.aeon.experiment.mu.KMarker;
-import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
 import io.horizon.specification.modeler.HReference;
 import io.modello.atom.app.KApp;
+import io.modello.atom.normalize.KMarkAtom;
+import io.modello.atom.normalize.KMarkAttribute;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
@@ -30,7 +30,7 @@ public abstract class AbstractHModel implements HModel {
     // Unique Rule
     protected RuleUnique unique;
     // Marker for
-    protected KMarker marker;
+    protected KMarkAtom marker;
 
     protected HReference reference;
 
@@ -55,7 +55,7 @@ public abstract class AbstractHModel implements HModel {
     }
 
     @Override
-    public KMarker tag() {
+    public KMarkAtom tag() {
         return this.marker;
     }
 
@@ -123,12 +123,12 @@ public abstract class AbstractHModel implements HModel {
         return Boolean.TRUE;
     }
 
-    private KMarker loadMarker() {
-        final KMarker marker = new KMarker(this.trackable());
+    private KMarkAtom loadMarker() {
+        final KMarkAtom marker = KMarkAtom.of(this.trackable());
         this.attribute().forEach(name -> {
             final HAttribute attribute = this.attribute(name);
             if (Objects.nonNull(attribute)) {
-                final KTag tag = attribute.tag();
+                final KMarkAttribute tag = attribute.marker();
                 marker.put(name, tag);
             }
         });

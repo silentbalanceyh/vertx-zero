@@ -1,9 +1,9 @@
 package io.horizon.specification.modeler;
 
-import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.modeler.ModelType;
 import io.modello.atom.app.KApp;
+import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.HApp;
 
 import java.util.Set;
@@ -46,7 +46,7 @@ public interface HModel extends HApp {
 
     KApp app();
 
-    KMarker tag();
+    KMarkAtom tag();
 
     HReference reference();
 }

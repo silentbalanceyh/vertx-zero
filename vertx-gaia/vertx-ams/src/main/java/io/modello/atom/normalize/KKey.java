@@ -11,7 +11,12 @@ import java.util.Set;
 /**
  * HKey 的默认实现，您可以直接从此类继承定义自己的 HKey 相关信息
  * 有此默认实现，可直接省略部分自定义代码，该实现保证在任何无框架的JVM
- * 场景下可以使用。
+ * 场景下可以使用。主要用于描述键相关信息：
+ * <pre><code>
+ *     1. 主键
+ *     2. 唯一键
+ *     3. 外键
+ * </code></pre>
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */

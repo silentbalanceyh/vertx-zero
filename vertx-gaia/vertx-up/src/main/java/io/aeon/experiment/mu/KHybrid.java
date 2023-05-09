@@ -2,6 +2,8 @@ package io.aeon.experiment.mu;
 
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HAttribute;
+import io.modello.atom.normalize.KMarkAtom;
+import io.modello.atom.normalize.KMarkAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -35,7 +37,7 @@ public class KHybrid implements Serializable {
     private final ConcurrentMap<String, KReference> referenceMap = new ConcurrentHashMap<>();
 
     private final ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
-    private final KMarker marker;
+    private final KMarkAtom marker;
 
     private KHybrid(final JsonObject hybridJ) {
         // alias / rule / trackable
@@ -43,7 +45,7 @@ public class KHybrid implements Serializable {
         final JsonObject ruleJ = Ut.valueJObject(hybridJ, KName.RULE_UNIQUE);
         this.unique = Ut.deserialize(ruleJ, RuleUnique.class);
         final Boolean track = hybridJ.getBoolean(KName.TRACKABLE, Boolean.FALSE);
-        this.marker = new KMarker(track);
+        this.marker = KMarkAtom.of(track);
 
         // Matrix
         final JsonObject matrixJ = Ut.valueJObject(hybridJ, KName.MATRIX);
@@ -72,7 +74,7 @@ public class KHybrid implements Serializable {
         }).forEach(field -> {
             final JsonObject config = new JsonObject();
             // Matrix
-            final KTag matrix = this.marker.tag(field);
+            final KMarkAttribute matrix = this.marker.get(field);
             // Reference
             final KReference reference = this.referenceMap.get(field);
 
@@ -112,7 +114,7 @@ public class KHybrid implements Serializable {
         return this.alias;
     }
 
-    public KMarker marker() {
+    public KMarkAtom marker() {
         return this.marker;
     }
 

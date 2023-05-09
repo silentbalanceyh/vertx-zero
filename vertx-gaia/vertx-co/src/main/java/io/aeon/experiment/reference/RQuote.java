@@ -1,7 +1,7 @@
 package io.aeon.experiment.reference;
 
 import io.horizon.specification.modeler.HAttribute;
-import io.horizon.specification.modeler.HRule;
+import io.modello.atom.normalize.RRule;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
@@ -63,7 +63,7 @@ public class RQuote implements Serializable {
     /**
      * Extract `rule` from input json config and build `attr -> DataQRule` of current model.
      */
-    private final ConcurrentMap<String, HRule> sourceRule = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, RRule> sourceRule = new ConcurrentHashMap<>();
     /**
      * Extract `dao` by condition `hashCode()`.
      */
@@ -137,7 +137,7 @@ public class RQuote implements Serializable {
             /*
              * Json data format, here defined `rule` field and convert to `DataQRule`
              */
-            final HRule rule = service.refRule();
+            final RRule rule = service.referenceRule();
             this.sourceRule.put(name, rule);
             /*
              * RDao put
@@ -150,11 +150,11 @@ public class RQuote implements Serializable {
     /**
      * @return Hash map of rules
      */
-    public ConcurrentMap<String, HRule> rules() {
+    public ConcurrentMap<String, RRule> rules() {
         return this.sourceRule;
     }
 
-    public HRule rule(final String field) {
+    public RRule rule(final String field) {
         return this.sourceRule.getOrDefault(field, null);
     }
 
@@ -164,7 +164,7 @@ public class RQuote implements Serializable {
      * @return {@link RDao}
      */
     public RDao dao(final String field) {
-        final HRule rule = this.sourceRule.getOrDefault(field, null);
+        final RRule rule = this.sourceRule.getOrDefault(field, null);
         return this.sourceDao.getOrDefault(rule.keyDao(), null);
     }
 

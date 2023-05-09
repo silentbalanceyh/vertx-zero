@@ -9,6 +9,7 @@ import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
+import io.modello.eon.em.Marker;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
@@ -94,7 +95,7 @@ class AtRunner {
                 /*
                  * ATOM-04: isConfirm = true 最少有内容才可以执行变更历史
                  */
-                final Set<String> confirmFields = this.atom.marker().onConfirm();
+                final Set<String> confirmFields = this.atom.marker().enabled(Marker.confirm);
                 counter = changeList.stream()
                     .filter(change -> confirmFields.contains(change.getFieldName()))
                     .count();
@@ -133,7 +134,7 @@ class AtRunner {
                          * track = true 的字段为 changeList 中的 PENDING
                          * track = false 的字段为 changeList 中的 SYSTEM
                          */
-                        final Set<String> track = this.atom.marker().onTrack();
+                        final Set<String> track = this.atom.marker().enabled(Marker.track);
                         if (track.contains(change.getFieldName())) {
                             change.setStatus(ActivityStatus.PENDING.name());
                         } else {

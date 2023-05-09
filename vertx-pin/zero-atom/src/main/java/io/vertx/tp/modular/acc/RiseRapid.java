@@ -4,6 +4,7 @@ import cn.vertxup.atom.domain.tables.daos.MAccDao;
 import cn.vertxup.atom.domain.tables.pojos.MAcc;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HDao;
+import io.modello.eon.em.Marker;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -44,7 +45,7 @@ class RiseRapid implements Rise {
 
     private Future<Apt> combineAcc(final JsonArray data, final JsonArray acc, final DataAtom atom) {
         final Apt apt = Apt.create(acc, data);
-        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.marker().offOut());
+        final ConcurrentMap<ChangeFlag, JsonArray> compared = Ao.diffPure(acc, data, atom, atom.marker().disabled(Marker.syncOut));
         return apt.comparedAsync(compared);
     }
 

@@ -3,7 +3,7 @@ package io.aeon.experiment.reference;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
-import io.horizon.specification.modeler.HRule;
+import io.modello.atom.normalize.RRule;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -82,7 +82,7 @@ import java.util.function.Predicate;
  */
 public class RResult implements Serializable {
 
-    private final HRule rule;
+    private final RRule rule;
 
     private final DataFormat format;
 
@@ -95,7 +95,7 @@ public class RResult implements Serializable {
     public RResult(final String referenceField, final JsonObject referenceConfig, final HAttribute config) {
         this.type = config.field().type();
         this.format = config.format();
-        this.rule = config.refRule();
+        this.rule = config.referenceRule();
         this.sourceField = referenceField;
         /* Joined calculation */
         final JsonObject sourceReference = Ut.valueJObject(referenceConfig);
@@ -163,12 +163,12 @@ final class RRuler {
     private RRuler() {
     }
 
-    public static JsonArray required(final JsonArray source, final HRule rule) {
+    public static JsonArray required(final JsonArray source, final RRule rule) {
         /* required fields */
         return rulerAnd(source, rule.getRequired(), value -> Ut.isNotNil(value.toString()));
     }
 
-    public static JsonArray duplicated(final JsonArray source, final HRule rule) {
+    public static JsonArray duplicated(final JsonArray source, final RRule rule) {
         /* unique field */
         final Set<JsonObject> added = new HashSet<>();
         return ruler(source, rule.getUnique(), json -> {

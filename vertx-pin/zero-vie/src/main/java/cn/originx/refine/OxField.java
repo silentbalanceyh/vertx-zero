@@ -2,6 +2,7 @@ package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
 import io.aeon.experiment.rule.RuleUnique;
+import io.modello.eon.em.Marker;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -86,24 +87,24 @@ final class OxField {
      * 2. 拉取数据过程中准入禁用的字段：syncIn = false
      */
     static Set<String> ignorePull(final DataAtom atom) {
-        final Set<String> fieldSet = toIgnores(atom.marker().offTrack());
-        fieldSet.addAll(atom.marker().offIn());
+        final Set<String> fieldSet = toIgnores(atom.marker().disabled(Marker.track));
+        fieldSet.addAll(atom.marker().disabled(Marker.syncIn));
         return fieldSet;
     }
 
     static Set<String> ignorePush(final DataAtom atom) {
-        return atom.marker().offOut();
+        return atom.marker().disabled(Marker.syncOut);
     }
 
     /*
      * compareEdit比对流程专用
      */
     static Set<String> ignoreIn(final DataAtom atom) {
-        return toIgnores(atom.marker().offIn());
+        return toIgnores(atom.marker().disabled(Marker.syncIn));
     }
 
     static Set<String> ignorePure(final DataAtom atom) {
-        return toIgnores(atom.marker().offTrack());
+        return toIgnores(atom.marker().disabled(Marker.track));
     }
 
     static Set<String> ignoreApi(final DataAtom atom) {

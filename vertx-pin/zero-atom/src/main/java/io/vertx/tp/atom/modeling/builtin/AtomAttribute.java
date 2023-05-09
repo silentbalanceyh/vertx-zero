@@ -3,12 +3,12 @@ package io.vertx.tp.atom.modeling.builtin;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import io.aeon.experiment.mu.KAttribute;
-import io.aeon.experiment.mu.KTag;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
-import io.horizon.specification.modeler.HRule;
+import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.RRule;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -147,11 +147,11 @@ class AtomAttribute implements HAttribute, Serializable {
         /*
          * KMatrix Building
          */
-        final KTag matrix = this.initializeMatrix(attribute);
+        final KMarkAttribute matrix = this.initializeMatrix(attribute);
         this.attribute = new KAttribute(attributeJ, matrix);
     }
 
-    private KTag initializeMatrix(final MAttribute attribute) {
+    private KMarkAttribute initializeMatrix(final MAttribute attribute) {
         final StringBuilder literal = new StringBuilder();
         // Boolean -> 0, 1
         final List<Boolean> values = new ArrayList<>();
@@ -174,7 +174,7 @@ class AtomAttribute implements HAttribute, Serializable {
                 literal.append(VString.COMMA);
             }
         }
-        return new KTag(literal.toString());
+        return KMarkAttribute.of(literal.toString());
     }
 
     @Override
@@ -193,18 +193,18 @@ class AtomAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public KTag tag() {
-        return this.attribute.tag();
+    public KMarkAttribute marker() {
+        return this.attribute.marker();
     }
 
     /**
      * Return to `rule`
      *
-     * @return {@link HRule}
+     * @return {@link RRule}
      */
     @Override
-    public HRule refRule() {
-        return this.attribute.refRule();
+    public RRule referenceRule() {
+        return this.attribute.referenceRule();
     }
 
     /**

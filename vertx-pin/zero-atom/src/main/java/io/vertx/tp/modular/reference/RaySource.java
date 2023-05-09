@@ -3,8 +3,8 @@ package io.vertx.tp.modular.reference;
 import io.aeon.experiment.reference.RDao;
 import io.aeon.experiment.reference.RQuote;
 import io.horizon.atom.common.Kv;
+import io.modello.atom.normalize.RRule;
 import io.modello.specification.HRecord;
-import io.horizon.specification.modeler.HRule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -63,7 +63,7 @@ class RaySource {
     }
 
 
-    private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<HRule, JsonObject> supplier) {
+    private Future<ConcurrentMap<String, JsonArray>> dataAsync(final Function<RRule, JsonObject> supplier) {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<Integer, Future<JsonArray>> futureMap = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
@@ -90,7 +90,7 @@ class RaySource {
         });
     }
 
-    private ConcurrentMap<String, JsonArray> data(final Function<HRule, JsonObject> supplier) {
+    private ConcurrentMap<String, JsonArray> data(final Function<RRule, JsonObject> supplier) {
         return this.ready(supplier, (fieldCodes, execMap) -> {
             final ConcurrentMap<String, JsonArray> data = new ConcurrentHashMap<>();
             execMap.forEach((hashCode, kv) -> {
@@ -111,7 +111,7 @@ class RaySource {
     }
 
     private <T> T ready(
-        final Function<HRule, JsonObject> supplier,
+        final Function<RRule, JsonObject> supplier,
         final BiFunction<ConcurrentMap<String, Integer>, ConcurrentMap<Integer, Kv<JsonObject, RDao>>, T> executor) {
         /*
          * 换一种算法

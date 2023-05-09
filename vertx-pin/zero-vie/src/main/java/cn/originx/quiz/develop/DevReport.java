@@ -1,11 +1,15 @@
 package cn.originx.quiz.develop;
 
 import io.aeon.experiment.mu.KReference;
-import io.aeon.experiment.mu.KTag;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.modeler.*;
+import io.horizon.specification.modeler.HAtom;
+import io.horizon.specification.modeler.HAttribute;
+import io.horizon.specification.modeler.HModel;
+import io.horizon.specification.modeler.HReference;
+import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.RRule;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 
@@ -85,9 +89,9 @@ class DevReport {
         final StringBuilder builder = new StringBuilder();
         final HMetaField attr = attribute.field();
 
-        final KTag tag = attribute.tag();
+        final KMarkAttribute tag = attribute.marker();
 
-        final HRule refRule = attribute.refRule();
+        final RRule refRule = attribute.referenceRule();
         // Basic Line
         builder.append(":::" + VString.LEFT_BRACKET).append(attr.alias())
             .append(",").append(attr.name()).append(VString.RIGHT_BRACKET).append(VString.COMMA);

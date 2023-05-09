@@ -1,7 +1,8 @@
 package io.horizon.specification.modeler;
 
-import io.aeon.experiment.mu.KTag;
 import io.horizon.eon.em.typed.DataFormat;
+import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.RRule;
 import io.modello.specification.meta.HMetaField;
 
 import java.util.List;
@@ -41,11 +42,11 @@ public interface HAttribute {
     /**
      * Return to the `rule` that is related to current attribute
      *
-     * @return {@link HRule}
+     * @return {@link RRule}
      */
-    HRule refRule();
+    RRule referenceRule();
 
-    KTag tag();
+    KMarkAttribute marker();
 
     /**
      * - JsonArray: []

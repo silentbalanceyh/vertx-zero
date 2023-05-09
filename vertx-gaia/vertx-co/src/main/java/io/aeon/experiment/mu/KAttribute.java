@@ -2,7 +2,9 @@ package io.aeon.experiment.mu;
 
 import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.specification.modeler.HAttribute;
-import io.horizon.specification.modeler.HRule;
+import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.RRule;
+import io.modello.eon.em.Marker;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -22,8 +24,8 @@ public class KAttribute implements HAttribute, Serializable {
     private final List<HMetaField> shapes = new ArrayList<>();
 
     private final HMetaField type;
-    private final KTag tag;
-    private HRule rule;
+    private final KMarkAttribute tag;
+    private RRule rule;
 
     /*
      * Data Structure of Matrix
@@ -43,7 +45,7 @@ public class KAttribute implements HAttribute, Serializable {
      *     }
      * }
      */
-    public KAttribute(final JsonObject config, final KTag tag) {
+    public KAttribute(final JsonObject config, final KMarkAttribute tag) {
         this.tag = tag;
         /*
          * Extract DataFormat from `format` field in config，
@@ -52,7 +54,7 @@ public class KAttribute implements HAttribute, Serializable {
          * 2. Priority 2: isArray = false, set the default value instead ( Elementary )
          */
         DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
-        if (tag.isArray()) {
+        if (tag.value(Marker.array)) {
             format = DataFormat.JsonArray;
         }
         this.format = format;
@@ -87,7 +89,7 @@ public class KAttribute implements HAttribute, Serializable {
          */
         if (config.containsKey(KName.RULE)) {
             final JsonObject ruleJ = Ut.valueJObject(config, KName.RULE);
-            this.rule = Ut.deserialize(ruleJ, HRule.class);
+            this.rule = Ut.deserialize(ruleJ, RRule.class);
             /* Bind type into rule */
             this.rule.type(this.type.type());
             /* Unique rule for diffSet */
@@ -97,12 +99,12 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public HRule refRule() {
+    public RRule referenceRule() {
         return this.rule;
     }
 
     @Override
-    public KTag tag() {
+    public KMarkAttribute marker() {
         return this.tag;
     }
 

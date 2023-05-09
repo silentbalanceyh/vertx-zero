@@ -1,4 +1,4 @@
-package io.horizon.specification.modeler;
+package io.modello.atom.normalize;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonArrayDeserializer;
@@ -8,12 +8,11 @@ import com.fasterxml.jackson.databind.JsonObjectSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.horizon.eon.VString;
+import io.horizon.uca.log.Annal;
+import io.horizon.util.HUt;
 import io.modello.specification.HRecord;
-import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.log.Annal;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -61,8 +60,8 @@ import java.util.stream.Stream;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class HRule implements Serializable {
-    private static final Annal LOGGER = Annal.get(HRule.class);
+public class RRule implements Serializable {
+    private static final Annal LOGGER = Annal.get(RRule.class);
     /**
      * The field `condition`.
      */
@@ -109,8 +108,8 @@ public class HRule implements Serializable {
      * @return {@link java.util.Set}
      */
     public Set<String> getUnique() {
-        if (Ut.isNotNil(this.unique)) {
-            return Ut.toSet(this.unique);
+        if (HUt.isNotNil(this.unique)) {
+            return HUt.toSet(this.unique);
         } else {
             return new HashSet<>();
         }
@@ -155,8 +154,8 @@ public class HRule implements Serializable {
      * @return {@link java.util.Set}
      */
     public Set<String> getRequired() {
-        if (Ut.isNotNil(this.required)) {
-            return Ut.toSet(this.required);
+        if (HUt.isNotNil(this.required)) {
+            return HUt.toSet(this.required);
         } else {
             return new HashSet<>();
         }
@@ -197,8 +196,7 @@ public class HRule implements Serializable {
      *
      * @return this
      */
-    @Fluent
-    public HRule type(final Class<?> type) {
+    public RRule type(final Class<?> type) {
         this.type = type;
         return this;
     }
@@ -227,12 +225,12 @@ public class HRule implements Serializable {
             if (Objects.nonNull(record)) {
                 // Null Pointer for record
                 final Object value = record.get(target);
-                if (Objects.nonNull(value) && Ut.isNotNil(value.toString())) {
+                if (Objects.nonNull(value) && HUt.isNotNil(value.toString())) {
                     tpl.put(field, value);
                 }
             }
         });
-        if (Ut.isNotNil(tpl)) {
+        if (HUt.isNotNil(tpl)) {
             LOGGER.info("[ EMF ] Single condition building: {0}", tpl.encode());
         }
         // If null of "", the AND operator will be set.
@@ -254,9 +252,9 @@ public class HRule implements Serializable {
             final Set<Object> values = Arrays.stream(records)
                 .map(record -> record.get(target))
                 .filter(Objects::nonNull).collect(Collectors.toSet());
-            final JsonArray valueArray = Ut.toJArray(values);
-            if (Ut.isNotNil(valueArray)) {
-                tpl.put(field, Ut.toJArray(values));
+            final JsonArray valueArray = HUt.toJArray(values);
+            if (HUt.isNotNil(valueArray)) {
+                tpl.put(field, HUt.toJArray(values));
             }
         });
         // If null of "", the AND operator will be set.
@@ -274,7 +272,7 @@ public class HRule implements Serializable {
     private Stream<String> condition(final JsonObject condition) {
         return condition.fieldNames().stream()
             // 过滤条件
-            .filter(Ut::isNotNil)
+            .filter(HUt::isNotNil)
             // 过滤空
             .filter(field -> Objects.nonNull(condition.getValue(field)))
             // 过滤非String类型

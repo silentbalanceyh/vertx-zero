@@ -2,11 +2,12 @@ package io.vertx.tp.ambient.refine;
 
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
-import io.aeon.experiment.mu.KMarker;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HAttribute;
 import io.horizon.uca.compare.Vs;
+import io.modello.atom.normalize.KMarkAtom;
+import io.modello.eon.em.Marker;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.cv.em.ActivityStatus;
@@ -40,8 +41,8 @@ class AtDiffer {
         final ChangeFlag flag = Ut.aiFlag(recordN, recordO);
         final List<XActivityChange> changes = new ArrayList<>();
         if (ChangeFlag.NONE != flag) {
-            final KMarker marker = atom.marker();
-            final Set<String> fieldTrack = marker.onTrack();
+            final KMarkAtom marker = atom.marker();
+            final Set<String> fieldTrack = marker.enabled(Marker.track);
             fieldTrack.stream().filter(field -> {
                 // Must contain value for checking.
                 final Object valueN = recordN.getValue(field);

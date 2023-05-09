@@ -1,7 +1,7 @@
 package io.horizon.specification.modeler;
 
-import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
+import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
@@ -79,7 +79,7 @@ interface HAtomIo {
      * SyncIn:      Integration Reading
      * SyncOut:     Integration Writing
      */
-    KMarker marker();
+    KMarkAtom marker();
 }
 
 // ==================== Rule Unique Part =====================

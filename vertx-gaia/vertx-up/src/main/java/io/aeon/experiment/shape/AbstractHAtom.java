@@ -1,6 +1,5 @@
 package io.aeon.experiment.shape;
 
-import io.aeon.experiment.mu.KMarker;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HAtom;
@@ -10,6 +9,7 @@ import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.compare.Vs;
 import io.modello.atom.app.KApp;
+import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;
@@ -35,7 +35,7 @@ public abstract class AbstractHAtom implements HAtom {
     protected transient final HAtomUnique ruler;
     protected transient final HAtomMetadata metadata;
     protected transient final HReference reference;
-    protected transient final KMarker marker;
+    protected transient final KMarkAtom marker;
 
     private transient final Vs vs;
 
@@ -193,7 +193,7 @@ public abstract class AbstractHAtom implements HAtom {
      * 4. SyncOut：同步推送, 004
      */
     @Override
-    public KMarker marker() {
+    public KMarkAtom marker() {
         return this.marker;
     }
 
