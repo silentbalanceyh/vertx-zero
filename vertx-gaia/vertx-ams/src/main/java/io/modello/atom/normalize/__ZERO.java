@@ -1,13 +1,14 @@
 package io.modello.atom.normalize;
 
+import io.horizon.util.HUt;
 import io.modello.eon.em.Marker;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Predicate;
 
 /**
  * @author lang : 2023-05-09
@@ -106,6 +107,64 @@ class MarkUtil {
         } else {
             // Other string will start parsing workflow ( standard )
             return Boolean.parseBoolean(literal);
+        }
+    }
+}
+
+
+final class RRuler {
+    private RRuler() {
+    }
+
+    public static JsonArray required(final JsonArray source, final RRule rule) {
+        /* required fields */
+        return rulerAnd(source, rule.getRequired(), value -> HUt.isNotNil(value.toString()));
+    }
+
+    public static JsonArray duplicated(final JsonArray source, final RRule rule) {
+        /* unique field */
+        final Set<JsonObject> added = new HashSet<>();
+        return ruler(source, rule.getUnique(), json -> {
+            final JsonObject uniqueJson = HUt.elementSubset(json, rule.getUnique());
+            if (added.contains(uniqueJson)) {
+                return false;
+            } else {
+                added.add(uniqueJson);
+                return true;
+            }
+        });
+    }
+
+    private static JsonArray rulerAnd(final JsonArray source, final Set<String> fieldSet, final Predicate<Object> fnFilter) {
+        return ruler(source, fieldSet, json -> fieldSet.stream().allMatch(field -> {
+            final Object value = json.getValue(field);
+            if (Objects.nonNull(value)) {
+                return fnFilter.test(value);
+            } else {
+                return false;
+            }
+        }));
+    }
+
+    private static JsonArray rulerOr(final JsonArray source, final Set<String> fieldSet, final Predicate<Object> fnFilter) {
+        return ruler(source, fieldSet, json -> fieldSet.stream().anyMatch(field -> {
+            final Object value = json.getValue(field);
+            if (Objects.nonNull(value)) {
+                return fnFilter.test(value);
+            } else {
+                return false;
+            }
+        }));
+    }
+
+    private static JsonArray ruler(final JsonArray source, final Set<String> fieldSet, final Predicate<JsonObject> fnFilter) {
+        if (fieldSet.isEmpty()) {
+            return source;
+        } else {
+            /* Code Logical */
+            final JsonArray processed = new JsonArray();
+            HUt.itJArray(source).filter(fnFilter).forEach(processed::add);
+            return processed;
         }
     }
 }

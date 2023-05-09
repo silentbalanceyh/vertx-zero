@@ -1,6 +1,6 @@
 package cn.originx.uca.modello;
 
-import io.horizon.eon.em.typed.DataFormat;
+import io.modello.eon.em.ValueFormat;
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -108,8 +108,8 @@ class IoHelper {
      * @return {@link Object}
      */
     static Object end(final JsonObject item, final JsonObject config) {
-        final DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
-        if (DataFormat.JsonObject == format) {
+        final ValueFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), ValueFormat.class, ValueFormat.Elementary);
+        if (ValueFormat.JsonObject == format) {
             return item;
         } else {
             final JsonArray array = new JsonArray();

@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.reference;
 
-import io.aeon.experiment.reference.RResult;
 import io.horizon.specification.modeler.HReference;
+import io.modello.atom.normalize.RResult;
 import io.modello.atom.normalize.RRule;
 import io.modello.specification.HRecord;
 import io.vertx.core.Future;

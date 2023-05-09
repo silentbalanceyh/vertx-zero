@@ -1,11 +1,10 @@
-package io.aeon.experiment.reference;
+package io.modello.atom.normalize;
 
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class RQuery implements Serializable {
         if (value instanceof JsonArray) {
             condition.put(this.sourceField + ",i", value);
         } else {
-            final String operator = Ut.isNil(op) ? Qr.Op.EQ : op;
+            final String operator = HUt.isNil(op) ? "=" : op;
             condition.put(this.sourceField + "," + operator, value);
         }
         condition.put(VString.EMPTY, Boolean.TRUE);
@@ -65,7 +64,7 @@ public class RQuery implements Serializable {
             final String name = kv.value();
             final String extract = kv.key();
 
-            final JsonArray compress = Ut.toJArray(Ut.valueSetString(data, extract));
+            final JsonArray compress = HUt.toJArray(HUt.valueSetString(data, extract));
             query.put(name, compress);
         });
         return query;

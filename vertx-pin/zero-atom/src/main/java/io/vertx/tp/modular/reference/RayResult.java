@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.reference;
 
-import io.aeon.experiment.reference.RResult;
 import io.horizon.atom.common.Kv;
-import io.horizon.eon.em.typed.DataFormat;
-import io.modello.specification.HRecord;
 import io.horizon.uca.cache.Cc;
+import io.modello.atom.normalize.RResult;
+import io.modello.eon.em.ValueFormat;
+import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.element.JAmb;
@@ -82,10 +82,10 @@ class RayResult {
              * 1. Object = {}
              * 2. Array = []
              * */
-            final DataFormat format = result.format();
-            if (DataFormat.JsonArray == format) {
+            final ValueFormat format = result.format();
+            if (ValueFormat.JsonArray == format) {
                 record.add(field, new JsonArray());
-            } else if (DataFormat.JsonObject == format) {
+            } else if (ValueFormat.JsonObject == format) {
                 record.add(field, new JsonObject());
             }
         } else {
@@ -97,8 +97,8 @@ class RayResult {
 
     private static void combine(final HRecord record, final String field, final JAmb amb, final RResult result) {
         /* Amb */
-        final DataFormat format = result.format();
-        if (DataFormat.JsonArray == format) {
+        final ValueFormat format = result.format();
+        if (ValueFormat.JsonArray == format) {
             /*
              * JsonArray extract.
              */
@@ -110,7 +110,7 @@ class RayResult {
              */
             final JsonObject extract = amb.dataT();
             if (Ut.isNotNil(extract)) {
-                if (DataFormat.JsonObject == format) {
+                if (ValueFormat.JsonObject == format) {
                     /* JsonObject */
                     record.add(field, extract);
                 } else {

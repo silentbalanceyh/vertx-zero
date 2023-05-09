@@ -1,13 +1,13 @@
 package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
-import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.shape.HAtomReference;
 import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.specification.modeler.HAtom;
-import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HDao;
 import io.modello.atom.app.KApp;
+import io.modello.atom.normalize.KReference;
+import io.modello.specification.atom.HAttribute;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.up.util.Ut;

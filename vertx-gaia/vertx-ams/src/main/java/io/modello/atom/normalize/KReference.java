@@ -1,7 +1,7 @@
-package io.aeon.experiment.mu;
+package io.modello.atom.normalize;
 
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 
@@ -42,14 +42,14 @@ public class KReference implements Serializable {
     }
 
     public KReference sourceReference(final JsonObject sourceReference) {
-        final JsonObject valued = Ut.valueJObject(sourceReference);
+        final JsonObject valued = HUt.valueJObject(sourceReference);
         this.sourceReference.mergeIn(valued, true);
         return this;
     }
 
     public KReference sourceReference(final String sourceReference) {
-        final JsonObject config = Ut.toJObject(sourceReference);
-        if (Ut.isNotNil(config)) {
+        final JsonObject config = HUt.toJObject(sourceReference);
+        if (HUt.isNotNil(config)) {
             this.sourceReference(config);
         }
         return this;
@@ -60,7 +60,7 @@ public class KReference implements Serializable {
     }
 
     public boolean isReference() {
-        return Ut.isNotNil(this.sourceReference);
+        return HUt.isNotNil(this.sourceReference);
     }
 
     @Override

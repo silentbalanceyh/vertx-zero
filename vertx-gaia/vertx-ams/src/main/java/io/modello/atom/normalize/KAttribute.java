@@ -1,15 +1,13 @@
-package io.aeon.experiment.mu;
+package io.modello.atom.normalize;
 
-import io.horizon.eon.em.typed.DataFormat;
-import io.horizon.specification.modeler.HAttribute;
-import io.modello.atom.normalize.KMarkAttribute;
-import io.modello.atom.normalize.RRule;
+import io.horizon.eon.VName;
+import io.horizon.util.HUt;
 import io.modello.eon.em.Marker;
+import io.modello.eon.em.ValueFormat;
+import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ import java.util.List;
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
 public class KAttribute implements HAttribute, Serializable {
-    private final DataFormat format;
+    private final ValueFormat format;
 
     private final List<HMetaField> shapes = new ArrayList<>();
 
@@ -53,31 +51,31 @@ public class KAttribute implements HAttribute, Serializable {
          * 1. Priority 1: isArray = true, the format is `JsonArray`.
          * 2. Priority 2: isArray = false, set the default value instead ( Elementary )
          */
-        DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
+        ValueFormat format = HUt.toEnum(() -> config.getString(VName.FORMAT), ValueFormat.class, ValueFormat.Elementary);
         if (tag.value(Marker.array)) {
-            format = DataFormat.JsonArray;
+            format = ValueFormat.JsonArray;
         }
         this.format = format;
 
         /*
          * Here the type must be fixed or null
          */
-        final Class<?> type = Ut.clazz(config.getString(KName.TYPE), String.class);
-        final String name = config.getString(KName.NAME);
-        final String alias = config.getString(KName.ALIAS);
+        final Class<?> type = HUt.clazz(config.getString(VName.TYPE), String.class);
+        final String name = config.getString(VName.NAME);
+        final String alias = config.getString(VName.ALIAS);
         this.type = HMetaField.of(name, alias, type);
 
         /*
          * Format is not elementary, expand the `fields` lookup range
          * instead of simple, then add children into HTField for complex
          */
-        if (DataFormat.Elementary != format) {
-            final JsonArray fields = Ut.valueJArray(config.getJsonArray(KName.FIELDS));
-            Ut.itJArray(fields).forEach(item -> {
-                final String field = item.getString(KName.FIELD);
-                if (Ut.isNotNil(field)) {
-                    final String fieldAlias = item.getString(KName.ALIAS, null);
-                    final Class<?> subType = Ut.clazz(item.getString(KName.TYPE), String.class);
+        if (ValueFormat.Elementary != format) {
+            final JsonArray fields = HUt.valueJArray(config.getJsonArray(VName.FIELDS));
+            HUt.itJArray(fields).forEach(item -> {
+                final String field = item.getString(VName.FIELD);
+                if (HUt.isNotNil(field)) {
+                    final String fieldAlias = item.getString(VName.ALIAS, null);
+                    final Class<?> subType = HUt.clazz(item.getString(VName.TYPE), String.class);
                     this.shapes.add(HMetaField.of(field, fieldAlias, subType));
                 }
             });
@@ -87,9 +85,9 @@ public class KAttribute implements HAttribute, Serializable {
         /*
          * Bind `rule` processing, the `rule` should be configured in config instead of
          */
-        if (config.containsKey(KName.RULE)) {
-            final JsonObject ruleJ = Ut.valueJObject(config, KName.RULE);
-            this.rule = Ut.deserialize(ruleJ, RRule.class);
+        if (config.containsKey(VName.RULE)) {
+            final JsonObject ruleJ = HUt.valueJObject(config, VName.RULE);
+            this.rule = HUt.deserialize(ruleJ, RRule.class);
             /* Bind type into rule */
             this.rule.type(this.type.type());
             /* Unique rule for diffSet */
@@ -109,7 +107,7 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public DataFormat format() {
+    public ValueFormat format() {
         return this.format;
     }
 
@@ -119,7 +117,7 @@ public class KAttribute implements HAttribute, Serializable {
     }
 
     @Override
-    public List<HMetaField> fields() {
+    public List<HMetaField> fieldCompiled() {
         return this.shapes;
     }
 }

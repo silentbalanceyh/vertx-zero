@@ -1,10 +1,8 @@
-package io.aeon.experiment.reference;
+package io.modello.atom.normalize;
 
-import io.horizon.specification.modeler.HAttribute;
-import io.modello.atom.normalize.RRule;
-import io.vertx.codegen.annotations.Fluent;
+import io.horizon.util.HUt;
+import io.modello.specification.atom.HAttribute;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -119,7 +117,6 @@ public class RQuote implements Serializable {
      *
      * @return {@link RQuote}
      */
-    @Fluent
     public RQuote add(final HAttribute service, final JsonObject referenceConfig,
                       final RDao dao) {
         /*
@@ -131,7 +128,7 @@ public class RQuote implements Serializable {
         /*
          * sourceReference
          */
-        if (Ut.isNotNil(referenceConfig)) {
+        if (HUt.isNotNil(referenceConfig)) {
             final JsonObject sourceReference = referenceConfig.copy();
             this.sourceReference.put(name, sourceReference);
             /*

@@ -1,20 +1,16 @@
 package io.aeon.experiment.shape;
 
-import io.aeon.experiment.mu.KReference;
-import io.aeon.experiment.reference.RDao;
-import io.aeon.experiment.reference.RQuery;
-import io.aeon.experiment.reference.RQuote;
-import io.aeon.experiment.reference.RResult;
 import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KPoint;
-import io.horizon.eon.em.typed.DataFormat;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAtom;
-import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HDao;
 import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.modello.atom.app.KApp;
+import io.modello.atom.normalize.*;
+import io.modello.eon.em.ValueFormat;
+import io.modello.specification.atom.HAttribute;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -169,7 +165,7 @@ public class HAtomReference implements HReference {
              * field1 = query1,
              * field2 = query2
              */
-            if (DataFormat.Elementary == hAttribute.format()) {
+            if (ValueFormat.Elementary == hAttribute.format()) {
                 this.ccQuery.pick(() -> new RQuery(field, reference.sourceField())
                     .bind(quote.dao(field))
                     .bind(result.joined()), field);

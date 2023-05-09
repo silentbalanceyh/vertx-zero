@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 /**
  * @author lang : 2023/4/27
  */
-class _To extends _Reflect {
+class _To extends _Serialize {
     protected _To() {
     }
 

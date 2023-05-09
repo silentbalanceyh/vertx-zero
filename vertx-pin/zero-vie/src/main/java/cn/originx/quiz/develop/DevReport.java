@@ -1,15 +1,15 @@
 package cn.originx.quiz.develop;
 
-import io.aeon.experiment.mu.KReference;
 import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HAtom;
-import io.horizon.specification.modeler.HAttribute;
 import io.horizon.specification.modeler.HModel;
 import io.horizon.specification.modeler.HReference;
 import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.KReference;
 import io.modello.atom.normalize.RRule;
+import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 

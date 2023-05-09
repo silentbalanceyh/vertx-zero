@@ -1,7 +1,5 @@
 package io.vertx.up.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.specification.runtime.HService;
 import io.horizon.util.HUt;
@@ -24,10 +22,6 @@ import java.util.function.*;
 @SuppressWarnings("all")
 public final class Ut extends HUt {
     private Ut() {
-    }
-
-    public static JsonMapper mapper() {
-        return Jackson.getMapper();
     }
 
     /*
@@ -294,10 +288,6 @@ public final class Ut extends HUt {
         return Jackson.serializeJson(t, isSmart);
     }
 
-    public static <T> String serialize(final T t) {
-        return Jackson.serialize(t);
-    }
-
     public static <T> T deserialize(final JsonObject value, final Class<T> type) {
         return Jackson.deserialize(value, type, true);
     }
@@ -306,28 +296,12 @@ public final class Ut extends HUt {
         return Jackson.deserialize(value, type, isSmart);
     }
 
-    public static <T> T deserialize(final JsonArray value, final Class<T> type) {
-        return Jackson.deserialize(value, type, false);
-    }
-
     public static <T> T deserialize(final JsonArray value, final Class<T> type, boolean isSmart) {
         return Jackson.deserialize(value, type, isSmart);
     }
 
-    public static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
-        return Jackson.deserialize(value, type);
-    }
-
-    public static <T> T deserialize(final String value, final Class<T> clazz) {
-        return Jackson.deserialize(value, clazz, false);
-    }
-
     public static <T> T deserialize(final String value, final Class<T> clazz, boolean isSmart) {
         return Jackson.deserialize(value, clazz, isSmart);
-    }
-
-    public static <T> T deserialize(final String value, final TypeReference<T> type) {
-        return Jackson.deserialize(value, type);
     }
 
     /*

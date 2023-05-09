@@ -2,6 +2,7 @@ package io.horizon.specification.modeler;
 
 import io.aeon.experiment.rule.RuleUnique;
 import io.modello.atom.normalize.KMarkAtom;
+import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;

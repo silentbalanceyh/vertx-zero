@@ -1,17 +1,17 @@
-package io.aeon.experiment.reference;
+package io.modello.atom.normalize;
 
 import io.horizon.atom.common.Kv;
-import io.horizon.eon.em.typed.DataFormat;
-import io.horizon.specification.modeler.HAttribute;
-import io.modello.atom.normalize.RRule;
+import io.horizon.eon.VName;
+import io.horizon.util.HUt;
+import io.modello.eon.em.ValueFormat;
+import io.modello.specification.atom.HAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.eon.KName;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * ## Result
@@ -84,7 +84,7 @@ public class RResult implements Serializable {
 
     private final RRule rule;
 
-    private final DataFormat format;
+    private final ValueFormat format;
 
     private final Class<?> type;
 
@@ -98,10 +98,10 @@ public class RResult implements Serializable {
         this.rule = config.referenceRule();
         this.sourceField = referenceField;
         /* Joined calculation */
-        final JsonObject sourceReference = Ut.valueJObject(referenceConfig);
-        final Object connect = sourceReference.getValue(KName.CONNECT);
+        final JsonObject sourceReference = HUt.valueJObject(referenceConfig);
+        final Object connect = sourceReference.getValue(VName.CONNECT);
         if (Objects.nonNull(connect)) {
-            if (connect instanceof String) {
+            if (connect instanceof final String currentField) {
                 /*
                  * Single mode.
                  * Example:
@@ -118,22 +118,23 @@ public class RResult implements Serializable {
                  * reference key: targetGlobalId
                  * record key: globalId
                  */
-                final String currentField = (String) connect;
                 this.joined.add(Kv.create(referenceField, currentField));
-            } else if (connect instanceof JsonObject) {
+            } else if (connect instanceof final JsonObject mapping) {
                 /*
                  * Multi mode
                  *
                  * reference key: workNumber
                  * record key: supportANo
                  */
-                final JsonObject mapping = (JsonObject) connect;
-                Ut.<String>itJObject(mapping, (currentField, field) -> this.joined.add(Kv.create(field, currentField)));
+                mapping.fieldNames().stream()
+                    .filter(item -> mapping.getValue(item) instanceof String)
+                    .forEach(field -> this.joined.add(Kv.create(field, mapping.getString(field))));
+                //                HUt.<String>itJObject(mapping, (currentField, field) -> );
             }
         }
     }
 
-    public DataFormat format() {
+    public ValueFormat format() {
         return this.format;
     }
 
@@ -156,62 +157,5 @@ public class RResult implements Serializable {
         processed = RRuler.duplicated(processed, this.rule);
 
         return processed;
-    }
-}
-
-final class RRuler {
-    private RRuler() {
-    }
-
-    public static JsonArray required(final JsonArray source, final RRule rule) {
-        /* required fields */
-        return rulerAnd(source, rule.getRequired(), value -> Ut.isNotNil(value.toString()));
-    }
-
-    public static JsonArray duplicated(final JsonArray source, final RRule rule) {
-        /* unique field */
-        final Set<JsonObject> added = new HashSet<>();
-        return ruler(source, rule.getUnique(), json -> {
-            final JsonObject uniqueJson = Ut.elementSubset(json, rule.getUnique());
-            if (added.contains(uniqueJson)) {
-                return false;
-            } else {
-                added.add(uniqueJson);
-                return true;
-            }
-        });
-    }
-
-    private static JsonArray rulerAnd(final JsonArray source, final Set<String> fieldSet, final Predicate<Object> fnFilter) {
-        return ruler(source, fieldSet, json -> fieldSet.stream().allMatch(field -> {
-            final Object value = json.getValue(field);
-            if (Objects.nonNull(value)) {
-                return fnFilter.test(value);
-            } else {
-                return false;
-            }
-        }));
-    }
-
-    private static JsonArray rulerOr(final JsonArray source, final Set<String> fieldSet, final Predicate<Object> fnFilter) {
-        return ruler(source, fieldSet, json -> fieldSet.stream().anyMatch(field -> {
-            final Object value = json.getValue(field);
-            if (Objects.nonNull(value)) {
-                return fnFilter.test(value);
-            } else {
-                return false;
-            }
-        }));
-    }
-
-    private static JsonArray ruler(final JsonArray source, final Set<String> fieldSet, final Predicate<JsonObject> fnFilter) {
-        if (fieldSet.isEmpty()) {
-            return source;
-        } else {
-            /* Code Logical */
-            final JsonArray processed = new JsonArray();
-            Ut.itJArray(source).filter(fnFilter).forEach(processed::add);
-            return processed;
-        }
     }
 }

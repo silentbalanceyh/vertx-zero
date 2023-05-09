@@ -1,4 +1,4 @@
-package io.aeon.experiment.reference;
+package io.modello.atom.normalize;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

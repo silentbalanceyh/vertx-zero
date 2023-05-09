@@ -55,7 +55,7 @@ public class JacksonTc extends ZeroBase {
     @Test
     public void testSerializer(final TestContext context) {
         final JsonObject data = HUt.ioJObject(this.ioString("jackson-json.json"));
-        final JsonObject content = new JsonObject(Jackson.serialize(data));
+        final JsonObject content = new JsonObject(HUt.serialize(data));
         System.out.println(content.encodePrettily());
     }
 

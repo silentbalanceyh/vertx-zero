@@ -2,13 +2,13 @@ package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
-import io.aeon.experiment.mu.KAttribute;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.AttributeType;
-import io.horizon.eon.em.typed.DataFormat;
-import io.horizon.specification.modeler.HAttribute;
+import io.modello.atom.normalize.KAttribute;
 import io.modello.atom.normalize.KMarkAttribute;
 import io.modello.atom.normalize.RRule;
+import io.modello.eon.em.ValueFormat;
+import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -67,7 +67,7 @@ class AtomAttribute implements HAttribute, Serializable {
         final Boolean isArray = Objects.isNull(attribute.getIsArray()) ? Boolean.FALSE : attribute.getIsArray();
         final JsonObject config = Ut.toJObject(attribute.getSourceConfig());
         final JsonObject reference = Ut.toJObject(attribute.getSourceReference());
-        DataFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), DataFormat.class, DataFormat.Elementary);
+        ValueFormat format = Ut.toEnum(() -> config.getString(KName.FORMAT), ValueFormat.class, ValueFormat.Elementary);
 
         /*
          * format adjusting
@@ -75,7 +75,7 @@ class AtomAttribute implements HAttribute, Serializable {
          * 2. Priority 2: isArray must be `false`, set the default value instead.
          */
         if (isArray) {
-            format = DataFormat.JsonArray;
+            format = ValueFormat.JsonArray;
         }
         attributeJ.put(KName.FORMAT, format);
 
@@ -86,10 +86,10 @@ class AtomAttribute implements HAttribute, Serializable {
          * 3. format = Elementary, `Ut.clazz`
          */
         final Class<?> configType;
-        if (DataFormat.Elementary == format) {
+        if (ValueFormat.Elementary == format) {
             configType = Ut.clazz(config.getString(KName.TYPE), String.class);
         } else {
-            configType = DataFormat.JsonArray == format ? JsonArray.class : JsonObject.class;
+            configType = ValueFormat.JsonArray == format ? JsonArray.class : JsonObject.class;
         }
 
         final Class<?> attributeType;
@@ -182,14 +182,9 @@ class AtomAttribute implements HAttribute, Serializable {
         return this.attribute.field();
     }
 
-    /**
-     * Return to `fields`
-     *
-     * @return {@link List}
-     */
     @Override
-    public List<HMetaField> fields() {
-        return this.attribute.fields();
+    public List<HMetaField> fieldCompiled() {
+        return this.attribute.fieldCompiled();
     }
 
     @Override
@@ -208,10 +203,10 @@ class AtomAttribute implements HAttribute, Serializable {
     }
 
     /**
-     * @return {@link DataFormat}
+     * @return {@link ValueFormat}
      */
     @Override
-    public DataFormat format() {
+    public ValueFormat format() {
         return this.attribute.format();
     }
 

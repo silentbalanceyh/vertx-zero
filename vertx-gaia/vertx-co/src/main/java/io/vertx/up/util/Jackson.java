@@ -1,14 +1,5 @@
 package io.vertx.up.util;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.OriginalNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.module.ZeroModule;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.ChangeFlag;
@@ -29,43 +20,8 @@ import java.util.concurrent.ConcurrentMap;
 @SuppressWarnings("all")
 final class Jackson {
     private static final Annal LOGGER = Annal.get(Jackson.class);
-    private static final JsonMapper MAPPER = JsonMapper.builder()
-        /*
-         * Previous code
-         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-         * JsonMapper.builder().configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
-         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-         * Jackson.MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
-         *
-         * Case Sensitive
-         * Below new code logical
-         */
-        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-        .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-        .build();
-
-    static {
-        // Ignore null value
-        Jackson.MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
-        // Non-standard JSON but we allow C style comments in our JSON
-        Jackson.MAPPER.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-        Jackson.MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        Jackson.MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        // Big Decimal
-        Jackson.MAPPER.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
-        // Case Sensitive
-
-        final ZeroModule module = new ZeroModule();
-        Jackson.MAPPER.registerModule(module);
-        Jackson.MAPPER.setPropertyNamingStrategy(OriginalNamingStrategy.JOOQ_NAME);
-    }
 
     private Jackson() {
-    }
-
-    static JsonMapper getMapper() {
-        return MAPPER.copy();
     }
 
     static JsonObject visitJObject(
@@ -179,10 +135,6 @@ final class Jackson {
         return array;
     }
 
-    static <T> String serialize(final T t) {
-        return Fn.runOr(null, () -> Fn.failOr(() -> Jackson.MAPPER.writeValueAsString(t), t), t);
-    }
-
     static <T> T deserialize(final JsonObject value, final Class<T> type, final boolean isSmart) {
         return Fn.runOr(null,
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
@@ -193,26 +145,14 @@ final class Jackson {
             () -> Jackson.deserialize(value.encode(), type, isSmart), value);
     }
 
-    static <T> List<T> deserialize(final JsonArray value, final TypeReference<List<T>> type) {
-        return Fn.runOr(new ArrayList<>(),
-            () -> Jackson.deserialize(value.encode(), type), value);
-    }
-
     static <T> T deserialize(final String value, final Class<T> type, final boolean isSmart) {
         final String smart = isSmart ? deserializeSmart(value, type) : value;
         return Fn.runOr(null,
-            () -> Fn.failOr(() -> Jackson.MAPPER.readValue(smart, type)), value);
-    }
-
-    static <T> T deserialize(final String value, final TypeReference<T> type) {
-        // Turn Off Smart Json when TypeReference<T>
-        // final String smart = deserializeSmart(value, (Class<T>) type.getType());
-        return Fn.runOr(null,
-            () -> Fn.failOr(() -> Jackson.MAPPER.readValue(value, type)), value);
+            () -> Fn.failOr(() -> HUt.deserialize(smart, type)), value);
     }
 
     static <T, R extends Iterable> R serializeJson(final T t, final boolean isSmart) {
-        final String content = Jackson.serialize(t);
+        final String content = HUt.serialize(t);
         return Fn.failOr(null, () -> Fn.runOr(content.trim().startsWith(VString.LEFT_BRACE), null,
             /*
              * Switch to smart serialization on the object to avoid

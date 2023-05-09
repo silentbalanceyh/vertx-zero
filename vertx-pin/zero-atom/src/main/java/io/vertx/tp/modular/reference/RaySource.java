@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.reference;
 
-import io.aeon.experiment.reference.RDao;
-import io.aeon.experiment.reference.RQuote;
 import io.horizon.atom.common.Kv;
+import io.modello.atom.normalize.RDao;
+import io.modello.atom.normalize.RQuote;
 import io.modello.atom.normalize.RRule;
 import io.modello.specification.HRecord;
 import io.vertx.core.Future;

@@ -5,6 +5,7 @@ import io.horizon.eon.em.modeler.ModelType;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.HApp;
+import io.modello.specification.atom.HAttribute;
 
 import java.util.Set;
 

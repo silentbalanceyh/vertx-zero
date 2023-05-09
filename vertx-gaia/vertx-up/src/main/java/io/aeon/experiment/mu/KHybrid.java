@@ -1,9 +1,11 @@
 package io.aeon.experiment.mu;
 
 import io.aeon.experiment.rule.RuleUnique;
-import io.horizon.specification.modeler.HAttribute;
+import io.modello.atom.normalize.KAttribute;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.atom.normalize.KMarkAttribute;
+import io.modello.atom.normalize.KReference;
+import io.modello.specification.atom.HAttribute;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
