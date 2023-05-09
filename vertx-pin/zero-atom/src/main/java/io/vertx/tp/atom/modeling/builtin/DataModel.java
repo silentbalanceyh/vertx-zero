@@ -4,13 +4,13 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
-import io.aeon.experiment.rule.RuleUnique;
 import io.aeon.experiment.shape.AbstractHModel;
 import io.horizon.eon.em.modeler.ModelType;
-import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.modello.atom.app.KApp;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.Model;
@@ -92,10 +92,11 @@ public class DataModel extends AbstractHModel implements Model {
     }
 
     @Override
-    protected RuleUnique loadRule() {
+    protected HUnique loadRule() {
         final String content = this.model.getRuleUnique();
         if (Ut.isNotNil(content)) {
-            return Ut.deserialize(content, RuleUnique.class);
+            return HUnique.of(content);
+            // return Ut.deserialize(content, KRuleUnique.class);
         } else {
             return null;
         }
@@ -190,12 +191,11 @@ public class DataModel extends AbstractHModel implements Model {
         // 针对 ruleUnique
         {
             final Object uniqueRef = model.getValue(KName.RULE_UNIQUE);
-            if (uniqueRef instanceof JsonObject) {
+            if (uniqueRef instanceof final JsonObject content) {
                 /*
                  * 反序列化成 RuleUnique
                  */
-                final JsonObject content = (JsonObject) uniqueRef;
-                this.unique = Ut.deserialize(content, RuleUnique.class);
+                this.unique = HUnique.of(content);
                 model.put(KName.RULE_UNIQUE, content.encode());
             }
         }

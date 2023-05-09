@@ -1,8 +1,7 @@
-package io.aeon.experiment.rule;
+package com.fasterxml.jackson.databind;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import io.modello.atom.normalize.KRuleTerm;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,10 +9,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class RuleTermSerializer extends JsonSerializer<RuleTerm> {
+public class RuleTermSerializer extends JsonSerializer<KRuleTerm> {
 
     @Override
-    public void serialize(final RuleTerm ruleTerm,
+    public void serialize(final KRuleTerm ruleTerm,
                           final JsonGenerator jgen,
                           final SerializerProvider serializerProvider) throws IOException {
         if (Objects.nonNull(ruleTerm)) {

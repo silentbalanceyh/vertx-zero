@@ -1,11 +1,11 @@
 package io.aeon.experiment.mu;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.modello.atom.normalize.KAttribute;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.atom.normalize.KMarkAttribute;
-import io.modello.atom.normalize.KReference;
+import io.modello.atom.normalize.RReference;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
@@ -34,9 +34,9 @@ public class KHybrid implements Serializable {
      *
      * Above code segments could help you to build RuleUnique
      */
-    private final RuleUnique unique;
+    private final HUnique unique;
     // ======================= Attribute Level ========================================
-    private final ConcurrentMap<String, KReference> referenceMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, RReference> referenceMap = new ConcurrentHashMap<>();
 
     private final ConcurrentMap<String, HAttribute> attributeMap = new ConcurrentHashMap<>();
     private final KMarkAtom marker;
@@ -45,7 +45,7 @@ public class KHybrid implements Serializable {
         // alias / rule / trackable
         this.alias = hybridJ.getString(KName.ALIAS, null);
         final JsonObject ruleJ = Ut.valueJObject(hybridJ, KName.RULE_UNIQUE);
-        this.unique = Ut.deserialize(ruleJ, RuleUnique.class);
+        this.unique = HUnique.of(ruleJ);
         final Boolean track = hybridJ.getBoolean(KName.TRACKABLE, Boolean.FALSE);
         this.marker = KMarkAtom.of(track);
 
@@ -60,7 +60,7 @@ public class KHybrid implements Serializable {
             final String source = referenceJ.getString(KName.SOURCE);
             final String sourceField = referenceJ.getString(KName.SOURCE_FIELD);
             final JsonObject config = Ut.valueJObject(referenceJ, KName.CONFIG);
-            final KReference reference = new KReference();
+            final RReference reference = new RReference();
             reference.name(name).source(source).sourceField(sourceField).sourceReference(config);
             if (reference.isReference()) {
                 this.referenceMap.put(name, reference);
@@ -78,7 +78,7 @@ public class KHybrid implements Serializable {
             // Matrix
             final KMarkAttribute matrix = this.marker.get(field);
             // Reference
-            final KReference reference = this.referenceMap.get(field);
+            final RReference reference = this.referenceMap.get(field);
 
             // KAttribute
             final Object value = attributeJ.getValue(field);
@@ -108,7 +108,7 @@ public class KHybrid implements Serializable {
         return new KHybrid(input);
     }
 
-    public RuleUnique rule() {
+    public HUnique rule() {
         return this.unique;
     }
 
@@ -120,7 +120,7 @@ public class KHybrid implements Serializable {
         return this.marker;
     }
 
-    public ConcurrentMap<String, KReference> reference() {
+    public ConcurrentMap<String, RReference> reference() {
         return this.referenceMap;
     }
 

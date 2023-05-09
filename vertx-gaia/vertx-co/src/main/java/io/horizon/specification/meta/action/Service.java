@@ -1,6 +1,6 @@
 package io.horizon.specification.meta.action;
 
-import io.aeon.experiment.rule.RuleUnique;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.exchange.BTree;
@@ -47,5 +47,5 @@ public interface Service {
     /*
      * `rule`
      */
-    RuleUnique rule();
+    HUnique rule();
 }

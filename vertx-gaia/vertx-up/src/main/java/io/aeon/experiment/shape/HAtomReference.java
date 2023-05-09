@@ -5,12 +5,12 @@ import io.aeon.experiment.specification.KPoint;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
-import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.*;
 import io.modello.eon.em.ValueFormat;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -106,7 +106,7 @@ public class HAtomReference implements HReference {
 
     protected final transient KApp app;
 
-    private final transient Cc<String, KReference> ccData = Cc.open();
+    private final transient Cc<String, RReference> ccData = Cc.open();
 
     public HAtomReference(final KApp app) {
         this.app = app;
@@ -132,14 +132,14 @@ public class HAtomReference implements HReference {
     }
 
     @Override
-    public KReference refData(final String name) {
+    public RReference refData(final String name) {
         return this.ccData.store(name);
     }
 
     // ======================= Overwrite Api ==========================
-    protected void initializeReference(final KReference input, final HAttribute hAttribute) {
+    protected void initializeReference(final RReference input, final HAttribute hAttribute) {
         if (input.isReference()) {
-            final KReference reference = this.ccData.pick(() -> input, input.name());
+            final RReference reference = this.ccData.pick(() -> input, input.name());
             final String source = reference.source();
 
             final RDao dao = this.initializeDao(reference);
@@ -192,7 +192,7 @@ public class HAtomReference implements HReference {
     }
 
     // ======================= Private Api ==========================
-    private RDao initializeDao(final KReference reference) {
+    private RDao initializeDao(final RReference reference) {
         final String source = reference.source();
         final HAtom atom = this.toAtom(source);
         final JsonObject sourceReference = reference.sourceReference();

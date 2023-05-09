@@ -2,8 +2,8 @@ package cn.originx.scaffold.component;
 
 import cn.originx.refine.Ox;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HDao;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -103,7 +103,7 @@ public abstract class AbstractIncome extends AbstractJob implements JobIncome {
      */
     protected DataAtom atom() {
         final IService service = this.service();
-        final RuleUnique rule = Jt.toRule(service);
+        final HUnique rule = Jt.toRule(service);
         return Ox.toAtom(service.getSigma(), service.getIdentifier()).rule(rule);
     }
 

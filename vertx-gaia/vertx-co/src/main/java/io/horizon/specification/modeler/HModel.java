@@ -1,11 +1,12 @@
 package io.horizon.specification.modeler;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.modeler.ModelType;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.HApp;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public interface HModel extends HApp {
      * Rule that is stored into model table or model object
      * it's related to build RuleUnique object/reference instead of
      */
-    RuleUnique rule();
+    HUnique rule();
 
     /*
      * The type of model here

@@ -1,11 +1,11 @@
 package io.vertx.tp.jet.uca.business;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._501NotImplementException;
 import io.horizon.specification.meta.action.Service;
 import io.horizon.spi.jet.JtComponent;
 import io.horizon.uca.log.Annal;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Contract;
@@ -93,7 +93,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
     @Contract
     private transient BTree mapping;
     @Contract
-    private transient RuleUnique rule;
+    private transient HUnique rule;
 
     /*
      * There are required attribute
@@ -118,7 +118,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
     }
 
     @Override
-    public RuleUnique rule() {
+    public HUnique rule() {
         return this.rule;
     }
 
@@ -170,7 +170,7 @@ public abstract class AbstractComponent implements JtComponent, Service {
             Ut.contract(instance, BTree.class, this.mapping());
             Ut.contract(instance, DFabric.class, this.fabric);
             Ut.contract(instance, XHeader.class, this.header);
-            Ut.contract(instance, RuleUnique.class, this.rule);
+            Ut.contract(instance, HUnique.class, this.rule);
         }
     }
 

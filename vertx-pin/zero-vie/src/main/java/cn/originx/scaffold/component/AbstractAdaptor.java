@@ -1,11 +1,11 @@
 package cn.originx.scaffold.component;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._501NotSupportException;
 import io.horizon.specification.modeler.HDao;
-import io.modello.specification.HRecord;
 import io.horizon.spi.robin.Switcher;
+import io.modello.specification.HRecord;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -76,7 +76,7 @@ import static cn.originx.refine.Ox.LOG;
  *
  * 标识规则的绑定会区分优先级
  *
- * 1. 先从通道中构造{@link RuleUnique}对象（通道定义，高优先级）。
+ * 1. 先从通道中构造{@link HUnique}对象（通道定义，高优先级）。
  * 2. 再读取模型定义{@link DataAtom}中的标识规则（模型定义，低优先级）。
  *
  * ### 4. 关于四种组件
@@ -153,7 +153,7 @@ public abstract class AbstractAdaptor extends AbstractComponent {
      *
      * 1. 使用`this.options()`返回结果，构造{@link DataAtom}（从缓存中提取新的）。
      * 2. 将{@link DataAtom}和当前模型中的<strong>标识规则</strong>对象绑定。
-     * 3. 挂外置的通道专用{@link RuleUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
+     * 3. 挂外置的通道专用{@link HUnique}，默认信息DataAtom和通道中的标识规则连接，该方法是静态场景专用的标识规则对象（通道规则优先）。
      *
      * 内部调用`Ao.toAtom`方法的数据结构如下：
      *

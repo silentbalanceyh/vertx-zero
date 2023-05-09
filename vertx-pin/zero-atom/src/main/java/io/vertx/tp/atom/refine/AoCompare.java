@@ -1,10 +1,10 @@
 package io.vertx.tp.atom.refine;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.uca.compare.Vs;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -64,7 +64,7 @@ class AoCompare {
         final JsonArray queueO, final JsonArray queueN,
         final DataAtom atom, final Set<String> ignoreSet
     ) {
-        final RuleUnique rules = atom.ruleSmart();
+        final HUnique rules = atom.ruleSmart();
         LOG.Uca.info(AoCompare.class, "（Pure）对比用标识规则：\n{0}", rules.toString());
         final JsonArray queueA = new JsonArray();
         final JsonArray queueUTemp = new JsonArray();
@@ -142,7 +142,7 @@ class AoCompare {
          * -- 第三方集成执行通道内的标识规则（Rule来自通道）
          * 2. 只有集成拉取数据会遇到 Strong / Weak 的强弱连接
          */
-        final RuleUnique rules = atom.ruleSmart();
+        final HUnique rules = atom.ruleSmart();
         LOG.Diff.info(AoCompare.class, "（Pull）对比用标识规则：\n{0}", rules.toString());
         final JsonArray queueA = new JsonArray();
         final JsonArray queueUTemp = new JsonArray();
@@ -311,7 +311,7 @@ class AoCompare {
                      *
                      * 旧记录满足了 priority 的标识规则（合法）
                      */
-                    final JsonObject foundStrong = Ux.ruleAny(rules.getStrong(), queueNew, recordO);
+                    final JsonObject foundStrong = Ux.ruleAny(rules.ruleStrong(), queueNew, recordO);
                     if (Objects.isNull(foundStrong)) {
                         /*
                          * 新数据
@@ -326,7 +326,7 @@ class AoCompare {
                         /*
                          * 强连接失效、那么执行弱连接操作
                          */
-                        final JsonObject foundWeak = Ux.ruleAny(rules.getWeak(), queueNew, recordO);
+                        final JsonObject foundWeak = Ux.ruleAny(rules.ruleWeak(), queueNew, recordO);
                         if (Objects.isNull(foundWeak)) {
                             /*
                              * 弱连接未匹配，直接删除
@@ -339,7 +339,7 @@ class AoCompare {
                              */
                             final JsonObject newRef = foundWeak.getJsonObject(KName.__.NEW);
                             final JsonObject oldRef = foundWeak.getJsonObject(KName.__.OLD);
-                            rules.getStrong().forEach(rule -> rule.getFields().forEach(field -> {
+                            rules.ruleStrong().forEach(rule -> rule.getFields().forEach(field -> {
                                 /*
                                  * 以旧数据中的强连接字段为主
                                  */
@@ -381,7 +381,7 @@ class AoCompare {
             if (Objects.isNull(processed)) {
                 return Ux.ruleTwins(null, recordN);
             } else {
-                final JsonObject weakFound = Ux.ruleAny(rules.getWeak(), queueOld, recordN);
+                final JsonObject weakFound = Ux.ruleAny(rules.ruleWeak(), queueOld, recordN);
                 if (Objects.isNull(weakFound)) {
                     /*
                      * 如果弱连接找不到

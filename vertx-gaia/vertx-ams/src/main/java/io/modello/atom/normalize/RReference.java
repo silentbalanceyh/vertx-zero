@@ -8,13 +8,13 @@ import java.io.Serializable;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class KReference implements Serializable {
+public class RReference implements Serializable {
     private final JsonObject sourceReference = new JsonObject();
     private String name;
     private String source;
     private String sourceField;
 
-    public KReference name(final String name) {
+    public RReference name(final String name) {
         this.name = name;
         return this;
     }
@@ -23,7 +23,7 @@ public class KReference implements Serializable {
         return this.name;
     }
 
-    public KReference source(final String source) {
+    public RReference source(final String source) {
         this.source = source;
         return this;
     }
@@ -32,7 +32,7 @@ public class KReference implements Serializable {
         return this.source;
     }
 
-    public KReference sourceField(final String sourceField) {
+    public RReference sourceField(final String sourceField) {
         this.sourceField = sourceField;
         return this;
     }
@@ -41,13 +41,13 @@ public class KReference implements Serializable {
         return this.sourceField;
     }
 
-    public KReference sourceReference(final JsonObject sourceReference) {
+    public RReference sourceReference(final JsonObject sourceReference) {
         final JsonObject valued = HUt.valueJObject(sourceReference);
         this.sourceReference.mergeIn(valued, true);
         return this;
     }
 
-    public KReference sourceReference(final String sourceReference) {
+    public RReference sourceReference(final String sourceReference) {
         final JsonObject config = HUt.toJObject(sourceReference);
         if (HUt.isNotNil(config)) {
             this.sourceReference(config);

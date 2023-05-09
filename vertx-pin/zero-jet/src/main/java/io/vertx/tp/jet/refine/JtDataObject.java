@@ -3,8 +3,8 @@ package io.vertx.tp.jet.refine;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.spi.environment.Ambient;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
 import io.vertx.tp.jet.cv.JtConstant;
@@ -44,7 +44,7 @@ class JtDataObject {
         }
     }
 
-    static RuleUnique toRule(final IService service) {
+    static HUnique toRule(final IService service) {
         if (Objects.isNull(service)) {
             return null;
         } else {
@@ -52,7 +52,7 @@ class JtDataObject {
             if (Ut.isNil(rules)) {
                 return null;
             } else {
-                return Ut.deserialize(rules, RuleUnique.class);
+                return HUnique.of(rules);
             }
         }
     }

@@ -3,9 +3,11 @@ package io.vertx.tp.jet.refine;
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.container.ChannelType;
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -18,8 +20,6 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
-import io.horizon.uca.log.Log;
-import io.horizon.uca.log.LogModule;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;
@@ -143,7 +143,7 @@ public class Jt {
         return JtDataObject.toDatabase(service);
     }
 
-    public static RuleUnique toRule(final IService service) {
+    public static HUnique toRule(final IService service) {
         return JtDataObject.toRule(service);
     }
 

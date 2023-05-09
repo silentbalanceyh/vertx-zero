@@ -1,9 +1,9 @@
 package cn.originx.uca.plugin;
 
 import cn.originx.refine.Ox;
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.spi.environment.Identifier;
 import io.horizon.spi.robin.Switcher;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -130,7 +130,7 @@ public class AtomSwitcher implements Switcher {
         }
     }
 
-    private DataAtom connect(final DataAtom atom, final RuleUnique unique) {
+    private DataAtom connect(final DataAtom atom, final HUnique unique) {
         if (Objects.isNull(unique) || Objects.isNull(atom)) {
             /*
              * RuleUnique 为空，直接返回，不连接
@@ -140,7 +140,7 @@ public class AtomSwitcher implements Switcher {
             /*
              * RuleUnique 不为空，先读取子配置
              */
-            RuleUnique found = unique.child(atom.identifier());
+            HUnique found = unique.child(atom.identifier());
             if (Objects.isNull(found)) {
                 found = unique;
             }
@@ -156,7 +156,7 @@ public class AtomSwitcher implements Switcher {
      * Set<DataGroup> 用于后续操作，这里返回没有必要使用 Map
      */
     private Future<Set<DataGroup>> atom(final ConcurrentMap<String, JsonArray> identifiers,
-                                        final RuleUnique unique) {
+                                        final HUnique unique) {
         final String sigma = this.identity.getSigma();
         final Set<DataGroup> resultSet = new HashSet<>();
         identifiers.forEach((identifier, dataArray) -> {
@@ -170,7 +170,7 @@ public class AtomSwitcher implements Switcher {
     }
 
     private Future<DataAtom> atom(final String identifier,
-                                  final RuleUnique unique) {
+                                  final HUnique unique) {
         final String sigma = this.identity.getSigma();
         LOG.Uca.info(this.getClass(), "最终选择的 identifier = {0}, sigma = {1}", identifier, sigma);
         return Ux.future(this.connect(Ox.toAtom(sigma, identifier), unique));

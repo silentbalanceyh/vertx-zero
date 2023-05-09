@@ -1,5 +1,7 @@
-package io.aeon.experiment.rule;
+package io.modello.atom.normalize;
 
+import com.fasterxml.jackson.databind.RuleTermDeserializer;
+import com.fasterxml.jackson.databind.RuleTermSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.vertx.core.json.JsonArray;
@@ -18,15 +20,15 @@ import java.util.Set;
  */
 @JsonSerialize(using = RuleTermSerializer.class)
 @JsonDeserialize(using = RuleTermDeserializer.class)
-public class RuleTerm implements Serializable {
+public class KRuleTerm implements Serializable {
 
     private final Set<String> fields = new HashSet<>();
 
-    public RuleTerm(final String rule) {
+    public KRuleTerm(final String rule) {
         this.fields.add(rule);
     }
 
-    public RuleTerm(final JsonArray rules) {
+    public KRuleTerm(final JsonArray rules) {
         rules.stream()
             /* 过滤空 */
             .filter(Objects::nonNull)
@@ -81,10 +83,10 @@ public class RuleTerm implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof RuleTerm)) {
+        if (!(o instanceof KRuleTerm)) {
             return false;
         }
-        final RuleTerm ruleTerm = (RuleTerm) o;
+        final KRuleTerm ruleTerm = (KRuleTerm) o;
         return this.fields.equals(ruleTerm.fields);
     }
 

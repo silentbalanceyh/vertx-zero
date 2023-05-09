@@ -1,15 +1,15 @@
 package io.aeon.experiment.shape;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HModel;
-import io.horizon.specification.modeler.HReference;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.compare.Vs;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 import io.vertx.core.json.JsonObject;
@@ -146,27 +146,27 @@ public abstract class AbstractHAtom implements HAtom {
 
     /** 存储的规则 */
     @Override
-    public RuleUnique ruleAtom() {
+    public HUnique ruleAtom() {
         return this.ruler.rule();
     }
 
 
     /** 智能检索规则 */
     @Override
-    public RuleUnique ruleSmart() {
+    public HUnique ruleSmart() {
         return this.ruler.ruleSmart();
     }
 
     /** 连接的规则 */
     @Override
-    public RuleUnique rule() {
+    public HUnique rule() {
         return this.ruler.ruleDirect();
     }
 
     /** 规则的链接 */
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends HAtom> T rule(final RuleUnique channelRule) {
+    public <T extends HAtom> T rule(final HUnique channelRule) {
         this.ruler.connect(channelRule);
         return (T) this;
     }

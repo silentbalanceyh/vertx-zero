@@ -1,8 +1,8 @@
 package cn.originx.refine;
 
 import cn.originx.cv.OxCv;
-import io.aeon.experiment.rule.RuleUnique;
 import io.modello.eon.em.Marker;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
@@ -108,7 +108,7 @@ final class OxField {
     }
 
     static Set<String> ignoreApi(final DataAtom atom) {
-        final RuleUnique unique = atom.ruleAtom();
+        final HUnique unique = atom.ruleAtom();
         final Set<String> fieldSet = new HashSet<>(IGNORE_API);
         if (Objects.nonNull(unique)) {
             unique.rulePure().stream()

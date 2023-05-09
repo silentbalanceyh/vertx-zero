@@ -2,14 +2,14 @@ package io.vertx.tp.modular.jooq;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.specification.modeler.HReference;
+import io.horizon.uca.cache.Cc;
+import io.modello.specification.atom.HReference;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrItem;
-import io.horizon.uca.cache.Cc;
 
 import java.util.HashSet;
 import java.util.Objects;

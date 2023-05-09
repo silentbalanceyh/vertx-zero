@@ -1,8 +1,8 @@
-package io.horizon.specification.modeler;
+package io.modello.specification.atom;
 
-import io.modello.atom.normalize.KReference;
 import io.modello.atom.normalize.RQuery;
 import io.modello.atom.normalize.RQuote;
+import io.modello.atom.normalize.RReference;
 import io.modello.atom.normalize.RResult;
 
 import java.util.concurrent.ConcurrentMap;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public interface HReference {
 
-    KReference refData(String name);
+    RReference refData(String name);
 
     ConcurrentMap<String, RQuote> refInput();
 

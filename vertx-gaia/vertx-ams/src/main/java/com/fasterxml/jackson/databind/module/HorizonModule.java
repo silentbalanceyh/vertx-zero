@@ -14,6 +14,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.key.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.key.ZonedDateTimeKeySerializer;
+import io.modello.atom.normalize.KRuleTerm;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -33,9 +34,11 @@ public class HorizonModule extends SimpleModule {
         this.addSerializer(JsonArray.class, new JsonArraySerializer());
         //        this.addSerializer(UObject.class, new BladeSerializer());
         this.addSerializer(byte[].class, new ByteArraySerializer());
+        this.addSerializer(KRuleTerm.class, new RuleTermSerializer());
         // Deserializer
         this.addDeserializer(JsonObject.class, new JsonObjectDeserializer());
         this.addDeserializer(JsonArray.class, new JsonArrayDeserializer());
+        this.addDeserializer(KRuleTerm.class, new RuleTermDeserializer());
         //        this.addDeserializer(UObject.class, new BladeDeserializer());
         // Default Time
         this.addDeserializer(Instant.class, InstantDeserializer.INSTANT);

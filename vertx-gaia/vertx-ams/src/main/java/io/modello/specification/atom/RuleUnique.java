@@ -1,4 +1,6 @@
-package io.aeon.experiment.rule;
+package io.modello.specification.atom;
+
+import io.modello.atom.normalize.KRuleTerm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,13 +64,13 @@ import java.util.concurrent.ConcurrentMap;
  *
  * - 3.6） v v v | v x v - 非正常匹配
  */
-public class RuleUnique implements Serializable {
+public class RuleUnique implements HUnique, Serializable {
     /*
      * 子规则
      * identifier = rule1
      * identifier = rule2
      */
-    private ConcurrentMap<String, RuleUnique> children = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, HUnique> children = new ConcurrentHashMap<>();
     /*
      * （无优先级）可推送的规则：
      * 1）草稿 -> 合法状态的标准规则；
@@ -78,7 +80,7 @@ public class RuleUnique implements Serializable {
      * 合法规则，无优先级，只要满足则可入库，不满足规则则不可入库
      * 带优先级，在游离态创建连接需要根据优先级创建
      */
-    private List<RuleTerm> record = new ArrayList<>();
+    private List<KRuleTerm> record = new ArrayList<>();
     /*
      * （无优先级）可接受规则：
      * 1）集成可入记录规则，从 UCMDB 中读取数据专用
@@ -86,89 +88,99 @@ public class RuleUnique implements Serializable {
      * ---
      * 读取 UCMDB 中数据的专用规则，可以没有 code
      */
-    private Set<RuleTerm> integration = new HashSet<>();
+    private Set<KRuleTerm> integration = new HashSet<>();
     /*
      * 带优先级的标识规则，识别专用
      */
-    private List<RuleTerm> priority = new ArrayList<>();
+    private List<KRuleTerm> priority = new ArrayList<>();
     /*
      * 强连接
      */
-    private Set<RuleTerm> strong = new HashSet<>();
+    private Set<KRuleTerm> strong = new HashSet<>();
     /*
      * 弱连接
      */
-    private Set<RuleTerm> weak = new HashSet<>();
+    private Set<KRuleTerm> weak = new HashSet<>();
 
-    public ConcurrentMap<String, RuleUnique> getChildren() {
+    public ConcurrentMap<String, HUnique> getChildren() {
         return this.children;
     }
 
-    public void setChildren(final ConcurrentMap<String, RuleUnique> children) {
+    public void setChildren(final ConcurrentMap<String, HUnique> children) {
         this.children = children;
     }
 
-    public List<RuleTerm> getRecord() {
+    public List<KRuleTerm> getRecord() {
         return this.record;
     }
 
-    public void setRecord(final List<RuleTerm> record) {
+    public void setRecord(final List<KRuleTerm> record) {
         this.record = record;
     }
 
-    public Set<RuleTerm> getIntegration() {
+    public Set<KRuleTerm> getIntegration() {
         return this.integration;
     }
 
-    public void setIntegration(final Set<RuleTerm> integration) {
+    public void setIntegration(final Set<KRuleTerm> integration) {
         this.integration = integration;
     }
 
-    public List<RuleTerm> getPriority() {
+    public List<KRuleTerm> getPriority() {
         return this.priority;
     }
 
-    public void setPriority(final List<RuleTerm> priority) {
+    public void setPriority(final List<KRuleTerm> priority) {
         this.priority = priority;
     }
 
-    public Set<RuleTerm> getStrong() {
+    public Set<KRuleTerm> getStrong() {
         return this.strong;
     }
 
-    public void setStrong(final Set<RuleTerm> strong) {
+    public void setStrong(final Set<KRuleTerm> strong) {
         this.strong = strong;
     }
 
-    public Set<RuleTerm> getWeak() {
+    public Set<KRuleTerm> getWeak() {
         return this.weak;
     }
 
-    public void setWeak(final Set<RuleTerm> weak) {
+    public void setWeak(final Set<KRuleTerm> weak) {
         this.weak = weak;
     }
 
+    @Override
+    public Set<KRuleTerm> ruleWeak() {
+        return this.getWeak();
+    }
 
-    public Set<RuleTerm> rulePull() {
+    @Override
+    public Set<KRuleTerm> ruleStrong() {
+        return this.getStrong();
+    }
+
+    @Override
+    public Set<KRuleTerm> rulePull() {
         return this.integration;
     }
 
-    public List<RuleTerm> rulePure() {
+    @Override
+    public List<KRuleTerm> rulePure() {
         return this.priority;
     }
 
-    public List<RuleTerm> rulePush() {
+    @Override
+    public List<KRuleTerm> rulePush() {
         return this.record;
     }
 
-    public RuleUnique child(final String identifier) {
+    @Override
+    public HUnique child(final String identifier) {
         return this.children.get(identifier);
     }
 
-    public RuleUnique child() {
-        return this;
-    }
-
+    @Override
     public boolean valid() {
         return !(this.record.isEmpty() &&
             this.integration.isEmpty() &&

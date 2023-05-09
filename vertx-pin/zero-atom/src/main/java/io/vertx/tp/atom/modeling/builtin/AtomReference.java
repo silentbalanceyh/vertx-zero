@@ -6,7 +6,7 @@ import io.horizon.eon.em.modeler.AttributeType;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HDao;
 import io.modello.atom.app.KApp;
-import io.modello.atom.normalize.KReference;
+import io.modello.atom.normalize.RReference;
 import io.modello.specification.atom.HAttribute;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.refine.Ao;
@@ -63,7 +63,7 @@ class AtomReference extends HAtomReference {
                      * Reference Initializing
                      */
                     final HAttribute aoAttr = modelRef.attribute(attribute.getName());
-                    final KReference reference = new KReference();
+                    final RReference reference = new RReference();
                     reference.name(attribute.getName());
                     reference
                         .source(attribute.getSource())

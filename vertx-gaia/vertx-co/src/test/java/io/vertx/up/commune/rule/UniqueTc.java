@@ -1,9 +1,8 @@
 package io.vertx.up.commune.rule;
 
-import io.aeon.experiment.rule.RuleUnique;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
-import io.vertx.up.util.Ut;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +14,7 @@ public class UniqueTc extends ZeroBase {
     @Test
     public void testUnique() {
         final JsonObject input = this.ioJObject("data.json");
-        final RuleUnique unique = Ut.deserialize(input, RuleUnique.class);
+        final HUnique unique = HUnique.of(input);
         Assert.assertNotNull(unique);
         Assert.assertNotNull(unique.child("ci.device"));
         Assert.assertNotNull(unique.child("ci.business"));

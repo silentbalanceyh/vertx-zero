@@ -1,9 +1,10 @@
 package io.vertx.tp.jet.uca.business;
 
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.meta.action.Service;
 import io.horizon.spi.environment.Ambient;
+import io.horizon.uca.log.Annal;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.atom.JtApp;
@@ -17,7 +18,6 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -75,7 +75,7 @@ public abstract class AbstractJob implements Service {
     }
 
     @Override
-    public RuleUnique rule() {
+    public HUnique rule() {
         return Jt.toRule(this.service());
     }
 

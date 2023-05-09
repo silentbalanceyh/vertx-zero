@@ -1,8 +1,8 @@
 package io.horizon.specification.meta.action;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.em.container.ChannelType;
 import io.horizon.specification.typed.TJson;
+import io.modello.specification.atom.HUnique;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 
@@ -51,7 +51,7 @@ public interface Commercial extends Application, ServiceDefinition, TJson {
      * Get channel RuleUnique
      */
     @Override
-    RuleUnique rule();
+    HUnique rule();
 
     /*
      * Static identifier here for usage.

@@ -1,8 +1,8 @@
 package io.vertx.tp.jet.uca.tunnel;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtComponent;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.commune.Envelop;
@@ -60,7 +60,7 @@ class Anagogic {
                 Ut.contract(component, Identity.class, commercial.identity());      /* identifierComponent -> converted to identity */
                 Ut.contract(component, BTree.class, commercial.mapping());    /* mappingConfig */
                 Ut.contract(component, DFabric.class, fabric);                   /* dictConfig -> converted to fabric */
-                Ut.contract(component, RuleUnique.class, commercial.rule());        /* Rule Unique */
+                Ut.contract(component, HUnique.class, commercial.rule());        /* Rule Unique */
 
                 return Future.succeededFuture(Boolean.TRUE);
             });

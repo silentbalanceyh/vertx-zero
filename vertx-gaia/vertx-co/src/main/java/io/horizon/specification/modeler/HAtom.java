@@ -1,8 +1,9 @@
 package io.horizon.specification.modeler;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 import io.modello.specification.meta.HMetaAtom;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
@@ -93,7 +94,7 @@ interface HAtomRule {
      * - RuleUnique: Model Runtime
      * - RuleUnique: Channel Runtime
      */
-    RuleUnique ruleAtom();
+    HUnique ruleAtom();
 
     /*
      * Rule seeking by following code logical
@@ -102,15 +103,15 @@ interface HAtomRule {
      * - When there is no bind rule, this method will be called and return to stored
      *   rule that's belong to current model ( ATOM )
      */
-    RuleUnique ruleSmart();
+    HUnique ruleSmart();
 
     /*
      * Following method is for Channel Runtime only, it's not stored in Atom, instead
      * it's stored in `I_API / I_JOB` for different channels usage.
      */
-    RuleUnique rule();
+    HUnique rule();
 
-    <T extends HAtom> T rule(RuleUnique rule);
+    <T extends HAtom> T rule(HUnique rule);
 }
 
 // ==================== Attribute Part =====================

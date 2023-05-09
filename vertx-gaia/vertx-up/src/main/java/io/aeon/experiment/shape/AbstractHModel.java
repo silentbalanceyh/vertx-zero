@@ -1,12 +1,12 @@
 package io.aeon.experiment.shape;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.specification.modeler.HModel;
-import io.horizon.specification.modeler.HReference;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.KMarkAtom;
 import io.modello.atom.normalize.KMarkAttribute;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 
@@ -28,7 +28,7 @@ public abstract class AbstractHModel implements HModel {
     // The bind json file
     protected String jsonFile;
     // Unique Rule
-    protected RuleUnique unique;
+    protected HUnique unique;
     // Marker for
     protected KMarkAtom marker;
 
@@ -89,7 +89,7 @@ public abstract class AbstractHModel implements HModel {
     }
 
     @Override
-    public RuleUnique rule() {
+    public HUnique rule() {
         if (Objects.isNull(this.unique)) {
             this.loadRule();
         }
@@ -112,7 +112,7 @@ public abstract class AbstractHModel implements HModel {
 
     protected abstract ConcurrentMap<String, HAttribute> loadAttribute();
 
-    protected abstract RuleUnique loadRule();
+    protected abstract HUnique loadRule();
 
     protected HReference loadReference() {
         return new HAtomReference(this.app);

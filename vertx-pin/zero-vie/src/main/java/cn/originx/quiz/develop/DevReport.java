@@ -1,15 +1,15 @@
 package cn.originx.quiz.develop;
 
-import io.aeon.experiment.rule.RuleUnique;
 import io.horizon.eon.VString;
 import io.horizon.eon.em.modeler.ModelType;
 import io.horizon.specification.modeler.HAtom;
 import io.horizon.specification.modeler.HModel;
-import io.horizon.specification.modeler.HReference;
 import io.modello.atom.normalize.KMarkAttribute;
-import io.modello.atom.normalize.KReference;
+import io.modello.atom.normalize.RReference;
 import io.modello.atom.normalize.RRule;
 import io.modello.specification.atom.HAttribute;
+import io.modello.specification.atom.HReference;
+import io.modello.specification.atom.HUnique;
 import io.modello.specification.meta.HMetaAtom;
 import io.modello.specification.meta.HMetaField;
 
@@ -53,12 +53,12 @@ class DevReport {
         // Atom Unique Rule
         builder.append("「Unique Rule」---------------------------------------").append(VString.NEW_LINE);
         builder.append("Unique Rule: ");
-        final RuleUnique rule = atom.ruleAtom();
+        final HUnique rule = atom.ruleAtom();
         if (Objects.nonNull(rule)) {
             builder.append(rule).append(VString.NEW_LINE);
         }
         builder.append("Channel Rule: ").append(VString.NEW_LINE);
-        final RuleUnique ruleChannel = atom.rule();
+        final HUnique ruleChannel = atom.rule();
         if (Objects.nonNull(ruleChannel)) {
             builder.append(ruleChannel).append(VString.NEW_LINE);
         }
@@ -72,7 +72,7 @@ class DevReport {
         treeSet.stream().filter(name -> Objects.nonNull(atom.attribute(name))).forEach(name -> {
             // Each Data for Attribute
             final HAttribute attribute = atom.attribute(name);
-            final KReference refData;
+            final RReference refData;
             if (Objects.isNull(reference)) {
                 refData = null;
             } else {
@@ -85,7 +85,7 @@ class DevReport {
         LOG.Atom.info(DevReport.class, "\n" + builder);
     }
 
-    private static String outAttribute(final HAttribute attribute, final KReference reference) {
+    private static String outAttribute(final HAttribute attribute, final RReference reference) {
         final StringBuilder builder = new StringBuilder();
         final HMetaField attr = attribute.field();
 
