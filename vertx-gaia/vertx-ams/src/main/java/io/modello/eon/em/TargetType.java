@@ -9,7 +9,7 @@ package io.modello.eon.em;
  *
  * @author lang : 2023-05-08
  */
-public enum RuleLevel {
+public enum TargetType {
     ATOM,           // 模型级约束
     ATTRIBUTE,      // 属性级约束
 }

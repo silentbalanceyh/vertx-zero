@@ -44,22 +44,22 @@ class RaySource {
      * field2 -> DataQRule
      */
     public ConcurrentMap<String, JsonArray> single(final HRecord record) {
-        return this.data(rule -> rule.condition(record));
+        return this.data(rule -> rule.compile(record));
     }
 
     public Future<ConcurrentMap<String, JsonArray>> singleAsync(final HRecord record) {
-        return this.dataAsync(rule -> rule.condition(record));
+        return this.dataAsync(rule -> rule.compile(record));
     }
 
     /*
      * 批量运算
      */
     public ConcurrentMap<String, JsonArray> batch(final HRecord[] records) {
-        return this.data(rule -> rule.condition(records));
+        return this.data(rule -> rule.compile(records));
     }
 
     public Future<ConcurrentMap<String, JsonArray>> batchAsync(final HRecord[] records) {
-        return this.dataAsync(rule -> rule.condition(records));
+        return this.dataAsync(rule -> rule.compile(records));
     }
 
 
