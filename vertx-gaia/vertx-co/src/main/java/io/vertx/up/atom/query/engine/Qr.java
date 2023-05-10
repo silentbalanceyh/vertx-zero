@@ -1,12 +1,12 @@
 package io.vertx.up.atom.query.engine;
 
+import io.horizon.exception.web._400QQueryAttributeException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.Criteria;
 import io.vertx.up.atom.query.Pager;
 import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.exception.web._400QueryKeyTypeException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -103,7 +103,7 @@ public interface Qr {
         Fn.runAt(() -> Fn.runAt(() -> Fn.runAt(checkJson.containsKey(key), Annal.get(target), () -> {
             // Throw type exception
             final Object check = checkJson.getValue(key);
-            Fn.outWeb(!predicate.test(check), Annal.get(target), _400QueryKeyTypeException.class, target, key, type, check.getClass());
+            Fn.outWeb(!predicate.test(check), Annal.get(target), _400QQueryAttributeException.class, target, key, type, check.getClass());
         }), checkJson), target);
     }
 

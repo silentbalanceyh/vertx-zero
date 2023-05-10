@@ -1,12 +1,12 @@
 package io.vertx.up.atom.query;
 
+import io.horizon.exception.web._500QQueryMetaNullException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
 import io.vertx.up.atom.query.engine.QrDo;
 import io.vertx.up.atom.query.engine.QrItem;
-import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;
@@ -45,7 +45,7 @@ public class Criteria implements Serializable {
      * @param data {@link io.vertx.core.json.JsonObject}
      */
     private Criteria(final JsonObject data) {
-        Fn.outWeb(null == data, LOGGER, _500QueryMetaNullException.class, this.getClass());
+        Fn.outWeb(null == data, LOGGER, _500QQueryMetaNullException.class, this.getClass());
         assert data != null : "If null pointer, the exception will be thrown out.";
         if (QrDo.isComplex(data)) {
             this.mode = Qr.Mode.TREE;

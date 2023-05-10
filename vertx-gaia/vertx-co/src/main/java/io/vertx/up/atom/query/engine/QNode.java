@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query.tree;
+package io.vertx.up.atom.query.engine;
 
 /*
  * The top level query node

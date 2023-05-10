@@ -1,6 +1,4 @@
-package io.vertx.up.atom.query.tree;
-
-import io.vertx.up.atom.query.engine.Qr;
+package io.vertx.up.atom.query.engine;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

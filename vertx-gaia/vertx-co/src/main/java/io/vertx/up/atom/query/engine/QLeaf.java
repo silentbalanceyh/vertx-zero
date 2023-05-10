@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query.tree;
+package io.vertx.up.atom.query.engine;
 
 public interface QLeaf extends QNode {
     /*

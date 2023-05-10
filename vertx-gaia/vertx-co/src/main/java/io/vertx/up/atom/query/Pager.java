@@ -1,11 +1,12 @@
 package io.vertx.up.atom.query;
 
+import io.horizon.exception.web._400QPagerIndexException;
+import io.horizon.exception.web._400QPagerInvalidException;
+import io.horizon.exception.web._500QQueryMetaNullException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.exception.web._400PagerInvalidException;
-import io.vertx.up.exception.web._500QueryMetaNullException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
@@ -68,12 +69,12 @@ public class Pager implements Serializable {
     private void ensure(final JsonObject pageJson) {
         // Pager building checking
         Fn.outWeb(null == pageJson, LOGGER,
-            _500QueryMetaNullException.class, this.getClass());
+            _500QQueryMetaNullException.class, this.getClass());
         // Required
         Fn.outWeb(!pageJson.containsKey(PAGE), LOGGER,
-            _400PagerInvalidException.class, this.getClass(), PAGE);
+            _400QPagerInvalidException.class, this.getClass(), PAGE);
         Fn.outWeb(!pageJson.containsKey(SIZE), LOGGER,
-            _400PagerInvalidException.class, this.getClass(), SIZE);
+            _400QPagerInvalidException.class, this.getClass(), SIZE);
         // Types
         Qr.ensureType(pageJson, PAGE, Integer.class,
             Ut::isInteger, this.getClass());
@@ -84,7 +85,7 @@ public class Pager implements Serializable {
     private void init(final Integer page, final Integer size) {
         // Page/Size
         Fn.outWeb(1 > page, LOGGER,
-            _400PagerInvalidException.class, this.getClass(), page);
+            _400QPagerIndexException.class, this.getClass(), page);
         this.page = page;
         // Default Size is 10
         this.size = 0 < size ? size : 10;
