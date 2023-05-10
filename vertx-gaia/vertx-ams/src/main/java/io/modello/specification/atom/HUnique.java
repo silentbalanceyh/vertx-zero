@@ -5,6 +5,7 @@ import io.modello.atom.normalize.KRuleTerm;
 import io.modello.atom.normalize.KRuleUnique;
 import io.vertx.core.json.JsonObject;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  *
  * @author lang : 2023-05-09
  */
-public interface HUnique {
+public interface HUnique extends Serializable {
     static HUnique of(final String content) {
         return HUt.deserialize(content, KRuleUnique.class);
     }

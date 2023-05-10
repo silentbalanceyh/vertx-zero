@@ -67,6 +67,7 @@ class HFunction {
             if (Objects.nonNull(logger)) {
                 logger.fatal(ex);
             }
+            ex.printStackTrace();
             // 日志记录器追加
             return defaultValue;
         } catch (final Throwable ex) {

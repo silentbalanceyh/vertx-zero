@@ -24,6 +24,13 @@ public class KRuleTerm implements Serializable {
 
     private final Set<String> fields = new HashSet<>();
 
+    /**
+     * 无参构造函数
+     */
+    public KRuleTerm() {
+
+    }
+
     public KRuleTerm(final String rule) {
         this.fields.add(rule);
     }
@@ -83,10 +90,9 @@ public class KRuleTerm implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof KRuleTerm)) {
+        if (!(o instanceof final KRuleTerm ruleTerm)) {
             return false;
         }
-        final KRuleTerm ruleTerm = (KRuleTerm) o;
         return this.fields.equals(ruleTerm.fields);
     }
 

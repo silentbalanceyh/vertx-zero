@@ -2,7 +2,6 @@ package io.modello.atom.normalize;
 
 import io.modello.specification.atom.HUnique;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -64,13 +63,28 @@ import java.util.concurrent.ConcurrentMap;
  *
  * - 3.6） v v v | v x v - 非正常匹配
  */
-public class KRuleUnique implements HUnique, Serializable {
-    /*
+public class KRuleUnique implements HUnique {
+    /**
      * 子规则
      * identifier = rule1
      * identifier = rule2
+     * <pre><code>
+     *     com.fasterxml.jackson.databind.exc.InvalidDefinitionException:
+     *     Cannot construct instance of `io.modello.specification.atom.HUnique`
+     *     (no Creators, like default constructor, exist):
+     *     abstract types either need to be mapped to concrete types,
+     *     have custom deserializer, or contain additional type information
+     * </code></pre>
+     * 由于 Jackson 是依赖 Get / Set 函数来进行序列化和反序列化，所以此处不能定义成
+     * ConcurrentMap<String, HUnique> children 类型，同时，下边的 getChildren 和 setChildren
+     * 对应的返回值等相关信息也需要和当前类型一致以及匹配，否则会导致序列化反序列化失败
+     * 现阶段不考虑多态，直接使用 KRuleUnique 类型即可，好在代码层面目前没有位置在使用
+     * getChildren 和 setChildren，最终调用时则使用：
+     * <pre><code>
+     *     final HUnique unique = HUt.deserialize(content, KRuleUnique.class);
+     * </code></pre>
      */
-    private ConcurrentMap<String, HUnique> children = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, KRuleUnique> children = new ConcurrentHashMap<>();
     /*
      * （无优先级）可推送的规则：
      * 1）草稿 -> 合法状态的标准规则；
@@ -102,12 +116,8 @@ public class KRuleUnique implements HUnique, Serializable {
      */
     private Set<KRuleTerm> weak = new HashSet<>();
 
-    public ConcurrentMap<String, HUnique> getChildren() {
+    public ConcurrentMap<String, KRuleUnique> getChildren() {
         return this.children;
-    }
-
-    public void setChildren(final ConcurrentMap<String, HUnique> children) {
-        this.children = children;
     }
 
     public List<KRuleTerm> getRecord() {
