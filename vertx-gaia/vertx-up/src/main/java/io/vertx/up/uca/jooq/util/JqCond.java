@@ -1,8 +1,8 @@
 package io.vertx.up.uca.jooq.util;
 
 import io.horizon.eon.VString;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.qr.syntax.Ir;
+import io.vertx.core.json.JsonObject;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

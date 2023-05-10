@@ -1,8 +1,8 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.uca.qr.Sorter;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.Sorter;
 import io.vertx.up.uca.jooq.util.JqFlow;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.shell;
 
 import io.horizon.eon.VValue;
+import io.horizon.exception.BootingException;
 import io.vertx.core.Future;
 import io.vertx.tp.error.CommandParseException;
 import io.vertx.tp.error.CommandUnknownException;
@@ -10,7 +11,6 @@ import io.vertx.tp.plugin.shell.atom.CommandInput;
 import io.vertx.tp.plugin.shell.cv.em.CommandType;
 import io.vertx.tp.plugin.shell.cv.em.TermStatus;
 import io.vertx.tp.plugin.shell.refine.Sl;
-import io.horizon.exception.BootingException;
 import io.vertx.up.util.Ut;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;

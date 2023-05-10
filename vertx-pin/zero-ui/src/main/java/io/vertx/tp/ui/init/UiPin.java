@@ -1,9 +1,9 @@
 package io.vertx.tp.ui.init;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.ui.atom.UiConfig;
-import io.horizon.uca.log.Annal;
 
 import static io.vertx.tp.ui.refine.Ui.LOG;
 

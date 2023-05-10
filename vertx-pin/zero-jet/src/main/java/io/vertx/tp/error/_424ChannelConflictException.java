@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
-import io.horizon.eon.em.container.ChannelType;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
+import io.vertx.up.eon.em.container.ChannelType;
 
 /*
  * The channel type is not configured correctly

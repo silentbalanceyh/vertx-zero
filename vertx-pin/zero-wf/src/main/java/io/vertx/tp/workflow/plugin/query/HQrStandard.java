@@ -1,6 +1,6 @@
 package io.vertx.tp.workflow.plugin.query;
 
-import io.horizon.cloud.query.HCond;
+import io.aeon.specification.query.HCond;
 import io.horizon.eon.VString;
 import io.horizon.spi.business.ExUser;
 import io.vertx.core.Future;

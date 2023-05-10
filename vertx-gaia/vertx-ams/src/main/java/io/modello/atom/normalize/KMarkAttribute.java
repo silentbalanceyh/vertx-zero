@@ -2,7 +2,7 @@ package io.modello.atom.normalize;
 
 import io.horizon.eon.VString;
 import io.horizon.util.HUt;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -67,7 +67,7 @@ public class KMarkAttribute {
     }
 
     // -------------------- 属性提取 ---------------------
-    public boolean value(final Marker marker) {
+    public boolean value(final AttributeMarker marker) {
         Objects.requireNonNull(marker);
         return MarkUtil.value(marker.name(), this.marks);
     }

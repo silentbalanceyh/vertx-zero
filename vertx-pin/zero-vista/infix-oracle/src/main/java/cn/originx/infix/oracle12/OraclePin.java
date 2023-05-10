@@ -1,7 +1,7 @@
 package cn.originx.infix.oracle12;
 
 
-import io.horizon.specification.modeler.HDao;
+import io.modello.specification.action.HDao;
 import io.vertx.tp.atom.cv.AoCache;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jdbc.DataConnection;

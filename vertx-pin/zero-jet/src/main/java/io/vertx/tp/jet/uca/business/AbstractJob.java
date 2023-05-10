@@ -1,7 +1,6 @@
 package io.vertx.tp.jet.uca.business;
 
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.horizon.specification.meta.action.Service;
 import io.horizon.spi.environment.Ambient;
 import io.horizon.uca.log.Annal;
 import io.modello.specification.atom.HUnique;
@@ -18,6 +17,7 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.commune.exchange.DSetting;
 import io.vertx.up.eon.KName;
+import io.vertx.up.specification.action.Service;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

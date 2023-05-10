@@ -1,7 +1,6 @@
 package io.vertx.up.runtime;
 
 import io.horizon.eon.VMessage;
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.VertxOptions;
@@ -9,6 +8,7 @@ import io.vertx.core.eventbus.EnvelopCodec;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.spi.cluster.ClusterManager;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.VertxCallbackException;

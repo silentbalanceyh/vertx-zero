@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.hunt.adaptor;
 
 import io.horizon.eon.VString;
-import io.vertx.core.http.HttpServerResponse;
 import io.horizon.eon.em.web.HttpStatusCode;
+import io.vertx.core.http.HttpServerResponse;
 import io.vertx.up.commune.Envelop;
 
 import java.util.Objects;

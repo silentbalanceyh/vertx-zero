@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.jooq.condition;
 
-import io.vertx.tp.plugin.jooq.condition.date.*;
 import io.horizon.uca.qr.syntax.Ir;
+import io.vertx.tp.plugin.jooq.condition.date.*;
 import io.vertx.up.util.Ut;
 
 import java.time.LocalDate;

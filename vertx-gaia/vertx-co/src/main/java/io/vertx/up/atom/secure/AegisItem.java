@@ -1,9 +1,9 @@
 package io.vertx.up.atom.secure;
 
-import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Ruler;
+import io.vertx.up.eon.em.secure.AuthWall;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;

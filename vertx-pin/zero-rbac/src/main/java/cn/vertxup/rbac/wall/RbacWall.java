@@ -2,6 +2,7 @@ package cn.vertxup.rbac.wall;
 
 import cn.vertxup.rbac.service.accredit.AccreditStub;
 import cn.vertxup.rbac.service.jwt.JwtStub;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.User;
@@ -11,7 +12,6 @@ import io.vertx.up.annotations.Authorized;
 import io.vertx.up.annotations.AuthorizedResource;
 import io.vertx.up.annotations.Wall;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 
 import javax.inject.Inject;
 

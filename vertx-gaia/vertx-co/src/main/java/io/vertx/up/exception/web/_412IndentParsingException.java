@@ -1,8 +1,8 @@
 package io.vertx.up.exception.web;
 
 import io.horizon.eon.em.web.HttpStatusCode;
-import io.vertx.core.json.JsonObject;
 import io.horizon.exception.WebException;
+import io.vertx.core.json.JsonObject;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

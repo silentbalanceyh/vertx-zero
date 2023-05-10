@@ -1,6 +1,5 @@
 package io.vertx.up.verticle;
 
-import io.horizon.eon.em.container.MessageModel;
 import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.AbstractVerticle;
@@ -9,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.up.annotations.Worker;
+import io.vertx.up.eon.em.container.MessageModel;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.Runner;
 import io.vertx.up.uca.micro.discovery.ApiOrigin;

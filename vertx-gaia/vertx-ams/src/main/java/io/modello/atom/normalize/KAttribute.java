@@ -2,7 +2,7 @@ package io.modello.atom.normalize;
 
 import io.horizon.eon.VName;
 import io.horizon.util.HUt;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 import io.modello.eon.em.ValueFormat;
 import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaField;
@@ -52,7 +52,7 @@ public class KAttribute implements HAttribute, Serializable {
          * 2. Priority 2: isArray = false, set the default value instead ( Elementary )
          */
         ValueFormat format = HUt.toEnum(() -> config.getString(VName.FORMAT), ValueFormat.class, ValueFormat.Elementary);
-        if (tag.value(Marker.array)) {
+        if (tag.value(AttributeMarker.array)) {
             format = ValueFormat.JsonArray;
         }
         this.format = format;

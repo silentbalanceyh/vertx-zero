@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.limit;
 
-import io.horizon.eon.em.container.ServerType;
+import io.vertx.up.eon.em.container.ServerType;
 
 import java.util.concurrent.ConcurrentMap;
 

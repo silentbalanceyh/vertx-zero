@@ -2,9 +2,9 @@ package io.vertx.tp.battery.uca.configure;
 
 import cn.vertxup.battery.domain.tables.pojos.BBag;
 import cn.vertxup.battery.domain.tables.pojos.BBlock;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Collection;
 import java.util.List;

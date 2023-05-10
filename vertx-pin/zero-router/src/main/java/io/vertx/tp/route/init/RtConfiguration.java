@@ -1,9 +1,9 @@
 package io.vertx.tp.route.init;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.route.atom.RtConfig;
 import io.vertx.tp.route.cv.RtFolder;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import static io.vertx.tp.route.refine.Rt.LOG;

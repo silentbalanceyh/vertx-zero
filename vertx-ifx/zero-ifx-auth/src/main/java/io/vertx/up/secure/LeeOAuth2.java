@@ -1,5 +1,6 @@
 package io.vertx.up.secure;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
@@ -10,7 +11,6 @@ import io.vertx.ext.web.handler.OAuth2AuthHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.secure.authenticate.AdapterProvider;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 /**

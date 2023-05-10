@@ -1,13 +1,13 @@
 package io.vertx.tp.modular.query;
 
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.QTree;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.horizon.uca.qr.Criteria;
-import io.horizon.uca.qr.Sorter;
-import io.horizon.uca.qr.syntax.QTree;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;

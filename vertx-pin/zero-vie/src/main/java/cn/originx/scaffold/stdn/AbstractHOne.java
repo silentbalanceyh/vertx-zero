@@ -2,8 +2,8 @@ package cn.originx.scaffold.stdn;
 
 import cn.originx.scaffold.plugin.AspectSwitcher;
 import io.horizon.eon.em.typed.ChangeFlag;
-import io.horizon.specification.modeler.HDao;
 import io.horizon.spi.robin.Switcher;
+import io.modello.specification.action.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

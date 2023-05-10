@@ -1,11 +1,11 @@
 package io.vertx.up.extension.router;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.up.atom.worker.Remind;
+import io.vertx.up.eon.em.uca.RemindType;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.invoker.Invoker;
 import io.vertx.up.uca.invoker.JetSelector;

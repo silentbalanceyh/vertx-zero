@@ -5,7 +5,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.uca.compare.Vs;
 import io.modello.atom.normalize.KMarkAtom;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 import io.modello.specification.atom.HAtom;
 import io.modello.specification.atom.HAttribute;
 import io.modello.specification.meta.HMetaField;
@@ -42,7 +42,7 @@ class AtDiffer {
         final List<XActivityChange> changes = new ArrayList<>();
         if (ChangeFlag.NONE != flag) {
             final KMarkAtom marker = atom.marker();
-            final Set<String> fieldTrack = marker.enabled(Marker.track);
+            final Set<String> fieldTrack = marker.enabled(AttributeMarker.track);
             fieldTrack.stream().filter(field -> {
                 // Must contain value for checking.
                 final Object valueN = recordN.getValue(field);

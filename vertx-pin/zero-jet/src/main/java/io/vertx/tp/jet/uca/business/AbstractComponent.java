@@ -2,7 +2,6 @@ package io.vertx.tp.jet.uca.business;
 
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._501NotImplementException;
-import io.horizon.specification.meta.action.Service;
 import io.horizon.spi.jet.JtComponent;
 import io.horizon.uca.log.Annal;
 import io.modello.specification.atom.HUnique;
@@ -17,6 +16,7 @@ import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DConsumer;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.exception.web._400SigmaMissingException;
+import io.vertx.up.specification.action.Service;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

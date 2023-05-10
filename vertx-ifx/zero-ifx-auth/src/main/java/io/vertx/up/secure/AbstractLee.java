@@ -1,6 +1,5 @@
 package io.vertx.up.secure;
 
-import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._401UnauthorizedException;
 import io.horizon.uca.log.Annal;
@@ -19,6 +18,7 @@ import io.vertx.ext.web.handler.impl.AuthenticationHandlerImpl;
 import io.vertx.ext.web.handler.impl.HTTPAuthorizationHandler;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.atom.secure.AegisItem;
+import io.vertx.up.eon.em.secure.AuthWall;
 import io.vertx.up.secure.authenticate.AuthenticateBuiltInProvider;
 import io.vertx.up.secure.authenticate.ChainHandler;
 import io.vertx.up.secure.authorization.AuthorizationBuiltInHandler;

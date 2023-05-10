@@ -2,6 +2,7 @@ package io.vertx.tp.ambient.init;
 
 import io.horizon.spi.extension.Init;
 import io.horizon.spi.extension.Prerequisite;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.tp.ambient.atom.AtConfig;
@@ -9,7 +10,6 @@ import io.vertx.tp.error._500InitSpecificationException;
 import io.vertx.tp.error._500PrerequisiteSpecException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

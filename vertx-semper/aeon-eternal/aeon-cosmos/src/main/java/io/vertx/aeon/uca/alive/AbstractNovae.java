@@ -1,6 +1,6 @@
 package io.vertx.aeon.uca.alive;
 
-import io.horizon.cloud.program.HNovae;
+import io.aeon.specification.program.HNovae;
 import io.vertx.core.Vertx;
 
 /**

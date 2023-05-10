@@ -1,7 +1,7 @@
 package io.vertx.up.annotations;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.scheduler.JobType;
+import io.vertx.up.eon.em.uca.JobType;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;

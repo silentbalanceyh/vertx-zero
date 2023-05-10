@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.config;
 
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;

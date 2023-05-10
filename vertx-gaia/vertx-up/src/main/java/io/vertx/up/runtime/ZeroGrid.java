@@ -1,6 +1,5 @@
 package io.vertx.up.runtime;
 
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.ClusterOptions;
@@ -9,6 +8,7 @@ import io.vertx.core.SockOptions;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServerOptions;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.deployment.DeployRotate;
 import io.vertx.up.runtime.deployment.Rotate;

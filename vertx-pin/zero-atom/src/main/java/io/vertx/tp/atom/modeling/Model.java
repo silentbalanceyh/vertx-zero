@@ -3,8 +3,8 @@ package io.vertx.tp.atom.modeling;
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
-import io.horizon.specification.modeler.HLinkage;
 import io.modello.specification.HApp;
+import io.modello.specification.action.HLinkage;
 import io.modello.specification.atom.HModel;
 import io.vertx.tp.atom.modeling.element.DataKey;
 

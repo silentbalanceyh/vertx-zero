@@ -2,6 +2,7 @@ package io.horizon.spi.mixture;
 
 import cn.vertxup.atom.domain.tables.daos.MModelDao;
 import cn.vertxup.atom.domain.tables.pojos.MModel;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,6 @@ import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.phantom.AoModeler;
 import io.vertx.up.exception.web._404ModelNotFoundException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

@@ -1,6 +1,6 @@
 package io.vertx.up.uca.web.anima;
 
-import io.horizon.eon.em.container.MessageModel;
+import io.vertx.up.eon.em.container.MessageModel;
 
 import java.util.HashSet;
 import java.util.Set;

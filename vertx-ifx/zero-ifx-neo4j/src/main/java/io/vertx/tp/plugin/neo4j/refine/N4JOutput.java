@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.neo4j.refine;
 
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.log.Annal;
+import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;

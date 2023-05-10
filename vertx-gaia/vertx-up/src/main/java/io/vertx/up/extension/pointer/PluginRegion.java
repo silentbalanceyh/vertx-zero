@@ -1,10 +1,10 @@
 package io.vertx.up.extension.pointer;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.extension.PlugRegion;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 class PluginRegion {

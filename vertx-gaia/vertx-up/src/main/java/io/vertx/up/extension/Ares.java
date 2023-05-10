@@ -1,12 +1,12 @@
 package io.vertx.up.extension;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.up.extension.router.AresHub;
-import io.horizon.uca.cache.Cc;
 
 /**
  * This structure is new for `ZeroHttpAgent` extension, you can call this interface to create.

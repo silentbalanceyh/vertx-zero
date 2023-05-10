@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.elasticsearch;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404IndexNameMissingExceptionn;
 import io.vertx.tp.error._404SearchTextMissingExceptionn;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;

@@ -1,7 +1,7 @@
 package io.vertx.tp.error;
 
-import io.horizon.eon.em.secure.AuthWall;
 import io.horizon.exception.BootingException;
+import io.vertx.up.eon.em.secure.AuthWall;
 
 public class WallItemSizeException extends BootingException {
 

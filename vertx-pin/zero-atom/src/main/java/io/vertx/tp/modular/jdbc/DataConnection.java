@@ -2,12 +2,12 @@ package io.vertx.tp.modular.jdbc;
 
 import io.horizon.eon.VValue;
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.tp.error._500EmptySQLException;
 import io.vertx.tp.modular.sql.SqlOutput;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import org.jooq.Record;
 import org.jooq.*;

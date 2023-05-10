@@ -1,9 +1,9 @@
 package io.vertx.up.uca.micro.ssl;
 
-import io.horizon.eon.em.secure.CertType;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.TCPSSLOptions;
+import io.vertx.up.eon.em.secure.CertType;
 import io.vertx.up.uca.micro.ssl.server.JksCert;
 import io.vertx.up.uca.micro.ssl.server.PemCert;
 import io.vertx.up.uca.micro.ssl.server.PfxCert;

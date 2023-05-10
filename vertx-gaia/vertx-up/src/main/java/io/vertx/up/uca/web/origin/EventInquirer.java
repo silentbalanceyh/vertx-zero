@@ -1,8 +1,8 @@
 package io.vertx.up.uca.web.origin;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.web.thread.EndPointThread;
 
 import java.util.ArrayList;

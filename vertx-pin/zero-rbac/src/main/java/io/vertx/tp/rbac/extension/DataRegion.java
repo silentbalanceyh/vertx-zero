@@ -1,5 +1,6 @@
 package io.vertx.tp.rbac.extension;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
@@ -11,7 +12,6 @@ import io.vertx.tp.rbac.refine.Sc;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.extension.AbstractRegion;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import static io.vertx.tp.rbac.refine.Sc.LOG;

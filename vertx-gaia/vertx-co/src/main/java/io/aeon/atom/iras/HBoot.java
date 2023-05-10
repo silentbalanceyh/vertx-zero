@@ -2,12 +2,12 @@ package io.aeon.atom.iras;
 
 import io.aeon.eon.HName;
 import io.aeon.runtime.CRunning;
-import io.horizon.cloud.boot.HOff;
-import io.horizon.cloud.boot.HOn;
-import io.horizon.cloud.boot.HRun;
-import io.horizon.cloud.program.HNebula;
-import io.horizon.cloud.program.HNova;
-import io.horizon.cloud.program.HNovae;
+import io.aeon.specification.boot.HOff;
+import io.aeon.specification.boot.HOn;
+import io.aeon.specification.boot.HRun;
+import io.aeon.specification.program.HNebula;
+import io.aeon.specification.program.HNova;
+import io.aeon.specification.program.HNovae;
 import io.horizon.specification.action.HEvent;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;

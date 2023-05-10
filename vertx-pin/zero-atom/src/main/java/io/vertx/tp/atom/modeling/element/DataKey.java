@@ -1,7 +1,7 @@
 package io.vertx.tp.atom.modeling.element;
 
-import io.horizon.eon.em.modeler.KeyMode;
 import io.horizon.uca.cache.Cc;
+import io.modello.eon.em.KeyMode;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;

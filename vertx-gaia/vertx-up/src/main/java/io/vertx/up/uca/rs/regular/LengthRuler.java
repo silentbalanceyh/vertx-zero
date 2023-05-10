@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.regular;
 
+import io.horizon.exception.WebException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.Rule;
-import io.horizon.exception.WebException;
 
 class LengthRuler extends BaseRuler {
 

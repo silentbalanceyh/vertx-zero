@@ -1,16 +1,16 @@
 package io.vertx.tp.modular.dao;
 
 import io.horizon.eon.VValue;
-import io.horizon.specification.modeler.HDao;
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.Criteria;
 import io.modello.specification.HRecord;
+import io.modello.specification.action.HDao;
 import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.horizon.uca.qr.Criteria;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

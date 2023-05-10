@@ -1,9 +1,9 @@
 package io.vertx.tp.rbac.acl.rapid;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.horizon.uca.log.Annal;
 
 import java.util.HashSet;
 import java.util.Objects;

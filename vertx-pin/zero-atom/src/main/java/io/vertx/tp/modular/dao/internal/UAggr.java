@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.dao.internal;
 
-import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.horizon.uca.qr.Criteria;
+import io.vertx.tp.atom.modeling.data.DataEvent;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;
 

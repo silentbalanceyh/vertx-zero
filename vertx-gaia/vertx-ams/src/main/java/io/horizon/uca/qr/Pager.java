@@ -5,9 +5,9 @@ import io.horizon.exception.web._400QPagerInvalidException;
 import io.horizon.exception.web._500QQueryMetaNullException;
 import io.horizon.fn.HFn;
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.syntax.Ir;
 import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 
 import java.io.Serializable;
 

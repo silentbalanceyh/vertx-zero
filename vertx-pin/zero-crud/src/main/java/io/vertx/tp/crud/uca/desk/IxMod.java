@@ -3,7 +3,6 @@ package io.vertx.tp.crud.uca.desk;
 import io.aeon.experiment.specification.KJoin;
 import io.aeon.experiment.specification.KModule;
 import io.aeon.experiment.specification.KPoint;
-import io.horizon.eon.em.scheduler.JoinMode;
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._500InternalServerException;
 import io.vertx.core.Future;
@@ -15,6 +14,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.error._404ModuleMissingException;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.uca.JoinMode;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

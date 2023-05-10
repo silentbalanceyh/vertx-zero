@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.git;
 
 import io.aeon.atom.iras.HRepo;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.cache.Cc;
 
 /**
  * GitInfix 不开放 Infix 结构，源于整个系统中不允许直接和某个 Git 仓库绑定，仓库的应用只局限于

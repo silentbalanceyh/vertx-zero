@@ -1,7 +1,6 @@
 package io.vertx.up.uca.job.center;
 
 import io.horizon.eon.VMessage;
-import io.horizon.eon.em.scheduler.JobStatus;
 import io.horizon.fn.Actuator;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
@@ -11,6 +10,7 @@ import io.vertx.core.impl.NoStackTraceThrowable;
 import io.vertx.up.annotations.Contract;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.eon.em.uca.JobStatus;
 import io.vertx.up.uca.job.phase.Phase;
 import io.vertx.up.uca.job.store.JobConfig;
 import io.vertx.up.uca.job.store.JobPin;

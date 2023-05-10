@@ -1,6 +1,7 @@
 package io.vertx.rx.rs.router;
 
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.reactivex.ext.web.Route;
 import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.RoutingContext;
@@ -9,7 +10,6 @@ import io.vertx.rx.rs.dispatch.StandardVerifier;
 import io.vertx.up.atom.agent.Depot;
 import io.vertx.up.atom.agent.Event;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.uca.rs.Aim;
 import io.vertx.up.uca.rs.Axis;

@@ -1,10 +1,10 @@
 package io.vertx.up.extension;
 
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 

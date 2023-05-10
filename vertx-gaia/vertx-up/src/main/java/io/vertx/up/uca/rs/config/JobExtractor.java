@@ -4,14 +4,14 @@ import io.aeon.experiment.specification.sch.KTimer;
 import io.horizon.eon.VMessage;
 import io.horizon.eon.VPath;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.scheduler.JobStatus;
-import io.horizon.eon.em.scheduler.JobType;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Job;
 import io.vertx.up.atom.worker.Mission;
 import io.vertx.up.eon.KName;
 import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.em.uca.JobStatus;
+import io.vertx.up.eon.em.uca.JobType;
 import io.vertx.up.uca.rs.Extractor;
 import io.vertx.up.util.Ut;
 

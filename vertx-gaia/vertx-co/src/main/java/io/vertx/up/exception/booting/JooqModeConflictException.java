@@ -1,8 +1,8 @@
 package io.vertx.up.exception.booting;
 
 import io.horizon.exception.BootingException;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.qr.syntax.Ir;
+import io.vertx.core.json.JsonObject;
 
 public class JooqModeConflictException extends BootingException {
 

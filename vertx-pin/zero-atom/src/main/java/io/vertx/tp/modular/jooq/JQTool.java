@@ -1,13 +1,13 @@
 package io.vertx.tp.modular.jooq;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataTpl;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.query.Ingest;
-import io.horizon.uca.qr.Pager;
-import io.horizon.uca.qr.Sorter;
-import io.horizon.uca.log.Annal;
 import org.jooq.Record;
 import org.jooq.*;
 

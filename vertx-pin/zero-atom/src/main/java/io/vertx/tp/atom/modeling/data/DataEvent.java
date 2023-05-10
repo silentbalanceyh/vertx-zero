@@ -2,6 +2,10 @@ package io.vertx.tp.atom.modeling.data;
 
 import io.horizon.eon.VValue;
 import io.horizon.exception.WebException;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.modello.eon.em.ModelType;
 import io.modello.specification.HRecord;
 import io.vertx.core.Future;
@@ -17,10 +21,6 @@ import io.vertx.tp.error._417DataRowNullException;
 import io.vertx.tp.modular.io.AoIo;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.plugin.IoHub;
-import io.horizon.uca.qr.Criteria;
-import io.horizon.uca.qr.Pager;
-import io.horizon.uca.qr.Sorter;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

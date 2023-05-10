@@ -2,8 +2,8 @@ package io.vertx.aeon.uca.boot;
 
 import io.aeon.atom.iras.HAeon;
 import io.aeon.atom.iras.HBoot;
-import io.horizon.cloud.boot.HOn;
-import io.horizon.cloud.program.HNovae;
+import io.aeon.specification.boot.HOn;
+import io.aeon.specification.program.HNovae;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.up.unity.Ux;

@@ -1,8 +1,8 @@
 package io.vertx.tp.error;
 
 import io.horizon.eon.em.web.HttpStatusCode;
-import io.vertx.tp.rbac.logged.ProfileType;
 import io.horizon.exception.WebException;
+import io.vertx.tp.rbac.logged.ProfileType;
 
 public class _403ProfileConflictException extends WebException {
 

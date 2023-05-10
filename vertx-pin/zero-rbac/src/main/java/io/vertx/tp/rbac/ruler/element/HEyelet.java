@@ -2,9 +2,9 @@ package io.vertx.tp.rbac.ruler.element;
 
 import cn.vertxup.rbac.domain.tables.pojos.SPacket;
 import cn.vertxup.rbac.domain.tables.pojos.SView;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.shareddata.ClusterSerializable;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 import java.util.function.Supplier;

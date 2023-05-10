@@ -1,7 +1,7 @@
 package io.vertx.aeon.uca.alive;
 
 import io.aeon.atom.iras.HRepo;
-import io.horizon.eon.em.app.AeonRuntime;
+import io.aeon.eon.em.AeonRuntime;
 import io.vertx.core.Future;
 import io.vertx.tp.plugin.git.GitClient;
 import io.vertx.tp.plugin.git.GitInfix;

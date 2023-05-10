@@ -1,11 +1,11 @@
 package io.vertx.tp.atom.refine;
 
 import io.horizon.eon.em.typed.ChangeFlag;
-import io.horizon.specification.modeler.HDao;
 import io.horizon.spi.robin.Switcher;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
 import io.modello.specification.HRecord;
+import io.modello.specification.action.HDao;
 import io.modello.specification.atom.HAtom;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

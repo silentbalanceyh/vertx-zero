@@ -1,7 +1,7 @@
 package cn.originx.uca.graphic;
 
 import cn.originx.refine.Ox;
-import io.horizon.specification.modeler.HDao;
+import io.modello.specification.action.HDao;
 import io.vertx.tp.jet.atom.JtApp;
 
 public abstract class AbstractPlotter implements Plotter {

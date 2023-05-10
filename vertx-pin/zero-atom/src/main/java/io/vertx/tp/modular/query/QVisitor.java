@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.query;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.qr.syntax.*;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.modular.jooq.internal.Jq;
 import io.vertx.tp.plugin.jooq.condition.Clause;
-import io.horizon.uca.qr.syntax.*;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.impl.DSL;

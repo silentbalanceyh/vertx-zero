@@ -2,12 +2,12 @@ package io.vertx.tp.battery.uca.dock;
 
 import cn.vertxup.battery.domain.tables.daos.BBagDao;
 import cn.vertxup.battery.domain.tables.pojos.BBag;
-import io.horizon.eon.em.app.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.shareddata.ClusterSerializable;
 import io.vertx.tp.ke.cv.em.TypeBag;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.app.ByType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
@@ -19,7 +19,7 @@ import static io.vertx.tp.battery.refine.Bk.LOG;
 
 class ArkConfigure extends AbstractArk {
     @Override
-    public Future<ClusterSerializable> modularize(final String appId, final TypeBy by) {
+    public Future<ClusterSerializable> modularize(final String appId, final ByType by) {
         final JsonObject condition = this.buildQr(appId, TypeBag.EXTENSION, by);
         /*
          * 新路由中，BAG直接提取 EXTENSION 类型的模型即可

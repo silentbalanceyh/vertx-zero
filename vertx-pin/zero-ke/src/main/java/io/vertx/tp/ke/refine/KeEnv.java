@@ -1,12 +1,12 @@
 package io.vertx.tp.ke.refine;
 
 import io.horizon.spi.environment.Indent;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;

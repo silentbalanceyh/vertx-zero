@@ -1,8 +1,8 @@
 package io.vertx.tp.jet.monitor;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtMsg;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.runtime.Runner;
 
 import java.util.concurrent.atomic.AtomicBoolean;

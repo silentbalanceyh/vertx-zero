@@ -1,14 +1,14 @@
 package io.vertx.tp.plugin.rpc;
 
 import io.grpc.ManagedChannel;
-import io.horizon.eon.em.secure.CertType;
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.up.atom.agent.IpcData;
+import io.vertx.up.eon.em.secure.CertType;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.micro.ssl.TrustPipe;
 import io.vertx.up.uca.yaml.Node;
 import io.vertx.up.uca.yaml.ZeroUniform;

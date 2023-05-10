@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ClassDeserializer;
 import com.fasterxml.jackson.databind.ClassSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.horizon.eon.em.scheduler.RemindType;
+import io.vertx.up.eon.em.uca.RemindType;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;

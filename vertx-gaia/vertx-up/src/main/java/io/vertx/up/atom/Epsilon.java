@@ -1,7 +1,7 @@
 package io.vertx.up.atom;
 
-import io.horizon.eon.em.container.MimeFlow;
 import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.em.container.MimeFlow;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;

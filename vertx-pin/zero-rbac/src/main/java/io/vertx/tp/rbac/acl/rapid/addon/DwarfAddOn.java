@@ -1,8 +1,8 @@
 package io.vertx.tp.rbac.acl.rapid.addon;
 
-import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.acl.rapid.Dwarf;
+import io.vertx.up.specification.secure.Acl;
 
 public class DwarfAddOn implements Dwarf {
     @Override

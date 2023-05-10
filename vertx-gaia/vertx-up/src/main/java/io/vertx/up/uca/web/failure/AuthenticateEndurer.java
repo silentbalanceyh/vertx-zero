@@ -1,10 +1,10 @@
 package io.vertx.up.uca.web.failure;
 
+import io.horizon.exception.WebException;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.commune.Envelop;
-import io.horizon.exception.WebException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.rs.hunt.Answer;
 import io.vertx.up.unity.Ux;
 

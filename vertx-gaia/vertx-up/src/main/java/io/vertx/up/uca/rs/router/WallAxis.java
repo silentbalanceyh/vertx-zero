@@ -1,6 +1,7 @@
 package io.vertx.up.uca.rs.router;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.AuthenticationHandler;
@@ -10,7 +11,6 @@ import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.rs.Axis;
 import io.vertx.up.uca.web.failure.AuthenticateEndurer;
 

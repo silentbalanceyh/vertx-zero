@@ -1,7 +1,7 @@
 package io.aeon.atom.iras;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.horizon.eon.em.app.TypeRepo;
+import io.aeon.eon.em.RepoType;
 import io.horizon.runtime.Macrocosm;
 import io.vertx.up.util.Ut;
 
@@ -22,7 +22,7 @@ public class HRepo implements Serializable {
      * */
     private String uri;
     private String path;
-    private TypeRepo type = TypeRepo.GIT_HUB;
+    private RepoType type = RepoType.GIT_HUB;
 
     /*
      * 账号和口令
@@ -64,11 +64,11 @@ public class HRepo implements Serializable {
         this.path = path;
     }
 
-    public TypeRepo getType() {
+    public RepoType getType() {
         return this.type;
     }
 
-    public void setType(final TypeRepo type) {
+    public void setType(final RepoType type) {
         this.type = type;
     }
 

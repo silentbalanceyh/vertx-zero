@@ -1,6 +1,5 @@
 package io.vertx.up.unity;
 
-import io.horizon.specification.meta.action.Commercial;
 import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
@@ -19,6 +18,7 @@ import io.vertx.up.commune.Envelop;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
 import io.vertx.up.exception.web._417JobMethodException;
+import io.vertx.up.specification.action.Commercial;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.BodyParam;
 

@@ -1,8 +1,8 @@
 package io.vertx.tp.rbac.authorization;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.tp.rbac.logged.ProfileGroup;
 import io.vertx.tp.rbac.logged.ProfileRole;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.*;

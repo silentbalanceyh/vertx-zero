@@ -1,9 +1,9 @@
 package io.aeon.experiment.mixture;
 
 import io.aeon.experiment.specification.KModule;
-import io.horizon.eon.em.app.DsSource;
 import io.vertx.core.MultiMap;
 import io.vertx.tp.plugin.database.DS;
+import io.vertx.up.eon.em.app.DsSource;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

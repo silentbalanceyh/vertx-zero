@@ -1,10 +1,10 @@
 package io.vertx.tp.ui.refine;
 
+import io.horizon.uca.log.Log;
+import io.horizon.uca.log.LogModule;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.log.Log;
-import io.horizon.uca.log.LogModule;
 
 import java.util.function.Supplier;
 

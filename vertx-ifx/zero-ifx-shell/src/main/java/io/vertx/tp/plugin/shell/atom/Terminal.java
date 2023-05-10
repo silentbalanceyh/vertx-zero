@@ -1,12 +1,12 @@
 package io.vertx.tp.plugin.shell.atom;
 
+import io.horizon.exception.BootingException;
 import io.horizon.uca.cache.Cc;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.tp.error.CommandMissingException;
-import io.horizon.exception.BootingException;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

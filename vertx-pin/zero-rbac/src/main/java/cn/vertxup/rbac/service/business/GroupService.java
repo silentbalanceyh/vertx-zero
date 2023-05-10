@@ -4,6 +4,7 @@ import cn.vertxup.rbac.domain.tables.daos.RGroupRoleDao;
 import cn.vertxup.rbac.domain.tables.daos.SGroupDao;
 import cn.vertxup.rbac.domain.tables.pojos.RGroupRole;
 import cn.vertxup.rbac.domain.tables.pojos.SGroup;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.refine.Ke;
@@ -11,7 +12,6 @@ import io.vertx.tp.rbac.cv.AuthKey;
 import io.vertx.tp.rbac.cv.AuthMsg;
 import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
 

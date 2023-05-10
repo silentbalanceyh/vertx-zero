@@ -3,7 +3,6 @@ package cn.vertxup.ui.api;
 import cn.vertxup.ui.service.*;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.container.ViewType;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -16,6 +15,7 @@ import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.container.ViewType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

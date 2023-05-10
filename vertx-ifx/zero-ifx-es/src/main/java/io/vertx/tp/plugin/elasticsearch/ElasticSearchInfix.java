@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.elasticsearch;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.plugin.Infix;
-import io.horizon.uca.cache.Cc;
 
 /**
  * @author Hongwei

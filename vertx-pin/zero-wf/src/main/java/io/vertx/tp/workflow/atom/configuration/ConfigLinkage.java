@@ -1,12 +1,12 @@
 package io.vertx.tp.workflow.atom.configuration;
 
 import io.horizon.eon.VString;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.refine.Wf;
 import io.vertx.tp.workflow.uca.modeling.Respect;
 import io.vertx.tp.workflow.uca.modeling.RespectLink;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

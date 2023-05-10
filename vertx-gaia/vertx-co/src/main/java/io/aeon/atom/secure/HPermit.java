@@ -1,11 +1,11 @@
 package io.aeon.atom.secure;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.secure.ActPhase;
-import io.horizon.eon.em.secure.ScDim;
-import io.horizon.eon.em.secure.ScIn;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.secure.ActPhase;
+import io.vertx.up.eon.em.secure.ScDim;
+import io.vertx.up.eon.em.secure.ScIn;
 import io.vertx.up.util.Ut;
 
 import java.io.Serializable;

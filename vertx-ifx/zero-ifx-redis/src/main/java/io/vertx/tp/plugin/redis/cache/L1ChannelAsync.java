@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.redis.cache;
 
 import io.horizon.eon.em.typed.ChangeFlag;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.redis.client.Command;
 import io.vertx.redis.client.Request;
 import io.vertx.redis.client.Response;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

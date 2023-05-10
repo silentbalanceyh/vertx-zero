@@ -1,12 +1,12 @@
 package io.vertx.up.uca.rs.mime.parse;
 
-import io.horizon.eon.em.container.MimeFlow;
 import io.horizon.exception.WebException;
 import io.horizon.uca.cache.Cc;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
+import io.vertx.up.eon.em.container.MimeFlow;
 import io.vertx.up.uca.rs.mime.Resolver;
 import io.vertx.up.uca.rs.mime.Solve;
 import io.vertx.up.uca.rs.mime.resolver.SolveResolver;

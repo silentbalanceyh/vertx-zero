@@ -1,6 +1,7 @@
 package io.vertx.tp.plugin.cache.hit;
 
 import io.horizon.eon.em.typed.ChangeFlag;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -8,7 +9,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.cache.l1.L1Cache;
 import io.vertx.tp.plugin.cache.l1.L1Config;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.ArrayList;

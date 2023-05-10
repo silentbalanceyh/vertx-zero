@@ -1,10 +1,10 @@
 package io.vertx.tp.jet.refine;
 
-import io.horizon.eon.em.container.ChannelType;
 import io.vertx.tp.jet.uca.tunnel.ActorChannel;
 import io.vertx.tp.jet.uca.tunnel.AdaptorChannel;
 import io.vertx.tp.jet.uca.tunnel.ConnectorChannel;
 import io.vertx.tp.jet.uca.tunnel.DirectorChannel;
+import io.vertx.up.eon.em.container.ChannelType;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

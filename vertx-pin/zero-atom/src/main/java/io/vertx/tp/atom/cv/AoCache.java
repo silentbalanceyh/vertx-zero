@@ -1,11 +1,11 @@
 package io.vertx.tp.atom.cv;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.modular.apply.AoDefault;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoBuilder;
 import io.vertx.tp.modular.phantom.AoModeler;
-import io.horizon.uca.cache.Cc;
 
 /*
  * 池化处理

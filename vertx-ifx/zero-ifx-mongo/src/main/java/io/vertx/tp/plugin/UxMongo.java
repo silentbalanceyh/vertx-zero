@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin;
 
+import io.horizon.uca.log.Annal;
 import io.reactivex.Observable;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
@@ -8,7 +9,6 @@ import io.vertx.ext.mongo.FindOptions;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.tp.plugin.mongo.MongoInfix;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;

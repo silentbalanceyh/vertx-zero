@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.jooq;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.refine.Ao;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.horizon.uca.cache.Cc;
 import org.jooq.DSLContext;
 
 /**

@@ -1,8 +1,8 @@
 package io.vertx.up.secure.authenticate;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.up.atom.secure.Aegis;
-import io.horizon.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.history;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 public class TrashPlatformService implements TrashPlatform {

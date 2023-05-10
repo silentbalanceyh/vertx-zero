@@ -1,10 +1,10 @@
 package io.vertx.tp.modular.dao.internal;
 
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.syntax.Ir;
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.horizon.uca.qr.Criteria;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.util.Ut;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;

@@ -1,12 +1,12 @@
 package io.vertx.up.uca.job.plugin;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.worker.Mission;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.uca.job.center.Agha;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;

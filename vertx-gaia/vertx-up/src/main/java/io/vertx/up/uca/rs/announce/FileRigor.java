@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.announce;
 
+import io.horizon.exception.WebException;
 import io.reactivex.Observable;
 import io.vertx.up.atom.Rule;
-import io.horizon.exception.WebException;
 import io.vertx.up.uca.rs.regular.Ruler;
 
 import java.util.HashSet;

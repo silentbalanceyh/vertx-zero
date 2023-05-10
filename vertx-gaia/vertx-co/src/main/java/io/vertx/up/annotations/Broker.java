@@ -1,8 +1,8 @@
 package io.vertx.up.annotations;
 
 import io.horizon.eon.VString;
-import io.horizon.eon.em.scheduler.RemindType;
 import io.vertx.up.eon.DefaultClass;
+import io.vertx.up.eon.em.uca.RemindType;
 
 import java.lang.annotation.*;
 

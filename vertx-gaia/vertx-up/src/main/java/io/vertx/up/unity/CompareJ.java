@@ -1,10 +1,10 @@
 package io.vertx.up.unity;
 
 import io.horizon.eon.em.typed.ChangeFlag;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

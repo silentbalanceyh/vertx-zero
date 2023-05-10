@@ -1,7 +1,7 @@
 package io.vertx.zero.exception;
 
-import io.vertx.up.atom.agent.Event;
 import io.horizon.exception.BootingException;
+import io.vertx.up.atom.agent.Event;
 
 public class EventActionNoneException extends BootingException {
 

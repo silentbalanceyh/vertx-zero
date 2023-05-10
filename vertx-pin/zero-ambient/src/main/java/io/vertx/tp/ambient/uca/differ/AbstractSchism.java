@@ -6,7 +6,7 @@ import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import cn.vertxup.ambient.domain.tables.pojos.XActivityChange;
 import io.horizon.exception.web._501NotSupportException;
 import io.modello.atom.normalize.KMarkAtom;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
@@ -51,7 +51,7 @@ public abstract class AbstractSchism implements Schism {
     protected Set<String> onTrack() {
         Objects.requireNonNull(this.atom);
         final KMarkAtom marker = this.atom.marker();
-        return marker.enabled(Marker.track);
+        return marker.enabled(AttributeMarker.track);
     }
 
     protected Future<JsonObject> createActivity(final XActivity activity, final List<XActivityChange> changes) {

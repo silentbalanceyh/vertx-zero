@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.apply;
 
 import cn.vertxup.atom.domain.tables.pojos.MModel;
-import io.horizon.eon.em.modeler.AttributeType;
+import io.modello.eon.em.AttributeType;
 import io.vertx.core.json.JsonObject;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;

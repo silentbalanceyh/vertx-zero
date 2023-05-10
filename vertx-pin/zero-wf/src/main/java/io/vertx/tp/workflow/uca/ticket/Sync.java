@@ -1,11 +1,11 @@
 package io.vertx.tp.workflow.uca.ticket;
 
 import cn.vertxup.workflow.domain.tables.pojos.WTicket;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.atom.configuration.MetaInstance;
 import io.vertx.tp.workflow.atom.runtime.WRecord;
-import io.horizon.uca.cache.Cc;
 
 interface Pool {
     Cc<String, Sync> POOL_SYNC = Cc.openThread();

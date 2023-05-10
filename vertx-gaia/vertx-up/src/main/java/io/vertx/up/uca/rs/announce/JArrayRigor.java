@@ -1,7 +1,7 @@
 package io.vertx.up.uca.rs.announce;
 
-import io.vertx.up.atom.Rule;
 import io.horizon.exception.WebException;
+import io.vertx.up.atom.Rule;
 
 import java.util.List;
 import java.util.Map;

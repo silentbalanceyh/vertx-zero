@@ -1,10 +1,10 @@
 package io.vertx.tp.rbac.acl.relation;
 
 import cn.vertxup.rbac.domain.tables.pojos.SUser;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonArray;
 import io.vertx.tp.ke.secure.Tie;
 import io.vertx.tp.ke.secure.Twine;
-import io.horizon.uca.cache.Cc;
 
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>

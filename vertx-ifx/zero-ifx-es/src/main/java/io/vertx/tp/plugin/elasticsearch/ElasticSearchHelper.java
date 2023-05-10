@@ -1,11 +1,11 @@
 package io.vertx.tp.plugin.elasticsearch;
 
+import io.horizon.uca.cache.Cc;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.error._404ConfigurationMissingExceptionn;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;

@@ -1,8 +1,8 @@
 package io.vertx.tp.modular.io;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.tp.atom.modeling.element.DataRow;
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.horizon.uca.log.Annal;
 
 import java.util.*;
 import java.util.function.Supplier;

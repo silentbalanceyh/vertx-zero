@@ -1,6 +1,6 @@
 package io.modello.atom.normalize;
 
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,7 +20,7 @@ import java.util.function.Function;
  * </code></pre>
  *
  * 特定场景使用标记比直接使用属性的模式要方便，新版充当容器作用，则实现了标记位的动态扩展。
- * 更改时只需重写 {@link Marker} 枚举类型即可追加新标记
+ * 更改时只需重写 {@link AttributeMarker} 枚举类型即可追加新标记
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
@@ -63,11 +63,11 @@ public class KMarkAtom {
     }
     // -------------------- 属性提取 ---------------------
 
-    public Set<String> enabled(final Marker mark) {
+    public Set<String> enabled(final AttributeMarker mark) {
         return this.connect(markAttr -> markAttr.value(mark), Boolean.TRUE);
     }
 
-    public Set<String> disabled(final Marker mark) {
+    public Set<String> disabled(final AttributeMarker mark) {
         return this.connect(markAttr -> markAttr.value(mark), Boolean.FALSE);
     }
 

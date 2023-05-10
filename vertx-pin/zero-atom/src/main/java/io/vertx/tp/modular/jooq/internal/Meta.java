@@ -1,12 +1,12 @@
 package io.vertx.tp.modular.jooq.internal;
 
 import io.horizon.eon.VString;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.error._417TableCounterException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import org.jooq.Record;
 import org.jooq.*;
 import org.jooq.impl.DSL;

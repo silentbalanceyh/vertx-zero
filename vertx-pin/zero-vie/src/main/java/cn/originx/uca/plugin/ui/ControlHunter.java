@@ -5,11 +5,11 @@ import cn.vertxup.ui.domain.tables.daos.UiVisitorDao;
 import cn.vertxup.ui.domain.tables.pojos.UiVisitor;
 import io.horizon.spi.environment.Identifier;
 import io.horizon.spi.ui.UiHunter;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.unity.UData;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

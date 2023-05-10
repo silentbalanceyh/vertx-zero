@@ -1,7 +1,7 @@
 package io.vertx.up.annotations;
 
-import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.em.container.ServerType;
 
 import java.lang.annotation.*;
 

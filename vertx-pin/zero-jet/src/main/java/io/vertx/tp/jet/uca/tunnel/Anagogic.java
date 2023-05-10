@@ -1,6 +1,5 @@
 package io.vertx.tp.jet.uca.tunnel;
 
-import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtComponent;
 import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
@@ -11,6 +10,7 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DFabric;
+import io.vertx.up.specification.action.Commercial;
 import io.vertx.up.uca.cache.Rapid;
 import io.vertx.up.uca.cache.RapidKey;
 import io.vertx.up.unity.Ux;

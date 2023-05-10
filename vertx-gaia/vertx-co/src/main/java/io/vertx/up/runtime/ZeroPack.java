@@ -3,11 +3,11 @@ package io.vertx.up.runtime;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import io.horizon.eon.VPath;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 import org.junit.runner.RunWith;
 

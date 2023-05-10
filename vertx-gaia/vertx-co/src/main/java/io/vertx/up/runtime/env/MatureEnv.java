@@ -1,6 +1,6 @@
 package io.vertx.up.runtime.env;
 
-import io.horizon.specification.runtime.Mature;
+import io.aeon.runtime.Mature;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.record.Attr;
 import io.vertx.up.atom.record.AttrSet;

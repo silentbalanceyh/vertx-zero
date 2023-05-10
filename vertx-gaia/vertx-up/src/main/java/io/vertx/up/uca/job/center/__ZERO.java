@@ -1,6 +1,6 @@
 package io.vertx.up.uca.job.center;
 
-import io.horizon.eon.em.scheduler.JobType;
+import io.vertx.up.eon.em.uca.JobType;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

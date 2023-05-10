@@ -1,7 +1,9 @@
 package io.vertx.tp.modular.jooq;
 
 import io.horizon.eon.VValue;
+import io.horizon.exception.WebException;
 import io.horizon.fn.Actuator;
+import io.horizon.uca.log.Annal;
 import io.vertx.tp.atom.modeling.data.DataEvent;
 import io.vertx.tp.atom.modeling.element.DataMatrix;
 import io.vertx.tp.atom.modeling.element.DataRow;
@@ -9,9 +11,7 @@ import io.vertx.tp.error._417ConditionEmptyException;
 import io.vertx.tp.error._417DataTransactionException;
 import io.vertx.tp.error._417DataUnexpectException;
 import io.vertx.tp.modular.jooq.internal.Jq;
-import io.horizon.exception.WebException;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.exception.DataAccessException;

@@ -5,7 +5,7 @@ import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import cn.vertxup.atom.domain.tables.pojos.MField;
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.modeler.KeyMode;
+import io.modello.eon.em.KeyMode;
 import io.modello.eon.em.ModelType;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.Schema;

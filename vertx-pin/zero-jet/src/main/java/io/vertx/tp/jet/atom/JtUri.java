@@ -2,13 +2,13 @@ package io.vertx.tp.jet.atom;
 
 import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.horizon.specification.meta.action.Api;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.cv.JtKey;
 import io.vertx.tp.jet.cv.em.ParamMode;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.eon.KWeb;
+import io.vertx.up.specification.action.Api;
 import io.vertx.up.util.Ut;
 import jakarta.ws.rs.core.MediaType;
 

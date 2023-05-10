@@ -1,9 +1,9 @@
 package io.vertx.tp.modular.phantom;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import java.util.function.Function;

@@ -1,6 +1,7 @@
 package io.vertx.tp.jet.uca.micro;
 
 import io.horizon.spi.jet.JtConsumer;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.EventBus;
@@ -9,7 +10,6 @@ import io.vertx.tp.jet.atom.JtUri;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.tp.jet.refine.Jt;
 import io.vertx.up.commune.Envelop;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

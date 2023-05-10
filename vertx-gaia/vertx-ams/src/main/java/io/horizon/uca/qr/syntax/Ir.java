@@ -3,10 +3,10 @@ package io.horizon.uca.qr.syntax;
 import io.horizon.exception.web._400QQueryAttributeException;
 import io.horizon.fn.HFn;
 import io.horizon.uca.log.Annal;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.qr.Criteria;
 import io.horizon.uca.qr.Pager;
 import io.horizon.uca.qr.Sorter;
+import io.vertx.core.json.JsonObject;
 
 import java.util.HashSet;
 import java.util.Set;

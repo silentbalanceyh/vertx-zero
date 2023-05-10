@@ -1,7 +1,7 @@
 package io.vertx.up.uca.web.limit;
 
-import io.horizon.eon.em.container.ServerType;
 import io.vertx.up.eon.KWeb;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.util.Ut;
 
 import java.util.HashSet;

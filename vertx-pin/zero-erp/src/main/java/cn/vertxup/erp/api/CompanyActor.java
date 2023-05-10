@@ -1,13 +1,13 @@
 package cn.vertxup.erp.api;
 
 import cn.vertxup.erp.service.CompanyStub;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.erp.cv.Addr;
 import io.vertx.tp.erp.cv.ErpMsg;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.horizon.uca.log.Annal;
 
 import javax.inject.Inject;
 

@@ -1,9 +1,9 @@
 package io.vertx.tp.rbac.acl.rapid;
 
-import io.horizon.specification.meta.secure.Acl;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.horizon.uca.qr.syntax.Ir;
+import io.vertx.up.specification.secure.Acl;
 
 /*
  * Here are the record filter `Dwarf`

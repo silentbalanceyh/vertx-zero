@@ -2,9 +2,9 @@ package io.vertx.up.commune.secure;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 

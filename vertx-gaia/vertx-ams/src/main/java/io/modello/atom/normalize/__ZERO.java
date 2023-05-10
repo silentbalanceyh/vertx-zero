@@ -1,7 +1,7 @@
 package io.modello.atom.normalize;
 
 import io.horizon.util.HUt;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -30,16 +30,16 @@ class MarkUtil {
     private static final ConcurrentMap<String, Boolean> FIELD_DEFAULT = new ConcurrentHashMap<>();
 
     static {
-        final int length = Marker.NAMES.length;
+        final int length = AttributeMarker.NAMES.length;
         for (int idx = 0; idx < length; idx++) {
-            FIELD_DEFAULT.put(Marker.NAMES[idx], FIELD_VALUE[idx]);
+            FIELD_DEFAULT.put(AttributeMarker.NAMES[idx], FIELD_VALUE[idx]);
         }
     }
 
     static ConcurrentMap<String, Boolean> parse(final JsonObject inputJ) {
         final JsonObject input = Objects.isNull(inputJ) ? new JsonObject() : inputJ;
         final ConcurrentMap<String, Boolean> result = new ConcurrentHashMap<>();
-        Arrays.stream(Marker.NAMES).forEach(field -> {
+        Arrays.stream(AttributeMarker.NAMES).forEach(field -> {
             final Boolean parsed;
             if (input.containsKey(field)) {
                 parsed = input.getBoolean(field, FIELD_DEFAULT.get(field));
@@ -58,7 +58,7 @@ class MarkUtil {
 
     static ConcurrentMap<String, Boolean> parse(final List<String> valueList) {
         final ConcurrentMap<String, Boolean> result = new ConcurrentHashMap<>();
-        if (Objects.isNull(valueList) || Marker.NAMES.length != valueList.size()) {
+        if (Objects.isNull(valueList) || AttributeMarker.NAMES.length != valueList.size()) {
             /*
              * 约束限定，两种情况返回默认值
              * 1. 如果传入的 valueList 是 null
@@ -68,9 +68,9 @@ class MarkUtil {
         } else {
             // 对齐 Marker.NAMES
             final int actual = valueList.size();
-            for (int idx = 0; idx < Marker.NAMES.length; idx++) {
+            for (int idx = 0; idx < AttributeMarker.NAMES.length; idx++) {
                 // 如果 idx 索引合法
-                final String field = Marker.NAMES[idx];
+                final String field = AttributeMarker.NAMES[idx];
                 if (idx < (actual - 1)) {
                     final String value = valueList.get(idx);
                     result.put(field, parseValue(field, value));
@@ -86,7 +86,7 @@ class MarkUtil {
                            final ConcurrentMap<String, Boolean> valueMap) {
         final StringBuilder builder = new StringBuilder();
         builder.append(name).append("{");
-        Arrays.stream(Marker.NAMES).forEach(field -> {
+        Arrays.stream(AttributeMarker.NAMES).forEach(field -> {
             if (valueMap.containsKey(field)) {
                 builder.append(field).append("=").append(valueMap.get(field)).append(",");
             } else {

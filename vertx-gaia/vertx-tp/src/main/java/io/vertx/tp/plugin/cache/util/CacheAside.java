@@ -1,7 +1,7 @@
 package io.vertx.tp.plugin.cache.util;
 
-import io.vertx.core.Future;
 import io.horizon.uca.log.Annal;
+import io.vertx.core.Future;
 
 import java.util.Objects;
 import java.util.function.Consumer;

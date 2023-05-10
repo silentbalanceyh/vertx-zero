@@ -1,11 +1,11 @@
 package io.vertx.up.uca.jooq;
 
 import io.horizon.eon.VValue;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 

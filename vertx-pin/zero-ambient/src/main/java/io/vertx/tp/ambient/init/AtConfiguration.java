@@ -1,9 +1,9 @@
 package io.vertx.tp.ambient.init;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ambient.atom.AtConfig;
 import io.vertx.tp.ambient.cv.AtFolder;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import static io.vertx.tp.ambient.refine.At.LOG;

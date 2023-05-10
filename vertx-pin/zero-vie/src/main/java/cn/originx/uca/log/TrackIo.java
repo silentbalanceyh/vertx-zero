@@ -4,10 +4,10 @@ import cn.originx.refine.Ox;
 import cn.originx.uca.code.Numeration;
 import cn.vertxup.ambient.domain.tables.pojos.XActivity;
 import io.horizon.exception.WebException;
-import io.horizon.specification.modeler.HDao;
 import io.horizon.spi.plugin.AspectPlugin;
 import io.horizon.uca.cache.Cc;
-import io.modello.eon.em.Marker;
+import io.modello.eon.em.AttributeMarker;
+import io.modello.specification.action.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -59,7 +59,7 @@ public class TrackIo {
                                        final Integer counter) {
         final JsonObject optJson = Ut.valueJObject(options);
         final AspectPlugin plugin = Ox.pluginActivity(optJson);
-        final Set<String> trackFields = this.atom.marker().enabled(Marker.track);
+        final Set<String> trackFields = this.atom.marker().enabled(AttributeMarker.track);
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonArray response = Objects.isNull(newArray) ? oldArray : newArray;
             return Ux.future(response);
@@ -106,7 +106,7 @@ public class TrackIo {
          * - DELETE - 和 ADD 相反
          * - UPDATE - 计算最终结果
          */
-        final Set<String> trackFields = this.atom.marker().enabled(Marker.track);
+        final Set<String> trackFields = this.atom.marker().enabled(AttributeMarker.track);
         if (Objects.isNull(plugin) || !this.isTrack || trackFields.isEmpty()) {
             final JsonObject response = Objects.isNull(newRecord) ? oldRecord : newRecord;
             return Ux.future(response);

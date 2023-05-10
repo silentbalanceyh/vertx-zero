@@ -1,8 +1,8 @@
 package io.vertx.up.exception.web;
 
 import io.horizon.eon.em.web.HttpStatusCode;
-import io.vertx.core.json.JsonObject;
 import io.horizon.exception.WebException;
+import io.vertx.core.json.JsonObject;
 
 public class _500PointerPluginException extends WebException {
 

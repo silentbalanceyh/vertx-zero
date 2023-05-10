@@ -1,8 +1,8 @@
 package io.vertx.up.uca.rs.mime.parse;
 
+import io.horizon.exception.WebException;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.up.atom.Epsilon;
-import io.horizon.exception.WebException;
 import io.vertx.up.uca.rs.Filler;
 
 import java.util.function.Supplier;

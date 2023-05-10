@@ -1,7 +1,7 @@
 package cn.originx.uca.commerce;
 
-import io.horizon.specification.modeler.HDao;
 import io.horizon.spi.robin.Switcher;
+import io.modello.specification.action.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

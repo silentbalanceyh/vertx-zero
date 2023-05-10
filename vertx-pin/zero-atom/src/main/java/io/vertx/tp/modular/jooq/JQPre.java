@@ -3,13 +3,13 @@ package io.vertx.tp.modular.jooq;
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.horizon.uca.cache.Cc;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.syntax.Ir;
+import io.horizon.uca.qr.syntax.IrItem;
 import io.modello.specification.atom.HReference;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.horizon.uca.qr.Criteria;
-import io.horizon.uca.qr.syntax.Ir;
-import io.horizon.uca.qr.syntax.IrItem;
 
 import java.util.HashSet;
 import java.util.Objects;

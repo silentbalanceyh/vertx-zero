@@ -1,8 +1,8 @@
 package io.vertx.up.exception.web;
 
-import io.horizon.eon.em.secure.ScDim;
 import io.horizon.eon.em.web.HttpStatusCode;
 import io.horizon.exception.WebException;
+import io.vertx.up.eon.em.secure.ScDim;
 
 public class _409DmComponentException extends WebException {
     public _409DmComponentException(final Class<?> clazz, final ScDim dim) {

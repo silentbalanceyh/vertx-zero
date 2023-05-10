@@ -1,8 +1,8 @@
 package io.vertx.up.runtime;
 
-import io.horizon.specification.runtime.MeanThread;
-import io.vertx.up.fn.Fn;
+import io.aeon.runtime.MeanThread;
 import io.horizon.uca.log.Annal;
+import io.vertx.up.fn.Fn;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,9 +1,9 @@
 package cn.originx.spi.component;
 
 import cn.originx.scaffold.component.AbstractAdaptor;
+import io.horizon.uca.qr.Criteria;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.Criteria;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 

@@ -4,7 +4,6 @@ import cn.vertxup.jet.domain.tables.pojos.IApi;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
 import io.horizon.eon.VString;
-import io.horizon.eon.em.container.ChannelType;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
 import io.modello.specification.atom.HUnique;
@@ -20,6 +19,7 @@ import io.vertx.up.commune.config.Identity;
 import io.vertx.up.commune.config.Integration;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.commune.exchange.DSetting;
+import io.vertx.up.eon.em.container.ChannelType;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.Set;

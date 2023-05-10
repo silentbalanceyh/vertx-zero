@@ -1,8 +1,8 @@
 package io.vertx.up.commune;
 
+import io.horizon.eon.em.web.HttpStatusCode;
 import io.modello.specification.HRecord;
 import io.vertx.core.buffer.Buffer;
-import io.horizon.eon.em.web.HttpStatusCode;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.util.Ut;

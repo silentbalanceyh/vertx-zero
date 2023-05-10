@@ -1,10 +1,10 @@
 package io.vertx.tp.rbac.acl.rapid.addon;
 
-import io.horizon.specification.meta.secure.Acl;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.acl.rapid.Dwarf;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
+import io.vertx.up.specification.secure.Acl;
 import io.vertx.up.util.Ut;
 
 public class DwarfQr implements Dwarf {

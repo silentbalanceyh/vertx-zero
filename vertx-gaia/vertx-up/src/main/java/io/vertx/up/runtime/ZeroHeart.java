@@ -1,10 +1,10 @@
 package io.vertx.up.runtime;
 
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.ClusterOptions;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.options.DynamicVisitor;
 import io.vertx.up.uca.options.ServerVisitor;

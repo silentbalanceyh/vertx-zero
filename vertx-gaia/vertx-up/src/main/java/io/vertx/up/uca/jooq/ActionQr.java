@@ -1,12 +1,12 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.horizon.uca.qr.Pager;
-import io.horizon.uca.qr.Sorter;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;

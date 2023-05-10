@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.neo4j;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -7,7 +8,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.neo4j.refine.N4J;
 import io.vertx.tp.plugin.neo4j.sync.GraphicAnalyzer;
 import io.vertx.tp.plugin.neo4j.sync.N4JSession;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 import org.neo4j.driver.Driver;

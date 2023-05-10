@@ -1,9 +1,9 @@
 package io.vertx.tp.plugin.neo4j.refine;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
 import io.horizon.uca.log.Log;
 import io.horizon.uca.log.LogModule;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Value;
 

@@ -1,9 +1,9 @@
 package io.vertx.up.atom;
 
-import io.vertx.ext.unit.TestContext;
-import io.vertx.quiz.ZeroBase;
 import io.horizon.uca.qr.Pager;
 import io.horizon.uca.qr.Pagination;
+import io.vertx.ext.unit.TestContext;
+import io.vertx.quiz.ZeroBase;
 import org.junit.Test;
 
 public class PaginationTc extends ZeroBase {

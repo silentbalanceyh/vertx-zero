@@ -5,12 +5,12 @@ import cn.vertxup.battery.domain.tables.pojos.BBlock;
 import cn.vertxup.battery.service.BagArgService;
 import cn.vertxup.battery.service.BagArgStub;
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.app.TypeBy;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.battery.uca.configure.Combiner;
 import io.vertx.tp.ke.cv.em.TypeBag;
 import io.vertx.up.eon.KName;
+import io.vertx.up.eon.em.app.ByType;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -20,19 +20,19 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractArk implements Ark {
     protected JsonObject buildQr(final String input, final TypeBag typeBag) {
-        return this.buildQr(input, Set.of(typeBag), TypeBy.BY_ID);
+        return this.buildQr(input, Set.of(typeBag), ByType.BY_ID);
     }
 
-    protected JsonObject buildQr(final String input, final TypeBag typeBag, final TypeBy by) {
+    protected JsonObject buildQr(final String input, final TypeBag typeBag, final ByType by) {
         return this.buildQr(input, Set.of(typeBag), by);
     }
 
 
     protected JsonObject buildQr(final String input, final Set<TypeBag> bags) {
-        return this.buildQr(input, bags, TypeBy.BY_ID);
+        return this.buildQr(input, bags, ByType.BY_ID);
     }
 
-    protected JsonObject buildQr(final String input, final Set<TypeBag> bags, final TypeBy by) {
+    protected JsonObject buildQr(final String input, final Set<TypeBag> bags, final ByType by) {
         final JsonObject conditionJ = Ux.whereAnd();
         switch (by) {
             case BY_KEY -> conditionJ.put(KName.APP_KEY, input);

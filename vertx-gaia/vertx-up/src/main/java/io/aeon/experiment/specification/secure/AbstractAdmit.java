@@ -2,7 +2,7 @@ package io.aeon.experiment.specification.secure;
 
 import io.aeon.atom.secure.HPermit;
 import io.aeon.experiment.specification.app.HES;
-import io.horizon.cloud.secure.HAdmit;
+import io.aeon.specification.secure.HAdmit;
 import io.macrocosm.atom.HOI;
 import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;

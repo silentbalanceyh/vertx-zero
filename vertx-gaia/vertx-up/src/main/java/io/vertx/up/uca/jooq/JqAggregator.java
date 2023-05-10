@@ -1,9 +1,9 @@
 package io.vertx.up.uca.jooq;
 
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 
 import java.math.BigDecimal;
 import java.util.List;

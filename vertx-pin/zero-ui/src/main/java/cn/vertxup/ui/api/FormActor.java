@@ -3,13 +3,13 @@ package cn.vertxup.ui.api;
 import cn.vertxup.ui.service.FieldStub;
 import cn.vertxup.ui.service.FormStub;
 import cn.vertxup.ui.service.OptionStub;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 
 import javax.inject.Inject;

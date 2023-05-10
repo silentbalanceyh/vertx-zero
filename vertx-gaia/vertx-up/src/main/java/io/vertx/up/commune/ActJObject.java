@@ -1,8 +1,8 @@
 package io.vertx.up.commune;
 
+import io.horizon.uca.qr.syntax.Ir;
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;

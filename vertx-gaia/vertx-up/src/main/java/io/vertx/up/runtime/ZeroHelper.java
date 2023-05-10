@@ -1,9 +1,9 @@
 package io.vertx.up.runtime;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.log.Annal;
 import io.vertx.up.annotations.Agent;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 import io.vertx.zero.exception.AgentDuplicatedException;

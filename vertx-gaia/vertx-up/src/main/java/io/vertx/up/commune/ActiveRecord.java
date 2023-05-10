@@ -1,8 +1,8 @@
 package io.vertx.up.commune;
 
+import io.horizon.uca.log.Annal;
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Arrays;

@@ -2,7 +2,7 @@ package cn.originx.scaffold.component;
 
 import cn.originx.refine.Ox;
 import cn.vertxup.jet.domain.tables.pojos.IService;
-import io.horizon.specification.modeler.HDao;
+import io.modello.specification.action.HDao;
 import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;

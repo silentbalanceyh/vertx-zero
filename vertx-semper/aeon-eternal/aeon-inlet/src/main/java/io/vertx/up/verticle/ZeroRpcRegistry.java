@@ -1,6 +1,5 @@
 package io.vertx.up.verticle;
 
-import io.horizon.eon.em.container.MessageModel;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.RpcOptions;
@@ -9,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.up.annotations.Worker;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
+import io.vertx.up.eon.em.container.MessageModel;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;
 

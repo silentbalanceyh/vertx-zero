@@ -2,7 +2,7 @@ package io.horizon.spi;
 
 import cn.vertxup.ui.domain.tables.daos.UiViewDao;
 import cn.vertxup.ui.domain.tables.pojos.UiView;
-import io.horizon.cloud.query.HCond;
+import io.aeon.specification.query.HCond;
 import io.horizon.spi.cloud.query.HQBE;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;

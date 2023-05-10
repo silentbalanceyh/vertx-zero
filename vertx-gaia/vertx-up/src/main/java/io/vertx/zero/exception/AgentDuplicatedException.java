@@ -1,7 +1,7 @@
 package io.vertx.zero.exception;
 
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.exception.BootingException;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.util.Ut;
 
 import java.util.Set;

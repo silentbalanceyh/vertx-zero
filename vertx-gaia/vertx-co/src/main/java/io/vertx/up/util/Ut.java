@@ -1,7 +1,8 @@
 package io.vertx.up.util;
 
+import io.aeon.runtime.HService;
 import io.horizon.eon.em.typed.ChangeFlag;
-import io.horizon.specification.runtime.HService;
+import io.horizon.uca.qr.syntax.Ir;
 import io.horizon.util.HUt;
 import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.Future;
@@ -9,7 +10,6 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.exchange.BMapping;
 
 import java.lang.reflect.Field;

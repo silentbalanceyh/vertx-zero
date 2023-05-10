@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.qiy;
 
+import io.horizon.uca.log.Annal;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -9,7 +10,6 @@ import io.vertx.tp.error._401QiyTokenException;
 import io.vertx.tp.plugin.qiy.api.QiyAuthorize;
 import io.vertx.tp.plugin.qiy.api.QiyUpload;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 
 public class QiyClientImpl implements QiyClient {
 

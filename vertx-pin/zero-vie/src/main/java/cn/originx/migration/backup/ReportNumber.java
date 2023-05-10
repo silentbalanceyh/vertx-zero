@@ -5,7 +5,7 @@ import cn.vertxup.ambient.domain.tables.daos.XNumberDao;
 import cn.vertxup.ambient.domain.tables.pojos.XNumber;
 import io.horizon.eon.VValue;
 import io.horizon.eon.em.Environment;
-import io.horizon.specification.modeler.HDao;
+import io.modello.specification.action.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.eon.KName;

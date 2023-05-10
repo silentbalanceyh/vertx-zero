@@ -1,6 +1,6 @@
 package io.vertx.up.annotations;
 
-import io.horizon.eon.em.container.IpcType;
+import io.vertx.up.eon.em.container.IpcType;
 
 import java.lang.annotation.*;
 

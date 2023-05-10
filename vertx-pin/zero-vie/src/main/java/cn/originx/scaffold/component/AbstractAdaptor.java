@@ -2,9 +2,9 @@ package cn.originx.scaffold.component;
 
 import io.horizon.exception.WebException;
 import io.horizon.exception.web._501NotSupportException;
-import io.horizon.specification.modeler.HDao;
 import io.horizon.spi.robin.Switcher;
 import io.modello.specification.HRecord;
+import io.modello.specification.action.HDao;
 import io.modello.specification.atom.HUnique;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;

@@ -1,10 +1,10 @@
 package io.vertx.tp.plugin.session;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.plugin.Infix;
 import io.vertx.up.runtime.ZeroYml;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Objects;
 

@@ -1,9 +1,9 @@
 package io.vertx.tp.battery.uca.dock;
 
-import io.horizon.eon.em.app.TypeBy;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.shareddata.ClusterSerializable;
-import io.horizon.uca.cache.Cc;
+import io.vertx.up.eon.em.app.ByType;
 
 /*
  * Connect to HArk part for configuration in each application
@@ -25,8 +25,8 @@ public interface Ark {
      * instead of other modulat.
      */
     default Future<ClusterSerializable> modularize(final String appId) {
-        return this.modularize(appId, TypeBy.BY_ID);
+        return this.modularize(appId, ByType.BY_ID);
     }
 
-    Future<ClusterSerializable> modularize(String appId, TypeBy by);
+    Future<ClusterSerializable> modularize(String appId, ByType by);
 }

@@ -1,5 +1,6 @@
 package io.vertx.tp.rbac.authorization;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.authorization.child.GcCritical;
@@ -20,7 +21,6 @@ import io.vertx.tp.rbac.authorization.parent.GpHorizon;
 import io.vertx.tp.rbac.authorization.parent.GpOverlook;
 import io.vertx.tp.rbac.logged.ProfileGroup;
 import io.vertx.tp.rbac.logged.ProfileRole;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 
 import java.util.List;

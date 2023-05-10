@@ -1,7 +1,6 @@
 package io.vertx.up.verticle;
 
 import io.horizon.eon.VValue;
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -12,6 +11,7 @@ import io.vertx.grpc.VertxServerBuilder;
 import io.vertx.up.annotations.Agent;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.eon.em.Etat;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.runtime.ZeroGrid;
 import io.vertx.up.uca.micro.center.ZeroRegistry;
 import io.vertx.up.uca.micro.ipc.server.Tunnel;

@@ -3,9 +3,9 @@ package io.vertx.up.unity;
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
 

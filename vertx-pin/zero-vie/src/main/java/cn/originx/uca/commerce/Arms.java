@@ -4,7 +4,8 @@ import cn.originx.refine.Ox;
 import cn.originx.scaffold.plugin.AspectSwitcher;
 import cn.originx.uca.log.TrackIo;
 import io.horizon.eon.em.typed.ChangeFlag;
-import io.horizon.specification.modeler.HDao;
+import io.horizon.uca.cache.Cc;
+import io.modello.specification.action.HDao;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -14,7 +15,6 @@ import io.vertx.up.atom.record.Apt;
 import io.vertx.up.commune.element.JSix;
 import io.vertx.up.commune.exchange.DFabric;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 

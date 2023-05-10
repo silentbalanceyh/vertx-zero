@@ -2,12 +2,12 @@ package io.vertx.up.atom.record;
 
 import io.horizon.eon.em.typed.ChangeFlag;
 import io.horizon.fn.Actuator;
+import io.horizon.uca.log.Annal;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.exception.internal.AptParameterException;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;

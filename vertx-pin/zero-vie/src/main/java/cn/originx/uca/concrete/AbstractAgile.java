@@ -1,7 +1,7 @@
 package cn.originx.uca.concrete;
 
-import io.horizon.specification.modeler.HDao;
 import io.modello.specification.HRecord;
+import io.modello.specification.action.HDao;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;

@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.id;
 
 import cn.vertxup.atom.domain.tables.pojos.MJoin;
-import io.horizon.eon.em.modeler.KeyMode;
+import io.modello.eon.em.KeyMode;
 import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.Model;
 import io.vertx.tp.atom.modeling.element.DataMatrix;

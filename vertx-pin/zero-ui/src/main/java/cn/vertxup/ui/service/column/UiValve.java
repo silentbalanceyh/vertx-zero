@@ -1,9 +1,9 @@
 package cn.vertxup.ui.service.column;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.up.atom.secure.Vis;
-import io.horizon.uca.cache.Cc;
 
 /*
  * Apeak choice for different usage,

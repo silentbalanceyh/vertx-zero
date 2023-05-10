@@ -1,8 +1,8 @@
 package io.vertx.up.uca.web.limit;
 
-import io.horizon.eon.em.container.ServerType;
 import io.horizon.uca.log.Annal;
 import io.vertx.tp.error.RpcPreparingException;
+import io.vertx.up.eon.em.container.ServerType;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.runtime.ZeroHeart;
 import io.vertx.up.runtime.ZeroMotor;

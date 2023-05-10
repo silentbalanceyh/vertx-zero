@@ -2,13 +2,13 @@ package io.vertx.up.uca.jooq.util;
 
 import io.horizon.eon.VString;
 import io.horizon.uca.log.Annal;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 

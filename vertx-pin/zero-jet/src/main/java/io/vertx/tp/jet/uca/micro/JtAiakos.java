@@ -1,10 +1,10 @@
 package io.vertx.tp.jet.uca.micro;
 
-import io.horizon.specification.meta.action.Commercial;
 import io.horizon.spi.jet.JtConsumer;
 import io.vertx.core.Future;
 import io.vertx.tp.jet.monitor.JtMonitor;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.specification.action.Commercial;
 
 /**
  * 「Consumer」

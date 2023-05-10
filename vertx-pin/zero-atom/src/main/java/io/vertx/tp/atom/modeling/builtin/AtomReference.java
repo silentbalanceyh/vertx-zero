@@ -2,10 +2,10 @@ package io.vertx.tp.atom.modeling.builtin;
 
 import cn.vertxup.atom.domain.tables.pojos.MAttribute;
 import io.aeon.experiment.shape.HAtomReference;
-import io.horizon.eon.em.modeler.AttributeType;
-import io.horizon.specification.modeler.HDao;
 import io.modello.atom.app.KApp;
 import io.modello.atom.normalize.RReference;
+import io.modello.eon.em.AttributeType;
+import io.modello.specification.action.HDao;
 import io.modello.specification.atom.HAtom;
 import io.modello.specification.atom.HAttribute;
 import io.vertx.tp.atom.modeling.Model;

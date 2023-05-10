@@ -1,8 +1,8 @@
 package io.vertx.tp.plugin.mongo;
 
-import io.vertx.ext.mongo.FindOptions;
 import io.horizon.uca.qr.Pager;
 import io.horizon.uca.qr.Sorter;
+import io.vertx.ext.mongo.FindOptions;
 import io.vertx.up.fn.Fn;
 
 /**

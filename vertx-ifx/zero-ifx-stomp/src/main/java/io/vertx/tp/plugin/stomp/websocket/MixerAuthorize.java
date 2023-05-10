@@ -1,5 +1,6 @@
 package io.vertx.tp.plugin.stomp.websocket;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Vertx;
 import io.vertx.ext.auth.authentication.AuthenticationProvider;
 import io.vertx.ext.stomp.StompServerHandler;
@@ -7,7 +8,6 @@ import io.vertx.ext.stomp.StompServerOptions;
 import io.vertx.up.atom.secure.Aegis;
 import io.vertx.up.runtime.ZeroAnno;
 import io.vertx.up.secure.bridge.Bolt;
-import io.horizon.uca.cache.Cc;
 import io.vertx.up.uca.matcher.RegexPath;
 
 import java.util.Objects;

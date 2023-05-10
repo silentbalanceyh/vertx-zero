@@ -1,8 +1,8 @@
 package io.vertx.tp.jet;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.impl.ConcurrentHashSet;
 import io.vertx.tp.jet.uca.aim.JtAim;
-import io.horizon.uca.cache.Cc;
 
 import java.util.Set;
 

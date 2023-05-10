@@ -6,9 +6,9 @@ import feign.Retryer;
 import feign.codec.ErrorDecoder;
 import feign.codec.JsonObjectDecoder;
 import feign.codec.JsonObjectEncoder;
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.init.TpConfig;
-import io.horizon.uca.cache.Cc;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
 package io.horizon.spi.jet;
 
-import io.horizon.specification.meta.action.Commercial;
 import io.vertx.core.Future;
 import io.vertx.up.commune.Envelop;
+import io.vertx.up.specification.action.Commercial;
 
 /*
  * Consumer interface
