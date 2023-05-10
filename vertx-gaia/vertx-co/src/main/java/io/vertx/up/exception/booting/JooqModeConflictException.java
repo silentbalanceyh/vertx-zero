@@ -2,13 +2,13 @@ package io.vertx.up.exception.booting;
 
 import io.horizon.exception.BootingException;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 
 public class JooqModeConflictException extends BootingException {
 
     public JooqModeConflictException(
         final Class<?> clazz,
-        final Qr.Mode required,
+        final Ir.Mode required,
         final JsonObject filters) {
         super(clazz, required, filters.encode());
     }

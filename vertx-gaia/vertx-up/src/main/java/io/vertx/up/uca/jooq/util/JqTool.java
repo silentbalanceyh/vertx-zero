@@ -8,7 +8,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.util.Ut;
 
@@ -35,11 +35,11 @@ public class JqTool {
         return CompositeFuture.join(criteriaFuture, dataFuture);
     }
 
-    public static Qr qr(final JsonObject envelop, final String pojo) {
-        return Fn.runOr(Qr.create(new JsonObject()), () -> {
+    public static Ir qr(final JsonObject envelop, final String pojo) {
+        return Fn.runOr(Ir.create(new JsonObject()), () -> {
             final JsonObject data = envelop.copy();
             if (Ut.isNil(pojo)) {
-                return Qr.create(data);
+                return Ir.create(data);
             } else {
                 // Projection Process
                 final Mojo mojo = Mirror.create(JqTool.class).mount(pojo).mojo();
@@ -48,11 +48,11 @@ public class JqTool {
         }, envelop);
     }
 
-    public static Qr qr(final JsonObject data, final Mojo mojo) {
+    public static Ir qr(final JsonObject data, final Mojo mojo) {
         return qr(data, mojo, new HashSet<>());
     }
 
-    public static Qr qr(final JsonObject data, final Mojo mojo, final Set<String> ignoreSet) {
+    public static Ir qr(final JsonObject data, final Mojo mojo, final Set<String> ignoreSet) {
         if (data.containsKey("projection")) {
             data.put("projection", projection(data.getJsonArray("projection"), mojo, ignoreSet));
         }
@@ -63,11 +63,11 @@ public class JqTool {
             data.put("criteria", criteria(data.getJsonObject("criteria"), mojo, ignoreSet));
         }
         LOGGER.info(INFO.INQUIRY_MESSAGE, data.encode());
-        return Qr.create(data);
+        return Ir.create(data);
     }
 
     public static JsonObject criteria(final JsonObject criteria, final String pojo) {
-        final Qr qr = qr(new JsonObject().put(Qr.KEY_CRITERIA, criteria), pojo);
+        final Ir qr = qr(new JsonObject().put(Ir.KEY_CRITERIA, criteria), pojo);
         return Objects.isNull(qr.getCriteria()) ? new JsonObject() : qr.getCriteria().toJson();
     }
 

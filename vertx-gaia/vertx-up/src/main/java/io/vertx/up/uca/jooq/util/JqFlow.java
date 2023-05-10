@@ -1,10 +1,10 @@
 package io.vertx.up.uca.jooq.util;
 
+import io.horizon.uca.cache.Cc;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
-import io.horizon.uca.cache.Cc;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.JqAnalyzer;
 import io.vertx.up.unity.Ux;
 
@@ -73,7 +73,7 @@ public class JqFlow {
         return Future.succeededFuture(this.input(data));
     }
 
-    public Qr inputQr(final JsonObject input) {
+    public Ir inputQr(final JsonObject input) {
         return JqTool.qr(input, this.pojo);
     }
 
@@ -81,7 +81,7 @@ public class JqFlow {
         return JqTool.criteria(criteria, pojo);
     }
 
-    public Future<Qr> inputQrAsync(final JsonObject input) {
+    public Future<Ir> inputQrAsync(final JsonObject input) {
         return Future.succeededFuture(this.inputQr(input));
     }
 

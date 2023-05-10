@@ -1,7 +1,7 @@
 package io.vertx.up.eon;
 
 import io.horizon.eon.VName;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -171,8 +171,8 @@ public interface KName extends VName {
         String PERM_ID = "permId";
 
         // view related
-        String PROJECTION = Qr.KEY_PROJECTION;
-        String CRITERIA = Qr.KEY_CRITERIA;
+        String PROJECTION = Ir.KEY_PROJECTION;
+        String CRITERIA = Ir.KEY_CRITERIA;
         String CREDIT = "credit";
 
         String ROWS = "rows";

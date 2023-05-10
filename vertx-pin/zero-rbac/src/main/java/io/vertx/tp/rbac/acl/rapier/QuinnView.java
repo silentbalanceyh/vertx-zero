@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.AuthMsg;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.log.DevEnv;
 import io.vertx.up.unity.Ux;
@@ -63,16 +63,16 @@ public class QuinnView implements Quinn {
 
     private void updateData(final SView view, final JsonObject viewData) {
         // projection
-        if (viewData.containsKey(Qr.KEY_PROJECTION)) {
-            view.setProjection(Ut.valueJArray(viewData, Qr.KEY_PROJECTION).encode());
+        if (viewData.containsKey(Ir.KEY_PROJECTION)) {
+            view.setProjection(Ut.valueJArray(viewData, Ir.KEY_PROJECTION).encode());
         }
         // rows
         if (viewData.containsKey(KName.Rbac.ROWS)) {
             view.setRows(Ut.valueJObject(viewData, KName.Rbac.ROWS).encode());
         }
         // criteria
-        if (viewData.containsKey(Qr.KEY_CRITERIA)) {
-            view.setCriteria(Ut.valueJObject(viewData, Qr.KEY_CRITERIA).encode());
+        if (viewData.containsKey(Ir.KEY_CRITERIA)) {
+            view.setCriteria(Ut.valueJObject(viewData, Ir.KEY_CRITERIA).encode());
         } else {
             // 只有查询条件存在清空
             view.setCriteria(new JsonObject().encode());

@@ -1,5 +1,6 @@
 package io.horizon.util;
 
+import io.horizon.annotations.ChatGPT;
 import io.horizon.fn.Actuator;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -70,5 +71,39 @@ class HIter {
             actuator.execute();
             start++;
         }
+    }
+
+    // itJObject 的强化版
+    @SuppressWarnings("all")
+    @ChatGPT
+    static <T> Stream<Map.Entry<String, T>> itJObject(final JsonObject input, final Class<T> clazz) {
+        return input.stream().filter(entry -> isMatch(entry.getValue(), clazz)).map(entry -> {
+            // convert entry.getValue() to T
+            final T t = (T) entry.getValue();
+            final String key = entry.getKey();
+            // call the BiConsumer provided in the forEach method with key k and value t
+            // Note that the lambda expression should have the same parameter types as the BiConsumer interface
+            // In this case, the first parameter is a String and the second parameter is of type T
+            // So the forEach method should be called like this: forEach((String k, T t) -> {})
+            return new AbstractMap.SimpleEntry(key, t);
+        });
+    }
+
+    @SuppressWarnings("all")
+    static <T> Stream<T> itJArray(final JsonArray input, final Class<T> clazz) {
+        return input.stream().filter(item -> isMatch(item, clazz))
+            .map(item -> (T) item);
+    }
+
+    private static <T> boolean isMatch(final Object value, final Class<T> clazz) {
+        // 过滤掉 value 为 null 的元素
+        if (Objects.isNull(clazz)) {
+            return true;
+        }
+        // clazz 不为 null 才执行此处检查，过滤掉 value 为 null 的元素
+        if (Objects.isNull(value)) {
+            return false;   // 直接过滤
+        }
+        return clazz.isInstance(value) || clazz.isAssignableFrom(value.getClass());
     }
 }

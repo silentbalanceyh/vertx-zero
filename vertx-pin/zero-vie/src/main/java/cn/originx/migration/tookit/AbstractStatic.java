@@ -6,9 +6,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.up.annotations.Contract;
-import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.unity.Ux;
@@ -28,9 +28,9 @@ public abstract class AbstractStatic extends AbstractTool {
 
     protected JsonObject toCondition(final Pager pager, final JsonObject filters) {
         final JsonObject condition = new JsonObject();
-        condition.put(Qr.KEY_PAGER, pager.toJson());
-        condition.put(Qr.KEY_CRITERIA, filters);
-        condition.put(Qr.KEY_SORTER, new JsonArray()
+        condition.put(Ir.KEY_PAGER, pager.toJson());
+        condition.put(Ir.KEY_CRITERIA, filters);
+        condition.put(Ir.KEY_SORTER, new JsonArray()
             .add(Sorter.create(KName.CREATED_AT, false).toJson()));
         return condition;
     }

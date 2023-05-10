@@ -2,11 +2,11 @@ package io.vertx.up.unity;
 
 import io.horizon.atom.common.Kv;
 import io.horizon.eon.VString;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KWeb;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -30,8 +30,8 @@ final class Query {
 
     static JsonObject irQH(final JsonObject query, final String field, final Object value) {
         Objects.requireNonNull(query);
-        final JsonObject original = Ut.valueJObject(query, Qr.KEY_CRITERIA);
-        query.put(Qr.KEY_CRITERIA, irH(original, field, value));
+        final JsonObject original = Ut.valueJObject(query, Ir.KEY_CRITERIA);
+        query.put(Ir.KEY_CRITERIA, irH(original, field, value));
         return query;
     }
 
@@ -41,7 +41,7 @@ final class Query {
         if (value instanceof JsonObject) {
             // 左右合并
             final Kv<String, String> kv = Kv.create(KWeb.ARGS.TREE_L, field);
-            return ir(originalJ, (JsonObject) value, Qr.Connector.AND, kv);
+            return ir(originalJ, (JsonObject) value, Ir.Connector.AND, kv);
         } else {
             // 直接合并（加 And）
             if (!originalJ.containsKey(VString.EMPTY)) {
@@ -79,11 +79,11 @@ final class Query {
         Objects.requireNonNull(query);
         if (clear) {
             /* Overwrite Mode */
-            query.put(Qr.KEY_CRITERIA, criteria);
+            query.put(Ir.KEY_CRITERIA, criteria);
         } else {
             /* Combine Mode */
-            final JsonObject originalJ = Ut.valueJObject(query, Qr.KEY_CRITERIA);
-            query.put(Qr.KEY_CRITERIA, irH(originalJ, criteria));
+            final JsonObject originalJ = Ut.valueJObject(query, Ir.KEY_CRITERIA);
+            query.put(Ir.KEY_CRITERIA, irH(originalJ, criteria));
         }
         LOGGER.info("[Qr] Criteria: \n{0}", query.encodePrettily());
         return query;
@@ -91,18 +91,18 @@ final class Query {
 
     private static JsonObject irAnd(final JsonObject originalJ, final JsonObject criteriaJ,
                                     final Kv<String, String> nodes) {
-        return ir(originalJ, criteriaJ, Qr.Connector.AND, nodes);
+        return ir(originalJ, criteriaJ, Ir.Connector.AND, nodes);
     }
 
     private static JsonObject irOr(final JsonObject originalJ, final JsonObject criteriaJ,
                                    final Kv<String, String> nodes) {
-        return ir(originalJ, criteriaJ, Qr.Connector.OR, nodes);
+        return ir(originalJ, criteriaJ, Ir.Connector.OR, nodes);
     }
 
     private static JsonObject ir(final JsonObject originalJ, final JsonObject criteriaJ,
-                                 final Qr.Connector connectorL, final Kv<String, String> kv) {
+                                 final Ir.Connector connectorL, final Kv<String, String> kv) {
         // 在 originalJ 中追加条件：AND
-        originalJ.put(VString.EMPTY, Qr.Connector.AND == connectorL);
+        originalJ.put(VString.EMPTY, Ir.Connector.AND == connectorL);
         if (irOne(criteriaJ)) {
             // 单条件，直接将条件追加（此时不论符号）
             criteriaJ.fieldNames()
@@ -111,7 +111,7 @@ final class Query {
         } else {
             // 多条件，需检查对端符号
             final Boolean isAnd = criteriaJ.getBoolean(VString.EMPTY, Boolean.FALSE);
-            final Qr.Connector connectorR = isAnd ? Qr.Connector.AND : Qr.Connector.OR;
+            final Ir.Connector connectorR = isAnd ? Ir.Connector.AND : Ir.Connector.OR;
             if (connectorL == connectorR) {
                 // 两边符号相同，Linear合并
                 // L AND R ( r1 = v1, r2 = v2 )
@@ -135,11 +135,11 @@ final class Query {
         Objects.requireNonNull(query);
         if (clear) {
             /* Overwrite Mode */
-            query.put(Qr.KEY_PROJECTION, projection.copy());
+            query.put(Ir.KEY_PROJECTION, projection.copy());
         } else {
             /* Combine */
-            final JsonArray original = Ut.valueJArray(query, Qr.KEY_PROJECTION);
-            query.put(Qr.KEY_PROJECTION, irV(original, projection));
+            final JsonArray original = Ut.valueJArray(query, Ir.KEY_PROJECTION);
+            query.put(Ir.KEY_PROJECTION, irV(original, projection));
         }
         LOGGER.info("[Qr] Projection: \n{0}", query.encodePrettily());
         return query;

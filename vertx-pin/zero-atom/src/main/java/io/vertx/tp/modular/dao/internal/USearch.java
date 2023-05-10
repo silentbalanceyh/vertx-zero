@@ -3,8 +3,8 @@ package io.vertx.tp.modular.dao.internal;
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.util.Ut;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;
@@ -54,7 +54,7 @@ public class USearch extends AbstractUtil<USearch> {
      * 构造JsonObject中的 criteria
      */
     private DataEvent irQr(final JsonObject criteria) {
-        final Qr qr = Qr.create(criteria);
+        final Ir qr = Ir.create(criteria);
         return this.event().qr(qr);
     }
 }

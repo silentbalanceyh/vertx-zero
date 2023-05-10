@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.rapid;
 import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 
 /*
  * Here are the record filter `Dwarf`
@@ -42,7 +42,7 @@ class DwarfRecord implements Dwarf {
 
         /* projection only */
         final JsonObject updated = SiftCol.onProjection(record,
-            Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
+            Sc.aclOn(matrix.getJsonArray(Ir.KEY_PROJECTION), acl));
 
         /* Updated */
         dataReference.put("data", updated);

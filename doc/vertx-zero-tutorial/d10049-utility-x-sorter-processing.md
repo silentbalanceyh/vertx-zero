@@ -1,6 +1,6 @@
 # D10049 - Utility X, Sorter Processing
 
-Another feature in zero system is that it provide the object `io.vertx.up.atom.query.Sorter` to store sorting message in
+Another feature in zero system is that it provide the object `io.horizon.uca.qr.Sorter` to store sorting message in
 querying or searching operations. This class contains following useful apis:
 
 * `<T> JsonObject toJson(Function<Boolean,T> function)`

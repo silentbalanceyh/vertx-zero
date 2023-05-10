@@ -4,7 +4,7 @@ import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -60,8 +60,8 @@ public class DataBound implements Serializable {
      */
     public JsonObject toJson() {
         final JsonObject json = new JsonObject();
-        json.put(Qr.KEY_PROJECTION, Ut.toJArray(this.projection));
-        json.put(Qr.KEY_CRITERIA, this.criteria);
+        json.put(Ir.KEY_PROJECTION, Ut.toJArray(this.projection));
+        json.put(Ir.KEY_CRITERIA, this.criteria);
 
 
         /* Rows */

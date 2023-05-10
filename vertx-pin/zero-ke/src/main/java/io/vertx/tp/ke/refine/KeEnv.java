@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.atom.unity.UArray;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
@@ -179,7 +179,7 @@ class KeEnv {
      */
     static Future<JsonObject> daoJ(final JsonObject config, final JsonObject params) {
         return daoT(config, JsonObject::new, jq -> {
-            final JsonObject exprTpl = Ut.valueJObject(config, Qr.KEY_CRITERIA);
+            final JsonObject exprTpl = Ut.valueJObject(config, Ir.KEY_CRITERIA);
             final JsonObject condition = Ut.fromExpression(exprTpl, params);
             return jq.fetchJOneAsync(condition);
         });
@@ -187,7 +187,7 @@ class KeEnv {
 
     static Future<JsonArray> daoA(final JsonObject config, final JsonObject params) {
         return daoT(config, JsonArray::new, jq -> {
-            final JsonObject exprTpl = Ut.valueJObject(config, Qr.KEY_CRITERIA);
+            final JsonObject exprTpl = Ut.valueJObject(config, Ir.KEY_CRITERIA);
             final JsonObject condition = Ut.fromExpression(exprTpl, params);
             return jq.fetchJAsync(condition);
         });

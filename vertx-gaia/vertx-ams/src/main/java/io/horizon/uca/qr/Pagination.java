@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query;
+package io.horizon.uca.qr;
 
 import io.vertx.core.Future;
 

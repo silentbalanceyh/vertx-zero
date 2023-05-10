@@ -1,12 +1,12 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
 import io.horizon.exception.web._400QQueryAttributeException;
+import io.horizon.fn.HFn;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.fn.Fn;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +41,7 @@ import java.util.function.Predicate;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface Qr {
+public interface Ir {
     /**
      * <value>pager</value>, It's mapped to `pager` field in json configuration.
      * 「Pagination」This json contains following two field:
@@ -81,9 +81,9 @@ public interface Qr {
      *
      * @param data {@link io.vertx.core.json.JsonObject} json literal
      *
-     * @return {@link Qr} reference. ( simple criteria or qtree automatically )
+     * @return {@link Ir} reference. ( simple criteria or qtree automatically )
      */
-    static Qr create(final JsonObject data) {
+    static Ir create(final JsonObject data) {
         return new IrQr(data);
     }
 
@@ -100,10 +100,10 @@ public interface Qr {
                            final String key, final Class<?> type,
                            final Predicate<Object> predicate,
                            final Class<?> target) {
-        Fn.runAt(() -> Fn.runAt(() -> Fn.runAt(checkJson.containsKey(key), Annal.get(target), () -> {
+        HFn.runAt(() -> HFn.runAt(() -> HFn.runAt(checkJson.containsKey(key), Annal.get(target), () -> {
             // Throw type exception
             final Object check = checkJson.getValue(key);
-            Fn.outWeb(!predicate.test(check), Annal.get(target), _400QQueryAttributeException.class, target, key, type, check.getClass());
+            HFn.outWeb(!predicate.test(check), Annal.get(target), _400QQueryAttributeException.class, target, key, type, check.getClass());
         }), checkJson), target);
     }
 

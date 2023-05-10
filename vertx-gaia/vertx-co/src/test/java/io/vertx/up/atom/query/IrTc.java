@@ -1,5 +1,6 @@
 package io.vertx.up.atom.query;
 
+import io.horizon.uca.qr.Criteria;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.quiz.ZeroBase;
@@ -8,7 +9,7 @@ import org.junit.Test;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class QrTc extends ZeroBase {
+public class IrTc extends ZeroBase {
     private Criteria criteria(final String fileJson) {
         final JsonObject json = this.ioJObject(fileJson);
         return Criteria.create(json);

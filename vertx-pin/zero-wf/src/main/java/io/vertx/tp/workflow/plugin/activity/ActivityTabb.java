@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.workflow.uca.camunda.Io;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.sectio.After;
 import io.vertx.up.uca.sectio.Around;
@@ -33,7 +33,7 @@ public class ActivityTabb implements After {
         return this.dataCond(normalized)
             .compose(criteria -> {
                 // Criteria
-                normalized.put(Qr.KEY_CRITERIA, criteria);
+                normalized.put(Ir.KEY_CRITERIA, criteria);
                 return Ux.future(normalized);
             })
             .compose(this::dataFlow).compose(workflow -> {

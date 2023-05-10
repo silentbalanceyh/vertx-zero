@@ -5,9 +5,9 @@ import io.horizon.eon.VValue;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.exception.booting.JooqCondClauseException;
 import io.vertx.up.exception.booting.JooqCondFieldException;
 import io.vertx.up.fn.Fn;
@@ -93,7 +93,7 @@ public class JooqCond {
             LOGGER.debug("( JqTool ) Mode selected {0}, filters raw = {1}",
                 criteria.mode(), filters);
         }
-        if (Qr.Mode.LINEAR == criteria.mode()) {
+        if (Ir.Mode.LINEAR == criteria.mode()) {
             JsonObject inputFilters = filters;
             if (null == operator) {
                 /*
@@ -255,7 +255,7 @@ public class JooqCond {
                      */
                     fields = new String[2];
                     fields[VValue.IDX] = field;
-                    fields[VValue.ONE] = Qr.Op.IN;
+                    fields[VValue.ONE] = Ir.Op.IN;
                 }
             } else {
                 /*
@@ -275,14 +275,14 @@ public class JooqCond {
                  * set default operator
                  */
                 if (value instanceof JsonArray) {
-                    op = Qr.Op.IN;
+                    op = Ir.Op.IN;
                 } else {
-                    op = Qr.Op.EQ;
+                    op = Ir.Op.EQ;
                 }
             } else {
                 final String extract = fields[VValue.ONE];
                 if (Objects.isNull(extract)) {
-                    op = Qr.Op.EQ;
+                    op = Ir.Op.EQ;
                 } else {
                     op = extract.trim().toLowerCase();
                 }

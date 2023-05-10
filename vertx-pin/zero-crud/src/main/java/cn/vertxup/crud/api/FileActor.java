@@ -21,7 +21,7 @@ import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Plugin;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -74,7 +74,7 @@ public class FileActor {
          * Here extract query by `criteria` node, it will be synced with
          * dynamic exporting here.
          **/
-        JsonObject criteria = Ut.valueJObject(condition.getJsonObject(Qr.KEY_CRITERIA));
+        JsonObject criteria = Ut.valueJObject(condition.getJsonObject(Ir.KEY_CRITERIA));
         final IxPanel panel = IxPanel.on(request);
         final IxMod mod = request.active();
         return T.fetchFull(request).runJ(request.dataV())

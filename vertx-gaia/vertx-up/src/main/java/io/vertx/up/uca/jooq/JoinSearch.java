@@ -4,8 +4,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -26,7 +26,7 @@ class JoinSearch {
         this.store = store;
     }
 
-    Long count(final Qr qr) {
+    Long count(final Ir qr) {
         /*
          * DSLContext
          */
@@ -56,7 +56,7 @@ class JoinSearch {
         return Long.valueOf(context.fetchCount(started));
     }
 
-    JsonArray searchA(final Qr qr, final Mojo mojo) {
+    JsonArray searchA(final Ir qr, final Mojo mojo) {
         /*
          * DSLContext
          */

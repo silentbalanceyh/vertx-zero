@@ -5,13 +5,13 @@ import cn.vertxup.jet.domain.tables.daos.IJobDao;
 import cn.vertxup.jet.domain.tables.daos.IServiceDao;
 import cn.vertxup.jet.domain.tables.pojos.IJob;
 import cn.vertxup.jet.domain.tables.pojos.IService;
+import io.horizon.uca.log.Annal;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.jet.refine.Jt;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
-import io.horizon.uca.log.Annal;
 import io.vertx.up.unity.Ux;
 import io.vertx.up.util.Ut;
 
@@ -30,7 +30,7 @@ public class JobService implements JobStub {
 
     @Override
     public Future<JsonObject> searchJobs(final String sigma, final JsonObject body, final boolean grouped) {
-        final Qr qr = Qr.create(body);
+        final Ir qr = Ir.create(body);
         qr.getCriteria().save("sigma", sigma);
         final JsonObject condition = qr.toJson();
         LOGGER.info("Job condition: {0}", condition);

@@ -11,7 +11,7 @@ import io.vertx.tp.crud.refine.Ix;
 import io.vertx.tp.crud.uca.desk.IxKit;
 import io.vertx.tp.crud.uca.desk.IxMod;
 import io.vertx.tp.crud.uca.input.Pre;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.UxJooq;
 import io.vertx.up.uca.sectio.Aspect;
@@ -64,7 +64,7 @@ class AgonicUpdate extends AgonicUnique {
 
     @Override
     public Future<JsonArray> runJAAsync(final JsonObject input, final IxMod in) {
-        final JsonObject query = input.getJsonObject(Qr.KEY_CRITERIA);
+        final JsonObject query = input.getJsonObject(Ir.KEY_CRITERIA);
         LOG.Filter.info(this.getClass(), "( Mass Update ) Condition: {0}", query);
         final UxJooq jooq = IxPin.jooq(in);
         return jooq.fetchJAsync(query)

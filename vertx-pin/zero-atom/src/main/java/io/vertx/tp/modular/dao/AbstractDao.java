@@ -10,7 +10,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.tp.modular.dao.internal.*;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 

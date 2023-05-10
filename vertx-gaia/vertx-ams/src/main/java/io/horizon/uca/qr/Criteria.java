@@ -1,12 +1,12 @@
-package io.vertx.up.atom.query;
+package io.horizon.uca.qr;
 
 import io.horizon.exception.web._500QQueryMetaNullException;
+import io.horizon.fn.HFn;
 import io.horizon.uca.log.Annal;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.atom.query.engine.QrDo;
-import io.vertx.up.atom.query.engine.QrItem;
-import io.vertx.up.fn.Fn;
+import io.horizon.uca.qr.syntax.Ir;
+import io.horizon.uca.qr.syntax.IrDo;
+import io.horizon.uca.qr.syntax.IrItem;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;
@@ -33,11 +33,11 @@ public class Criteria implements Serializable {
      * 1. LINEAR - The linear condition.
      * 2. TREE - The tree condition ( Complex query tree data structure ).
      */
-    private final Qr.Mode mode;
+    private final Ir.Mode mode;
     /**
      * The LINEAR/TREE analyzer.
      */
-    private final transient QrDo analyzer;
+    private final transient IrDo analyzer;
 
     /**
      * Create criteria based on json object.
@@ -45,14 +45,14 @@ public class Criteria implements Serializable {
      * @param data {@link io.vertx.core.json.JsonObject}
      */
     private Criteria(final JsonObject data) {
-        Fn.outWeb(null == data, LOGGER, _500QQueryMetaNullException.class, this.getClass());
+        HFn.outWeb(null == data, LOGGER, _500QQueryMetaNullException.class, this.getClass());
         assert data != null : "If null pointer, the exception will be thrown out.";
-        if (QrDo.isComplex(data)) {
-            this.mode = Qr.Mode.TREE;
+        if (IrDo.isComplex(data)) {
+            this.mode = Ir.Mode.TREE;
         } else {
-            this.mode = Qr.Mode.LINEAR;
+            this.mode = Ir.Mode.LINEAR;
         }
-        this.analyzer = QrDo.create(data);
+        this.analyzer = IrDo.create(data);
     }
 
     /**
@@ -69,9 +69,9 @@ public class Criteria implements Serializable {
     /**
      * Get the json query condition mode.
      *
-     * @return {@link Qr.Mode}
+     * @return {@link Ir.Mode}
      */
-    public Qr.Mode mode() {
+    public Ir.Mode mode() {
         return this.mode;
     }
 
@@ -111,7 +111,7 @@ public class Criteria implements Serializable {
      * @param field    {@link java.lang.String} The field name
      * @param consumer {@link java.util.function.BiConsumer} The qr item consumed
      */
-    public void match(final String field, final BiConsumer<QrItem, JsonObject> consumer) {
+    public void match(final String field, final BiConsumer<IrItem, JsonObject> consumer) {
         this.analyzer.match(field, consumer);
     }
 

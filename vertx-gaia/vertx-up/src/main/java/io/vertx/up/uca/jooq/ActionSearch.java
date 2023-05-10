@@ -5,7 +5,7 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.util.JqFlow;
 import io.vertx.up.unity.Ux;
 
@@ -47,7 +47,7 @@ class ActionSearch extends AbstractAction {
 
     <T> JsonObject search(final JsonObject query, final JqFlow workflow) {
         // Data Processing
-        final Qr qr = workflow.inputQr(query);
+        final Ir qr = workflow.inputQr(query);
         final JsonArray list = workflow.output(this.qr.search(qr));
         // Count Processing
         final Long count = this.counter.count(qr.getCriteria().toJson());

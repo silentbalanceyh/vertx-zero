@@ -9,7 +9,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.cv.AuthKey;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -26,7 +26,7 @@ class TwineQr {
     static Future<JsonObject> normalize(final KQr qr, final JsonObject query) {
         // The original `criteria` from query part, fix Null Pointer Issue
         final JsonObject queryJ = query.copy();
-        final JsonObject criteria = Ut.valueJObject(queryJ, Qr.KEY_CRITERIA);
+        final JsonObject criteria = Ut.valueJObject(queryJ, Ir.KEY_CRITERIA);
         return normalize(criteria).compose(normalizeJ -> {
             // Qr Json
             final JsonObject condition;
@@ -37,7 +37,7 @@ class TwineQr {
                 // Sub Query Tree Must not be EMPTY
                 condition.put("$KQR$", normalizeJ);
             }
-            queryJ.put(Qr.KEY_CRITERIA, condition);
+            queryJ.put(Ir.KEY_CRITERIA, condition);
             return Ux.future(queryJ);
         });
     }

@@ -1,15 +1,17 @@
-package io.vertx.up.atom.query;
+package io.horizon.uca.qr;
 
 import io.horizon.eon.VString;
+import io.horizon.fn.HFn;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 public class Sorter implements Serializable {
     /**
@@ -23,7 +25,7 @@ public class Sorter implements Serializable {
 
     private Sorter(final String field,
                    final Boolean asc) {
-        Fn.runAt(() -> {
+        HFn.runAt(() -> {
             this.field.add(field);
             this.asc.add(asc);
         }, field);
@@ -41,7 +43,7 @@ public class Sorter implements Serializable {
     public static Sorter create(final JsonArray sorter) {
         // Sorter Parsing
         final Sorter target = Sorter.create();
-        Ut.itJArray(sorter, String.class, (field, index) -> {
+        HUt.itJArray(sorter, String.class).forEach((field) -> {
             if (field.contains(VString.COMMA)) {
                 final String sortField = field.split(VString.COMMA)[0];
                 final boolean asc = field.split(VString.COMMA)[1].equalsIgnoreCase("asc");
@@ -54,34 +56,41 @@ public class Sorter implements Serializable {
     }
 
     public static Sorter create(final JsonObject sorterJ) {
-        if (Ut.isNil(sorterJ)) {
+        if (HUt.isNil(sorterJ)) {
             return null;
         }
         final Sorter sorter = create();
-        Ut.<Boolean>itJObject(sorterJ, (mode, field) ->
-            sorter.add(field, mode));
+        HUt.itJObject(sorterJ, Boolean.class).forEach((entry) ->
+            sorter.add(entry.getKey(), entry.getValue()));
+        //        HUt.<Boolean>itJObject(sorterJ, (mode, field) ->
+        //            sorter.add(field, mode));
         return sorter;
     }
 
     public <T> JsonObject toJson(final Function<Boolean, T> function) {
         final JsonObject sort = new JsonObject();
-        Ut.itList(this.field, (item, index) -> {
-            // Extract value from asc
-            final boolean mode = this.asc.get(index);
-            // Extract result
-            final T result = function.apply(mode);
-            sort.put(item, result);
-        });
+        IntStream.range(0, this.field.size())
+            .mapToObj(i -> new AbstractMap.SimpleEntry<Integer, String>(i, this.field.get(i)))
+            .forEach(entry -> {
+                // index / field
+                final int index = entry.getKey();
+                final String field = entry.getValue();
+                // process
+                final boolean mode = this.asc.get(index);
+                final T result = function.apply(mode);
+                sort.put(field, result);
+            });
         return sort;
     }
 
     public JsonObject toJson() {
-        final JsonObject sort = new JsonObject();
-        Ut.itList(this.field, (item, index) -> {
-            final boolean mode = this.asc.get(index);
-            sort.put(item, mode);
-        });
-        return sort;
+        return this.toJson(mode -> mode);
+        //        final JsonObject sort = new JsonObject();
+        //        HUt.itList(this.field, (item, index) -> {
+        //            final boolean mode = this.asc.get(index);
+        //            sort.put(item, mode);
+        //        });
+        //        return sort;
     }
 
     public Sorter add(final String field,
@@ -108,6 +117,6 @@ public class Sorter implements Serializable {
             kv.add(VString.LEFT_BRACKET + this.field.get(idx) +
                 VString.COMMA + this.asc.get(idx) + VString.RIGHT_BRACKET);
         }
-        return VString.LEFT_SQUARE + Ut.fromJoin(kv) + VString.RIGHT_SQUARE;
+        return VString.LEFT_SQUARE + HUt.fromJoin(kv) + VString.RIGHT_SQUARE;
     }
 }

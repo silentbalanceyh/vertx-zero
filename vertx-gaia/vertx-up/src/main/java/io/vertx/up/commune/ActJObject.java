@@ -2,7 +2,7 @@ package io.vertx.up.commune;
 
 import io.modello.specification.HRecord;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.exchange.BTree;
 import io.vertx.up.eon.KWeb;
 import io.vertx.up.util.Ut;
@@ -105,11 +105,11 @@ class ActJObject extends ActMapping implements Serializable {
              * isQuery ? criteria
              * Until now the system has calculated the body data here, the condition should be enhancement
              */
-            if (body.containsKey(Qr.KEY_CRITERIA) || body.containsKey(Qr.KEY_PROJECTION)) {
+            if (body.containsKey(Ir.KEY_CRITERIA) || body.containsKey(Ir.KEY_PROJECTION)) {
                 /*
                  * JqTool part
                  */
-                Arrays.stream(Qr.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
+                Arrays.stream(Ir.KEY_QUERY).filter(field -> Objects.nonNull(body.getValue(field)))
                     .forEach(field -> {
                         this.query.put(field, body.getValue(field));
                         /*
@@ -125,8 +125,8 @@ class ActJObject extends ActMapping implements Serializable {
                     });
             }
             // fill criteria field when query is not empty
-            if (Ut.isNotNil(this.query) && !this.query.containsKey(Qr.KEY_CRITERIA)) {
-                this.query.put(Qr.KEY_CRITERIA, new JsonObject());
+            if (Ut.isNotNil(this.query) && !this.query.containsKey(Ir.KEY_CRITERIA)) {
+                this.query.put(Ir.KEY_CRITERIA, new JsonObject());
             }
             if (Ut.isNotNil(body)) {
                 /*

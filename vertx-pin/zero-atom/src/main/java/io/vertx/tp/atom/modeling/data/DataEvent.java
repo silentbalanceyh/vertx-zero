@@ -17,10 +17,10 @@ import io.vertx.tp.error._417DataRowNullException;
 import io.vertx.tp.modular.io.AoIo;
 import io.vertx.tp.modular.metadata.AoSentence;
 import io.vertx.tp.modular.plugin.IoHub;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
 
@@ -42,7 +42,7 @@ public class DataEvent implements Serializable {
     // private transient DataInOut input;
     private transient AoIo io;
     private transient Criteria criteria;
-    private transient Qr qr;
+    private transient Ir qr;
     private transient long counter;
 
     private DataEvent(final DataAtom atom, final AoSentence sentence) {
@@ -133,7 +133,7 @@ public class DataEvent implements Serializable {
         return this;
     }
 
-    public DataEvent qr(final Qr qr) {
+    public DataEvent qr(final Ir qr) {
         this.qr = qr;
         if (Objects.nonNull(qr)) {
             /*

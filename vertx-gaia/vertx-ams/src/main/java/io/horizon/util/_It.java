@@ -6,10 +6,7 @@ import io.vertx.core.json.JsonObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -130,6 +127,19 @@ class _It extends _Is {
     }
 
     /**
+     * （带非空 null 检查）遍历 JsonArray，提取元素为 JsonObject 的类型，返回 Stream
+     *
+     * @param array JsonArray
+     * @param clazz 元素类型
+     * @param <T>   T
+     *
+     * @return Stream
+     */
+    public static <T> Stream<T> itJArray(final JsonArray array, final Class<T> clazz) {
+        return HIter.itJArray(array, clazz);
+    }
+
+    /**
      * （带非空 null 检查）遍历 JsonArray，提取元素为 JsonObject 的类型，且满足条件的，返回 Stream
      *
      * @param array     JsonArray
@@ -175,6 +185,31 @@ class _It extends _Is {
      */
     public static <T> T itJson(final T data, final Function<JsonObject, T> executor) {
         return HIter.itJson(data, executor);
+    }
+
+    /**
+     * 泛型遍历，将原始的 Object 类型遍历转换成带类型的遍历模式
+     *
+     * @param input 输入数据
+     * @param <T>   T
+     *
+     * @return Stream
+     */
+    public static <T> Stream<Map.Entry<String, T>> itJObject(final JsonObject input) {
+        return HIter.itJObject(input, null);
+    }
+
+    /**
+     * 泛型遍历，将原始的 Object 类型遍历转换成带类型的遍历模式
+     *
+     * @param input 输入数据
+     * @param clazz 类型
+     * @param <T>   T
+     *
+     * @return Stream
+     */
+    public static <T> Stream<Map.Entry<String, T>> itJObject(final JsonObject input, final Class<T> clazz) {
+        return HIter.itJObject(input, clazz);
     }
 
     /**

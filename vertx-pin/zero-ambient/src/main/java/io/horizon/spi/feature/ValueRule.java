@@ -10,7 +10,7 @@ import io.vertx.tp.ambient.uca.darkly.Tube;
 import io.vertx.tp.error._501IndentMissingException;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.uca.wffs.Formula;
@@ -37,7 +37,7 @@ public class ValueRule implements Valve {
     @Override
     public Future<JsonObject> execAsync(final JsonObject data, final JsonObject config) {
         /* If criteria is empty, return the input data directly */
-        final JsonObject criteria = Ut.valueJObject(data, Qr.KEY_CRITERIA);
+        final JsonObject criteria = Ut.valueJObject(data, Ir.KEY_CRITERIA);
         if (Ux.irNil(criteria)) {
             return Ux.future(data);
         }

@@ -5,7 +5,7 @@ import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.Envelop;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ class DataIn {
      * It means that you must get data based on ACL property
      */
     static void visitProjection(final Envelop envelop, final JsonObject matrix) {
-        JsonArray projection = matrix.getJsonArray(Qr.KEY_PROJECTION);
+        JsonArray projection = matrix.getJsonArray(Ir.KEY_PROJECTION);
         /*
          * Execute when phase = EAGER
          */
@@ -45,7 +45,7 @@ class DataIn {
      */
     static void visitCriteria(final Envelop envelop, final JsonObject matrix) {
         /* Criteria Modification */
-        final JsonObject criteria = matrix.getJsonObject(Qr.KEY_CRITERIA);
+        final JsonObject criteria = matrix.getJsonObject(Ir.KEY_CRITERIA);
         /* ACL do not control criteria */
         if (Objects.nonNull(criteria) && !criteria.isEmpty()) {
             envelop.onH(criteria);

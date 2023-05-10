@@ -9,7 +9,7 @@ import io.vertx.core.MultiMap;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.exchange.BMapping;
 
 import java.lang.reflect.Field;
@@ -543,7 +543,7 @@ public final class Ut extends HUt {
 
     // Qr Field Processing
     public static String valueQrIn(final String field) {
-        return Mapping.vQrField(field, Qr.Op.IN);
+        return Mapping.vQrField(field, Ir.Op.IN);
     }
 
     /*

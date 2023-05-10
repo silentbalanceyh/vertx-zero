@@ -7,9 +7,9 @@ import io.modello.specification.atom.HReference;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.atom.query.engine.Qr;
-import io.vertx.up.atom.query.engine.QrItem;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.uca.qr.syntax.Ir;
+import io.horizon.uca.qr.syntax.IrItem;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -46,8 +46,8 @@ class JQPre {
          *
          * Hash code identify the qr item is in the same level
          */
-        final Cc<Integer, ConcurrentMap<String, Set<QrItem>>> ccRemoved = Cc.open();
-        final Cc<Integer, ConcurrentMap<String, QrItem>> ccReplaced = Cc.open();
+        final Cc<Integer, ConcurrentMap<String, Set<IrItem>>> ccRemoved = Cc.open();
+        final Cc<Integer, ConcurrentMap<String, IrItem>> ccReplaced = Cc.open();
         final ConcurrentMap<Integer, JsonObject> referenceData = new ConcurrentHashMap<>();
         final HReference reference = atom.reference();
         reference.refQr().forEach((field, query) -> criteria.match(field, (qr, json) -> {
@@ -73,9 +73,9 @@ class JQPre {
                     /*
                      * Get the same level processing
                      */
-                    final ConcurrentMap<String, QrItem> calculated = ccReplaced.pick(ConcurrentHashMap::new, json.hashCode());
+                    final ConcurrentMap<String, IrItem> calculated = ccReplaced.pick(ConcurrentHashMap::new, json.hashCode());
                     // Fn.po?l(replaced, json.hashCode(), ConcurrentHashMap::new);
-                    final QrItem itemReplaced = Cc.pool(calculated, fieldReplaced, () -> new QrItem(fieldReplaced + ",i"));
+                    final IrItem itemReplaced = Cc.pool(calculated, fieldReplaced, () -> new IrItem(fieldReplaced + ",i"));
                     if (Objects.isNull(itemReplaced.value())) {
                         // The first time
                         itemReplaced.value(item.get(fieldReplaced));
@@ -87,9 +87,9 @@ class JQPre {
                     /*
                      * Removed processing
                      */
-                    final ConcurrentMap<String, Set<QrItem>> removedMap = ccRemoved.pick(ConcurrentHashMap::new, json.hashCode());
+                    final ConcurrentMap<String, Set<IrItem>> removedMap = ccRemoved.pick(ConcurrentHashMap::new, json.hashCode());
                     // Fn.po?l(removed, json.hashCode(), ConcurrentHashMap::new);
-                    final Set<QrItem> removedSet = Cc.pool(removedMap, fieldReplaced, HashSet::new);
+                    final Set<IrItem> removedSet = Cc.pool(removedMap, fieldReplaced, HashSet::new);
                     removedSet.add(qr);
                     referenceData.put(json.hashCode(), json);
                 } else {
@@ -103,21 +103,21 @@ class JQPre {
          * Replace qrItem
          */
         ccRemoved.store().forEach((levelKey, removedMap) -> {
-            final ConcurrentMap<String, QrItem> replacedMap = ccReplaced.store(levelKey);
+            final ConcurrentMap<String, IrItem> replacedMap = ccReplaced.store(levelKey);
             final JsonObject jsonRef = referenceData.get(levelKey);
             if (Objects.nonNull(replacedMap) && Objects.nonNull(removedMap)) {
                 /*
                  * Remove with multi fields.
                  */
                 removedMap.forEach((field, removedSingle) -> {
-                    final QrItem replacedQr = replacedMap.get(field);
+                    final IrItem replacedQr = replacedMap.get(field);
                     /*
                      *  1. removed from jsonRef of all removedSingle.
                      *  2. add new to jsonRef with replacedQr.
                      */
                     removedSingle.forEach(removedItem -> {
                         jsonRef.remove(removedItem.qrKey());
-                        if (Qr.Op.EQ.equals(removedItem.op())) {
+                        if (Ir.Op.EQ.equals(removedItem.op())) {
                             jsonRef.remove(removedItem.field());
                         }
                     });

@@ -9,8 +9,8 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.ui.uca.qbe.QBECache;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
 import io.vertx.up.unity.Ux;
@@ -75,7 +75,7 @@ public class ListService implements ListStub {
                  * 当前Qr的名称, Qr存储的名字使用标准的 position / view 的模式，传入时
                  * 执行 Base64 加密，后端可直接解密操作
                  */
-                Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS,
+                Ir.KEY_CRITERIA, Ir.KEY_PROJECTION, KName.Rbac.ROWS,
                 KName.Component.QR_COMPONENT, KName.Component.QR_CONFIG,
                 KName.VIEW, KName.POSITION
             ));

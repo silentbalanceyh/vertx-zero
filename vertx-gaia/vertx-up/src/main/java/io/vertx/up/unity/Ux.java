@@ -20,7 +20,7 @@ import io.vertx.tp.plugin.database.DataPool;
 import io.vertx.tp.plugin.jooq.JooqDsl;
 import io.vertx.tp.plugin.jooq.JooqInfix;
 import io.vertx.up.atom.Refer;
-import io.vertx.up.atom.query.Pagination;
+import io.horizon.uca.qr.Pagination;
 import io.vertx.up.atom.record.Apt;
 import io.vertx.up.atom.secure.AegisItem;
 import io.vertx.up.atom.secure.Vis;

@@ -1,8 +1,8 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -10,17 +10,17 @@ import java.util.function.BiConsumer;
 /**
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public interface QrDo {
+public interface IrDo {
 
     /**
      * Create new QrDo reference.
      *
      * @param data {@link io.vertx.core.json.JsonObject} Input json object.
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
-    static QrDo create(final JsonObject data) {
-        return new QrAnalyzer(data);
+    static IrDo create(final JsonObject data) {
+        return new IrAnalyzer(data);
     }
 
     /**
@@ -33,7 +33,7 @@ public interface QrDo {
      * @return {@link java.lang.Boolean}
      */
     static boolean isComplex(final JsonObject source) {
-        return QrAnalyzer.isComplex(source);
+        return IrAnalyzer.isComplex(source);
     }
 
     @SuppressWarnings("all")
@@ -43,9 +43,9 @@ public interface QrDo {
         final JsonArray oldSet = (JsonArray) oldItem;
         final List result = isAnd ?
             // Two collection and
-            Ut.elementIntersect(newSet.getList(), oldSet.getList()) :
+            HUt.elementIntersect(newSet.getList(), oldSet.getList()) :
             // Two collection union
-            Ut.elementUnion(newSet.getList(), oldSet.getList());
+            HUt.elementUnion(newSet.getList(), oldSet.getList());
         return new JsonArray(result);
     }
 
@@ -58,31 +58,31 @@ public interface QrDo {
      * @param fieldExpr {@link java.lang.String}
      * @param value     {@link java.lang.Object}
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
-    QrDo save(String fieldExpr, Object value);
+    IrDo save(String fieldExpr, Object value);
 
     /**
      * @param fieldExpr {@link java.lang.String} Removed fieldExpr
      * @param fully     {@link java.lang.Boolean} Removed fully or ?
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
-    QrDo remove(String fieldExpr, boolean fully);
+    IrDo remove(String fieldExpr, boolean fully);
 
     /**
      * @param fieldExpr {@link java.lang.String}
      * @param value     {@link java.lang.Object}
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
-    QrDo update(String fieldExpr, Object value);
+    IrDo update(String fieldExpr, Object value);
 
     /**
      * @param field    {@link java.lang.String} The field name
      * @param consumer {@link java.util.function.BiConsumer} The qr item consumed
      */
-    void match(String field, BiConsumer<QrItem, JsonObject> consumer);
+    void match(String field, BiConsumer<IrItem, JsonObject> consumer);
 
     /**
      * Serialized current instance to Json

@@ -3,7 +3,7 @@ package io.vertx.tp.rbac.acl.rapid.addon;
 import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.acl.rapid.Dwarf;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.util.Ut;
 
@@ -48,7 +48,7 @@ public class DwarfQr implements Dwarf {
         if (dataReference.containsKey(KName.__.QR)) {
             return;
         }
-        final JsonObject query = matrix.getJsonObject(Qr.KEY_CRITERIA);
+        final JsonObject query = matrix.getJsonObject(Ir.KEY_CRITERIA);
         if (Ut.isNotNil(query)) {
             dataReference.put(KName.__.QR, query);
         }

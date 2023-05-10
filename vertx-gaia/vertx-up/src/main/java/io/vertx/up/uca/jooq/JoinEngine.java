@@ -4,7 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.unity.Ux;
 
 import java.util.Set;
@@ -72,7 +72,7 @@ class JoinEngine {
     /*
      * Pagination Searching
      */
-    Future<JsonObject> searchAsync(final Qr qr, final Mojo mojo) {
+    Future<JsonObject> searchAsync(final Ir qr, final Mojo mojo) {
         final JsonObject response = new JsonObject();
         final JsonArray data = this.search.searchA(qr, mojo);
 
@@ -82,11 +82,11 @@ class JoinEngine {
         return Ux.future(response);
     }
 
-    JsonArray searchArray(final Qr qr, final Mojo mojo) {
+    JsonArray searchArray(final Ir qr, final Mojo mojo) {
         return this.search.searchA(qr, mojo);
     }
 
-    Future<Long> countAsync(final Qr qr) {
+    Future<Long> countAsync(final Ir qr) {
         return Future.succeededFuture(this.search.count(qr));
     }
 }

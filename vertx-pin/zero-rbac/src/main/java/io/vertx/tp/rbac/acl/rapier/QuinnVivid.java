@@ -6,7 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.atom.ScOwner;
 import io.vertx.tp.rbac.cv.em.OwnerType;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.secure.DataBound;
 import io.vertx.up.eon.KName;
 import io.vertx.up.unity.Ux;
@@ -26,8 +26,8 @@ public class QuinnVivid implements Quinn {
         return Quinn.view().<SView>saveAsync(resourceId, owner, viewData).compose(upsert -> {
             /* Response Building */
             final JsonObject cached = new JsonObject();
-            cached.put(Qr.KEY_PROJECTION, Ut.toJArray(upsert.getProjection()));
-            cached.put(Qr.KEY_CRITERIA, Ut.toJObject(upsert.getCriteria()));
+            cached.put(Ir.KEY_PROJECTION, Ut.toJArray(upsert.getProjection()));
+            cached.put(Ir.KEY_CRITERIA, Ut.toJObject(upsert.getCriteria()));
             cached.put(KName.Rbac.ROWS, Ut.toJObject(upsert.getRows()));
             return Ux.future((T) cached);
         });

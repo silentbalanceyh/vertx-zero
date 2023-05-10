@@ -1,7 +1,7 @@
 package io.vertx.tp.modular.query;
 
 import io.vertx.tp.atom.modeling.element.DataTpl;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 import org.jooq.Condition;
 
 class ViewIngest implements Ingest {

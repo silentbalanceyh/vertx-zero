@@ -10,7 +10,7 @@ import io.vertx.tp.atom.modeling.builtin.DataAtom;
 import io.vertx.tp.ke.refine.Ke;
 import io.vertx.tp.plugin.excel.ExcelClient;
 import io.vertx.tp.plugin.excel.ExcelInfix;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.ActIn;
 import io.vertx.up.commune.ActOut;
 import io.vertx.up.commune.Envelop;
@@ -167,17 +167,17 @@ public class ExportComponent extends AbstractAdaptor {
              * */
             .compose(projection -> {
                 /* 查询条件 */
-                final JsonObject criteria = body.getJsonObject(Qr.KEY_CRITERIA);
+                final JsonObject criteria = body.getJsonObject(Ir.KEY_CRITERIA);
 
                 /* 基本查询，当前 sigma */
                 final JsonObject query = new JsonObject();
                 if (Objects.isNull(criteria)) {
-                    query.put(Qr.KEY_CRITERIA, new JsonObject());
+                    query.put(Ir.KEY_CRITERIA, new JsonObject());
                 } else {
-                    query.put(Qr.KEY_CRITERIA, criteria);
+                    query.put(Ir.KEY_CRITERIA, criteria);
                 }
 
-                query.put(Qr.KEY_PROJECTION, projection);
+                query.put(Ir.KEY_PROJECTION, projection);
                 return Ux.future(query);
             })
             .compose(query -> this.dao().searchAsync(query))

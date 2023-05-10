@@ -2,7 +2,7 @@ package io.vertx.tp.modular.dao.internal;
 
 import io.modello.specification.HRecord;
 import io.vertx.tp.atom.modeling.data.DataEvent;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 
 import static io.vertx.tp.atom.refine.Ao.LOG;
 

@@ -1,4 +1,4 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
 public interface QLeaf extends QNode {
     /*

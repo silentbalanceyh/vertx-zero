@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.up.atom.pojo.Mirror;
 import io.vertx.up.atom.pojo.Mojo;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.eon.KName;
 import io.vertx.up.uca.jooq.util.JqTool;
 import io.vertx.up.unity.Ux;
@@ -127,7 +127,7 @@ public final class UxJoin {
         return searchAsync(toQr(params));
     }
 
-    public Future<JsonObject> searchAsync(final Qr qr) {
+    public Future<JsonObject> searchAsync(final Ir qr) {
         return this.joinder.searchAsync(qr, this.merged);
     }
 
@@ -139,7 +139,7 @@ public final class UxJoin {
         return countAsync(toQr(params));
     }
 
-    public Future<Long> countAsync(final Qr qr) {
+    public Future<Long> countAsync(final Ir qr) {
         return this.joinder.countAsync(qr);
     }
 
@@ -152,20 +152,20 @@ public final class UxJoin {
      * fetchAsync(Qr)
      * fetchAsync(JsonObject)
      */
-    public JsonArray fetch(final Qr qr) {
+    public JsonArray fetch(final Ir qr) {
         return this.joinder.searchArray(qr, this.merged);
     }
 
     public JsonArray fetch(final JsonObject params) {
-        return this.fetch(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+        return this.fetch(toQr(new JsonObject().put(Ir.KEY_CRITERIA, params)));
     }
 
-    public Future<JsonArray> fetchAsync(final Qr qr) {
+    public Future<JsonArray> fetchAsync(final Ir qr) {
         return Ux.future(this.fetch(qr));
     }
 
     public Future<JsonArray> fetchAsync(final JsonObject params) {
-        return fetchAsync(toQr(new JsonObject().put(Qr.KEY_CRITERIA, params)));
+        return fetchAsync(toQr(new JsonObject().put(Ir.KEY_CRITERIA, params)));
     }
 
     // -------------------- Crud Operation -----------
@@ -204,8 +204,8 @@ public final class UxJoin {
 
     // -------------------- Private Translate -----------
 
-    private Qr toQr(final JsonObject params) {
-        return Objects.isNull(this.merged) ? Qr.create(params) : JqTool.qr(
+    private Ir toQr(final JsonObject params) {
+        return Objects.isNull(this.merged) ? Ir.create(params) : JqTool.qr(
             params,
             this.merged,
             this.joinder.fieldFirst()              // The first major jooq should be ignored

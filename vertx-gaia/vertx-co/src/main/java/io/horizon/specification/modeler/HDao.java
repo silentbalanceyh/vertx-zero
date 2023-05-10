@@ -4,7 +4,7 @@ import io.modello.specification.HRecord;
 import io.modello.specification.atom.HAtom;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 
 /**
  * 数据库访问器

@@ -2,7 +2,7 @@ package io.vertx.up.uca.jooq.util;
 
 import io.horizon.eon.VString;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,8 +25,8 @@ public class JqCond {
      * }
      */
     public static JsonObject compress(final JsonObject queryOr) {
-        if (queryOr.containsKey(Qr.KEY_CRITERIA)) {
-            queryOr.put(Qr.KEY_CRITERIA, compress(queryOr.getJsonObject(Qr.KEY_CRITERIA)));
+        if (queryOr.containsKey(Ir.KEY_CRITERIA)) {
+            queryOr.put(Ir.KEY_CRITERIA, compress(queryOr.getJsonObject(Ir.KEY_CRITERIA)));
             return queryOr;
         } else {
             final Boolean isAnd = queryOr.getBoolean(VString.EMPTY, Boolean.FALSE);
@@ -62,7 +62,7 @@ public class JqCond {
             for (final String field : queryOr.fieldNames()) {
                 final Object conditionJ = queryOr.getValue(field);
                 if (conditionJ instanceof final JsonObject json) {
-                    
+
                 }
             }
         }

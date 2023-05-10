@@ -1,9 +1,9 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
 import io.horizon.eon.VString;
+import io.horizon.uca.qr.Criteria;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Criteria;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ public class QTree {
 
     private QNode initTier(final String field, final Object value, final Integer level) {
         final QNode node;
-        if (Ut.isJObject(value)) {
+        if (HUt.isJObject(value)) {
             /* Create new branch */
             node = this.initTier(((JsonObject) value), level);
         } else {
@@ -64,7 +64,7 @@ public class QTree {
         final QNode root = this.init(content, level);
 
         /* 2. Then initialize children nodes */
-        content.fieldNames().stream().filter(Ut::isNotNil).forEach(field -> {
+        content.fieldNames().stream().filter(HUt::isNotNil).forEach(field -> {
 
             /* 3. Each */
             final QNode tier = this.initTier(field, content.getValue(field), level + 1);

@@ -1,6 +1,6 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HUt;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,12 +55,12 @@ public class QTier implements QBranch {
     @Override
     public String toString() {
         final StringBuilder source = new StringBuilder();
-        Ut.itRepeat(this.level, () -> source.append("\t"));
+        HUt.itRepeat(this.level, () -> source.append("\t"));
         source.append("Branch").append(",");
         source.append("OP：").append(this.op).append(",");
         source.append("Node：").append("\n");
         this.nodes.forEach(node -> {
-            Ut.itRepeat(this.level, () -> source.append("\t"));
+            HUt.itRepeat(this.level, () -> source.append("\t"));
             source.append(node).append("\n");
         });
         return source.toString();

@@ -9,7 +9,7 @@ import io.vertx.tp.error._417DataAtomNullException;
 import io.vertx.tp.modular.jdbc.AoConnection;
 import io.vertx.tp.modular.jooq.JQEngine;
 import io.vertx.tp.modular.metadata.AoSentence;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 import io.vertx.up.fn.Fn;
 
 import java.util.function.Function;

@@ -4,9 +4,9 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.plugin.jooq.condition.JooqCond;
-import io.vertx.up.atom.query.Pager;
-import io.vertx.up.atom.query.Sorter;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.Pager;
+import io.horizon.uca.qr.Sorter;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.uca.jooq.util.JqOut;
 import io.vertx.up.util.Ut;
 import org.jooq.*;
@@ -25,7 +25,7 @@ public class ActionQr extends AbstractAction {
         super(analyzer);
     }
 
-    <T> Future<List<T>> searchAsync(final Qr qr) {
+    <T> Future<List<T>> searchAsync(final Ir qr) {
         final Function<DSLContext, List<T>> executor = context -> this.searchInternal(context, qr);
         // Here above statement must be required and splitted
         // You could not write `this.vertxDAO.executeAsync(context -> this.searchInternal(context, inquiry))`
@@ -45,7 +45,7 @@ public class ActionQr extends AbstractAction {
         return Future.succeededFuture(executor.apply(this.context()));
     }
 
-    <T> List<T> search(final Qr qr) {
+    <T> List<T> search(final Ir qr) {
         return this.searchInternal(this.context(), qr);
     }
 
@@ -104,7 +104,7 @@ public class ActionQr extends AbstractAction {
      * 3) projection
      * 4) criteria
      */
-    private <T> List<T> searchInternal(final DSLContext context, final Qr qr) {
+    private <T> List<T> searchInternal(final DSLContext context, final Ir qr) {
         // Started steps
         final SelectWhereStep started = context.selectFrom(this.analyzer.table());
         // Condition set

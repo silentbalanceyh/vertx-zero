@@ -1,6 +1,6 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
-import io.vertx.up.util.Ut;
+import io.horizon.util.HUt;
 
 public class QValue implements QLeaf {
 
@@ -51,7 +51,7 @@ public class QValue implements QLeaf {
     @Override
     public String toString() {
         final StringBuilder source = new StringBuilder();
-        Ut.itRepeat(this.level, () -> source.append("\t"));
+        HUt.itRepeat(this.level, () -> source.append("\t"));
         source.append("Leaf").append(",");
         source.append("( ").append(this.field).append(" , ")
             .append(this.op).append(" , ")

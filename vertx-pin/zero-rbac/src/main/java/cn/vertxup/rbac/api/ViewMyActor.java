@@ -12,7 +12,7 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.tp.rbac.cv.em.OwnerType;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.commune.Envelop;
 import io.vertx.up.eon.KName;
 import io.vertx.up.fn.Fn;
@@ -71,7 +71,7 @@ public class ViewMyActor {
                 return this.personalStub.byUser(action.getResourceId(), userId,
                         data.getString(KName.POSITION))
                     .compose(Ux::futureA)
-                    .compose(Fn.ofJArray(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, KName.Rbac.ROWS));
+                    .compose(Fn.ofJArray(Ir.KEY_CRITERIA, Ir.KEY_PROJECTION, KName.Rbac.ROWS));
             }
         });
     }
@@ -113,7 +113,7 @@ public class ViewMyActor {
     public Future<JsonObject> pViewById(final String key) {
         return this.personalStub.byId(key)
             .compose(Ux::futureJ)
-            .compose(Fn.ofJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ofJObject(Ir.KEY_CRITERIA, Ir.KEY_PROJECTION, "rows"));
     }
 
     @Address(Addr.View.VIEW_P_UPDATE)
@@ -127,7 +127,7 @@ public class ViewMyActor {
         data.put(KName.USER, userId);
         return this.personalStub.update(key, data)
             .compose(Ux::futureJ)
-            .compose(Fn.ofJObject(Qr.KEY_CRITERIA, Qr.KEY_PROJECTION, "rows"));
+            .compose(Fn.ofJObject(Ir.KEY_CRITERIA, Ir.KEY_PROJECTION, "rows"));
     }
 
 

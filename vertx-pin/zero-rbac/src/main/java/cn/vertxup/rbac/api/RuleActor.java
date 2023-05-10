@@ -13,7 +13,7 @@ import io.vertx.tp.rbac.cv.Addr;
 import io.vertx.up.annotations.Address;
 import io.vertx.up.annotations.Me;
 import io.vertx.up.annotations.Queue;
-import io.vertx.up.atom.query.Sorter;
+import io.horizon.uca.qr.Sorter;
 import io.vertx.up.atom.secure.Vis;
 import io.vertx.up.commune.config.XHeader;
 import io.vertx.up.eon.KName;

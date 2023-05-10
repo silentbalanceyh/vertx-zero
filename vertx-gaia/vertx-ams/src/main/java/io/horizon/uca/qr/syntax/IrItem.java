@@ -1,11 +1,11 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
 import io.horizon.eon.VString;
 import io.horizon.exception.web._400QOpUnknownException;
 import io.horizon.exception.web._500QQueryMetaNullException;
+import io.horizon.fn.HFn;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
-import io.vertx.up.fn.Fn;
-import io.vertx.up.util.Ut;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-public class QrItem implements Serializable {
+public class IrItem implements Serializable {
     /**
      * The field name
      */
@@ -33,18 +33,18 @@ public class QrItem implements Serializable {
      */
     private Object value;
 
-    public QrItem(final String fieldExpr) {
+    public IrItem(final String fieldExpr) {
         /* First checking for `fieldExpr` literal */
-        Fn.out(Ut.isNil(fieldExpr), _500QQueryMetaNullException.class, this.getClass());
+        HFn.out(HUt.isNil(fieldExpr), _500QQueryMetaNullException.class, this.getClass());
         this.qrKey = fieldExpr;
         if (fieldExpr.contains(VString.COMMA)) {
             this.field = fieldExpr.split(VString.COMMA)[0];
             this.op = fieldExpr.split(VString.COMMA)[1];
             /* op un support of query engine */
-            Fn.out(!Qr.Op.VALUES.contains(this.op), _400QOpUnknownException.class, this.getClass(), this.op);
+            HFn.out(!Ir.Op.VALUES.contains(this.op), _400QOpUnknownException.class, this.getClass(), this.op);
         } else {
             this.field = fieldExpr;
-            this.op = Qr.Op.EQ;
+            this.op = Ir.Op.EQ;
         }
     }
 
@@ -65,9 +65,9 @@ public class QrItem implements Serializable {
      *
      * @param value {@link java.lang.Object} value input here.
      *
-     * @return {@link QrItem}
+     * @return {@link IrItem}
      */
-    public QrItem value(final Object value) {
+    public IrItem value(final Object value) {
         this.value = value;
         return this;
     }
@@ -76,7 +76,7 @@ public class QrItem implements Serializable {
         return this.value;
     }
 
-    public boolean valueEq(final QrItem target) {
+    public boolean valueEq(final IrItem target) {
         final Object value = this.value;
         final Object valueTarget = target.value;
         if (Objects.isNull(value) || Objects.isNull(valueTarget)) {
@@ -87,9 +87,9 @@ public class QrItem implements Serializable {
         }
     }
 
-    public QrItem add(final JsonArray value, final boolean isAnd) {
+    public IrItem add(final JsonArray value, final boolean isAnd) {
         if (this.value instanceof JsonArray) {
-            this.value = QrDo.combine(value, this.value, isAnd);
+            this.value = IrDo.combine(value, this.value, isAnd);
         }
         return this;
     }

@@ -1,6 +1,6 @@
 # D10048 - Utility X, Pager Processing
 
-In zero system, it provide normalized object to store pager information, it's name is `io.vertx.up.atom.query.Pager`,
+In zero system, it provide normalized object to store pager information, it's name is `io.horizon.uca.qr.Pager`,
 this object could help you to do pagination. this object contains following apis for extract different metadata:
 
 * `getStart()`: Get the start index of current pager. \( \( page - 1 \) \* size \)
@@ -142,7 +142,7 @@ Actually zero system provide three standard pager related apis:
 
 ## 3. Summary
 
-The pager object of `io.vertx.up.atom.query.Pager` is defined by zero system and provide small interfaces to developer
+The pager object of `io.horizon.uca.qr.Pager` is defined by zero system and provide small interfaces to developer
 to do normalized Pager building, in this situation you can finish any kind of pagination in zero system instead of
 implement for each projects.
 

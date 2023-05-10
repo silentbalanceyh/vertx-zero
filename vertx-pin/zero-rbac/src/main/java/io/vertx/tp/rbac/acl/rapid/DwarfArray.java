@@ -4,7 +4,7 @@ import io.horizon.specification.meta.secure.Acl;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.rbac.refine.Sc;
-import io.vertx.up.atom.query.engine.Qr;
+import io.horizon.uca.qr.syntax.Ir;
 import io.vertx.up.util.Ut;
 
 import java.util.Objects;
@@ -54,12 +54,12 @@ class DwarfArray implements Dwarf {
 
                 /* projection: for After Get only */
                 updated = SiftCol.onProjection(updated,
-                    Sc.aclOn(matrix.getJsonArray(Qr.KEY_PROJECTION), acl));
+                    Sc.aclOn(matrix.getJsonArray(Ir.KEY_PROJECTION), acl));
             } else {
 
                 /* pick up projection in S_VIEW only */
                 updated = SiftCol.onProjection(updated,
-                    matrix.getJsonArray(Qr.KEY_PROJECTION));
+                    matrix.getJsonArray(Ir.KEY_PROJECTION));
 
                 /*
                  * Produce rows configuration

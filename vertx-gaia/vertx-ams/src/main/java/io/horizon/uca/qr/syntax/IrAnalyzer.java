@@ -1,10 +1,10 @@
-package io.vertx.up.atom.query.engine;
+package io.horizon.uca.qr.syntax;
 
 import io.horizon.eon.VString;
 import io.horizon.eon.VValue;
+import io.horizon.util.HUt;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.util.Ut;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -87,10 +87,10 @@ import java.util.function.BiPredicate;
  *
  * @author <a href="http://www.origin-x.cn">Lang</a>
  */
-class QrAnalyzer implements QrDo {
+class IrAnalyzer implements IrDo {
     private final JsonObject raw = new JsonObject();
 
-    QrAnalyzer(final JsonObject input) {
+    IrAnalyzer(final JsonObject input) {
         this.raw.mergeIn(input, true);
     }
 
@@ -122,7 +122,7 @@ class QrAnalyzer implements QrDo {
             return false;
         } else {
             /* valid */
-            return Ut.isJObject(value.getClass());
+            return HUt.isJObject(value.getClass());
         }
     }
 
@@ -130,17 +130,17 @@ class QrAnalyzer implements QrDo {
      * @param fieldExpr {@link java.lang.String}
      * @param value     {@link java.lang.Object}
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
     @Override
-    public QrDo save(final String fieldExpr, final Object value) {
+    public IrDo save(final String fieldExpr, final Object value) {
         if (VString.EMPTY.equals(fieldExpr)) {
             /*
              * "" for AND / OR
              */
             this.raw.put(fieldExpr, value);
         } else {
-            final QrItem item = new QrItem(fieldExpr).value(value);
+            final IrItem item = new IrItem(fieldExpr).value(value);
             /*
              * Boolean for internal execution
              */
@@ -170,14 +170,14 @@ class QrAnalyzer implements QrDo {
      * @param fieldExpr {@link java.lang.String} Removed fieldExpr
      * @param fully     {@link java.lang.Boolean} Removed fully or ?
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
     @Override
-    public QrDo remove(final String fieldExpr, final boolean fully) {
+    public IrDo remove(final String fieldExpr, final boolean fully) {
         /*
          * Existing the QrItem
          */
-        final QrItem item = new QrItem(fieldExpr);
+        final IrItem item = new IrItem(fieldExpr);
         this.itExist(this.raw, (field, value) -> {
             if (fully) {
                 /* Compare fieldExpr */
@@ -192,7 +192,7 @@ class QrAnalyzer implements QrDo {
     }
 
     @Override
-    public void match(final String field, final BiConsumer<QrItem, JsonObject> consumer) {
+    public void match(final String field, final BiConsumer<IrItem, JsonObject> consumer) {
         this.itExist(this.raw, (fieldExpr, value) -> fieldExpr.startsWith(field), consumer);
     }
 
@@ -202,14 +202,14 @@ class QrAnalyzer implements QrDo {
      * @param fieldExpr {@link java.lang.String}
      * @param newValue  {@link java.lang.Object}
      *
-     * @return {@link QrDo}
+     * @return {@link IrDo}
      */
     @Override
-    public QrDo update(final String fieldExpr, final Object newValue) {
+    public IrDo update(final String fieldExpr, final Object newValue) {
         /*
          * Existing the QrItem
          */
-        final QrItem item = new QrItem(fieldExpr).value(newValue);
+        final IrItem item = new IrItem(fieldExpr).value(newValue);
         this.itExist(this.raw, item, (qr, ref) -> ref.put(qr.qrKey(), item.value()));
         return this;
     }
@@ -228,11 +228,11 @@ class QrAnalyzer implements QrDo {
      * Other operator could not be support
      *
      * @param raw     {@link io.vertx.core.json.JsonObject} The input json object
-     * @param newItem {@link QrItem} the new added item to current object.
-     * @param oldItem {@link QrItem} the original added item to current object.
+     * @param newItem {@link IrItem} the new added item to current object.
+     * @param oldItem {@link IrItem} the original added item to current object.
      */
     @SuppressWarnings("all")
-    private void saveWhere(final JsonObject raw, final QrItem newItem, final QrItem oldItem) {
+    private void saveWhere(final JsonObject raw, final IrItem newItem, final IrItem oldItem) {
         if (newItem.valueEq(oldItem)) {
             /* value equal, no change detect, skip */
             return;
@@ -241,7 +241,7 @@ class QrAnalyzer implements QrDo {
          * Here the qrKey is the same between newItem and oldItem
          */
         final Boolean isAnd = raw.getBoolean(VString.EMPTY, Boolean.FALSE);
-        if (Qr.Op.EQ.equals(newItem.op())) {        // =
+        if (Ir.Op.EQ.equals(newItem.op())) {        // =
             // field,= or field
             raw.remove(newItem.qrKey());
             raw.remove(newItem.field());
@@ -254,8 +254,8 @@ class QrAnalyzer implements QrDo {
                 in.add(oldItem.value());
             }
             raw.put(newItem.field() + ",i", in);
-        } else if (Qr.Op.IN.equals(newItem.op())) {
-            raw.put(newItem.qrKey(), QrDo.combine(newItem.value(), oldItem.value(), isAnd));
+        } else if (Ir.Op.IN.equals(newItem.op())) {
+            raw.put(newItem.qrKey(), IrDo.combine(newItem.value(), oldItem.value(), isAnd));
         }
     }
 
@@ -263,10 +263,10 @@ class QrAnalyzer implements QrDo {
      * Add new `QrItem` to current json criteria object.
      *
      * @param raw  {@link io.vertx.core.json.JsonObject} The input json object
-     * @param item {@link QrItem} the new added item to current object.
+     * @param item {@link IrItem} the new added item to current object.
      */
-    private void addWhere(final JsonObject raw, final QrItem item) {
-        if (Ut.isNil(raw)) {
+    private void addWhere(final JsonObject raw, final IrItem item) {
+        if (HUt.isNil(raw)) {
             /*
              * Empty add new key directly here, because there is no condition,
              * in this kind of situation, the system will add `qrKey = value` to current
@@ -308,14 +308,14 @@ class QrAnalyzer implements QrDo {
         }
     }
 
-    private void itExist(final JsonObject source, final QrItem item,
-                         final BiConsumer<QrItem, JsonObject> consumer) {
+    private void itExist(final JsonObject source, final IrItem item,
+                         final BiConsumer<IrItem, JsonObject> consumer) {
         this.itExist(source, (field, value) -> field.equals(item.qrKey()), consumer);
     }
 
     private void itExist(final JsonObject source,
                          final BiPredicate<String, Object> predicate,
-                         final BiConsumer<QrItem, JsonObject> consumer) {
+                         final BiConsumer<IrItem, JsonObject> consumer) {
         if (isComplex(source)) {
             /* Complex criteria ( Tree Mode ) */
             source.copy().fieldNames().stream()
@@ -328,7 +328,7 @@ class QrAnalyzer implements QrDo {
                      * Empty object processing
                      * Remove `{}` condition instead of other here.
                      * */
-                    if (Ut.isNil(itemJson)) {
+                    if (HUt.isNil(itemJson)) {
                         source.remove(field);
                     }
                 });
@@ -339,7 +339,7 @@ class QrAnalyzer implements QrDo {
 
     private void itLinear(final JsonObject source,
                           final BiPredicate<String, Object> predicate,
-                          final BiConsumer<QrItem, JsonObject> consumer) {
+                          final BiConsumer<IrItem, JsonObject> consumer) {
         /* Simple criteria ( Linear Mode ) */
         source.copy().fieldNames().stream()
             /* Non complex json */
@@ -352,7 +352,7 @@ class QrAnalyzer implements QrDo {
             .forEach(field -> {
                 // TiConsumer
                 final Object value = source.getValue(field);
-                final QrItem item = new QrItem(field).value(value);
+                final IrItem item = new IrItem(field).value(value);
                 consumer.accept(item, source);
             });
         /*

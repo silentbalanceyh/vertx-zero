@@ -3,7 +3,7 @@ package io.vertx.quiz;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 import io.vertx.up.commune.config.Database;
 import io.vertx.up.commune.config.Integration;
 import io.horizon.uca.log.Annal;

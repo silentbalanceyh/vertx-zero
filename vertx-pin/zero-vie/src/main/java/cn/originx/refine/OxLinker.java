@@ -5,7 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.tp.atom.modeling.builtin.DataAtom;
-import io.vertx.up.atom.query.Criteria;
+import io.horizon.uca.qr.Criteria;
 import io.vertx.up.unity.Ux;
 
 import java.util.Arrays;
