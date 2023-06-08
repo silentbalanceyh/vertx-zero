@@ -1,0 +1,73 @@
+{
+    "name": "employee",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+    "field": {
+        "numbers": {
+            "workNumber": "NUM.EMPLOYEE"
+        },
+        "unique": [
+            [
+                "workNumber",
+                "sigma"
+            ]
+        ]
+    },
+    "aop": {
+        "plugin.component.after": [
+            "io.vertx.mod.rbac.aop.AfterUserSync"
+        ],
+        "plugin.config": {
+            "io.vertx.mod.rbac.aop.AfterUserSync": {
+                "mapping": {
+                    "viceName": "realname",
+                    "viceMobile": "mobile",
+                    "viceEmail": "email"
+                },
+                "initialize": {
+                    "modelId": "employee"
+                }
+            }
+        }
+    },
+    "transform": {
+        "initial": {
+            "type": "`${type}`"
+        },
+        "fabric": {
+            "source": [
+                {
+                    "source": "ASSIST",
+                    "key": "resource.departments",
+                    "component": "io.horizon.spi.dict.DepartmentDict"
+                },
+                {
+                    "source": "ASSIST",
+                    "key": "resource.companys",
+                    "component": "io.horizon.spi.dict.CompanyDict"
+                },
+                {
+                    "source": "ASSIST",
+                    "key": "resource.teams",
+                    "component": "io.horizon.spi.dict.TeamDict"
+                }
+            ],
+            "epsilon": {
+                "deptId": {
+                    "source": "resource.departments",
+                    "in": "name",
+                    "out": "key"
+                },
+                "companyId": {
+                    "source": "resource.companys",
+                    "in": "name",
+                    "out": "key"
+                },
+                "teamId": {
+                    "source": "resource.teams",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

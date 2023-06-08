@@ -1,0 +1,12 @@
+{
+    "name": "todo",
+    "daoCls": "cn.vertxup.workflow.domain.tables.daos.WTodoDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

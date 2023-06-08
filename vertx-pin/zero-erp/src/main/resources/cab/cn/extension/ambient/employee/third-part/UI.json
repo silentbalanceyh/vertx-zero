@@ -1,0 +1,261 @@
+{
+    "_assist": {
+        "resource.companys": {
+            "uri": "/api/company/by/sigma"
+        },
+        "resource.departments": {
+            "uri": "/api/dept/by/sigma"
+        },
+        "resource.teams": {
+            "uri": "/api/team/by/sigma"
+        },
+        "employee.type": {
+            "uri": "/api/type/tabulars/:type",
+            "magic": {
+                "type": "FIX:zero.employee"
+            }
+        }
+    },
+    "_grid": {
+        "query": {
+            "projection": [],
+            "pager": "1,10",
+            "sorter": "updatedAt=DESC",
+            "criteria": {
+                "sigma": "PROP:app.sigma"
+            }
+        },
+        "options": {
+            "search.cond": [
+                "workNumber,c"
+            ],
+            "search.enabled": true,
+            "search.confirm.clear": "该操作会清空所有的查询条件，确认清空？",
+            "search.op.redo": "清除条件",
+            "search.op.advanced": "高级搜索",
+            "search.op.view": "查询条件",
+            "search.placeholder": "编码",
+            "search.advanced": true,
+            "search.advanced.width": "64%",
+            "search.advanced.title": "搜索驻场员工",
+            "search.advanced.notice": {
+                "message": "注意！",
+                "description": [
+                    "高级搜索条件优先级会大于普通搜索，一旦触发，普通搜索条件会被重置。",
+                    "高级搜索表单中的搜索条件会被保存，再次打开时会重置到上次的搜索状态。"
+                ]
+            },
+            "search.criteria.window": "当前查询条件,保存,关闭,false,900,true,btnCriteria",
+            "search.criteria.view": {
+                "selected": "当前视图：",
+                "confirm": "您正在更改当前视图的查询条件，一旦更改后查询数据会有变化，确认？"
+            },
+            "tabs.list": "驻场员工列表",
+            "tabs.add": "添加驻场员工",
+            "tabs.edit": "编辑驻场员工",
+            "identifier": "res.employee",
+            "dynamic.op": true,
+            "dynamic.column": false,
+            "dynamic.switch": false,
+            "op.open.add": "添加",
+            "op.open.filter": "清除筛选",
+            "op.batch.delete": "批量删除",
+            "op.batch.edit": "批量更新",
+            "op.extra.column": "修改显示列",
+            "op.extra.export": "导出",
+            "op.extra.import": "导入",
+            "op.extra.view": "视图管理",
+            "op.row.edit": true,
+            "op.row.delete": true,
+            "op.row.view": "查看",
+            "op.submit.add": "添加",
+            "op.submit.save": "保存",
+            "op.submit.delete": "删除",
+            "op.submit.reset": "重置",
+            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,720,true,btnBatchEdit",
+            "window.extra.column": "请选择您要显示的列,leftTop,720,true",
+            "window.extra.export": "选择导出字段,导出,关闭,false,720,true,btnExport",
+            "window.extra.import": "请上传导入文件,导入,关闭,false,720,true,btnImport",
+            "window.extra.view": "视图管理,right,480,true,btnView",
+            "id.submit.add": "$opAdd",
+            "id.submit.save": "$opSave",
+            "id.submit.reset": "$opReset",
+            "id.submit.delete": "$opDelete",
+            "ajax.search.uri": "/api/employee/search",
+            "ajax.get.uri": "/api/employee/:key",
+            "ajax.delete.uri": "/api/employee/:key",
+            "ajax.batch.delete.uri": "/api/batch/employee/delete",
+            "ajax.batch.update.uri": "/api/batch/employee/update",
+            "ajax.column.full": "/api/columns/employee/full",
+            "ajax.column.my": "/api/columns/employee/my",
+            "ajax.column.save": "/api/columns/employee/my",
+            "ajax.file.export": "/api/employee/export",
+            "ajax.file.import": "/api/employee/import",
+            "confirm.delete": "确认删除当前驻场员工记录？",
+            "confirm.batch.delete": "您确认要删除所有选中的驻场员工记录？",
+            "confirm.clean.filter": "该操作将清空所有的查询条件，确认？",
+            "message.batch.delete": "您所选择的记录已经全部删除成功！"
+        },
+        "component": {
+            "batch.editor": {
+                "fieldColumn": {
+                    "title": "选择属性",
+                    "items": [
+                        "workTitle",
+                        "companyId",
+                        "deptId",
+                        "workPhone",
+                        "workLocation",
+                        "active"
+                    ]
+                },
+                "valueColumn": {
+                    "title": "设置值",
+                    "render": {
+                        "active": "RADIO",
+                        "companyId": "DATUM",
+                        "deptId": "DATUM"
+                    }
+                }
+            }
+        },
+        "table": {
+            "total": {
+                "report": "（总共:page页，:total条数据）",
+                "selected": "勾选了:count条"
+            },
+            "row": {
+                "onDoubleClick": "fnEdit"
+            },
+            "columns": [
+                {
+                    "title": "操作",
+                    "dataIndex": "key",
+                    "fixed": "left",
+                    "$render": "EXECUTOR",
+                    "$option": [
+                        {
+                            "text": "编辑",
+                            "executor": "fnEdit"
+                        },
+                        "divider",
+                        {
+                            "text": "删除",
+                            "executor": "fnDelete",
+                            "confirm": "确认删除选择的驻场员工记录？"
+                        }
+                    ]
+                },
+                {
+                    "title": "所属公司",
+                    "dataIndex": "companyId",
+                    "$render": "DATUM",
+                    "$datum": {
+                        "source": "resource.companys",
+                        "value": "key",
+                        "display": "name"
+                    }
+                },
+                {
+                    "title": "部门",
+                    "dataIndex": "deptId",
+                    "$render": "DATUM",
+                    "$datum": {
+                        "source": "resource.departments",
+                        "value": "key",
+                        "display": "name"
+                    }
+                },
+                {
+                    "title": "工号",
+                    "dataIndex": "workNumber",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入员工工号",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "员工姓名",
+                    "dataIndex": "viceName"
+                },
+                {
+                    "title": "邮箱",
+                    "dataIndex": "viceEmail",
+                    "sorter": false
+                },
+                {
+                    "title": "手机号",
+                    "dataIndex": "viceMobile",
+                    "sorter": false
+                },
+                {
+                    "title": "座机号",
+                    "dataIndex": "workPhone",
+                    "sorter": false
+                },
+                {
+                    "title": "分机号",
+                    "dataIndex": "workExtension",
+                    "sorter": false
+                },
+                {
+                    "title": "头衔",
+                    "dataIndex": "workTitle",
+                    "sorter": false,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入头衔",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "是否启用",
+                    "dataIndex": "active",
+                    "sorter": true,
+                    "$render": "LOGICAL",
+                    "$mapping": {
+                        "true": "启用",
+                        "false": "禁用"
+                    },
+                    "$filter.config.dataType": "BOOLEAN",
+                    "$filter.config.items": [
+                        "true,启用",
+                        "false,禁用"
+                    ],
+                    "$filter.config.button": {
+                        "yes": "确认",
+                        "reset": "重置"
+                    },
+                    "$filter.config.width": {
+                        "radio": 110,
+                        "button": 55
+                    }
+                },
+                {
+                    "title": "更新人",
+                    "dataIndex": "updatedBy",
+                    "$render": "USER",
+                    "$config": {
+                        "uri": "/api/user/:key",
+                        "field": "realname"
+                    },
+                    "$empty": "（系统）"
+                },
+                {
+                    "title": "更新时间",
+                    "dataIndex": "updatedAt",
+                    "$render": "DATE",
+                    "$format": "YYYY-MM-DD"
+                }
+            ]
+        }
+    }
+}

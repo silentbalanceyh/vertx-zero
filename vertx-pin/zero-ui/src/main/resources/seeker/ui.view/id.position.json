@@ -1,0 +1,14 @@
+{
+    "phase": "AFTER",
+    "selector": "io.horizon.spi.secure.ConfineKind",
+    "kind": "type",
+    "comment": [
+        "type定义：io.vertx.up.eon.em.ViewType",
+        "Workflow -- 工作流专用视图",
+        "Model -- 动态建模视图"
+    ],
+    "data": {
+        "Model": "`${identifier}/${control}`",
+        "Workflow": "`${id}/${position}/${view}`"
+    }
+}

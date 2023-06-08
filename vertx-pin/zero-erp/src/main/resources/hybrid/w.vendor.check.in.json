@@ -1,0 +1,52 @@
+{
+    "identifier": "w.vendor.check.in",
+    "module": "hybrid/workflow/w.vendor.check.in.json",
+    "linkage": [
+        "w.todo",
+        "w.ticket"
+    ],
+    "hybrid": {
+        "alias": "入场申请单",
+        "attribute": {
+            "name": "申请单名称",
+            "code": "申请单编号",
+            "serial": "申请单编号",
+            "classification": "类型",
+            "startAt": "入场时间",
+            "endAt": "离场时间",
+            "days": "累积入场天数",
+            "onboardAt": "计划入场时间"
+        },
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0",
+            "flowDefinitionId": "1,0,1,0,0,0,0,0",
+            "flowDefinitionKey": "1,0,1,0,0,0,0,0",
+            "flowInstanceId": "1,0,1,0,0,0,0,0",
+            "taskId": "1,0,1,0,0,0,0,0",
+            "taskKey": "1,0,1,0,0,0,0,0",
+            "taskCode": "1,0,1,0,0,0,0,0",
+            "taskName": "1,0,1,0,0,0,0,0"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
+        }
+    }
+}

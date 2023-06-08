@@ -1,0 +1,24 @@
+{
+    "todo": {
+        "name": "`入场申请：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.vendor.check-in`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Check.In"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TVendorCheckInDao",
+        "fields": [
+            "key",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "onboardAt"
+        ]
+    }
+}

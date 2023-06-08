@@ -1,0 +1,31 @@
+{
+    "todo": {
+        "name": "`出差申请：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.oa.trip`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Business.Travel"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
+        "fields": [
+            "key",
+            "requestBy",
+            "startAt",
+            "endAt",
+            "days",
+            "tripProvince",
+            "tripCity",
+            "tripAddress",
+            "reason",
+            "workContent"
+        ],
+        "auditor": [
+            "requestBy"
+        ]
+    }
+}

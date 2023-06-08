@@ -1,0 +1,151 @@
+{
+    "synonym": {
+        "toUserNo": "审批人工号",
+        "toUserName": "审批人",
+        "toUserEmail": "审批人邮箱",
+        "toUserMobile": "审批人电话",
+        "toUserDept": "审批人部门",
+        "toUserTeam": "审批人工作组"
+    },
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "startAt,入场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写入场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,离场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写离场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,累积天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "classification,类型,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.customer.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择入场类型！"
+                    ]
+                },
+                {
+                    "metadata": "requestType,申请类型,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.employee.hour,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请填写申请类型！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "fromAt,开始时间,8,,aiTimePicker",
+                    "optionConfig.rules": [
+                        "required,请填写开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "fromType,开始日期类型,16,,aiRadio",
+                    "optionJsx.config.items": [
+                        "Full,全天",
+                        "Morning,上午",
+                        "Afternoon,下午"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "toAt,结束时间,8,,aiTimePicker",
+                    "optionConfig.rules": [
+                        "required,请填写结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "toType,结束日期类型,16,,aiRadio",
+                    "optionJsx.config.items": [
+                        "Full,全天",
+                        "Morning,上午",
+                        "Afternoon,下午"
+                    ]
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人信息\"，流程提交必须指定处理人。"
+                ]
+            },
+            "data": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        }
+    }
+}

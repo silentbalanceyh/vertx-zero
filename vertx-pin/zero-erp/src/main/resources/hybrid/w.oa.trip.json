@@ -1,0 +1,57 @@
+{
+    "identifier": "w.oa.trip",
+    "module": "hybrid/workflow/w.oa.trip.json",
+    "linkage": [
+        "w.todo",
+        "w.ticket"
+    ],
+    "hybrid": {
+        "alias": "出差申请单",
+        "attribute": {
+            "name": "申请单名称",
+            "code": "申请单编号",
+            "serial": "申请单编号",
+            "requestBy": "出差人",
+            "startAt": "开始时间",
+            "endAt": "结束时间",
+            "days": "天数",
+            "tripProvince": "出差省",
+            "tripCity": "出差市",
+            "tripAddress": "出差地址",
+            "reason": "出差原因",
+            "comment": "工作接收人意见",
+            "workContent": "工作交接内容"
+        },
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0",
+            "flowDefinitionId": "1,0,1,0,0,0,0,0",
+            "flowDefinitionKey": "1,0,1,0,0,0,0,0",
+            "flowInstanceId": "1,0,1,0,0,0,0,0",
+            "taskId": "1,0,1,0,0,0,0,0",
+            "taskKey": "1,0,1,0,0,0,0,0",
+            "taskCode": "1,0,1,0,0,0,0,0",
+            "taskName": "1,0,1,0,0,0,0,0"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
+        }
+    }
+}

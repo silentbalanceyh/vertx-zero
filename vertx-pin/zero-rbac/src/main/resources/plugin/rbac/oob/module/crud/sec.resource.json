@@ -1,0 +1,12 @@
+{
+    "name": "resource",
+    "daoCls": "cn.vertxup.rbac.domain.tables.daos.SResourceDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

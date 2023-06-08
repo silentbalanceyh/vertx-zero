@@ -1,0 +1,352 @@
+[
+    {
+        "name": "runtime",
+        "simple": "r",
+        "type": "SYSTEM",
+        "description": "\u001b[1;32m（子系统）\u001b[m生产运行工具集 Runtime Toolkit",
+        "commands": [
+            {
+                "simple": "l",
+                "name": "load",
+                "description": "第一步：加载元数据到元数据仓库",
+                "plugin": "io.mature.extension.uca.console.LoadInstruction",
+                "options": [
+                    {
+                        "simple": "o",
+                        "name": "oob",
+                        "description": "是否导入 OOB 标准包的数据配置",
+                        "defaultValue": true
+                    }
+                ]
+            },
+            {
+                "simple": "e",
+                "name": "elastic",
+                "description": "第三步：ElasticSearch初始化",
+                "plugin": "io.mature.extension.uca.console.IndexInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    }
+                ]
+            },
+            {
+                "simple": "i",
+                "name": "init",
+                "description": "第二步：初始化业务数据库",
+                "plugin": "io.mature.extension.uca.console.InitInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    }
+                ]
+            },
+            {
+                "simple": "g",
+                "name": "graphic",
+                "description": "第四步：Neo4j图库引擎初始化",
+                "plugin": "io.mature.extension.uca.console.GraphicInstruction",
+                "config": {
+                    "ignores": [
+                        "ci.user.ft"
+                    ]
+                },
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "n",
+                        "name": "node",
+                        "description": "存储点对应的模型标识符。",
+                        "defaultValue": "ci.device"
+                    },
+                    {
+                        "simple": "e",
+                        "name": "edge",
+                        "description": "存储边对应的模型标识符。",
+                        "defaultValue": "rl.device.relation"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "deploy",
+        "simple": "d",
+        "type": "SYSTEM",
+        "description": "\u001B[1;32m（子系统）\u001b[m诊断工具集 Debugging Toolkit",
+        "commands": [
+            {
+                "simple": "j",
+                "name": "job",
+                "description": "I_JOB 任务重置工具",
+                "plugin": "io.mature.extension.uca.console.JobInstruction",
+                "options": [
+                    {
+                        "simple": "p",
+                        "name": "prefix",
+                        "description": "执行命令的前缀信息，如果有前缀则替换默认值。",
+                        "defaultValue": "job"
+                    }
+                ]
+            },
+            {
+                "simple": "n",
+                "name": "number",
+                "description": "X_NUMBER 序号修复工具",
+                "plugin": "io.mature.extension.uca.console.NumberInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "f",
+                        "name": "filename",
+                        "description": "输入待修复的序号文件路径，一般为输出报表专用路径！",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "simple": "a",
+                "name": "adjust",
+                "description": "模型修复工具，设置 metadata 元数据",
+                "plugin": "io.mature.extension.uca.console.AdjustModelInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "upgrade",
+        "simple": "u",
+        "type": "SYSTEM",
+        "description": "\u001b[1;32m（子系统）\u001B[m升级工具集 Upgrading Toolkit",
+        "commands": [
+            {
+                "simple": "k",
+                "name": "keep",
+                "description": "第一步：基本数据备份",
+                "plugin": "io.mature.extension.uca.console.BackUpInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "f",
+                        "name": "filename",
+                        "description": "输入migration.json",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "simple": "i",
+                "name": "history",
+                "description": "第二步：单独备份历史信息",
+                "plugin": "io.mature.extension.uca.console.HistoryInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "f",
+                        "name": "filename",
+                        "description": "输入migration.json！",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "simple": "r",
+                "name": "restore",
+                "description": "第三步：还原系统信息",
+                "plugin": "io.mature.extension.uca.console.RestoreInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "f",
+                        "name": "filename",
+                        "description": "输入待修复的序号文件路径，一般为输出报表专用路径！",
+                        "required": true
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "kit",
+        "simple": "k",
+        "type": "SYSTEM",
+        "description": "\u001b[1;32m（子系统）\u001B[m开发工具集 Development Toolkit",
+        "commands": [
+            {
+                "simple": "u",
+                "name": "ui",
+                "description": "UI配置扫描工具，修正UI配置专用",
+                "plugin": "io.mature.extension.uca.console.AdjustUiInstruction",
+                "config": {
+                    "identifier": "所属模型",
+                    "header": {
+                        "control": "组件编码",
+                        "expected": "属性名",
+                        "actual": "实际属性名",
+                        "status": "状态"
+                    },
+                    "ignores": [
+                        "ownerId",
+                        "lifecycle",
+                        "createdAt",
+                        "isDeleted",
+                        "confirmStatus",
+                        "key",
+                        "updatedAt",
+                        "updatedBy",
+                        "globalId",
+                        "lastAccessAt",
+                        "createdBy"
+                    ]
+                },
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    }
+                ]
+            },
+            {
+                "simple": "m",
+                "name": "mapping",
+                "description": "I_API/I_JOB 通道映射文件生成工具",
+                "plugin": "io.mature.extension.uca.console.MappingInstruction",
+                "options": [
+                    {
+                        "simple": "s",
+                        "name": "source",
+                        "description": "分离映射文件读取源",
+                        "defaultValue": "runtime/external/mapping"
+                    }
+                ]
+            },
+            {
+                "simple": "x",
+                "name": "elastic",
+                "description": "ElasticSearch清理工具",
+                "plugin": "io.mature.extension.uca.console.ResetEsInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    }
+                ]
+            },
+            {
+                "simple": "n",
+                "name": "neo4j",
+                "description": "Neo4j图库清理工具",
+                "plugin": "io.mature.extension.uca.console.ResetNeo4jInstruction",
+                "options": [
+                    {
+                        "simple": "g",
+                        "name": "group",
+                        "description": "需要重置的应用程序名（Neo4j标签）",
+                        "defaultValue": "__VERTX_ZERO__"
+                    }
+                ]
+            },
+            {
+                "simple": "e",
+                "name": "env",
+                "description": "「开发环境专属」配置文件环境切换工具",
+                "plugin": "io.mature.extension.uca.console.EnvironmentInstruction",
+                "options": [
+                    {
+                        "simple": "e",
+                        "name": "env",
+                        "description": "将要切换的环境：可切换：prod|dev|home|zw",
+                        "required": true
+                    }
+                ]
+            },
+            {
+                "simple": "j",
+                "name": "json",
+                "description": "动态建模预处理，Excel -> Json 格式。",
+                "plugin": "io.mature.extension.uca.console.JsonInstruction",
+                "options": [
+                    {
+                        "simple": "a",
+                        "name": "app",
+                        "description": "应用程序名，对应 runtime/cmdb-v2/ 下的配置，默认：ucmdb",
+                        "defaultValue": "ucmdb"
+                    },
+                    {
+                        "simple": "i",
+                        "name": "input",
+                        "description": "Excel文件路径，默认：runtime/excel/",
+                        "defaultValue": "runtime/excel/"
+                    },
+                    {
+                        "simple": "o",
+                        "name": "output",
+                        "description": "Json输出文件路径，默认：runtime/json/",
+                        "defaultValue": "runtime/json/"
+                    }
+                ]
+            },
+            {
+                "simple": "o",
+                "name": "encrypt",
+                "description": "密码加密专用工具",
+                "plugin": "io.mature.extension.uca.console.HEDInstruction",
+                "options": [
+                    {
+                        "simple": "i",
+                        "name": "input",
+                        "description": "需要加密的字符串",
+                        "required": true
+                    },
+                    {
+                        "simple": "p",
+                        "name": "path",
+                        "description": "加密所用的公钥文件路径"
+                    }
+                ]
+            }
+        ]
+    }
+]

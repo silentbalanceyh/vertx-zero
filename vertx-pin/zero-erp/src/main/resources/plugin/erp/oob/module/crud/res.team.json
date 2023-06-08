@@ -1,0 +1,34 @@
+{
+    "name": "team",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.ETeamDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "deptId"
+            ]
+        ]
+    },
+    "transform": {
+        "tree": {
+            "in": "name",
+            "field": "teamId"
+        },
+        "fabric": {
+            "source": [
+                {
+                    "source": "ASSIST",
+                    "key": "resource.departments",
+                    "component": "io.vertx.mod.optic.dict.DepartmentDict"
+                }
+            ],
+            "epsilon": {
+                "deptId": {
+                    "source": "resource.departments",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

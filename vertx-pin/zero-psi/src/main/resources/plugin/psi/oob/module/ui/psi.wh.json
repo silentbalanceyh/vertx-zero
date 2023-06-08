@@ -1,0 +1,45 @@
+[
+    {
+        "metadata": "type,仓库类型,MAPPING",
+        "$mapping": {
+            "fm`assert": "资产库,home,48,#ff8626",
+            "fm`commodity": "商品库,home,48,#33af43",
+            "fm`goods": "物料库,home,48,#147fb4",
+            "fm`shop": "网点库,home,48,#17a8ff"
+        }
+    },
+    "name,仓库名称",
+    "code,仓库编码",
+    "managerName,管理员",
+    "managerMobile,联系手机",
+    {
+        "metadata": "negative,允许负库存,LOGICAL",
+        "$mapping": {
+            "true": "允许",
+            "false": "禁止"
+        }
+    },
+    {
+        "metadata": "space,启用仓位,LOGICAL",
+        "$mapping": {
+            "true": "启用",
+            "false": "禁用"
+        }
+    },
+    {
+        "title": "更新人",
+        "dataIndex": "updatedBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "更新时间",
+        "dataIndex": "updatedAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

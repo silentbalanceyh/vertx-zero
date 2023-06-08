@@ -1,0 +1,5 @@
+required:
+  - enabled
+  - manager
+typed:
+  options: JOBJECT

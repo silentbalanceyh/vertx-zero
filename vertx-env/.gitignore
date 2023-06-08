@@ -1,0 +1,7 @@
+runtime/**/*.jar
+runtime/**/*.tar.gz
+runtime/**/*.zip
+runtime/**/*.tgz
+runtime/**/*.rdb
+server
+config-runtime/zookeeper/data

@@ -1,0 +1,6 @@
+required:
+- client_id
+- client_secret
+typed:
+  client_id: STRING
+  client_secret: STRING

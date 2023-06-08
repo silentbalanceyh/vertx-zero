@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "values": [
+        {
+          "value": false,
+          "label": "直接申请"
+        },
+        {
+          "value": true,
+          "label": "存草稿"
+        }
+      ],
+      "label": "申请模式",
+      "type": "radio",
+      "id": "Field_1sth9ag",
+      "key": "draft",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "e.start.form"
+}

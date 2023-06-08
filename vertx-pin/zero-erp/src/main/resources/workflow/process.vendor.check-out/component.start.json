@@ -1,0 +1,25 @@
+{
+    "todo": {
+        "name": "`离场申请：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.vendor.check-out`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Check.Out"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TVendorCheckOutDao",
+        "fields": [
+            "key",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "leaveAt",
+            "reason"
+        ]
+    }
+}

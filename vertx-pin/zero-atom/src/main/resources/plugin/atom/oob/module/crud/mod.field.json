@@ -1,0 +1,12 @@
+{
+    "name": "field",
+    "daoCls": "cn.vertxup.atom.domain.tables.daos.MFieldDao",
+    "field": {
+        "unique": [
+            [
+                "name",
+                "entityId"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "x-attachment",
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+    "field": {
+        "unique": [
+            [
+                "fileUrl",
+                "sigma"
+            ]
+        ]
+    }
+}

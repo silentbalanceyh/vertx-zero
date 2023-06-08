@@ -1,0 +1,21 @@
+{
+    "canvas": {
+        "height": 360
+    },
+    "phase": {
+        "addon": [
+            "BEGIN,处理中:clock-circle,18:#3053EB",
+            "RUNNING,处理中:clock-circle,18:#3053EB",
+            "SUMMARY,等待审批:undo,18:#EE3B3B"
+        ]
+    },
+    "synonym": {
+        "phase": "培训单状态",
+        "title": "培训单标题",
+        "serial": "培训单单号"
+    },
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "name": "fm-book",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FBookDao",
+    "field": {
+        "numbers": {
+            "serial": "NUM.ACCOUNT.BOOK"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

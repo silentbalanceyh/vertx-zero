@@ -1,0 +1,38 @@
+<included>
+    <appender name="UNITY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-fabric/unity-x.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_UNITY" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="UNITY"/>
+    </appender>
+    <!--
+        Component: Ux/Ut/Fn
+        ASYNC_UNITY -> UNITY
+        UNITY - RollingFileAppender - zero-unity-x.log
+    -->
+    <!-- Ut -->
+    <logger name="io.vertx.up.util" level="INFO">
+        <appender ref="ASYNC_UNITY"/>
+    </logger>
+
+    <!-- Ux -->
+    <logger name="io.vertx.up.unity" level="INFO">
+        <appender ref="ASYNC_UNITY"/>
+    </logger>
+
+    <!-- Fn -->
+    <logger name="io.vertx.up.fn" level="INFO">
+        <appender ref="ASYNC_UNITY"/>
+    </logger>
+</included>

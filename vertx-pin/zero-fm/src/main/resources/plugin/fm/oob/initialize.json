@@ -1,0 +1,21 @@
+[
+    "plugin/fm/oob/cab/fm.bank.xlsx",
+    "plugin/fm/oob/cab/fm.bill.process.xlsx",
+    "plugin/fm/oob/cab/fm.book.xlsx",
+    "plugin/fm/oob/cab/fm.currency.xlsx",
+    "plugin/fm/oob/cab/fm.debt.xlsx",
+    "plugin/fm/oob/cab/fm.settlement.xlsx",
+    "plugin/fm/oob/cab/fm.subject.xlsx",
+    "plugin/fm/oob/cab/fm.term.xlsx",
+    "plugin/fm/oob/data/fm.number.xlsx",
+    "plugin/fm/oob/menu/APP-90000-8000@zero.data.fm-SIDE.xlsx",
+    "plugin/fm/oob/modulat/12005_2350_ZERO-E.FAN.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.bank.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.bill.process.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.book.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.currency.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.debt.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.settlement.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.subject.xlsx",
+    "plugin/fm/oob/role/ADMIN.SUPER/falcon.fm.term.xlsx"
+]

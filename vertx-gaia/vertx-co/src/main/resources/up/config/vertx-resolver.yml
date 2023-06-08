@@ -1,0 +1,7 @@
+default: io.vertx.up.backbone.mime.resolver.DefaultResolver
+application:
+  json: io.vertx.up.backbone.mime.resolver.JsonResolver
+  octet-stream: io.vertx.up.backbone.mime.resolver.BufferResolver
+  x-www-form-urlencoded: io.vertx.up.backbone.mime.resolver.XFormResolver
+multipart:
+  form-data: io.vertx.up.backbone.mime.resolver.FormResolver

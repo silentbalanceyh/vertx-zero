@@ -1,0 +1,5 @@
+vertx:
+  zero:
+    internal:
+      logger: Log4JAnnal
+      config: yaml

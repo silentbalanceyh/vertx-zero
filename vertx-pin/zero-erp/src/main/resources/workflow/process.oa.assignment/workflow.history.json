@@ -1,0 +1,83 @@
+{
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "requestName,交接人,8,,aiUserSelector,placeholder=（谁申请交接工作）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "requestBy",
+                            "realname": "requestName",
+                            "workNumber": "requestNo",
+                            "mobile": "requestMobile"
+                        },
+                        "user": "交接人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写交接申请人！"
+                    ]
+                },
+                "requestNo,交接人工号,8,,,readOnly=true",
+                "requestMobile,交接人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "startAt,开始时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,结束时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "reason,交接原因,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,请填写交接原因！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "workContent,工作交接内容,24,,aiTextArea,rows=3"
+                }
+            ]
+        ],
+        "END_CLOSE": "END_STANDARD"
+    }
+}

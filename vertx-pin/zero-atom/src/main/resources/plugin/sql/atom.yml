@@ -1,0 +1,29 @@
+databaseChangeLog:
+  # Schema表结构 - 建模表
+  - include:
+      file: plugin/sql/atom/M_MODEL.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_ATTRIBUTE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_ENTITY.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_FIELD.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_INDEX.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_KEY.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_JOIN.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_RELATION.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/atom/M_ACC.sql
+      relativeToChangelogFile: false

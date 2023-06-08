@@ -1,0 +1,14 @@
+{
+    "canvas": {
+        "height": 240
+    },
+    "synonym": {
+        "phase": "申请单状态",
+        "title": "申请单标题",
+        "serial": "申请单单号"
+    },
+    "linkage": [
+        "linkageEmployee",
+        "linkageTicket"
+    ]
+}

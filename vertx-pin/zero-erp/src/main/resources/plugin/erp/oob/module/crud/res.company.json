@@ -1,0 +1,44 @@
+{
+    "name": "company",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.ECompanyDao",
+    "field": {
+        "numbers": {
+            "code": "NUM.COMPANY"
+        },
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "fabric": {
+            "source": [
+                {
+                    "source": "ASSIST",
+                    "key": "resource.companys",
+                    "component": "io.vertx.mod.optic.dict.CompanyDict"
+                },
+                {
+                    "source": "TABULAR",
+                    "types": [
+                        "zero.company"
+                    ]
+                }
+            ],
+            "epsilon": {
+                "companyId": {
+                    "source": "resource.companys",
+                    "in": "name",
+                    "out": "key"
+                },
+                "type": {
+                    "source": "zero.company",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

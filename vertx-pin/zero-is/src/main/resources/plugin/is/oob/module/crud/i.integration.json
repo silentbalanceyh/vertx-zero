@@ -1,0 +1,13 @@
+{
+    "name": "i-integration",
+    "daoCls": "cn.vertxup.integration.domain.tables.daos.IIntegrationDao",
+    "field": {
+        "unique": [
+            [
+                "endpoint",
+                "path",
+                "appId"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+[
+    "plugin/lbs/oob/cab/lbs.city.xlsx",
+    "plugin/lbs/oob/cab/lbs.floor.xlsx",
+    "plugin/lbs/oob/cab/lbs.query.xlsx",
+    "plugin/lbs/oob/cab/lbs.state.xlsx",
+    "plugin/lbs/oob/cab/lbs.tent.xlsx",
+    "plugin/lbs/oob/data/location.city.xlsx",
+    "plugin/lbs/oob/data/location.country.xlsx",
+    "plugin/lbs/oob/data/location.region.xlsx",
+    "plugin/lbs/oob/data/location.state.xlsx",
+    "plugin/lbs/oob/role/ADMIN.SUPER/falcon.lbs.city.xlsx",
+    "plugin/lbs/oob/role/ADMIN.SUPER/falcon.lbs.floor.xlsx",
+    "plugin/lbs/oob/role/ADMIN.SUPER/falcon.lbs.query.xlsx",
+    "plugin/lbs/oob/role/ADMIN.SUPER/falcon.lbs.state.xlsx",
+    "plugin/lbs/oob/role/ADMIN.SUPER/falcon.lbs.tent.xlsx"
+]

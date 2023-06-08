@@ -1,0 +1,35 @@
+{
+    "webSection": {
+        "field": "position",
+        "region": [
+            {
+                "value": "run",
+                "title": "处理/审批工单"
+            },
+            {
+                "value": "done",
+                "title": "历史工单"
+            }
+        ]
+    },
+    "webData": {
+        "paramIn": {
+            "workflow": "PROP:workflow.value",
+            "position": "OPTION:value"
+        },
+        "paramView": {
+            "position": ":position",
+            "view": "DEFAULT"
+        },
+        "paramVisit": {
+            "identifier": "ui.view",
+            "type": "VIEW",
+            "phase": "EAGER",
+            "mode": "REPLACE",
+            "seekKey": ":workflow/:position/DEFAULT"
+        },
+        "paramDefault": "ALL",
+        "initializer": "IN_HV",
+        "requester": "OUT_H"
+    }
+}

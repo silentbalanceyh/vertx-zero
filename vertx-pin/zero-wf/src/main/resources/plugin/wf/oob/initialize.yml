@@ -1,0 +1,8 @@
+-   dao: cn.vertxup.workflow.domain.tables.daos.WTodoDao     # W_TODO
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.workflow.domain.tables.daos.WFlowDao     # W_FLOW
+    unique:
+    - code
+    - sigma

@@ -1,0 +1,72 @@
+[
+    {
+        "_id": "4ad817d3-8bd1-4650-8e7c-a00f0bd45ff8",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "6d52aae1-9ed3-410b-a654-23e6f78400b6",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.968Z"
+    },
+    {
+        "_id": "9dd831a9-7e33-46e0-b954-c13c7308e5e2",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "470bf696-0fef-465f-a5c2-5d9f8f15afe7",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.916Z"
+    },
+    {
+        "_id": "da7f711e-b335-4c05-819c-82ba953108a3",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "73d3ee28-7856-4a8a-921b-39c8e7b97788",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.558Z"
+    },
+    {
+        "_id": "4894337a-6e32-458c-96d0-574dbfd08627",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "0c46045a-2223-4939-8431-c23f3cb686d9",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.473Z"
+    },
+    {
+        "_id": "a9534981-726d-480b-8a1e-c898424a3d29",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "ae274d65-2683-405f-8509-f248be56acf9",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.455Z"
+    },
+    {
+        "_id": "b72080c7-72ce-45bc-b917-488ba28e3a26",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "566a4436-d015-499a-98d9-3d5de0392df8",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.212Z"
+    },
+    {
+        "_id": "b487078f-6a4d-4eb7-a5c7-d6aad4cb768b",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "d738fdc0-f131-408c-a247-42bc5e7437a7",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:28.084Z"
+    },
+    {
+        "_id": "51986d60-559f-4cc6-9659-44a6065d8f07",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "b52f9f39-d9be-4b8f-892c-2eb34d16f647",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:27.848Z"
+    },
+    {
+        "_id": "a0eceb64-35fb-4a42-b223-d1c39a315e34",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "9e614c73-474d-4328-b038-34bd9ee5f39f",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:27.741Z"
+    },
+    {
+        "_id": "56126e99-c230-43de-bc62-198ac6e5692d",
+        "userId": "c1fb7bbd-d991-4082-a67e-289bc3974351",
+        "targetId": "9b9da60c-1731-4ace-95f1-e276e474d21a",
+        "targetType": "TOPIC",
+        "subscribeTime": "2018-01-14T14:47:27.531Z"
+    }
+]

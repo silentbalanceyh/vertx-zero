@@ -1,0 +1,31 @@
+{
+    "todo": {
+        "name": "`考核记录：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.vendor.assessment`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Assessment"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TVendorAssessmentDao",
+        "fields": [
+            "key",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "assessOn",
+            "assessScore",
+            "commentDept",
+            "commentAssess",
+            "commentLeader"
+        ],
+        "auditor": [
+            "assessOn"
+        ]
+    }
+}

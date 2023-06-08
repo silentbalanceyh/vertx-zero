@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-pin</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>zero-vie</artifactId>
+    <name>Focus:「zero-vie」Scaffold Application</name>
+
+    <dependencies>
+        <!-- CRUD统一模块 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-crud</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- RBAC专用模块 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-rbac</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Ambient系统专用模块 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ambient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 集成专用 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-is</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 模块化专用 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-battery</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- User Interface 专用模块 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- API -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-jet</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- PSI -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-psi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- WF -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-wf</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- FM -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-fm</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- ERP组织架构管理 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-erp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 动态建模引擎 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-atom</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 图引擎 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-graphic</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- LBS -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-lbs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Tpl -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-tpl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- History 专用包 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-history</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- ElasticSearch API -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-es</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Command 命令行工具 -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-shell</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Stomp for MQ -->
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-ifx-stomp</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

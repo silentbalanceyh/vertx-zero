@@ -1,0 +1,18 @@
+{
+    "phase": "BEFORE",
+    "data": {
+        "type": "`${type}`",
+        "viewId": "`${viewId}`",
+        "configKey": "`${control}`",
+        "identifier": "`${identifier}`"
+    },
+    "config": {
+        "rows": {
+            "condition": [
+                "clientId",
+                "clientKey",
+                "action"
+            ]
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "tent",
+    "daoCls": "cn.vertxup.lbs.domain.tables.daos.LTentDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

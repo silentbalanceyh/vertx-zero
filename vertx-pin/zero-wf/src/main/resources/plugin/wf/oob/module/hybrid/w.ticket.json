@@ -1,0 +1,12 @@
+{
+    "name": "ticket",
+    "daoCls": "cn.vertxup.workflow.domain.tables.daos.WTicketDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

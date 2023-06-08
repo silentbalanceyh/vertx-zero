@@ -1,0 +1,60 @@
+[
+    {
+        "metadata": "code,合同编号,,true",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入合同编号",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "metadata": "title,合同标题,,true",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入合同名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "metadata": "deptId,所属部门,DATUM",
+        "$datum": "source=resource.departments,value=key,display=name"
+    },
+    {
+        "metadata": "budget,所属预算,DATUM",
+        "$datum": "source=zero.contract.budget,value=code,display=name"
+    },
+    {
+        "metadata": "amount,合同金额,CURRENCY,true"
+    },
+    {
+        "metadata": "level,合同级别,DATUM",
+        "$datum": "source=zero.contract.level,value=code,display=name"
+    },
+    {
+        "metadata": "type,合同分类,DATUM",
+        "$datum": "source=zero.contract,value=code,display=name"
+    },
+    {
+        "metadata": "status,合同状态,DATUM",
+        "$datum": "source=zero.contract.status,value=code,display=name"
+    },
+    {
+        "metadata": "aName,甲方"
+    },
+    {
+        "metadata": "bName,乙方"
+    },
+    {
+        "metadata": "bPhone,乙方电话"
+    },
+    {
+        "metadata": "signedAt,签订时间,DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]

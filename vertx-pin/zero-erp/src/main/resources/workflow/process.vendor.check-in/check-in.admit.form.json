@@ -1,0 +1,128 @@
+{
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "startAt,入场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写入场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,离场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写离场时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,累积天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "classification,类型,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.customer.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择入场类型！"
+                    ]
+                },
+                {
+                    "metadata": "onboardAt,计划入场时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionConfig.rules": [
+                        "required,请填写计划入场时间！"
+                    ],
+                    "moment": true
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "RUN_TICKET": "RUN_APPROVE",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，必须指定下一处理人。"
+                ],
+                "confirmedOk": [
+                    "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
+                ]
+            },
+            "indicator": "confirmedOk",
+            "data": {
+                "YES": {
+                    "confirmed": true,
+                    "phase": "PROCESS",
+                    "commentApproval": "FORM:confirmedDesc"
+                },
+                "NO": {
+                    "confirmed": false,
+                    "phase": "REJECTED",
+                    "commentReject": "FORM:confirmedDesc"
+                },
+                "BACK": {
+                    "confirmed": false,
+                    "phase": "REDO",
+                    "commentReject": "FORM:confirmedDesc"
+                }
+            }
+        }
+    }
+}

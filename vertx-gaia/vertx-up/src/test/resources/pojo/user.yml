@@ -1,0 +1,7 @@
+type: "io.vertx.up.unity.UserJson"
+mapping:
+  name: zName
+  email: zEmail
+columns:
+  name: S_NAME
+  code: S_CODE

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zero-vista</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>infix-oracle</artifactId>
+    <name>Scaffold Plugin: Oracle（infix-oracle）</name>
+    <properties>
+        <jdbc.oracle.version>12.1.0.2</jdbc.oracle.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <version>${jdbc.oracle.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>zero-atom</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

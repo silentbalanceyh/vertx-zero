@@ -1,0 +1,41 @@
+{
+    "name": "TESTN4J003",
+    "nodes": [
+        {
+            "key": "004-ADD-A",
+            "x": 100,
+            "y": 50,
+            "data": {
+                "username": "lang.yu"
+            }
+        },
+        {
+            "key": "005-ADD-A",
+            "x": 66,
+            "y": 100,
+            "data": {
+                "username": "silentyh"
+            }
+        },
+        {
+            "key": "006-ADD-A",
+            "x": 66,
+            "y": 100,
+            "data": {
+                "username": "silentyh"
+            }
+        }
+    ],
+    "edges": [
+        {
+            "source": "004-ADD-A",
+            "target": "005-ADD-A",
+            "type": "deployed"
+        },
+        {
+            "source": "004-ADD-A",
+            "target": "006-ADD-A",
+            "type": "deployed"
+        }
+    ]
+}

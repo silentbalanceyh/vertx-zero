@@ -1,0 +1,34 @@
+{
+    "name": "dept",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EDeptDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "companyId"
+            ]
+        ]
+    },
+    "transform": {
+        "tree": {
+            "in": "name",
+            "field": "deptId"
+        },
+        "fabric": {
+            "source": [
+                {
+                    "source": "ASSIST",
+                    "key": "resource.companys",
+                    "component": "io.vertx.mod.optic.dict.CompanyDict"
+                }
+            ],
+            "epsilon": {
+                "companyId": {
+                    "source": "resource.companys",
+                    "in": "name",
+                    "out": "key"
+                }
+            }
+        }
+    }
+}

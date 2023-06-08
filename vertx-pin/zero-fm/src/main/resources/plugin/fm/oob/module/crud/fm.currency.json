@@ -1,0 +1,12 @@
+{
+    "name": "currency",
+    "daoCls": "cn.vertxup.fm.domain.tables.daos.FCurrencyDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,43 @@
+- dao: cn.vertxup.ambient.domain.tables.daos.XSourceDao   # X_SOURCE
+  key: key
+  unique:
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XAppDao      # X_APP
+  key: key
+  unique:
+    - name
+- dao: cn.vertxup.ambient.domain.tables.daos.XModuleDao   # X_MODULE
+  key: key
+  unique:
+    - entry
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XMenuDao     # X_MENU
+  key: key
+  unique:
+    - name
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XCategoryDao # X_CATEGORY
+  key: key
+  unique:
+    - code
+    - type
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XTabularDao  # X_TABULAR
+  key: key
+  unique:
+    - code
+    - type
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XNumberDao   # X_NUMBER
+  unique:
+    - code
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XTagDao     # X_TAG
+  key: key
+  unique:
+    - name
+    - appId
+- dao: cn.vertxup.ambient.domain.tables.daos.XActivityRuleDao     # X_ACTIVITY_RULE
+  key: key
+  unique:
+    - key

@@ -1,0 +1,16 @@
+typed:
+  cacheMaxTimeToLive: INTEGER
+  cacheMinTimeToLive: INTEGER
+  cacheNegativeTimeToLive: INTEGER
+  hostsPath: STRING
+  hostsValue: STRING
+  maxQueries: INTEGER
+  ndots: INTEGER
+  optResourceEnabled: BOOLEAN
+  queryTimeout: INTEGER
+  rdFlag: BOOLEAN
+  rotateServers: BOOLEAN
+  # String Array
+  searchDomains: JARRAY
+  # String Array
+  servers: JARRAY

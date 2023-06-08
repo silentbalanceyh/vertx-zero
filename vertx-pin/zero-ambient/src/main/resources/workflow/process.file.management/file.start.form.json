@@ -1,0 +1,64 @@
+{
+    "ui": [
+        [
+            "record@name,文件名,8,,,readOnly=true",
+            "record@type,文件类型,8,,,readOnly=true",
+            "record@sizeUi,文件大小,8,,,readOnly=true"
+        ],
+        [
+            {
+                "metadata": "record@file,文件上传,16,,aiFileUpload,text=上传",
+                "optionJsx.accept": "*/*",
+                "optionJsx.config.filekey": "key",
+                "optionJsx.config.limit": 10240,
+                "optionJsx.ajax.uri": "/api/file/upload/:identifier",
+                "optionJsx.ajax.download": "/api/file/download/:key",
+                "optionJsx.ajax.params": {
+                    "identifier": "FIX:w.ticket"
+                },
+                "optionJsx.config": {
+                    "linker": {
+                        "key": "record@key",
+                        "fileKey": "record@fileKey",
+                        "fileName": "record@fileName",
+                        "filePath": "record@filePath",
+                        "fileUrl": "record@fileUrl",
+                        "size": "record@size",
+                        "mime": "record@mime",
+                        "status": "record@status",
+                        "storeWay": "record@storeWay",
+                        "modelId": "record@modelId",
+                        "metadata": "record@metadata",
+                        "name": "record@name",
+                        "type": "record@type",
+                        "extension": "record@extension",
+                        "sizeUi": "record@sizeUi"
+                    }
+                },
+                "optionConfig.rules": [
+                    "required,上传文件不可为空，请上传您要审批的文件！"
+                ]
+            },
+            "record@extension,扩展名,8,,,readOnly=true"
+        ]
+    ],
+    "hidden": [
+        "record@key",
+        "record@fileKey",
+        "record@fileName",
+        "record@filePath",
+        "record@fileUrl",
+        "record@size",
+        "record@mime",
+        "record@status",
+        "record@storeWay",
+        "record@modelId",
+        "record@metadata"
+    ],
+    "initial": {
+        "phase": "INIT",
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.document.request",
+        "openBy": "USER:key",
+        "owner": "USER:key"
+    }
+}

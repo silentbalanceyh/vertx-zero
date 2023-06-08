@@ -1,0 +1,359 @@
+# ----------- AMS 部分
+# BootException: io.horizon.exception.boot
+#    E40101 = CombineAppException
+#    E40102 = CombineOwnerException
+#    E40103 = AmbientConnectException
+#    E40104 = DuplicateRegistryException
+# New for Booting
+E40101: "(Boot) The two app of HArk could not been combined, the current name = `{1}`, ns = `{0}`"
+E40102: "(Boot) The two owner of HArk could not been combined, the current id = `{0}`, target = `{1}`"
+E40103: "(Boot) The container try to connect HArk, but `HArk` is null and could not start up"
+E40104: "(Boot) The stored Ambient has already been registry, current stored size = `{0}`"
+# WebException: io.horizon.exception.web
+# -- Web
+#    E60011 = _400BadRequestException
+#    E60007 = _500InternalServerException
+E60007: "(500) - The system detected internal error, contact administrator and check details = {0}"
+E60011: "(400) - The system detected invalid ( Bad ) request in request"
+
+# -- Secure
+#    E60012 = _401UnauthorizedException
+#    E60013 = _403ForbiddenException
+E60012: "(401) - (Security) Unauthorized request met in request"
+E60013: "(403) - (Security) Access denied/forbidden in request"
+
+# -- Qr
+#    E60022 = _400QQueryAttributeException
+#    E60023 = _400QPagerInvalidException
+#    E60024 = _500QQueryMetaNullException
+#    E60025 = _400QPagerIndexException
+#    E60026 = _400QOpUnknownException
+E60022: "(400) - (Ir) You''ll try to parse Ir key = \"{0}\", the expected type is {1} but now it''s {2}"
+E60023: "(400) - (Ir) You''ll try to build \"pager\", the key \"{0}\" of pager missing."
+E60024: "(500) - (Ir) Your query meta is null, expected input meta object is not null reference."
+E60025: "(400) - (Ir) The \"pager\" started page number should start from 1, now input \"page\" is {0}"
+E60026: "(400) - (Ir) The op is not supported, please provide valid op of \"<, >, <=, >=, =, <>, !n, n, t, f, i, !i, s, e, c\", current is {0}"
+
+# -- JVM
+#    E60050 = _501NotSupportException
+#    E60059 = _412ArgumentNullException
+#    E60060 = _500InternalCauseException
+#    E80413 = _501NotImplementException
+E60050: "(501) - This api is not supported or implemented, please check your specification, source = {0}"
+E60059: "(400) - (Progma) Detected Null Value = `{0}`"
+E60060: "(500) - Method invoking met exception, but could not find WebException, ex = {0}"
+E80413: "(501) - (Jet) This api Method does not implement here, please provide in programming"
+
+# ----------- (DemonException) Checked, Standard Zero Configuration Failed --------------------
+# 30001 - 39999
+# Core configuration Error
+E30001: Vert.x zero server config is missing in current data "{0}"
+
+# ----------- (UpException) Runtime, Zero Container Internal Error --------------------
+# Configuration validation Error
+E10001: (V) - This rule require all elements of array is JsonObject, Now the index = {0} does not match, it''s {1}
+E10002: (V) - The data object {0} missed required field "{1}"
+E10003: (V) - The field {0} value is "{1}", but expected type is "{2}"
+E10004: (V) - The cluster options is enabled, but the "{0}" vertx instance = "{1}"
+E10005: (V) - The dynamic key "{0}" missing in uniform extension configuration data {1}
+E10006: (V) - The data object {0} contains unsupported/forbidden field "{1}"
+E10007: (V) - The dynamic key "{0}" data type must be JsonObject instead of others, but now "{1}"
+
+# ----------- Zero Infusion ( vertx-ifx ) Exception --------------------
+# 20001 - 29999
+# Thirt part error for different integration
+E20001: (401) - Qiy interface of "/iqiyi/authorize" met errors, code = {0}, message = {1}
+E20002: (401) - Qiy token record does not contain "access_token", client_id = {0}
+E20003: (424) - Ali Acs Client profile met error when it''s initializing, details = {0}
+E20004: (424) - Ali Acs Client send request met error, details = {0}
+E20005: "(500) - You selected mode = `DEFINED`, but there missed `store` key in config"
+
+# ElasticSearch
+E20006: (404) - the Configuration of ElasticSearch is missinng, please check vertx-elasticsearch.yml.
+E20007: (404) - parameter (index) is required, you must provide it when using full text search.
+E20008: (404) - parameter (searchText) is required, you must provide it when using full text search.
+
+# ----------- Zero Standard Runtime Exception --------------------
+# 40001 - 49999
+# (Runtime) Vertx start up error
+E40001: Vert.x zero boot class should not be null, please provide the entry of this application
+E40002: Vert.x zero boot class must be marked with annotation "Up", but ( name= {0} ) it''s missing
+E40003: ZeroLauncher require input callback to handle vertx reference, but not it''s null
+E40004: You have defined {0} agent {2} for server of type {1}, it''s fobbiden
+E40005: Event extractor only accept to scan class of @EndPoint, but now it''s {0}
+E40006: PathResolver could not accept null dot reference of @Path
+E40007: MethodResolver could not accept null dot reference of Method
+E40008: The event handler of path {0} has not been set, please verify configuration
+E40009: Vert.x zero require class {0} contains at least one no-arg constructor, but now it''s missing
+E40010: Vert.x zero require class {0} access modifier contains PUBLIC scope, but now it couldn't be accessed
+E40011: Vert.x zero found method parameters without any annotated, it's conflict. Effect = {0}
+E40012: The address {0} does not existing in incoming address list. Position - type = {1}, method = {2}
+E40013: You want to send message to event bus, but agent method ({0}) of {1}''s return type is (void)
+E40014: Zero detected that there is no method of @Queue annotated @Address = {0}, the worker missing
+E40015: Infusion component met error when reading option on key = {0}
+E40016: You enabled the plugin ( key = {0} ), but this plugin has no method of ( public static void init(Vertx) )
+E40017: Worker method signature is wrong, the parameter length must be > 0. method = {0}, class = {1}
+E40018: "Async mode: return = {0}, parameter = {1}, valid - Envelop method(Envelop), void method(Message<Envelop>;)"
+E40019: Your plugin {0} met error when starting, please check the details {1}
+E40020: Zero system could not find the config of key = {0}, please check your configurations
+E40021: The field "{0}" of class {1} has been annotated with Zero annotation more than once, data = {2}
+E40023: "Zero system found field \"{0}\" of class {1} is interface with non-unique implementation, but @Qualifier missed"
+E40024: "One of the classes \"{0}\" missed @Named annotation, because they implement the same interface {1}"
+E40025: "All the implementation class \"{0}\" with @Named contains no value of \"{1}\""
+E40026: "You will initialize infix = \"{0}\", but the configuration missed \"{1}\" in lime node of vertx.xml"
+E40027: "You are trying to initialize EtcdClient, but the configuration data is empty."
+E40028: Duplicated implementation of interface \"{0}\" found in the system, it''s invalid
+E40029: The annotation {1} occurs {2} times in the method {0}, it''s forbidden in zero system
+E40030: The {0} parameter annotation should select one category, but now zero system detect {1}
+E40031: The {0} parameter annotation is {1}, but the java type {2} is not supported here
+E40032: You are in mode "Direct", the input index must be greatter and equal to 0, current is {0}
+E40033: "(Database) You are trying to initialize \"Xtor\" component, but found invalid component {0} in method {1}"
+E40034: "(Database) Your \"Xtor\" component is not ready, (client, clazz, logger, collection) could not be null"
+E40035: "(Database) You are executing the operations in \"Xtor\" component, but met error: {0}"
+E40036: "Zero system detected event class {0} contains methods that annotated with @Codex more than once"
+E40037: (Rpc) Enabled in current environment, but remote configuration center ( Etcd ) is not prepared
+E40038: "(Security) Zero system detected duplicated \"Wall\" classes [{0}] (Path & Order) should not be the same, it''s invalid"
+E40039: "The network configured for etcd ( host = {0}, port = {1} ) could not be reached"
+E40040: "(Security) You have configured key = \"{0}\" in @Wall class {1}, but it''s missing"
+E40041: "(Security) Every @Wall class must contains only one method annotated with {0}, current {1} contains more"
+E40042: "You have enabled @Address and @Ipc both on method \"{0}\" of class \"{1}\", only one channel should be valid"
+E40043: "You have annotated method {0} with @Ipc and set current point is \"sender\", it means that you must set \"to\" and \"name\" both at the same time, but now ( to = {1}, name = {2} )"
+E40044: "The method {0} annotated with @Ipc must contain return value, return type must not be Void/void"
+E40045: "The method {0} annotated with @Ipc must set direction ( value or (name|to) ), now the system do not know the direction"
+E40046: "The method {0} annotated with @Ipc must contain only one argument of Envelop type"
+E40047: "Zero system could not select correct invoker by returnType = {0}, paramType = {1}"
+E40048: "(Rpc) Zero system detect agent interface \"{0}\" only without implementation class, it''s forbidden in rpc stream workflow."
+E40049: "Zero worker method signature conflicts, method = {0}, class = {1}"
+E40050: "You''ll run zero in \"Micro Mode\", but etcd configuration is not prepared, system detected error: {0}"
+E40051: "Your RoutingContext object reference is null, could not be getNull by getContext()."
+E40052: "You defined @WebFilter \"{0}\", but it does not implement interface \"io.vertx.up.backbone.filter\"."
+E40053: "The order of @WebFilter must be greater than or equal 0 ( >= 0 ), but now \"{0}\" @Ordered value is negative number."
+E40054: "The @WebFilter \"{0}\"could not be initialized, please check your class."
+E40055: "(Jooq) The analyzed field of original \"{0}\" field is null, it means that the field is invalid"
+E40056: "(Database) Data pool initialized met issue, jdbcUrl = {0}, exception = {1}"
+E40057: "(Jooq) The method \"copyEntity(T target,T updated)\" require second argument updated must not be null. Class = {0}, Data = {1}"
+E40058: "(Jooq) The mode required is {0}, but current filters are \"{1}\", they are conflict"
+E40059: "(Jooq) The field = \"{0}\" could not be found in type = \"{1}\""
+E40060: "(Jooq) Infusion Jooq require vertx environment, but now vertx is null"
+E40061: "(Security) You are using Zero Security Framework, but the @Wall found Security reference is null"
+E40062: "(Quiz) Current test case name = `{0}` is invalid when you enable Quiz Framework of Zero, name must end with `Tc`"
+E40063: "Your reflect invoking does not satisfy the pre-condition, method = {0}"
+E40064: "(Act) Act specification is invalid, you could not call this api when isBatch = {0}"
+E40065: "(Jooq) Jooq database configuration pool key = `provider` missing, it's required when you enable Jooq"
+E40066: "(Jooq) The input `clazz` is not implemented from VertxDAO, clazz is invalid: {0}"
+E40067: "(Jooq) There is no `Clause` for field = \"{0}\" and type = \"{1}\", original field = \"{2}\""
+
+# Console exception
+E40070: "The default launcher key mustn''t be overwrite. ( config )"
+E40071: "The input commands are invalid, command = \"{0}\", details = \"{1}\""
+E40072: "The command line of input arguments is empty or null, please input again"
+E40073: "Input command \"{0}\" could not be recognised in your definition"
+E40074: "The command `{0}` plugin is null or could not be found, please check your configuration"
+E40075: "The wall type is invalid `{0}` in `{1}`, please use `extension` instead when you want to define"
+E40076: "You have selected the wall `{0}`, the expected size should `{1}`"
+E40077: "The provider {0} is conflict because it''s invalid AuthenticateProvider"
+# RxJava
+E45001: (V) - The field "{1}" of json array "{0}" must be mapped to unique element, but current reduced is "{2}"
+
+# ----------- Zero Aeon Cloud Runtime Exception --------------------
+# 50001 - 59999
+E50001: "( Aeon ) Aeon System has be enabled, but configuration missing, please check `aeon/` folder"
+# E50002: "( Aeon ) Aeon System require your `vertx` running in cluster mode instead, but now the cluster has been Disabled"
+E50003: "( Aeon ) Aeon System require the environment variable `ZERO_AEON`, but now it's not configured"
+# ----------- Zero Web Runtime Exception --------------------
+# 60000 - 60001
+# (Web) Exception for web
+E60000: (400) - Request validation handler, class = {0}, method = {1}, message = {2}
+E60001: (400) - The input content could not be converted into valid resource user {0}
+E60002: (500) - The system detect some error in delivery on address {0}, error message = {1}
+E60003: (500) - The event bus detect some error in receiving message on address {0}, error message = {1}
+E60004: (400) - Zero system detect conversation from "{0}" to type "{1}", but it's conflict
+E60005: (400) - Request body validation handler, field = {0}, value = {1}, message = {2}
+E60006: (415) - Server could not accept the mime "{0}", expected should be one of {1}
+E60008: (404) - Zero system detect non record in storage, no record
+E60009: (400) - Zero system detect duplicated records in storage, size = {0}
+E60010: (404) - The request {0} of method {1} could not be found in zero system
+
+E60014: "(405) - The method \"{0}\" for request uri {1} is not allowed"
+E60015: "(501) - The service ( name = {0}, address = {1}, method = {2}, class = {3} ) could not be found"
+E60016: "(501) - The service address = {0} is wrong in name = {1}"
+E60017: "(504) - The remote service ( location = {0}, name = {1} ) met error, details = {2}"
+E60018: "(501) - The micro service could not find method by address = {0}, error occurs"
+E60019: "(500) - Unexpected error found when communitting, details {0}"
+E60020: "(424) - This call dependency Rpc remote service ( name = {0}, address = {1} ) could not be found now"
+E60021: "(400) - File uploading to {0} met errors, please check"
+# Query, Search, Connect
+E60027: "(501) - (Rpc) This web flow does not support IPC continue flow. Class = {0}"
+E60028: "(500) - (Rpc) Zero system detect unexpected exception on class = {0}, returnValue is {1}"
+E60036: "(500) - (Rpc) Transit invoke met error, transit class = {0}, method = {1}, details = {2}"
+
+# Jwt Exception
+E60029: "(401) - (Jwt) Jwt token expired, please refresh your token. payload = {0}"
+E60030: "(401) - (Jwt) Jwt audient \"{0}\" is invalid, please provide correct audient"
+E60031: "(401) - (Jwt) Jwt issuer \"{0}\" is invalid, please provide correct issuer"
+E60032: "(500) - (Jwt) Jwt runtime met errors, please check details = {0}"
+E60033: "(401) - (Jwt) Jwt executor result is false, authorization token = {0}"
+
+# (Web) Exception for standard third part
+E60034: "(500) - (Shared) SharedMap Error happened when do operation：{0}"
+E60035: "(500) - (Shared) Your map {0} processing met issue when execute method {1}"
+
+# Excel exception
+E60037: "(404) - (Excel) The file that you provided ( filename = `{0}` ) is missing or null"
+E60038: "(404) - (Excel) The configuration of ( table = `{0}` ) is missing, please check your excel config"
+E60039: "(500) - (Excel) The exporting met error, detail = {0}"
+E60040: "(412) - The field of type `{0}` must be declared only once in target `{1}` with annotation @Contract, now it occurs {2} times"
+E60041: "(417) - The job `{0}` method parameter definitions are wrong"
+E60042: "(501) - The class `{0}` does not define any method annotated with @On"
+E60043: "(409) - Your session version mismatch between old = {0} and new = {1}"
+E60044: "(500) - Your dot plugin component specification met error, config = {0}"
+E60045: "(400) - Your request missed `sigma` field, it means that your request header `X-Sigma` missing, but it's required"
+E60046: "(500) - Could not build valid `URL` for http request, please check your data: integration-request = {0}, data = {1} "
+E60047: "(501) - Sorry, the client that your bind is `null`, could not continue this operation"
+E60048: "(415) The argument type of @PointParam is invalid, valid is ( List<T>, JsonArray, VPosition ), current is \"{0}\""
+E60049: "({0}) HttpException: {1}"
+E60051: "(500) - System found `null` return value of method `{0}` in class `{1}`"
+E60058: "(409) - You `runComponent` has not been configured, but the scDim = `{0}`, they are conflict"
+
+# File attachment
+E60052: "(411) - When you upload file, the `Content-Length` must be matched, but current is {0}"
+E60053: "(415) - The declared type {0} is not match to MIME {1}"
+E60054: "(409) - Your job is \"FORMULA\", the formulat could not be parsed: {0}"
+
+# Git Exception
+E60055: "(409) - (Git) Your path {0} is exist and could not be `clone`, message = {1}"
+E60056: "(404) - (Git) You are trying to open {0} repository, message = {1}"
+E60057: "(400) - (Git) You are executing command `{0}` but met error, message = {1}"
+
+# ----------- Zero Extension Module Exception --------------------
+# 80001 - 89999
+# CRUD Module
+E80100: "(404) - (CRUD) You missed `module` = `{0}` definition in file \"plugin/crud/module/\" folder"
+E80101: "(404) - (CRUD) You missed `column` configuration and instance is null. access module = {0}"
+E80102: "(409) - (CRUD) Your file table size must be only one, but not found `{0}`"
+E80103: "(409) - (CRUD) Your file table name is conflict with the request, table name = `{0}` and request = `{1}`"
+
+# RBAC Module
+E80200: "(401) - (RBAC) The authorization code `{0}` you provided is wrong"
+E80201: "(401) - (RBAC) The authorization code `{1}` for your client {0} has been expired"
+E80202: "(401) - (RBAC) The authorization code generation met issue with clientId = {0} and clientSecret = {1}"
+E80203: "(449) - (RBAC) The user `{0}` could not be found in database"
+E80204: "(401) - (RBAC) The user''s ( username = {0} ) password that you provided is wrong"
+E80205: "(403) - (RBAC) The profile required `{0}`, but current profile is `{1}`"
+E80206: "(401) - (RBAC) The token counter is invalid ( size = {0} ) for user = {1}"
+E80207: "(401) - (RBAC) The token that you provided = `{0}` is invalid"
+E80208: "(401) - (RBAC) The token that you provided `{0}` is expired"
+E80209: "(404) - (RBAC) The action for request ( {0} ) is missing"
+E80210: "(404) - (RBAC) The resource of id = `{0}` for request = {1} could not be identified"
+E80211: "(403) - (RBAC) The resource level is {0}, action level is {0} and lower than resource required"
+E80212: "(403) - (RBAC) The user = `{0}` of profile = `{1}` has no permission for access any resource"
+E80213: "(403) - (RBAC) Sorry, you have no access to visit the resource that you required, action = `{0}`, permissionId = `{1}`"
+E80215: "(500) - (RBAC) Dwarf instance is null when analyzed result type = {0}"
+E80220: "(401) - (RBAC) The user `{0}` that you have provided is locked, please contact administrator"
+E80221: "(401) - (RBAC) Your wrong password typing exceed `{0}` times, please wait around `{1}` mins and try again"
+E80222: "(401) - (RBAC) Image code ( {0} ) that you provided is wrong"
+
+# RBAC Module - New for Management Platform
+E80223: "(409) - (RBAC) The `uiType` defined should not be NONE, please check your configuration of code = `{0}` in Admin Panel"
+E80224: "(409) - (RBAC) The `phase` of ui part must be EAGER, but not it''s {0}"
+E80225: "(404) - (RBAC) The `uiType` defined {0} could not detect correct HAdminCompiler component"
+E80226: "(404) - (RBAC) You have defined type to \"DAO\", but the `dao` attribute is not valid class: {0}"
+
+# Kernel Module
+E80214: "(409) - (Ke) Zero system could not identify the session you provided `{0}`, maybe it''s expired or destroyed"
+E80216: "(501) - (Ke) Your channel is not implemented {0}, but you called this channel, please check your configuration"
+E80217: "(501) - (Ke) Your Class<T> is null or `UxJooq` has not been bind here!"
+# E80218: "(501) - (Ke) This api is not supported or implemented, please check your specification, source = {0}"
+E80219: "(403) - (Ke) You have no access to create cross `application` account tokens, token generation error, now size = {0}"
+
+E80542: "(409) - (Ke) You want to seek `target` configuration in JOIN, but now the fields ( one of `crud, classDao, classDefine` ) is missing."
+E80543: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow, but now get null. data = `{1}`."
+E80548: "(412) - (Ke) You parsed targetIndent = `{0}` in Join workflow with JsonArray, but found more than one identifiers. "
+
+# Ambient Module
+E80300: "(500) - (Ambient) The application environment error, could not get app data"
+E80301: "(500) - (Ambient) The application ( name = `{0}` ) could not be initialized"
+E80302: "(500) - (Ambient) The Init implementation class = {0} does not `implement` interface Init"
+E80303: "(500) - (Ambient) The Prerequisite class = {0} does not satisfy specification"
+E80304: "(409) - (Atom) The atom (`{0}`) could not generate `Activity` record because trackable is FALSE"
+E80305: "(501) - (Atom) The `indent` field of configuration missing, config =`{0}`"
+E80306: "(403) - (Refer) Linked records could not be deleted because it''s referenced by other records, identifier = {}"
+
+# Jet
+E80401: "(501) - (Jet) The infix of parameter `ingest` is null, could not be used in `DEFINE` mode"
+E80402: "(501) - (Jet) The `ingest` specification is invalid, the class = `{0}` did not implement `JtIngest`"
+E80403: "(400) - The required parameter `{0}` is missing and please input valid parameter here"
+E80404: "(500) - (Jet) The class = `{0}` does not extend from `AbstractVerticle`, it''s invalid"
+E80405: "(500) - (Jet) The class = `{0}` does not implement `JtConsumer` interface, it''s invalid"
+E80406: "(500) - (Jet) The definition from IApi/IService met error, system could not find configuration of key = `{0}`"
+E80407: "(501) - (Jet) The channel component met error and coult not be initialized with class {0}"
+E80408: "(424) - (Jet) The component `{0}` does not match channel type `{1}` "
+E80409: "(424) - (Jet) The channel must be one of `{0}`, but now your class `{1}` does not match ( current = {2} )"
+E80410: "(424) - (Jet) The component `{0}` with `DEFINE` type must implements `JtChannel` interface"
+E80412: "(501) - (Jet) The data source switching met issue, headers are {0}`"
+
+# Atom
+E80500: "(409) - (Atom) There are conflicts that found duplicated key, the default is: {0}"
+E80501: "(500) - (Atom) Sorry, there are error when execute DDL operations to modify database"
+E80502: "(500) - (Atom) System detect empty sql statement, it''s invalid"
+E80503: "(501) - (Atom) Sorry the implementation class  of `Ingest` is invalid"
+E80504: "(500) - (Atom) You''ll try to add `not null` column to table, it''s invalid, table = {0}, column = {1}"
+E80505: "(500) - (Atom) There are `null value` in column, the constraints could not be change to NOT NULL, table = {0}, column = {1}"
+E80506: "(501) - (Atom) The implementation of `AoReflector` is null"
+E80507: "(501) - (Atom) The implementation of `AoSentence` is null, but it''s required"
+E80508: "(501) - (Atom) There are configuration error when read `Pin` component, key = {0}"
+E80509: "(500) - (Atom) You''ll try to modify column type, but it''s not supported, table = {0}, column = {1}"
+E80510: "(404) - (Atom) The model ( namespace = {0}, identifier = {1} ) could not be found"
+E80511: "(400) - (Excel) The excel template is conflict, expected = `{0}`, actual = `{1}`"
+E80512: "(400) - (Excel) The data in excel template is invalid"
+E80513: "(500) - (Excel) Input excel file is null, please check your configuration"
+E80514: "(417) - (Key) The primary key mode is conflict, selector: {0}, current key: {1}"
+E80515: "(417) - (Key) The schema number size is invalid, current: {0}, expected = {1}"
+E80516: "(417) - (Key) The key specification is invalid, current identifier = {0}"
+E80517: "(417) - (Dao) DataAtom could not be null, current reference is null"
+E80518: "(417) - (Dao) Database execution met error, please check detail: {0}"
+E80519: "(417) - (Dao) Database execution result unexpected, table: {0}, effect rows: {1}"
+E80520: "(417) - (Dao) Current model ( identifier = {0} ) did not define primary key"
+E80521: "(417) - (Dao) Sql execution met error, return RC_FAILURE, sql = {0}, record = {1}"
+E80522: "(417) - (Jq) You want to build condition, but DataMatrix is null, table = {0}"
+E80523: "(417) - (Jq) Where statement has no elements, could not build Condition"
+E80524: "(417) - (Jq) The table number is invalid, defined should be 1, but current is {0}"
+E80525: "(417) - (Jq) The condition does not contains field {0}''s DataMatrix definition"
+E80526: "(400) - (Web) The upload file could not be null, please upload valid file"
+E80527: "(400) - (Web) The content of uploaded file is empty, could not build key set, length = 0"
+E80528: "(400) - (Web) Sorry, current record could not be Tracking, new/old records are both null"
+E80529: "(400) - (Web) The record that you want to query ( key = {0} ) has been missed"
+E80530: "(409) - (Web) The system detect invalid ( code = {0} ), it''s unsupported"
+E80531: "(409) - (Web) The uploaded template identifier is mot matching, expected = {0}"
+E80532: "(417) - (Web) The uploaded file contains no data, data is empty"
+E80533: "(417) - (Mod) DataRow could not be null, operation identifier = {0} position"
+E80534: "(417) - (Mod) Data Event operation conflict, single mode could not accept multi parameters"
+E80535: "(417) - (Mod) Sorry, the model that you provide `{0}` contains no primary key"
+E80536: "(417) - (Mod) Sorry, the entityKey = {0} field definition could not be found in {1} ({2})"
+E80537: "(417) - (Mod) Sorry, the entity = {0} definition could not be found in {1}"
+E80538: "(417) - (Mod) Current model：{0} related schema counter {1} or joins number {2} is invalid ( joins >= schema >= 1 )"
+E80539: "(501) - (Web) Current `DictFabric` is null, but it''s required"
+E80540: "(501) - (Web) The model of `DataTpl` is null and could not be found in your environment, Anonymous error"
+E80541: "(409) - (Ref) The model `{0}` defined static references, but found more than one dao in field `{1}`, please check \"sourceReference\" configuration."
+E80544: "(500) - (Ref) Please bind `DataAtom` first and then you can call `bind(Model)` method for this current model ( identifier = `{0}` ). "
+E80545: "(400) - (Mod) Because both new and old record(s) are null/empty, could not be valid to generate history"
+E80546: "(500) - (Excel) Read the excel file met null file issue, please check your code"
+E80547: "(409) - (Mod) The input identifier = `{0}` is confict with configured identifier = `{1}`, check your configuration"
+
+# Workflow Module
+E80600: "(404) - (Workflow) The system could not find the ProcessDefinition by code = `{0}`"
+E80601: "(501) - (Workflow) Your BPMN file has no `StartEvent`, please check by id = `{0}`"
+E80602: "(409) - (Workflow) This api could be called when unique `StartEvent`, but not the size is `{0}`, id = `{1}`"
+E80603: "(404) - (Workflow) The system could not find workflow record by definitionKey = `{0}`"
+E80604: "(409) - (Workflow) The workflow of definitionKey = `{0}` has already been started ! Invalid Call MoveOn"
+E80605: "(404) - (Workflow) The workflow of instanceId = `{0}` has been not found in your workflow engine"
+E80606: "(500) - (Workflow) The workflow engine could not parsed task type of `{0}`"
+E80607: "(404) - (Workflow) The supplier of event type = `{0}` could not be found"
+E80608: "(501) - (Workflow) Your BPMN file has no `EndEvent`, please check by id = `{0}`"
+E80609: "(409) - (Workflow) This api could be called when unique `EndEvent`, but not the size is `{0}`, id = `{1}`"
+E80610: "(409) - (Workflow) This api could not be called because of NodeType conflict, input = {0} and expected = {1}"
+
+# Extension Vie Platform
+E81000: "(400) - (Vie) Current environment `{0}` is not supported, please provide new one."
+E81001: "(501) - (Vie) Sorry the command of development could not be used on production environment."
+E81002: "(400) - (Vie) The filename is invalid because it contains special characters. "

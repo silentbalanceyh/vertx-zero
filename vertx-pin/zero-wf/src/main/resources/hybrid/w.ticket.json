@@ -1,0 +1,80 @@
+{
+    "identifier": "w.ticket",
+    "module": "plugin/wf/oob/module/hybrid/w.ticket.json",
+    "hybrid": {
+        "alias": "流程工单",
+        "matrix": {
+            "key": "1,0,1,0,0,0,0,0",
+            "code": "1,0,1,0,0,0,0,0",
+            "sigma": "1,0,1,0,0,0,0,0",
+            "language": "1,0,1,0,0,0,0,0",
+            "createdAt": "1,0,1,0,0,0,0,0",
+            "createdBy": "1,0,1,0,0,0,0,0",
+            "flowDefinitionId": "1,0,1,0,0,0,0,0",
+            "flowDefinitionKey": "1,0,1,0,0,0,0,0",
+            "flowInstanceId": "1,0,1,0,0,0,0,0",
+            "taskId": "1,0,1,0,0,0,0,0",
+            "taskKey": "1,0,1,0,0,0,0,0",
+            "taskCode": "1,0,1,0,0,0,0,0",
+            "taskName": "1,0,1,0,0,0,0,0"
+        },
+        "attribute": {
+            "key": "工单主键",
+            "name": "工单名称",
+            "serial": "工单编号",
+            "code": "工单编号",
+            "type": "工单类型",
+            "phase": "流程阶段",
+            "modelId": "模型标识",
+            "modelKey": "模型主键ID",
+            "modelCategory": "模型分类",
+            "modelComponent": "模型记录组件",
+            "modelChild": "多模型主键集",
+            "quantity": "多模型数量",
+            "flowDefinitionKey": "流程编号",
+            "flowDefinitionId": "流程定义ID",
+            "flowInstanceId": "流程实例ID",
+            "flowEnd": "流程是否结束",
+            "title": "标题",
+            "description": "描述",
+            "catalog": "服务目录",
+            "category": "工单分类",
+            "categorySub": "工单子类",
+            "owner": "负责人",
+            "supervisor": "监督人",
+            "openBy": "开单人",
+            "openAt": "开单时间",
+            "cancelBy": "撤销人",
+            "cancelAt": "撤销时间",
+            "closeBy": "关单人",
+            "closeAt": "关单时间",
+            "closeSolution": "解决方案",
+            "closeCode": "关闭代码",
+            "closeKb": "知识库链接",
+            "active": "是否有效",
+            "sigma": "统一标识符",
+            "metadata": "配置数据",
+            "language": "系统语言",
+            "createdAt": "创建时间",
+            "createdBy": "创建人",
+            "updatedAt": "更新时间",
+            "updatedBy": "更新人"
+        },
+        "ruleUnique": {
+            "record": [
+                "code",
+                "serial"
+            ],
+            "integration": [
+                "code"
+            ],
+            "priority": [
+                "code"
+            ],
+            "strong": [
+                "code"
+            ],
+            "weak": []
+        }
+    }
+}

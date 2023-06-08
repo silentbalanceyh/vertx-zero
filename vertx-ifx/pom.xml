@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-zero</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>vertx-ifx</artifactId>
+    <packaging>pom</packaging>
+    <name>「vertx-ifx」Zero Plugins</name>
+    <modules>
+        <module>zero-ifx-excel</module>     <!-- Excel with Apache POI -->
+        <module>zero-ifx-history</module>   <!-- Trash Module to support backup in deleting -->
+        <module>zero-ifx-shell</module>     <!-- Zero Shell Framework for DevOps -->
+        <module>zero-ifx-es</module>        <!-- ElasticSearch Client -->
+        <module>zero-ifx-ftp</module>       <!-- FTP Service   Client  -->
+        <module>zero-ifx-git</module>       <!-- Git Service   Client  -->
+        <module>zero-ifx-feign</module>     <!-- Feign         Client  -->
+        <module>zero-ifx-mongo</module>     <!-- MongoDb       Client -->
+        <module>zero-ifx-neo4j</module>     <!-- Neo4j         Client -->
+        <module>zero-ifx-redis</module>     <!-- Redis         Client -->
+        <module>zero-ifx-stomp</module>     <!-- Enhance:      Extension for WebSocket ( stomp include )-->
+        <module>zero-ifx-auth</module>      <!-- Enhance:      Extension for Authorization ( Rbac Module ) -->
+        <module>zero-ifx-sms</module>       <!-- CN:           Ali Sms Client -->
+        <module>zero-ifx-iqiy</module>      <!-- CN:           iqiy Client -->
+        <module>zero-ifx-liquibase</module> <!-- Liquibase Fix        -->
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.vertxup</groupId>
+            <artifactId>vertx-up</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- Mojo -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>1.8</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${encoding}</encoding>
+                    <!-- Disable annotation processing for ourselves. -->
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Tc.java</include>
+                        <include>**/*Te.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/Base*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,55 @@
+package io.vertx.mod.plugin.rpc;
+
+import io.horizon.uca.log.Annal;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
+import io.vertx.core.json.JsonObject;
+import io.vertx.mod.ipc.eon.IpcResponse;
+import io.vertx.up.commune.Envelop;
+import io.vertx.up.exception.web._500UnexpectedRpcException;
+import io.vertx.up.uca.micro.ipc.DataEncap;
+
+public class RpcRepdor {
+
+    private static final Annal LOGGER = Annal.get(RpcRepdor.class);
+
+    private transient final Class<?> clazz;
+
+    private RpcRepdor(final Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
+    public static RpcRepdor create(final Class<?> clazz) {
+        return new RpcRepdor(clazz);
+    }
+
+    public Future<JsonObject> replyJson(final IpcResponse response) {
+        final Envelop envelop = DataEncap.out(response);
+        final JsonObject data = envelop.data();
+        LOGGER.info(Info.CLIENT_RESPONSE, data);
+        return Future.succeededFuture(data);
+    }
+
+    public Future<Envelop> reply(final IpcResponse response) {
+        final Envelop envelop = DataEncap.out(response);
+        return Future.succeededFuture(envelop);
+    }
+
+    public void reply(
+        final Promise<Envelop> handler,
+        final AsyncResult<IpcResponse> response
+    ) {
+        if (response.succeeded()) {
+            handler.complete(DataEncap.out(response.result()));
+        } else {
+            final Throwable ex = response.cause();
+            if (null != ex) {
+                final Envelop envelop =
+                    Envelop.failure(new _500UnexpectedRpcException(this.clazz, ex));
+                handler.complete(envelop);
+                ex.printStackTrace();
+            }
+        }
+    }
+}

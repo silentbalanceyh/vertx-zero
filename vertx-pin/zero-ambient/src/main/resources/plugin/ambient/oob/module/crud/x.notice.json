@@ -1,0 +1,20 @@
+{
+    "name": "x-notice",
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XNoticeDao",
+    "field": {
+        "unique": [
+            [
+                "name",
+                "appId"
+            ]
+        ],
+        "attachment": [
+            {
+                "field": "files",
+                "condition": {
+                    "modelId": "x.notice"
+                }
+            }
+        ]
+    }
+}

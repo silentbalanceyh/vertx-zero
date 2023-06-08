@@ -1,0 +1,34 @@
+{
+    "service.catalog": {
+        "uri": "/api/type/categories/:type",
+        "magic": {
+            "type": "FIX:zero.service.catalog"
+        },
+        "inherit": true
+    },
+    "workflow.cat": {
+        "uri": "/api/type/tabulars/:type",
+        "magic": {
+            "type": "FIX:zero.workflow.cat"
+        },
+        "inherit": true
+    },
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma",
+        "inherit": true
+    },
+    "oa.customer.type": {
+        "uri": "/api/type/tabulars/:type",
+        "magic": {
+            "type": "FIX:zero.customer.employee"
+        },
+        "inherit": true
+    },
+    "oa.customer.rank": {
+        "uri": "/api/type/tabulars/:type",
+        "magic": {
+            "type": "FIX:zero.customer.rank"
+        },
+        "inherit": true
+    }
+}

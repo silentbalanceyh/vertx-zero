@@ -1,0 +1,89 @@
+-   dao: cn.vertxup.rbac.domain.tables.daos.SUserDao  # S_USER
+    key: key
+    unique:
+    - username
+    - sigma
+-   dao: cn.vertxup.rbac.domain.tables.daos.OUserDao  # O_USER
+    key: key
+    unique:
+    - clientId
+-   dao: cn.vertxup.rbac.domain.tables.daos.SRoleDao  # S_ROLE
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.rbac.domain.tables.daos.RUserRoleDao
+    unique:
+    - userId
+    - roleId
+# Group Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SGroupDao
+    key: key
+    unique:
+    - code
+    - sigma
+# Relation:  Role - Group
+-   dao: cn.vertxup.rbac.domain.tables.daos.RGroupRoleDao
+    unique:
+    - groupId
+    - roleId
+# Relation:  User - Group
+-   dao: cn.vertxup.rbac.domain.tables.daos.RUserGroupDao
+    unique:
+    - groupId
+    - userId
+# Permission Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SPermissionDao
+    key: key
+    unique:
+    - code
+    - sigma
+# Permission Set Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SPermSetDao
+    key: key
+    unique:
+    - name
+    - code
+    - sigma
+# Relation:  Role - Permission
+-   dao: cn.vertxup.rbac.domain.tables.daos.RRolePermDao
+    unique:
+    - roleId
+    - permId
+# Resource Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SResourceDao
+    key: key
+    unique:
+    - code
+    - sigma
+# Action Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SActionDao
+    key: key
+    unique:
+    - code
+    - sigma
+# View Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SViewDao
+    key: key
+    unique:
+    - name
+    - owner
+    - ownerType
+    - resourceId
+-   dao: cn.vertxup.rbac.domain.tables.daos.SVisitantDao
+    key: key
+    unique:
+    - code
+    - sigma
+# Path/Packet Rule Configuration
+-   dao: cn.vertxup.rbac.domain.tables.daos.SPathDao
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.rbac.domain.tables.daos.SPacketDao
+    key: key
+    unique:
+    - code
+    - resource
+    - sigma

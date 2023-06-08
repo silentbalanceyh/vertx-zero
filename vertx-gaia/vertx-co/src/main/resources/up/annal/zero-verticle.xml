@@ -1,0 +1,73 @@
+<included>
+    <!--
+        XHeader: Vert.x Verticle Instance
+        ASYNC_VTC -> VTC
+        VTC - RollingFileAppender - zero-bottle.log
+    -->
+    <appender name="VTCJ" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-fabric/verticle-jobs.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_VTCJ" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="VTCJ"/>
+    </appender>
+
+    <appender name="VTCA" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-fabric/verticle-apis.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_VTCA" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="VTCA"/>
+    </appender>
+
+    <appender name="VTC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-fabric/verticle.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_VTC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="VTC"/>
+    </appender>
+
+    <logger name="io.vertx.up.bottle.ZeroScheduler" level="INFO">
+        <appender-ref ref="ASYNC_VTCJ"/>
+    </logger>
+    <logger name="io.vertx.up.bottle.ZeroHttpAgent" level="INFO">
+        <appender-ref ref="ASYNC_VTCA"/>
+    </logger>
+    <logger name="io.vertx.up.bottle.ZeroHttpWorker" level="INFO">
+        <appender-ref ref="ASYNC_VTCA"/>
+    </logger>
+    <logger name="io.vertx.up.bottle" level="INFO">
+        <appender-ref ref="ASYNC_VTC"/>
+    </logger>
+</included>

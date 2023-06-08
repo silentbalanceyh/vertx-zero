@@ -1,0 +1,13 @@
+typed:
+  algorithm: STRING
+  audience: JARRAY
+  audiences: JARRAY
+  expiresInMinutes: INTEGER
+  expiresInSeconds: INTEGER
+  header: JOBJECT
+  ignoreExpiration: BOOLEAN
+  issuer: STRING
+  leeway: INTEGER
+  noTimestamp: BOOLEAN
+  permissions: JARRAY
+  subject: STRING

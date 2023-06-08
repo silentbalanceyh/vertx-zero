@@ -1,0 +1,13 @@
+{
+    "todo": {
+        "name": "`文件申请：${serial}, ${title}`",
+        "icon": "file",
+        "todoUrl": "`/workflow/run?name=process.file.management`",
+        "modelComponent": "cn.vertxup.ambient.domain.tables.daos.XAttachmentDao",
+        "modelId": "x.attachment",
+        "indent": "W.File.Request"
+    },
+    "record": {
+        "flag": "ADD"
+    }
+}

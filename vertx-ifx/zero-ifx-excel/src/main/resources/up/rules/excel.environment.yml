@@ -1,0 +1,5 @@
+required:
+  - name  # Excel reference name
+  - path  # Path for read excel workbook
+typed:
+  alias: JARRAY

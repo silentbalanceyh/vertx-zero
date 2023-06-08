@@ -1,0 +1,28 @@
+{
+    "service.catalog": {
+        "uri": "/api/type/categories/:type",
+        "magic": {
+            "type": "FIX:zero.service.catalog"
+        },
+        "inherit": true
+    },
+    "workflow.cat": {
+        "uri": "/api/type/tabulars/:type",
+        "magic": {
+            "type": "FIX:zero.workflow.cat"
+        },
+        "inherit": true
+    },
+    "lbs.state": {
+        "uri": "/api/state/by/sigma",
+        "inherit": true
+    },
+    "lbs.city": {
+        "uri": "/api/city/by/sigma",
+        "inherit": true
+    },
+    "resource.departments": {
+        "uri": "/api/dept/by/sigma",
+        "inherit": true
+    }
+}

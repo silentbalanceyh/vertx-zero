@@ -1,0 +1,210 @@
+[
+    {
+        "title": "所属公司",
+        "dataIndex": "companyId",
+        "$render": "DATUM",
+        "$datum": {
+            "source": "resource.companys",
+            "value": "key",
+            "display": "name"
+        }
+    },
+    {
+        "metadata": "type,公司性质,DATUM",
+        "$datum": "source=zero.company,value=key,display=name"
+    },
+    {
+        "title": "客户",
+        "dataIndex": "customerId"
+    },
+    {
+        "title": "公司名称",
+        "dataIndex": "name",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入公司名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "系统编号",
+        "dataIndex": "code",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入公司系统编号",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "公司显示标题",
+        "dataIndex": "title",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入公司显示标题",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "公司简介",
+        "dataIndex": "comment",
+        "ellipsis": true,
+        "width": 240
+    },
+    {
+        "title": "公司法人",
+        "dataIndex": "corporationName",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入公司法人名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "法人电话",
+        "dataIndex": "corporationPhone",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入法人电话",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "税号",
+        "dataIndex": "taxCode",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入税号",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "开票抬头",
+        "dataIndex": "taxTitle"
+    },
+    {
+        "title": "联系人名称",
+        "dataIndex": "contactName",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入联系人名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "联系人电话",
+        "dataIndex": "contactPhone",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入联系人电话",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "在线联系方式",
+        "dataIndex": "contactOnline",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入在线联系方式",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "公司邮箱",
+        "dataIndex": "email",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入公司邮箱",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "传真号",
+        "dataIndex": "fax"
+    },
+    {
+        "title": "公司主页",
+        "dataIndex": "homepage"
+    },
+    {
+        "title": "公司座机",
+        "dataIndex": "phone"
+    },
+    {
+        "title": "公司地址",
+        "dataIndex": "address",
+        "ellipsis": true,
+        "width": 240
+    },
+    {
+        "title": "是否启用",
+        "dataIndex": "active",
+        "sorter": true,
+        "$render": "LOGICAL",
+        "$mapping": {
+            "true": "启用",
+            "false": "禁用"
+        },
+        "$filter.config.dataType": "BOOLEAN",
+        "$filter.config.items": [
+            "true,启用",
+            "false,禁用"
+        ],
+        "$filter.config.button": {
+            "yes": "确认",
+            "reset": "重置"
+        },
+        "$filter.config.width": {
+            "radio": 110,
+            "button": 55
+        }
+    },
+    {
+        "title": "创建人",
+        "dataIndex": "createdBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

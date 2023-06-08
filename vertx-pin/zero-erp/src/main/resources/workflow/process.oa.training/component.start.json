@@ -1,0 +1,33 @@
+{
+    "todo": {
+        "name": "`培训申请：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.oa.training`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Training"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaTrainingDao",
+        "fields": [
+            "key",
+            "startAt",
+            "endAt",
+            "trainLocation",
+            "trainMode",
+            "notices",
+            "exams",
+            "leader",
+            "leaderComment",
+            "reviewer",
+            "reviewerComment"
+        ],
+        "auditor": [
+            "leader",
+            "reviewer"
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+zero:
+  lime: error, inject, server
+  vertx:
+    clustered:
+      enabled: false
+      manager:
+
+    instance:
+    - name: vx-zero
+      options:
+        # Fix block 2000 limit issue.
+        maxEventLoopExecuteTime: 6000000000

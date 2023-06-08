@@ -1,0 +1,12 @@
+{
+    "name": "entity",
+    "daoCls": "cn.vertxup.atom.domain.tables.daos.MEntityDao",
+    "field": {
+        "unique": [
+            [
+                "sigma",
+                "tableName"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+secure:
+  key2:
+    type: mongo
+    config:
+      collection:
+      username:
+      password:
+      permission:
+      role:
+      salt:
+  key:
+    type: mongo
+    config:
+      test: test

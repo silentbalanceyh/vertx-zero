@@ -1,0 +1,14 @@
+required:
+  - host
+  - port
+typed:
+  address: STRING
+  auth: STRING
+  binary: BOOLEAN
+  domainSocketAddress: STRING
+  encoding: STRING
+  host: STRING
+  masterName: STRING
+  port: INTEGER
+  select: INTEGER
+  sentinels: JARRAY

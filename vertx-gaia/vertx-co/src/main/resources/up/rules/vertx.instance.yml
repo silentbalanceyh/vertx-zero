@@ -1,0 +1,4 @@
+required:
+  - name
+typed:
+  options: JOBJECT

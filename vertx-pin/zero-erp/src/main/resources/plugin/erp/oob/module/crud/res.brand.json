@@ -1,0 +1,12 @@
+{
+    "name": "brand",
+    "daoCls": "cn.vertxup.erp.domain.tables.daos.EBrandDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    }
+}

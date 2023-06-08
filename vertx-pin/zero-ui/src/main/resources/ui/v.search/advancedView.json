@@ -1,0 +1,7 @@
+{
+    "search.criteria.window": "当前查询条件,保存,关闭,false,900,true,btnCriteria",
+    "search.criteria.view": {
+        "selected": "当前视图：",
+        "confirm": "您正在更改当前视图的查询条件，一旦更改后查询数据会有变化，确认？"
+    }
+}

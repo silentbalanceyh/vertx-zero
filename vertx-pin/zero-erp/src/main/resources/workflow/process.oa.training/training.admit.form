@@ -1,0 +1,39 @@
+{
+  "components": [
+    {
+      "label": "流程编号",
+      "type": "textfield",
+      "id": "Field_06qbkwz",
+      "key": "workflow",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "values": [
+        {
+          "label": "通过",
+          "value": true
+        },
+        {
+          "label": "拒绝",
+          "value": false
+        }
+      ],
+      "label": "审批结果",
+      "type": "radio",
+      "id": "Field_10yxwwz",
+      "key": "confirmed",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "schemaVersion": 4,
+  "type": "default",
+  "id": "e.admit.form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  }
+}

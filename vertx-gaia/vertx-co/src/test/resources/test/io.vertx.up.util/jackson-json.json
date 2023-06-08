@@ -1,0 +1,15 @@
+{
+    "lang": {
+        "home": {
+            "email": {
+                "index": 3
+            },
+            "deep1": {
+                "deep2": {
+                    "deep3": "Home City"
+                }
+            }
+        },
+        "visit": "Home City"
+    }
+}

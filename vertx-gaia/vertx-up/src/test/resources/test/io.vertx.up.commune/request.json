@@ -1,0 +1,24 @@
+{
+    "$$__BODY__$$": {
+        "columns": [
+            "code",
+            "name",
+            "categoryFirst",
+            "categorySecond",
+            "categoryThird",
+            "status",
+            "environment",
+            "supportSection",
+            "supportGroup",
+            "supportANo",
+            "supportAName",
+            "supportBNo",
+            "supportBName",
+            "confirmStatus",
+            "approvalStatus",
+            "approvalDate"
+        ],
+        "format": "xlsx",
+        "criteria": {}
+    }
+}

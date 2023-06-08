@@ -1,0 +1,7 @@
+typed:
+  # Jks
+  jks: STRING
+  password: STRING
+  # PEM
+  path: STRING
+  cert: STRING

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1v4vksd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="process.oa.training" name="培训管理流程" isExecutable="true">
+    <bpmn:startEvent id="e.start" name="开始" camunda:formKey="camunda-forms:deployment:training.start.form">
+      <bpmn:outgoing>t.start-d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="e.start.d">
+      <bpmn:incoming>t.start-d</bpmn:incoming>
+      <bpmn:outgoing>t.start-approve</bpmn:outgoing>
+      <bpmn:outgoing>t.start-draft</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="t.start-d" sourceRef="e.start" targetRef="e.start.d" />
+    <bpmn:sequenceFlow id="t.start-approve" name="直接提交" sourceRef="e.start.d" targetRef="e.approve">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="e.approve" name="审批&#10;培训内容" camunda:formKey="camunda-forms:deployment:training.approve.form">
+      <bpmn:incoming>t.start-approve</bpmn:incoming>
+      <bpmn:incoming>t.draft-approve</bpmn:incoming>
+      <bpmn:outgoing>t.approve-d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="t.start-draft" name="暂存" sourceRef="e.start.d" targetRef="e.draft">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{draft==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="t.draft-approve" sourceRef="e.draft" targetRef="e.approve" />
+    <bpmn:userTask id="e.draft" name="新建员工&#10;培训申请单" camunda:formKey="camunda-forms:deployment:training.draft.form">
+      <bpmn:incoming>t.start-draft</bpmn:incoming>
+      <bpmn:incoming>t.approve-draft</bpmn:incoming>
+      <bpmn:incoming>t.admit-draft</bpmn:incoming>
+      <bpmn:outgoing>t.draft-approve</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="e.approve.d">
+      <bpmn:incoming>t.approve-d</bpmn:incoming>
+      <bpmn:outgoing>t.approve-draft</bpmn:outgoing>
+      <bpmn:outgoing>t.approve-admit</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="t.approve-d" sourceRef="e.approve" targetRef="e.approve.d" />
+    <bpmn:sequenceFlow id="t.approve-draft" name="审批未通过" sourceRef="e.approve.d" targetRef="e.draft">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="e.end" name="结束">
+      <bpmn:incoming>t.summary-end</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="e.begin" name="填写培训信息&#10;资料上传" camunda:formKey="camunda-forms:deployment:training.begin.form">
+      <bpmn:incoming>t.admit-begin</bpmn:incoming>
+      <bpmn:outgoing>t.begin-running</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="e.running.d">
+      <bpmn:incoming>t.running-d</bpmn:incoming>
+      <bpmn:outgoing>t.running-summary</bpmn:outgoing>
+      <bpmn:outgoing>t.running-running</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="t.running-summary" name="上传完成" sourceRef="e.running.d" targetRef="e.summary">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="e.summary" name="培训总结报告" camunda:formKey="camunda-forms:deployment:training.summary.form">
+      <bpmn:incoming>t.running-summary</bpmn:incoming>
+      <bpmn:outgoing>t.summary-end</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="t.summary-end" sourceRef="e.summary" targetRef="e.end" />
+    <bpmn:sequenceFlow id="t.approve-admit" name="审批通过" sourceRef="e.approve.d" targetRef="e.admit">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="e.running" name="上传答卷" camunda:formKey="camunda-forms:deployment:training.running.form">
+      <bpmn:incoming>t.begin-running</bpmn:incoming>
+      <bpmn:incoming>t.running-running</bpmn:incoming>
+      <bpmn:outgoing>t.running-d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="t.running-d" sourceRef="e.running" targetRef="e.running.d" />
+    <bpmn:sequenceFlow id="t.running-running" name="答卷未收齐" sourceRef="e.running.d" targetRef="e.running">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="t.begin-running" sourceRef="e.begin" targetRef="e.running" />
+    <bpmn:userTask id="e.admit" name="领导审批" camunda:formKey="camunda-forms:deployment:training.admit.form">
+      <bpmn:incoming>t.approve-admit</bpmn:incoming>
+      <bpmn:outgoing>t.admit-d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="e.admit.d">
+      <bpmn:incoming>t.admit-d</bpmn:incoming>
+      <bpmn:outgoing>t.admit-draft</bpmn:outgoing>
+      <bpmn:outgoing>t.admit-begin</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="t.admit-d" sourceRef="e.admit" targetRef="e.admit.d" />
+    <bpmn:sequenceFlow id="t.admit-draft" name="审批未通过" sourceRef="e.admit.d" targetRef="e.draft">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="t.admit-begin" name="审批通过" sourceRef="e.admit.d" targetRef="e.begin">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{confirmed==true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process.oa.training">
+      <bpmndi:BPMNEdge id="Flow_00gklb0_di" bpmnElement="t.running-running">
+        <di:waypoint x="690" y="375" />
+        <di:waypoint x="690" y="330" />
+        <di:waypoint x="570" y="330" />
+        <di:waypoint x="570" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="313" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i8so9b_di" bpmnElement="t.running-d">
+        <di:waypoint x="620" y="400" />
+        <di:waypoint x="665" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q6cluu_di" bpmnElement="t.approve-admit">
+        <di:waypoint x="715" y="217" />
+        <di:waypoint x="820" y="217" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="745" y="199" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s00701_di" bpmnElement="t.summary-end">
+        <di:waypoint x="920" y="400" />
+        <di:waypoint x="972" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01afupd_di" bpmnElement="t.running-summary">
+        <di:waypoint x="715" y="400" />
+        <di:waypoint x="820" y="400" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="745" y="383" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fl42kl_di" bpmnElement="t.begin-running">
+        <di:waypoint x="350" y="400" />
+        <di:waypoint x="520" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_127yjlo_di" bpmnElement="t.approve-draft">
+        <di:waypoint x="690" y="192" />
+        <di:waypoint x="690" y="150" />
+        <di:waypoint x="420" y="150" />
+        <di:waypoint x="420" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="133" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n5pj4x_di" bpmnElement="t.approve-d">
+        <di:waypoint x="620" y="217" />
+        <di:waypoint x="665" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0i5j5uh_di" bpmnElement="t.draft-approve">
+        <di:waypoint x="470" y="217" />
+        <di:waypoint x="520" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nm8ivx_di" bpmnElement="t.start-draft">
+        <di:waypoint x="325" y="217" />
+        <di:waypoint x="370" y="217" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="200" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qtqkcj_di" bpmnElement="t.start-approve">
+        <di:waypoint x="300" y="242" />
+        <di:waypoint x="300" y="280" />
+        <di:waypoint x="570" y="280" />
+        <di:waypoint x="570" y="257" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="296" y="283" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09y7s2a_di" bpmnElement="t.start-d">
+        <di:waypoint x="228" y="217" />
+        <di:waypoint x="275" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1puu2vm_di" bpmnElement="t.admit-d">
+        <di:waypoint x="920" y="217" />
+        <di:waypoint x="965" y="217" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lhb6cg_di" bpmnElement="t.admit-draft">
+        <di:waypoint x="990" y="192" />
+        <di:waypoint x="990" y="110" />
+        <di:waypoint x="420" y="110" />
+        <di:waypoint x="420" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="930" y="92" width="56" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_005rvzg_di" bpmnElement="t.admit-begin">
+        <di:waypoint x="990" y="242" />
+        <di:waypoint x="990" y="310" />
+        <di:waypoint x="300" y="310" />
+        <di:waypoint x="300" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="949" y="313" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Gateway_19b77g7_di" bpmnElement="e.start.d" isMarkerVisible="true">
+        <dc:Bounds x="275" y="192" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vusa2y_di" bpmnElement="e.admit">
+        <dc:Bounds x="820" y="177" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1fm4v0w_di" bpmnElement="e.admit.d" isMarkerVisible="true">
+        <dc:Bounds x="965" y="192" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="e.start">
+        <dc:Bounds x="192" y="199" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="198" y="243" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xnpxkm_di" bpmnElement="e.draft">
+        <dc:Bounds x="370" y="177" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hiqi86_di" bpmnElement="e.approve">
+        <dc:Bounds x="520" y="177" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_11nr5mu_di" bpmnElement="e.approve.d" isMarkerVisible="true">
+        <dc:Bounds x="665" y="192" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="464.5" y="255" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0etg5bs_di" bpmnElement="e.begin">
+        <dc:Bounds x="250" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pnkbm7_di" bpmnElement="e.running">
+        <dc:Bounds x="520" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0tatfhm_di" bpmnElement="e.running.d" isMarkerVisible="true">
+        <dc:Bounds x="665" y="375" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ny5f3v_di" bpmnElement="e.summary">
+        <dc:Bounds x="820" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vfwydc_di" bpmnElement="e.end">
+        <dc:Bounds x="972" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="978" y="433" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

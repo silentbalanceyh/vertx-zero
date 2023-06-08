@@ -1,0 +1,28 @@
+{
+    "todo": {
+        "name": "`工作交接：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.oa.assignment`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Handover"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaAssignmentDao",
+        "fields": [
+            "key",
+            "requestBy",
+            "startAt",
+            "endAt",
+            "days",
+            "reason",
+            "workContent"
+        ],
+        "auditor": [
+            "requestBy"
+        ]
+    }
+}

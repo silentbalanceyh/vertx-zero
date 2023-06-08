@@ -1,0 +1,125 @@
+{
+    "name": "__GRAPHIC_TEST__",
+    "nodes": [
+        {
+            "key": "01-1"
+        },
+        {
+            "key": "01-2"
+        },
+        {
+            "key": "01-3"
+        },
+        {
+            "key": "01-4"
+        },
+        {
+            "key": "01-5"
+        },
+        {
+            "key": "01-6"
+        },
+        {
+            "key": "01-7"
+        },
+        {
+            "key": "02-1"
+        },
+        {
+            "key": "02-2"
+        },
+        {
+            "key": "02-3"
+        },
+        {
+            "key": "02-4"
+        },
+        {
+            "key": "03-1"
+        },
+        {
+            "key": "03-2"
+        },
+        {
+            "key": "03-3"
+        },
+        {
+            "key": "03-4"
+        },
+        {
+            "key": "03-5"
+        }
+    ],
+    "edges": [
+        {
+            "source": "01-1",
+            "target": "01-2",
+            "type": "deployed"
+        },
+        {
+            "source": "01-2",
+            "target": "01-3",
+            "type": "contain"
+        },
+        {
+            "source": "01-3",
+            "target": "01-4",
+            "type": "contain"
+        },
+        {
+            "source": "01-3",
+            "target": "01-5",
+            "type": "contain"
+        },
+        {
+            "source": "01-5",
+            "target": "01-6",
+            "type": "contain"
+        },
+        {
+            "source": "01-6",
+            "target": "01-7",
+            "type": "deployed"
+        },
+        {
+            "source": "02-1",
+            "target": "02-2",
+            "type": "deployed"
+        },
+        {
+            "source": "02-2",
+            "target": "02-3",
+            "type": "deployed"
+        },
+        {
+            "source": "02-2",
+            "target": "02-4",
+            "type": "contain"
+        },
+        {
+            "source": "03-1",
+            "target": "03-2",
+            "type": "contain"
+        },
+        {
+            "source": "03-1",
+            "target": "03-3",
+            "type": "contain"
+        },
+        {
+            "source": "03-3",
+            "target": "03-4",
+            "type": "contain"
+        },
+        {
+            "source": "03-2",
+            "target": "03-4",
+            "type": "contain"
+        },
+        {
+            "source": "03-4",
+            "target": "03-5",
+            "type": "contain"
+        }
+    ]
+}

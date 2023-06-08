@@ -1,0 +1,49 @@
+{
+    "user": "8c148b72-7348-4d4e-b604-3b7d6053ac1e",
+    "role": [
+        {
+            "roleId": "89791ff1-dfe4-4906-b900-26df1ae01852",
+            "priority": 1
+        },
+        {
+            "roleId": "e501b47a-c08b-4c83-b12b-95ad82873e96",
+            "priority": 0
+        }
+    ],
+    "group": [
+        {
+            "groupId": "1b44b29a-4fcd-4996-bc0a-dd27231dab34",
+            "priority": 1,
+            "role": [
+                {
+                    "roleId": "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                    "priority": 0
+                },
+                {
+                    "roleId": "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                    "priority": 1
+                }
+            ]
+        },
+        {
+            "groupId": "658d7b7c-a024-4414-8367-25486a6f7797",
+            "priority": 2,
+            "role": [
+                {
+                    "roleId": "89791ff1-dfe4-4906-b900-26df1ae01852",
+                    "priority": 0
+                }
+            ]
+        },
+        {
+            "groupId": "8e367b21-67bd-4c75-8058-5a0bc2d39d5c",
+            "priority": 0,
+            "role": [
+                {
+                    "roleId": "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                    "priority": 0
+                }
+            ]
+        }
+    ]
+}

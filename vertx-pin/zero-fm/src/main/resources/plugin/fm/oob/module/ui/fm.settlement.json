@@ -1,0 +1,37 @@
+[
+    "serial,结算单编号,,true",
+    "amount,结算金额,CURRENCY",
+    "comment,结算备注,TEXT",
+    {
+        "metadata": "linked,关联单据,MAPPING",
+        "$mapping": {
+            "Pure": "直接结算,check-circle,16,#268941",
+            "Debt": "含应收,link,16,#0e8be6",
+            "Refund": "含退款,link,16,#ff686b"
+        }
+    },
+    {
+        "metadata": "rounded,零头处理,MAPPING",
+        "$mapping": {
+            "HALF": "四舍五入",
+            "FLOOR": "零头舍弃",
+            "CEIL": "零头入进"
+        }
+    },
+    {
+        "title": "结算时间",
+        "dataIndex": "finishedAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm:ss"
+    },
+    {
+        "title": "结算人",
+        "dataIndex": "updatedBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    }
+]

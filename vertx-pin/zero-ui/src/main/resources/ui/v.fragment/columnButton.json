@@ -1,0 +1,15 @@
+[
+    {
+        "key": "keySave",
+        "text": "保存",
+        "icon": "save",
+        "type": "primary",
+        "event": "rxSave"
+    },
+    {
+        "key": "keyReset",
+        "text": "重置",
+        "icon": "redo",
+        "event": "rxReset"
+    }
+]

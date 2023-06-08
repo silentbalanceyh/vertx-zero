@@ -1,0 +1,14 @@
+[
+    "plugin/wf/oob/cab/system.report.xlsx",
+    "plugin/wf/oob/cab/system.todo.xlsx",
+    "plugin/wf/oob/cab/system.workflow.xlsx",
+    "plugin/wf/oob/data/admit.flow.xlsx",
+    "plugin/wf/oob/data/wf.dict.xlsx",
+    "plugin/wf/oob/menu/APP-80000@zero.wm.xlsx",
+    "plugin/wf/oob/menu/DEV-60000$-develop.workflow.xlsx",
+    "plugin/wf/oob/modulat/10000_1100_1025_ZERO-D.WF.xlsx",
+    "plugin/wf/oob/modulat/12500_WM_1ebd9764-8bb2-442a-827d-4953be5dabc0.xlsx",
+    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.report.xlsx",
+    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.todo.xlsx",
+    "plugin/wf/oob/role/ADMIN.SUPER/falcon.system.workflow.xlsx"
+]

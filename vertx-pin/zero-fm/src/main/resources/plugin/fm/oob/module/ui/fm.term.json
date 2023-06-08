@@ -1,0 +1,25 @@
+[
+    "name,名称",
+    "code,编码",
+    {
+        "metadata": "termType,类型,DATUM",
+        "$datum": "source=pay.term.type,value=key,display=name"
+    },
+    "helpCode,助记码",
+    {
+        "title": "更新人",
+        "dataIndex": "updatedBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "更新时间",
+        "dataIndex": "updatedAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

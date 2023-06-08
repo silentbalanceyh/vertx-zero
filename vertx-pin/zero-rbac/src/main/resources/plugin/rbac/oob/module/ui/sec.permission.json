@@ -1,0 +1,14 @@
+[
+    {
+        "title": "权限名称",
+        "dataIndex": "name"
+    },
+    {
+        "title": "权限编码",
+        "dataIndex": "code"
+    },
+    {
+        "title": "所属模型标识符",
+        "dataIndex": "identifier"
+    }
+]

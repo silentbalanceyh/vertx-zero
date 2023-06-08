@@ -1,0 +1,56 @@
+{
+    "record": [
+        "lunGuid",
+        "code",
+        "name"
+    ],
+    "integration": [
+        "globalId",
+        "name"
+    ],
+    "priority": [
+        "lunGuid",
+        "globalId",
+        "code",
+        [
+            "name"
+        ]
+    ],
+    "strong": [
+        "globalId",
+        "code"
+    ],
+    "weak": [
+        "name"
+    ],
+    "children": {
+        "ci.business": {
+        },
+        "ci.device": {
+            "record": [
+                "device",
+                "code",
+                "name"
+            ],
+            "integration": [
+                "globalId",
+                "name"
+            ],
+            "priority": [
+                "lunGuid",
+                "globalId",
+                "code",
+                [
+                    "name"
+                ]
+            ],
+            "strong": [
+                "globalId",
+                "code"
+            ],
+            "weak": [
+                "name"
+            ]
+        }
+    }
+}

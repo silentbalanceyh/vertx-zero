@@ -1,0 +1,43 @@
+-   dao: cn.vertxup.lbs.domain.tables.daos.LCountryDao
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.lbs.domain.tables.daos.LStateDao
+    key: key
+    unique:
+    - code
+    - sigma
+    - countryId
+-   dao: cn.vertxup.lbs.domain.tables.daos.LCityDao
+    key: key
+    unique:
+    - name
+    - sigma
+    - stateId
+-   dao: cn.vertxup.lbs.domain.tables.daos.LRegionDao
+    key: key
+    unique:
+    - name
+    - sigma
+    - cityId
+-   dao: cn.vertxup.lbs.domain.tables.daos.LFloorDao
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.lbs.domain.tables.daos.LLocationDao
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.lbs.domain.tables.daos.LTentDao
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.lbs.domain.tables.daos.LYardDao
+    key: key
+    unique:
+    - code
+    - sigma

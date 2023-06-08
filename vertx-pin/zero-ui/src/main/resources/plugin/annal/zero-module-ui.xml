@@ -1,0 +1,22 @@
+<included>
+    <appender name="UI" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-extension/module-ui.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_UI" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="UI"/>
+    </appender>
+    <logger name="io.vertx.mod.ui" level="INFO">
+        <appender-ref ref="ASYNC_UI"/>
+    </logger>
+</included>

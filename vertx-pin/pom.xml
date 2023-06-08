@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>vertx-zero</artifactId>
+        <groupId>cn.vertxup</groupId>
+        <version>0.9.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>vertx-pin</artifactId>
+    <packaging>pom</packaging>
+    <name>「vertx-pin」Zero Extension</name>
+    <modules>
+        <module>zero-ambient</module>           <!-- Environment -->
+        <module>zero-atom</module>              <!-- Modeling -->
+        <module>zero-crud</module>              <!-- CRUD -->
+        <module>zero-erp</module>               <!-- ERP -->
+        <module>zero-fm</module>                <!-- Finance -->
+        <module>zero-graphic</module>           <!-- Graphic -->
+        <module>zero-jet</module>               <!-- Api / Service / Job definition -->
+        <module>zero-ke</module>                <!-- Kernel Engine -->
+        <module>zero-lbs</module>               <!-- Location Service -->
+        <module>zero-rbac</module>              <!-- RBAC -->
+        <module>zero-router</module>            <!-- Api Gateway -->
+        <module>zero-ui</module>                <!-- Ui Configuration -->
+        <module>zero-psi</module>               <!-- Purchase, Sale, In Management -->
+        <module>zero-wf</module>                <!-- Workflow -->
+        <module>zero-is</module>                <!-- Integration Service -->
+        <module>zero-battery</module>           <!-- Modulat Block Extension -->
+        <module>zero-tpl</module>               <!-- Template Definition for New System -->
+        <!-- Scaffold Extension Here -->
+        <module>zero-vie</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${encoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,70 @@
+<included>
+    <!-- Format http://logback.qos.ch/manual/layouts.html#ClassicPatternLayout -->
+    <!-- ========================= ZERO GLOBAL START ====================== -->
+    <!-- ========================= Core XHeader ====================== -->
+    <!--
+        The first part of definition here, it defined
+        1) shutdownHook
+        2) statusListener
+        3) contextListener
+        They are all for global usage
+    -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!--
+        Properties definition in current environment
+    -->
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%boldMagenta(%date{HH:mm:ss.SSS}) | %highlight(%.-1level) | %boldYellow(%-30thread) | %msg | %boldGreen(%logger) %n"/>
+    <property name="LOG_FOLDER" value="logs/%d{yyyy-MM-dd}/"/>
+    <property name="LOG_MAX_HISTORY" value="30"/>
+    <property name="LOG_MAX_FILE_SIZE" value="10MB"/>
+    <property name="LOG_PATTERN" value="%d [%-5level] | %thread | %logger | %msg %n"/>
+
+    <!-- ========================= Third Part Logger definition ====================== -->
+    <!--
+    Third part logger here for different usage
+    -->
+    <logger name="javax.activation" level="WARN"/>
+    <logger name="javax.mail" level="WARN"/>
+    <logger name="javax.management.remote" level="WARN"/>
+    <logger name="javax.xml.bind" level="WARN"/>
+    <logger name="com.codahale.metrics" level="WARN"/>
+    <logger name="com.hazelcast" level="INFO"/>
+    <logger name="com.netflix" level="WARN"/>
+    <logger name="com.netflix.discovery" level="INFO"/>
+    <logger name="com.ryantenney" level="WARN"/>
+    <logger name="com.sun" level="WARN"/>
+    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="io.undertow" level="WARN"/>
+    <logger name="io.undertow.websockets.jsr" level="ERROR"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.bson" level="WARN"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <logger name="org.springframework.cache" level="WARN"/>
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.xnio" level="WARN"/>
+    <logger name="springfox" level="WARN"/>
+    <logger name="sun.rmi" level="WARN"/>
+    <logger name="liquibase" level="WARN"/>
+    <logger name="LiquibaseSchemaResolver" level="INFO"/>
+    <logger name="sun.net.www" level="INFO"/>
+    <logger name="sun.rmi.transport" level="WARN"/>
+    <!-- Disable Jooq -->
+    <logger name="org.jooq.Constants" level="OFF"/>
+    <!-- Logback -->
+    <logger name="ch.qos.logback" level="WARN"/>
+    <logger name="cn.justfly.training.logging" level="WARN"/>
+    <logger name="org.reflections" level="WARN"/>
+</included>

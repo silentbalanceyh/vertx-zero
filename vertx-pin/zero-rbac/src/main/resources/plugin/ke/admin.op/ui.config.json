@@ -1,0 +1,31 @@
+{
+    "vector": {
+        "mod.entity": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "mod.field": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "g.graphic": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "mod.model": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.company": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.customer": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.dept": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.employee": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.identity": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "res.team": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.action": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.group": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.permission": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.resource": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.role": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "sec.user": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "ui.form": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.activity": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.api": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.category": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.job": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.log": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.tabular": "2e82f232-c6c3-427e-8198-5be141b2a475",
+        "x.todo": "2e82f232-c6c3-427e-8198-5be141b2a475"
+    },
+    "unsupport": [
+        "op.row.view"
+    ]
+}

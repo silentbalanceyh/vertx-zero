@@ -1,0 +1,28 @@
+{
+    "name": "todo",
+    "daoCls": "cn.vertxup.workflow.domain.tables.daos.WTodoDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "sigma"
+            ]
+        ]
+    },
+    "connect": {
+        "targetIndent": "w.ticket",
+        "target": {
+            "w.ticket": {
+                "keyJoin": "key"
+            }
+        },
+        "source": {
+            "keyJoin": "traceId",
+            "synonym": {
+                "name": "taskName",
+                "code": "taskCode",
+                "key": "taskId"
+            }
+        }
+    }
+}

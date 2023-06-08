@@ -1,0 +1,23 @@
+- dao: cn.vertxup.tpl.domain.tables.daos.MyMenuDao     # MY_MENU
+  key: key
+  unique:
+    - owner
+    - type
+    - page
+    - position
+    - uiMenu
+- dao: cn.vertxup.tpl.domain.tables.daos.TplMessageDao     # TPL_MESSAGE
+  key: key
+  unique:
+    - appId
+    - code
+- dao: cn.vertxup.tpl.domain.tables.daos.TplModelDao     # TPL_MODEL
+  key: key
+  unique:
+    - code
+    - sigma
+- dao: cn.vertxup.tpl.domain.tables.daos.TplTicketDao     # TPL_TICKET
+  key: key
+  unique:
+    - code
+    - sigma

@@ -1,0 +1,46 @@
+[
+    "name,任务标题",
+    {
+        "metadata": "type,任务类型,DATUM",
+        "$datum": "source=zero.service.catalog,value=code,display=name"
+    },
+    {
+        "title": "流程待办",
+        "dataIndex": "instance",
+        "$render": "LOGICAL",
+        "$mapping": {
+            "true": "工作流待办",
+            "false": "普通待办"
+        }
+    },
+    {
+        "title": "任务状态",
+        "dataIndex": "status",
+        "$render": "MAPPING",
+        "$mapping": {
+            "DRAFT": "草稿,form,,#EE3B3B",
+            "PENDING": "等待处理,undo,,#EE3B3B",
+            "FINISHED": "已完成,check-circle,,#698B69",
+            "ACCEPTED": "已接受,info-circle,,#698B69",
+            "REJECTED": "被拒绝,redo,,#CD1076",
+            "CANCELED": "已撤销,stop,,#CD1076",
+            "EXPIRED": "被超时,clock-circle,,#CD1076"
+        }
+    },
+    {
+        "title": "负责人",
+        "dataIndex": "owner",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]

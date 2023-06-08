@@ -1,0 +1,25 @@
+{
+    "demo1": {
+        "name,i": [
+            "Lang",
+            "Lang2"
+        ],
+        "code,=": "Email"
+    },
+    "demo2": {
+        "": true,
+        "enterprise_id": "90d14f3b-ee59-4b80-8b7c-5d4488febf1a",
+        "$1": {
+            "name,=": "姓名1",
+            "code,=": "代码1",
+            "": true,
+            "$1": {
+                "age,i": [
+                    "姓名2",
+                    "姓名4"
+                ],
+                "email,=": "lang.yu@hpe.com"
+            }
+        }
+    }
+}

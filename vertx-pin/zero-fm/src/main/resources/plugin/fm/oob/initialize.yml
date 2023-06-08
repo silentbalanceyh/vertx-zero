@@ -1,0 +1,20 @@
+-   dao: cn.vertxup.fm.domain.tables.daos.FSubjectDao
+    key: key
+    unique:
+    - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FPayTermDao
+    key: key
+    unique:
+    - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FBankDao
+    key: key
+    unique:
+    - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FCurrencyDao
+    key: key
+    unique:
+    - code
+-   dao: cn.vertxup.fm.domain.tables.daos.FBookDao
+    key: key
+    unique:
+        - code

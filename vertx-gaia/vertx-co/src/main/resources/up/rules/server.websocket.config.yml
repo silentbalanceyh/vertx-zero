@@ -1,0 +1,4 @@
+typed:
+  bridge: JOBJECT
+  handler: JOBJECT
+  stomp: JOBJECT

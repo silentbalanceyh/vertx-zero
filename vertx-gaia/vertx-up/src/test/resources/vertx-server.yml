@@ -1,0 +1,25 @@
+server:
+- name: port-is-default
+  type: http
+  config:
+    host: 0.0.0.0
+- name: port-is-8083
+  type: http
+  config:
+    port: 8083
+    host: 0.0.0.0
+- name: host-is-default
+  type: http
+  config:
+    port: 8084
+    host: 0.0.0.0
+- name: host-is-127002
+  type: http
+  config:
+    port: 8085
+    host: 127.0.0.2
+- name: test-service-compression-supported-is-default
+  type: http
+  config:
+    port: 8086
+    compressionSupported: false

@@ -1,0 +1,4 @@
+type: "io.vertx.up.unity.D10047Tc"
+mapping:
+  name: username
+  email: workEmail

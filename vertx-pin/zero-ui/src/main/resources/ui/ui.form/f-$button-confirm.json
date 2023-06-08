@@ -1,0 +1,6 @@
+{
+    "extension": [
+        "$opConfirm,确认,SUBMIT_REDUX,primary",
+        "$opReject,拒绝,SUBMIT_REDUX,primary"
+    ]
+}

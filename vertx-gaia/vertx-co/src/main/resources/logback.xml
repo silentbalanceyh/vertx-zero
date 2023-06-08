@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <!-- ========================= ZERO GLOBAL BEGIN ====================== -->
+    <!-- zero logger definition for global environment here -->
+    <include resource="up/annal/zero-environment.xml"/>
+    <!--
+         zero root logger, the configuration file name is the same
+         as log file with different file extension only.
+     -->
+    <include resource="up/annal/zero-epic-fabric.xml"/>
+    <!-- ========================= ZERO GLOBAL END ====================== -->
+</configuration>

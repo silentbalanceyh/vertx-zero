@@ -1,0 +1,29 @@
+{
+    "todo": {
+        "name": "`休假申请：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.oa.vacation`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Leave"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TOaVacationDao",
+        "fields": [
+            "key",
+            "requestBy",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "reason",
+            "workContent"
+        ],
+        "auditor": [
+            "requestBy"
+        ]
+    }
+}

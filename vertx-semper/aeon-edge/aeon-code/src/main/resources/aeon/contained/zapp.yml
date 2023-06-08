@@ -1,0 +1,28 @@
+aeon:
+  # ----------------- 低代码开发专用库配置 ---------------------
+  # workspace: /var/tmp/zero-aeon/ （默认，若Windows需更改）
+  repo:
+    # 公共库，链接, HKinect 实例（ReadOnly）
+    kzero:
+      # 命名分两部分
+      # GIT-：Git仓库
+      #   GIT-HUB, GIT-EE, GIT-LAB
+      # SVN-: Svn仓库
+      #   SVN-XX
+      # type:       GIT_HUB
+      # secret:     AccessToken, HED Module, This will be stored in ZK_PASS environment
+      # secure:     Calculated by ( secret set )
+      # path:       Default path is ZK_APP, but for `kzero` it's ZERO_AEON
+      uri:          https://github.com/silentbalanceyh/vertx-zero-cloud.git
+      account:      silentbalanceyh@126.com
+      path:         ZERO_AEON
+    kinect:
+      secret:       ZK_PASS
+      path:         ZK_APP
+    kidd:
+      secret:       ZK_PASS
+      path:         ZK_APP
+
+
+
+

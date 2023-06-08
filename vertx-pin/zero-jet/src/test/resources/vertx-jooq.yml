@@ -1,0 +1,17 @@
+jooq:
+  # 元数据库：标准数据库
+  provider:
+    driverClassName: "com.mysql.cj.jdbc.Driver"
+    username: root
+    password: "xxxxxxijn123"
+    hostname: "ox.engine.cn"
+    instance: DB_ORIGIN_X
+    jdbcUrl: "jdbc:mysql://ox.engine.cn:3306/DB_ORIGIN_X?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true"
+  # 历史数据库，如果启用逻辑删除则需要使用该库
+  orbit:
+    driverClassName: "com.mysql.cj.jdbc.Driver"
+    username: root
+    password: "xxxxxxijn123"
+    hostname: "ox.engine.cn"
+    instance: DB_IOP_HIS
+    jdbcUrl: "jdbc:mysql://ox.engine.cn:3306/DB_IOP_HIS?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true"

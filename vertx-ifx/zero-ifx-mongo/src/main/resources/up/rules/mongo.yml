@@ -1,0 +1,42 @@
+required:
+  - db_name
+  - port
+  - host
+  - connection_string
+typed:
+  # Single Cluster Settings
+  host: STRING
+  port: INTEGER
+  # Multiple Cluster Settings
+  hosts: JARRAY
+  replicaSet: STRING
+  serverSelectionTimeoutMS: INTEGER
+
+  # Connection Pool Settings
+  maxPoolSize: INTEGER
+  minPoolSize: INTEGER
+  maxIdleTimeMS: INTEGER
+  maxLifeTimeMS: INTEGER
+  waitQueueMultiple: INTEGER
+  waitQueueTimeoutMS: INTEGER
+  maintenanceFrequencyMS: INTEGER
+  maintenanceInitialDelayMS: INTEGER
+
+  # Credentials / Auth
+  username: STRING
+  password: STRING
+  authSource: STRING
+  # Auth mechanism
+  authMechanism: STRING
+  gssapiServiceName: STRING
+
+  # Socket Settings
+  connectTimeoutMS: INTEGER
+  socketTimeoutMS: INTEGER
+  sendBufferSize: INTEGER
+  receiveBufferSize: INTEGER
+  keepAlive: BOOLEAN
+
+  # Heartbeat socket settings
+  heartbeat.socket: JOBJECT
+

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: plugin/sql/is/I_INTEGRATION.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/is/I_DIRECTORY.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/is/I_MESSAGE.sql
+      relativeToChangelogFile: false
+  - include:
+      file: plugin/sql/is/I_PORTFOLIO.sql
+      relativeToChangelogFile: false

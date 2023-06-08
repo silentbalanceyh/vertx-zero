@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.vertx.mod.ipc.service";
+option java_outer_classname = "UpIpcService";
+
+package io.vertx.mod.ipc.service;
+
+import "zero.envelop.proto";
+import "zero.stream.proto";
+
+service UnityService {
+    // Direct: Client -> Server -> Client
+    rpc UnityCall (io.vertx.mod.ipc.eon.IpcRequest) returns (io.vertx.mod.ipc.eon.IpcResponse) {}
+}
+service ConsumeService {
+    // Server -> Client
+    rpc OutputCall (stream io.vertx.mod.ipc.eon.StreamServerRequest) returns (stream io.vertx.mod.ipc.eon.StreamServerResponse) {}
+}
+
+service ProduceService {
+    // Client -> Server
+    rpc InputCall (stream io.vertx.mod.ipc.eon.StreamClientRequest) returns (stream io.vertx.mod.ipc.eon.StreamClientResponse) {}
+}
+
+service DupliexService {
+    // Full: Client -> Server -> Client
+    rpc DupliexCall (stream io.vertx.mod.ipc.eon.StreamClientRequest) returns (stream io.vertx.mod.ipc.eon.StreamServerResponse) {}
+}

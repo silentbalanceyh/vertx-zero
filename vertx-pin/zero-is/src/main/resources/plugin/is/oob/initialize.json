@@ -1,0 +1,13 @@
+[
+    "plugin/is/oob/cab/i.directory.xlsx",
+    "plugin/is/oob/cab/i.integration.xlsx",
+    "plugin/is/oob/data/is.dict.xlsx",
+    "plugin/is/oob/data/is.integration.zero.xlsx",
+    "plugin/is/oob/data/is.number.xlsx",
+    "plugin/is/oob/menu/APP-80300-6400@zero.bsm.document-SIDE.xlsx",
+    "plugin/is/oob/menu/DEV-70000$-develop.integration.xlsx",
+    "plugin/is/oob/modulat/11000_1110_ZERO-F.ALERT.xlsx",
+    "plugin/is/oob/modulat/11000_1120_ZERO-F.IS.xlsx",
+    "plugin/is/oob/role/ADMIN.SUPER/falcon.i.directory.xlsx",
+    "plugin/is/oob/role/ADMIN.SUPER/falcon.i.integration.xlsx"
+]

@@ -1,0 +1,118 @@
+{
+    "initial": {
+        "catalog": "UNIQUE:service.catalog,code,code=FIX:process.oa.assignment"
+    },
+    "hidden": [
+        "requestBy"
+    ],
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "requestName,交接人,8,,aiUserSelector,placeholder=（谁申请交接工作）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "requestBy",
+                            "realname": "requestName",
+                            "workNumber": "requestNo",
+                            "mobile": "requestMobile"
+                        },
+                        "user": "交接人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写交接申请人！"
+                    ]
+                },
+                "requestNo,交接人工号,8,,,readOnly=true",
+                "requestMobile,交接人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "startAt,开始时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "VALUE",
+                                "end": "FORM:endAt"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,结束时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionJsx.disabledDate": "propFromNow",
+                    "optionJsx.depend.impact": {
+                        "duration": {
+                            "input": {
+                                "start": "FORM:startAt",
+                                "end": "VALUE"
+                            },
+                            "mode": "day",
+                            "target": "days"
+                        }
+                    },
+                    "optionConfig.rules": [
+                        "required,请填写交接结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "days,天数,8,,,readOnly=true,addonAfter=天"
+                }
+            ],
+            [
+                {
+                    "metadata": "reason,交接原因,24,,aiTextArea,rows=2",
+                    "optionConfig.rules": [
+                        "required,请填写交接原因！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "workContent,工作交接内容,24,,aiTextArea,rows=3"
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE"
+    },
+    "synonym": {
+        "toUserNo": "交接人工号",
+        "toUserName": "交接人",
+        "toUserEmail": "交接人邮箱",
+        "toUserMobile": "交接人电话",
+        "toUserDept": "交接人部门",
+        "toUserTeam": "交接人工作组"
+    },
+    "action": {
+        "$opDraft": {
+            "data": {
+                "draft": true,
+                "status": "DRAFT",
+                "phase": "DRAFT"
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人信息\"，流程提交必须指定处理人。"
+                ]
+            },
+            "data": {
+                "draft": false,
+                "status": "PENDING",
+                "phase": "PENDING"
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+circuit:
+  fallbackOnFailure: false
+  maxFailures: 5
+  maxRetries: 0
+  metricsRollingWindow: 10000
+  notificationAddress: "vertx.circuit-breaker"
+  notificationPeriod: 2000
+  resetTimeout: 30000
+  timeout: 10000

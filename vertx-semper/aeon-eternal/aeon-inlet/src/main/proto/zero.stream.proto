@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.vertx.mod.ipc.eon";
+option java_outer_classname = "UpStream";
+
+package io.vertx.mod.ipc.eon;
+
+import "zero.enum.proto";
+import "zero.envelop.proto";
+import "zero.status.proto";
+
+message StreamClientRequest {
+    IpcEnvelop envelop = 1;
+}
+
+message StreamClientResponse {
+    int32 aggregated_size = 1;
+}
+
+message StreamServerRequest {
+    io.vertx.mod.ipc.eon.em.Format response_type = 1;
+
+    repeated ResponseParams response_params = 2;
+
+    IpcEnvelop envelop = 3;
+
+    io.vertx.mod.ipc.eon.em.Compression algorithm = 4;
+
+    IpcStatus response_status = 5;
+}
+
+message StreamServerResponse {
+
+    IpcEnvelop envelop = 1;
+}

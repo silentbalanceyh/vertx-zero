@@ -1,0 +1,350 @@
+{
+    "_module": {
+        "$options": {
+            "formUp": {
+                "ui": [
+                    [
+                        {
+                            "metadata": "active,启用,,,aiCheckbox",
+                            "optionConfig": {
+                                "valuePropName": "checked"
+                            }
+                        },
+                        {
+                            "metadata": "runUp,是否挂账,,,aiCheckbox",
+                            "optionConfig": {
+                                "valuePropName": "checked"
+                            }
+                        }
+                    ]
+                ]
+            },
+            "form": {
+                "ui": [
+                    [
+                        "title=签单人信息"
+                    ],
+                    [
+                        "contactName,签单人姓名,,,,placeholder=请输入真实姓名",
+                        {
+                            "metadata": "contactPhone,签单人电话,,,,placeholder=请输入手机号",
+                            "optionConfig.rules": [
+                                {
+                                    "max": 11,
+                                    "pattern": "0?(13|14|15|18|17)[0-9]{9}",
+                                    "message": "格式错误,请正确输入手机号！"
+                                }
+                            ]
+                        },
+                        {
+                            "metadata": "contactEmail,签单人邮箱,,,,placeholder=格式：xxx@xxx.xx",
+                            "optionConfig.rules": [
+                                {
+                                    "pattern": "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}",
+                                    "message": "格式错误,请正确输入邮件地址！"
+                                }
+                            ]
+                        }
+                    ],
+                    [
+                        "contactOnline,在线联系方式,,,,placeholder=QQ、微博等在线联系方式"
+                    ]
+                ]
+            }
+        }
+    },
+    "_grid": {
+        "query": {
+            "projection": [],
+            "pager": "1,10",
+            "sorter": "updatedAt=DESC",
+            "criteria": {
+                "sigma": "PROP:app.sigma"
+            }
+        },
+        "options": {
+            "search.cond": [
+                "name,c",
+                "code,c"
+            ],
+            "search.enabled": true,
+            "search.confirm.clear": "该操作会清空所有的查询条件，确认清空？",
+            "search.op.redo": "清除条件",
+            "search.op.advanced": "高级搜索",
+            "search.op.view": "查询条件",
+            "search.placeholder": "名称/编号",
+            "search.advanced": true,
+            "search.advanced.width": "40%",
+            "search.advanced.title": "搜索供应商",
+            "search.advanced.notice": {
+                "message": "注意！",
+                "description": [
+                    "高级搜索条件优先级会大于普通搜索，一旦触发，普通搜索条件会被重置。",
+                    "高级搜索表单中的搜索条件会被保存，再次打开时会重置到上次的搜索状态。"
+                ]
+            },
+            "search.criteria.window": "当前查询条件,保存,关闭,false,900,true,btnCriteria",
+            "search.criteria.view": {
+                "selected": "当前视图：",
+                "confirm": "您正在更改当前视图的查询条件，一旦更改后查询数据会有变化，确认？"
+            },
+            "tabs.list": "供应商列表",
+            "tabs.add": "添加供应商",
+            "tabs.edit": "编辑供应商",
+            "identifier": "res.customer",
+            "dynamic.op": false,
+            "dynamic.column": false,
+            "dynamic.switch": false,
+            "op.open.add": "添加",
+            "op.open.filter": "清除筛选",
+            "op.batch.delete": "批量删除",
+            "op.batch.edit": "批量更新",
+            "op.extra.column": "修改显示列",
+            "op.extra.export": "导出",
+            "op.extra.import": "导入",
+            "op.extra.view": "视图管理",
+            "op.row.edit": true,
+            "op.row.delete": true,
+            "op.submit.add": "添加",
+            "op.submit.save": "保存",
+            "op.submit.delete": "删除",
+            "op.submit.reset": "重置",
+            "window.batch.editor": "选择批量更新的字段,更新,关闭,false,720,true,btnBatchEdit",
+            "window.extra.column": "请选择您要显示的列,leftTop,720,true",
+            "window.extra.export": "选择导出字段,导出,关闭,false,720,true,btnExport",
+            "window.extra.import": "请上传导入文件,导入,关闭,false,720,true,btnImport",
+            "window.extra.view": "视图管理,right,480,true,btnView",
+            "id.submit.add": "$opAdd",
+            "id.submit.save": "$opSave",
+            "id.submit.reset": "$opReset",
+            "id.submit.delete": "$opDelete",
+            "ajax.position": [
+                "ROUTE:type"
+            ],
+            "ajax.search.uri": "/api/customer/search",
+            "ajax.get.uri": "/api/customer/:key",
+            "ajax.delete.uri": "/api/customer/:key",
+            "ajax.batch.delete.uri": "/api/batch/customer/delete",
+            "ajax.batch.update.uri": "/api/batch/customer/update",
+            "ajax.column.full": "/api/columns/customer/full",
+            "ajax.column.my": "/api/columns/customer/my",
+            "ajax.column.save": "/api/columns/customer/my",
+            "ajax.file.export": "/api/customer/export",
+            "ajax.file.import": "/api/customer/import",
+            "confirm.delete": "确认删除当前供应商记录？",
+            "confirm.batch.delete": "您确认要删除所有选中的供应商记录？",
+            "confirm.clean.filter": "该操作将清空所有的查询条件，确认？",
+            "message.batch.delete": "您所选择的记录已经全部删除成功！"
+        },
+        "component": {
+            "batch.editor": {
+                "fieldColumn": {
+                    "title": "选择属性",
+                    "items": [
+                        "contactName",
+                        "contactPhone",
+                        "address",
+                        "companyId",
+                        "active"
+                    ]
+                },
+                "valueColumn": {
+                    "title": "设置值",
+                    "render": {
+                        "active": "RADIO",
+                        "companyId": "DATUM"
+                    }
+                }
+            }
+        },
+        "table": {
+            "total": {
+                "report": "（总共:page页，:total条数据）",
+                "selected": "勾选了:count条"
+            },
+            "row": {
+                "onDoubleClick": "fnEdit"
+            },
+            "columns": [
+                {
+                    "title": "操作",
+                    "dataIndex": "key",
+                    "fixed": "left",
+                    "$render": "EXECUTOR",
+                    "$option": [
+                        {
+                            "text": "编辑",
+                            "executor": "fnEdit"
+                        },
+                        "divider",
+                        {
+                            "text": "删除",
+                            "executor": "fnDelete",
+                            "confirm": "确认删除选择的供应商记录？"
+                        }
+                    ]
+                },
+                {
+                    "title": "供应商名称",
+                    "dataIndex": "name",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入供应商名称",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "供应商编号",
+                    "dataIndex": "code",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入供应商编号",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "供应商显示标题",
+                    "dataIndex": "title",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入供应商显示标题",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "税号",
+                    "dataIndex": "taxCode",
+                    "sorter": true
+                },
+                {
+                    "title": "开票抬头",
+                    "dataIndex": "taxTitle",
+                    "sorter": true
+                },
+                {
+                    "title": "企业信箱",
+                    "dataIndex": "email",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入企业信箱",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "传真号",
+                    "dataIndex": "fax",
+                    "sorter": true
+                },
+                {
+                    "title": "供应商主页",
+                    "dataIndex": "homepage",
+                    "sorter": true
+                },
+                {
+                    "title": "供应商座机",
+                    "dataIndex": "phone",
+                    "sorter": true
+                },
+                {
+                    "title": "供应商地址",
+                    "dataIndex": "address",
+                    "sorter": true
+                },
+                {
+                    "title": "联系人名称",
+                    "dataIndex": "contactName",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入联系人名称",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "联系人电话",
+                    "dataIndex": "contactPhone",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入联系人电话",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "在线联系方式",
+                    "dataIndex": "contactOnline",
+                    "sorter": true,
+                    "$filter.type": "SEARCH",
+                    "$filter.config": {
+                        "placeholder": "输入在线联系方式",
+                        "button": {
+                            "search": "搜索",
+                            "reset": "重置"
+                        }
+                    }
+                },
+                {
+                    "title": "是否启用",
+                    "dataIndex": "active",
+                    "sorter": true,
+                    "$render": "LOGICAL",
+                    "$mapping": {
+                        "true": "启用",
+                        "false": "禁用"
+                    },
+                    "$filter.config.dataType": "BOOLEAN",
+                    "$filter.config.items": [
+                        "true,启用",
+                        "false,禁用"
+                    ],
+                    "$filter.config.button": {
+                        "yes": "确认",
+                        "reset": "重置"
+                    },
+                    "$filter.config.width": {
+                        "radio": 110,
+                        "button": 55
+                    }
+                },
+                {
+                    "title": "更新人",
+                    "dataIndex": "updatedBy",
+                    "$render": "USER",
+                    "$config": {
+                        "uri": "/api/user/:key",
+                        "field": "realname"
+                    },
+                    "$empty": "（系统）"
+                },
+                {
+                    "title": "更新时间",
+                    "dataIndex": "updatedAt",
+                    "$render": "DATE",
+                    "$format": "YYYY-MM-DD"
+                }
+            ]
+        }
+    }
+}

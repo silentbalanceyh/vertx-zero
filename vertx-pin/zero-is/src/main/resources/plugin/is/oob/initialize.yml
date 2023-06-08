@@ -1,0 +1,11 @@
+-   dao: cn.vertxup.integration.domain.tables.daos.IIntegrationDao   # I_INTEGRATION
+    key: key
+    unique:
+    - appId
+    - path
+    - endpoint
+-   dao: cn.vertxup.integration.domain.tables.daos.IDirectoryDao   # I_DIRECTORY
+    key: key
+    unique:
+    - storePath
+    - sigma

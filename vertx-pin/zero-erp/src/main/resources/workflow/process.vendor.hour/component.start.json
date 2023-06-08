@@ -1,0 +1,28 @@
+{
+    "todo": {
+        "name": "`工时补签记录：${serial}, ${title}`",
+        "todoUrl": "`/workflow/run?name=process.vendor.hour`",
+        "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+        "modelId": "res.employee",
+        "indent": "W.Labor.Hour"
+    },
+    "record": {
+        "flag": "UPDATE",
+        "virtual": true
+    },
+    "children": {
+        "dao": "cn.vertxup.erp.domain.tables.daos.TVendorHourDao",
+        "fields": [
+            "key",
+            "classification",
+            "startAt",
+            "endAt",
+            "days",
+            "requestType",
+            "fromType",
+            "fromAt",
+            "toType",
+            "toAt"
+        ]
+    }
+}

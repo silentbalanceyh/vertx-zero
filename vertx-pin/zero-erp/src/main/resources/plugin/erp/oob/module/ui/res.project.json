@@ -1,0 +1,67 @@
+[
+    {
+        "metadata": "code,项目编号,,true",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入项目编号",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "metadata": "title,项目标题,,true",
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入项目名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "metadata": "deptId,所属部门,DATUM",
+        "$datum": "source=resource.departments,value=key,display=name"
+    },
+    {
+        "metadata": "leadBy,项目经理,USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "metadata": "budget,所属预算,DATUM",
+        "$datum": "source=zero.project.budget,value=code,display=name"
+    },
+    {
+        "metadata": "amount,项目金额,CURRENCY,true"
+    },
+    {
+        "metadata": "level,项目级别,DATUM",
+        "$datum": "source=zero.project.level,value=code,display=name"
+    },
+    {
+        "metadata": "priority,项目优先级,DATUM",
+        "$datum": "source=zero.project.priority,value=code,display=name"
+    },
+    {
+        "metadata": "risk,项目风险,DATUM",
+        "$datum": "source=zero.project.risk,value=code,display=name"
+    },
+    {
+        "metadata": "type,项目分类,DATUM",
+        "$datum": "source=zero.project,value=code,display=name"
+    },
+    {
+        "metadata": "status,项目状态,DATUM",
+        "$datum": "source=zero.project.status,value=code,display=name"
+    },
+    {
+        "metadata": "updatedAt,更新时间,DATE",
+        "$format": "YYYY-MM-DD HH:mm"
+    }
+]

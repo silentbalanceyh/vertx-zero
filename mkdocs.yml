@@ -1,0 +1,181 @@
+site_name: Vertx Zero Docs
+site_author: silentbalanceyh
+repo_name: silentbalanceyh/vertx-zero
+repo_url: https://github.com/silentbalanceyh/vertx-zero
+copyright: Copyright &copy; 2023 - 2023 silentbalanceyh
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - navigation.indexes
+    - content.action.edit
+    - navigation.footer
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/silentbalanceyh/vertx-zero
+nav:
+  - Home:
+    - Overview: index.md
+    - Changelog: 
+      - changelog.md
+    - Contributing: 
+      - contributing/index.md
+      - Reporting a bug: contributing/reporting a bug.md
+      - Reporting a docs issue: contributing/reporting a docs issue.md
+      - Requesting a change: contributing/requesting a change.md
+      - Asking a question: contributing/asking a question.md
+  - Vertx Zero Up Framework:
+    - Getting Start: zero-starter.md
+    - Environment:
+      - Docker Environment: zero-docker.md
+      - Isito Environment: zero-istio.md
+      - Micro Service Environment: 23-micro-service-environment.md
+    - Parameters (JSR311):
+      - Interface annotation (Non Event): zero-interface.md
+      - Restful Api, @Path usage: zero-path.md
+      - (JSR 311 Extend) @BodyParam usage: zero-param.md
+      - Set POJO as parameters: zero-pojo.md
+      - File/FileUpload as parameters: 35-filefileupload-as-parameters.md
+    - Mime Supported Matrix:
+      - Parameter type supported: zero-typed.md
+      - Mime type Matrix: zero-mime.md
+    - Request Flow:
+      - How to enable Event Bus: zero-worker.md
+      - ⭐(Recommend) Event Bus sample version: zero-ebs.md
+      - Request Workflow Introduction: zero-mode.md
+      - How to use Envelop (Uniform Resource Model): zero-envelop.md
+      - "⭐(Recommend) Example 1: Advanced usage for Envelop": zero-uniform.md
+    - Plugin:
+      - How to use MongoClient in Zero: zero-mongo.md
+      - How to use MySqlClient in Zero: zero-mysql.md
+      - How to use RpcClient in Zero: 63-how-to-use-rpcclient-in-zero.md
+    - Dependency Injection:
+      - How to use Dependency Injection (JSR330): zero-di.md
+    - Exception (Error):
+      - How to define Web Exception: zero-error.md
+      - How to validate request (JSR 303 with Hibernate-Validator): zero-validate.md
+      - Advanced Validation (Rule for @BodyParam): zero-verify.md
+    - Security:
+      - Enable Basic Authorization: 91-enable-basic-authorization.md
+    - Micro Service:
+      - Rpc Configuration: 101-rpc-configuration.md
+      - Rpc Basic in Zero: 102-single-rpc.md
+      - "Example: Single Request": 103-example-single-request.md
+  - Tutorial: 
+    - Restful Web Service:
+      - Getting Start: vertx-zero-tutorial/0-start-up.md
+      - Origin Story, Hi Zero: vertx-zero-tutorial/d10002-origin-story-hi-zero.md
+      - "@Path...EndPoint": vertx-zero-tutorial/d10003-jsr311-path-usage.md
+      - "@GET,@POST...Http Method": vertx-zero-tutorial/d10004-httpmethod-usage.md
+      - "@QueryParam...Parameters": vertx-zero-tutorial/d10005-queryparam-usage.md
+      - "@PathParam...Parameters": vertx-zero-tutorial/d10006-jsr311-pathparamparameters.md
+      - "@FormParam...Parameters": vertx-zero-tutorial/d10007-jsr311-formparamparameters.md
+      - "@HeaderParam...Parameters": vertx-zero-tutorial/d10008-jsr311-headerparamparameters.md
+      - "@CookieParam...Parameters": vertx-zero-tutorial/d10009-jsr311-cookieparamparameters.md
+      - "@BodyParam...Parameters": vertx-zero-tutorial/d10010-zero-jsr311-bodyparamparameters.md
+      - "@BodyParam...Pojo": vertx-zero-tutorial/d10011-zero-jsr311-bodyparampojo.md
+      - "@StreamParam...Parameters": vertx-zero-tutorial/d10012-zero-jsr311-streamparamparameters.md
+      - "@StreamParam...File/FileUpload": vertx-zero-tutorial/d10013-zero-jsr311-streamparamfilefileupload.md
+      - "@SessionParam...Parameters": vertx-zero-tutorial/d10014-zero-jsr311-sessionparamparameters.md
+      - By Typed Parameters: vertx-zero-tutorial/d10015-by-typed-parameters.md
+      - "@Consumes...Media Type": vertx-zero-tutorial/d10016-jsr311-consumesmedia-type.md
+      - "@Produces...Media Type": vertx-zero-tutorial/d10017-jsr311-producesmedia-type.md
+    - Async Non-Blocked:
+      - Enable EventBus: vertx-zero-tutorial/d10018-async-enable-eventbus.md
+      - Mode 1 Sync Mode: vertx-zero-tutorial/d10019-non-blocking-mode-1-sync-mode.md
+      - Mode 2 Ping Mode: vertx-zero-tutorial/d10020-non-blocking-mode-2-block-mode.md
+      - Mode 3 One Way Mode: vertx-zero-tutorial/d10021-non-blocking-mode-3-one-way-mode.md
+      - Mode 4 Async Mode (Java Style): vertx-zero-tutorial/d10022-recommend-non-blocking-mode-4-async-mode.md
+      - Mode 4 Experimental extension: vertx-zero-tutorial/d10023-non-blocking-mode-4-experimental-extension.md
+      - Mode 5 Async Mode (vert.x style): vertx-zero-tutorial/d10024-non-blocking-mode-5-async-mode-vertx-style.md
+      - ⭐(Recommend) Mode 5 Experimental extension: vertx-zero-tutorial/d10025-non-blocking-mode-5-experimental-extension.md
+    - Dependenncy Injection:
+      - "@Inject Simple Java Object": vertx-zero-tutorial/d10026-jsr330-inject-simple-java-object.md
+      - "@Inject One Implementation": vertx-zero-tutorial/d10027-jsr330-inject-one-implementation.md
+      - "@Inject Multi Implementation": vertx-zero-tutorial/d10028-zero-jsr330-inject-multi-implementation.md
+    - Bean Validation:
+      - "@NotNull": vertx-zero-tutorial/d10029-jsr303-notnull.md
+      - "@NotNull message": vertx-zero-tutorial/d10030-jsr303-notnull-message.md
+      - "@NotNull message template": vertx-zero-tutorial/d10031-jsr303-notnull-message-template.md
+      - "@DefaultValue for parameters": vertx-zero-tutorial/d10032-jsr303-defaultvalue-for-parameters.md
+      - "@Null for value": vertx-zero-tutorial/d10033-jsr303-null-for-value.md
+      - "@AssertTrue/@AssertFalse for boolean": vertx-zero-tutorial/d10034-asserttrueassertfalse-for-boolean.md
+      - "@Min/@Max for numeric": vertx-zero-tutorial/d10035-jsr303-minmax-for-numeric.md
+      - "@DecimalMin/@DecimalMax for decimal": vertx-zero-tutorial/d10036-jsr303-decimalmindecimalmax-for-decimal.md
+      - "@Size usage": vertx-zero-tutorial/d10037-jsr303-size-usage.md
+      - "@Digits for decimal": vertx-zero-tutorial/d10038-jsr303-digits-for-decimal.md
+      - "@Future, @Past for date": vertx-zero-tutorial/d10039-jsr303-future-past-for-date.md
+      - "@Pattern for regular expression": vertx-zero-tutorial/d10040-jsr303-pattern-for-regular-expression.md
+      - 2.x version: vertx-zero-tutorial/d10041-jsr303-in-future-usage.md
+      - Pojo First: vertx-zero-tutorial/d10043-jsr303-pojo-first.md
+      - Body Validation: vertx-zero-tutorial/d10043-zero-jsr303-body-validation.md
+    - Filter/Listener:
+      - Filter in Agent: vertx-zero-tutorial/d10098-jsr340-filter-in-agent.md
+      - Filter in Worker: vertx-zero-tutorial/d10099-jsr340-filter-in-worker.md
+      - Multi Filters: vertx-zero-tutorial/d10100-jsr340-multi-filters.md
+    - Programming Style & User-defined:
+      - Programming Styles: vertx-zero-tutorial/d10044-programming-styles.md
+      - Interface Style: vertx-zero-tutorial/d10044-recommend-interface-mode-only.md
+      - Exception, Defined your Errors: vertx-zero-tutorial/d10094-exception-defined-your-errors.md
+      - Exception, Readable message to help UI: vertx-zero-tutorial/d10096-exception-readable-message-to-help-ui.md
+    - Utility X Tool Box:
+      - Turn-On: vertx-zero-tutorial/d10046-utilityx-turn-on.md
+      - JsonObject Processing: vertx-zero-tutorial/d10047-utility-x-json-processinng.md
+      - Pager Processing: vertx-zero-tutorial/d10048-utility-x-pager-processing.md
+      - Sorter Processing: vertx-zero-tutorial/d10049-utility-x-sorter-processing.md
+      - Errors: vertx-zero-tutorial/d10050-utility-x-errors.md
+      - JsonArray/Unique Extract: vertx-zero-tutorial/d10051-utility-x-jsonarrayunique-extract.md
+      - User Data: vertx-zero-tutorial/d10052-utility-x-user-data.md
+      - Normalized Response: vertx-zero-tutorial/d10053-utility-x-normalized-response.md
+      - Input, Agent Mode: vertx-zero-tutorial/d10054-utility-x-input-agent-mode.md
+      - Input, Interface Style: vertx-zero-tutorial/d10055-utility-x-interface-style.md
+      - Basic Future: vertx-zero-tutorial/d10056-utility-x-rest.md
+      - thenParallel: vertx-zero-tutorial/d10057-utility-x-advanced-futures.md
+      - thenParallelArray/Json: vertx-zero-tutorial/d10058-utility-x-thenparallelarrayjson.md
+      - thenScatterJson: vertx-zero-tutorial/d10059-utility-x-thenscatterjson.md
+      - thenError: vertx-zero-tutorial/d10060-utility-x-thenerror.md
+    - Jooq for MySql:
+      - Jooq/mysql, Configuration: vertx-zero-tutorial/d10061-jooqmysql-configuration.md
+      - Jooq/CRUD, Read Operation: vertx-zero-tutorial/d10062-jooq-get.md
+      - Jooq/CRUD, Write Operation: vertx-zero-tutorial/d10063-jooqcreate-operations.md
+      - Jooq/CRUD, Fetch One Operation: vertx-zero-tutorial/d10064-jooqcrud-fetch-one-operation.md
+      - Micro Stream, Originator/Coordinator/Terminator: vertx-zero-tutorial/d10093-micro-stream-originatorcoordinatorterminator.md
+    - Security Module:
+      - Security, Basic Authorization: vertx-zero-tutorial/d10095-security-basic-authorization.md
+      - Security, Jwt Authorization: vertx-zero-tutorial/d10104-security-jwt-authorization.md
+    - Chinese Plugins: 
+      - None
+    - Third Part Reference:
+      - Reference, Mongo Setup: vertx-zero-tutorial/d10077-third-part-mongo-setup.md
+      - Reference, Mini k8s: vertx-zero-tutorial/d10079-reference-mini-k8s.md
+      - Reference, Istio: vertx-zero-tutorial/d10080-reference-istio.md
+      - Reference, Istio Addon: vertx-zero-tutorial/d10081-reference-istio-addon.md
+  - Features: FEATURES.md

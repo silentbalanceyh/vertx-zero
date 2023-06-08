@@ -1,0 +1,151 @@
+{
+    "hidden": [
+        "leader",
+        "reviewer"
+    ],
+    "segment": {
+        "TICKET": [
+            [
+                {
+                    "metadata": "startAt,开始时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionConfig.rules": [
+                        "required,请填写培训开始时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "endAt,结束时间,8,,aiDatePicker",
+                    "optionJsx.format": "YYYY-MM-DD",
+                    "optionConfig.rules": [
+                        "required,请填写培训结束时间！"
+                    ],
+                    "moment": true
+                },
+                {
+                    "metadata": "trainMode,培训方式,8,,aiSelect",
+                    "optionJsx.config.datum": "source=oa.training.type,key=code,label=name",
+                    "optionConfig.rules": [
+                        "required,请选择培训方式！"
+                    ]
+                }
+            ],
+            [
+                {
+                    "metadata": "trainLocation,培训地点,24,,aiTextArea,rows=2"
+                }
+            ],
+            [
+                {
+                    "metadata": "leaderName,实施人,8,,aiUserSelector,placeholder=（谁实施培训）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "leader",
+                            "realname": "leaderName",
+                            "workNumber": "leaderNo",
+                            "mobile": "leaderMobile"
+                        },
+                        "user": "培训实施人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写培训实施人！"
+                    ]
+                },
+                "leaderNo,实施人工号,8,,,readOnly=true",
+                "leaderMobile,实施人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "leaderComment,实施人总结,24,,aiTextArea,rows=2"
+                }
+            ],
+            [
+                {
+                    "metadata": "reviewerName,回顾人,8,,aiUserSelector,placeholder=（谁回顾培训）",
+                    "optionJsx.config": {
+                        "linker": {
+                            "key": "reviewer",
+                            "realname": "reviewerName",
+                            "workNumber": "reviewerNo",
+                            "mobile": "reviewerMobile"
+                        },
+                        "user": "培训回顾人"
+                    },
+                    "optionJsx.allowClear": true,
+                    "optionConfig.rules": [
+                        "required,请填写培训回顾人！"
+                    ]
+                },
+                "reviewerNo,回顾人工号,8,,,readOnly=true",
+                "reviewerMobile,回顾人电话,8,,,readOnly=true"
+            ],
+            [
+                {
+                    "metadata": "reviewerComment,回顾人评价,24,,aiTextArea,rows=2"
+                }
+            ]
+        ],
+        "ASSIGNMENT": "ASSIGN_SINGLE",
+        "RUN_USER": "RUN_USER",
+        "RUN_TICKET": "RUN_APPROVE",
+        "END_CLOSE": "END_STANDARD"
+    },
+    "action": {
+        "$opCancel": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，撤销时必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "CANCELED"
+            }
+        },
+        "$opClose": {
+            "validation": {
+                "closeCode": [
+                    "required,对不起，关闭流程必须选择关闭代码。"
+                ]
+            },
+            "data": {
+                "phase": "FINISHED"
+            }
+        },
+        "$opTransfer": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，转单必须指定处理人。"
+                ]
+            }
+        },
+        "$opOpen": {
+            "validation": {
+                "toUser": [
+                    "required,对不起，您未指定\"处理人\"，必须指定下一处理人。"
+                ],
+                "confirmedOk": [
+                    "required,对不起，请选择您的处理意见，审批时处理意见不可为空！"
+                ]
+            },
+            "indicator": "confirmedOk",
+            "data": {
+                "YES": {
+                    "confirmed": true,
+                    "phase": "BEGIN",
+                    "commentApproval": "FORM:confirmedDesc"
+                },
+                "NO": {
+                    "confirmed": false,
+                    "phase": "REJECTED",
+                    "commentReject": "FORM:confirmedDesc"
+                },
+                "BACK": {
+                    "confirmed": false,
+                    "phase": "REDO",
+                    "commentReject": "FORM:confirmedDesc"
+                }
+            }
+        }
+    }
+}

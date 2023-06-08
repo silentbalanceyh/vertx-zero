@@ -1,0 +1,26 @@
+typed:
+  port: INTEGER
+  # HttpServerOptionsConverter Sequence
+  acceptUnmaskedFrames: BOOLEAN
+  alpnVersions: JARRAY
+  compressionLevel: INTEGER
+  compressionSupported: BOOLEAN
+  decoderInitialBufferSize: INTEGER
+  decompressionSupported: BOOLEAN
+  handle100ContinueAutomatically: BOOLEAN
+  http2ConnectionWindowSize: INTEGER
+  initialSettings: JOBJECT
+  maxChunkSize: INTEGER
+  maxFormAttributeSize: INTEGER
+  maxHeaderSize: INTEGER
+  maxInitialLineLength: INTEGER
+  maxWebSocketFrameSize: INTEGER
+  maxWebSocketMessageSize: INTEGER
+  perFrameWebSocketCompressionSupported: BOOLEAN
+  perMessageWebSocketCompressionSupported: BOOLEAN
+  tracingPolicy: STRING
+  webSocketAllowServerNoContext: BOOLEAN
+  webSocketClosingTimeout: INTEGER
+  webSocketCompressionLevel: INTEGER
+  webSocketPreferredClientNoContext: BOOLEAN
+  webSocketSubProtocols: JARRAY

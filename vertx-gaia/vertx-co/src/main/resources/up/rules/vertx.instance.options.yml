@@ -1,0 +1,27 @@
+typed:
+  # VertxOptions
+  # VertxOptions -> AddressResolverOptions
+  addressResolverOptions: JOBJECT
+  blockedThreadCheckInterval: INTEGER
+  clusterHost: STRING
+  clusterPingInterval: INTEGER
+  clusterPingReplyInterval: INTEGER
+  clusterPort: INTEGER
+  clusterPublicHost: STRING
+  clusterPublicPort: INTEGER
+  clustered: BOOLEAN
+  # VertxOptions -> EventBusOptions
+  eventBusOptions: JOBJECT
+  eventLoopPoolSize: INTEGER
+  fileResolverCachingEnabled: BOOLEAN
+  haEnabled: BOOLEAN
+  haGroup: STRING
+  internalBlockingPoolSize: INTEGER
+  maxEventLoopExecuteTime: INTEGER
+  maxWorkerExecuteTime: INTEGER
+  # VertxOptions -> MetricsOptions
+  metricsOptions: JOBJECT
+  preferNativeTransport: BOOLEAN
+  quorumSize: INTEGER
+  warningExceptionTime: INTEGER
+  workerPoolSize: INTEGER

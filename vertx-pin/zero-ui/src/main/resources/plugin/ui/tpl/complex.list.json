@@ -1,0 +1,210 @@
+{
+    "query": {
+        "projection": [],
+        "pager": "1,10",
+        "sorter": "updatedAt=DESC",
+        "criteria": {}
+    },
+    "mock": {
+        "enabled": true,
+        "keys": "code,name,description,manager,active"
+    },
+    "options": {
+        "search.cond": [
+            "name,c",
+            "code,c"
+        ],
+        "search.enabled": true,
+        "search.confirm.clear": "该操作会清空所有的查询条件，确认清空？",
+        "search.op.redo": "清除条件",
+        "search.op.advanced": "高级搜索",
+        "search.placeholder": "名称/编码",
+        "search.advanced": true,
+        "search.advanced.width": "40%",
+        "search.advanced.title": "搜索员工",
+        "search.advanced.notice": {
+            "message": "注意！",
+            "description": [
+                "高级搜索条件优先级会大于普通搜索，一旦触发，普通搜索条件会被重置。",
+                "高级搜索表单中的搜索条件会被保存，再次打开时会重置到上次的搜索状态。"
+            ]
+        },
+        "tabs.list": "员工列表",
+        "tabs.add": "添加员工",
+        "tabs.edit": "编辑员工",
+        "identifier": "employee",
+        "dynamic.op": false,
+        "dynamic.column": true,
+        "dynamic.switch": false,
+        "op.open.add": "添加",
+        "op.open.filter": "清除筛选",
+        "op.batch.edit": "批量更新",
+        "op.batch.delete": "批量删除",
+        "op.extra.column": "修改显示列",
+        "op.extra.export": "导出",
+        "op.extra.import": "导入",
+        "op.row.edit": true,
+        "op.row.delete": true,
+        "op.submit.add": "添加",
+        "op.submit.save": "保存",
+        "op.submit.delete": "删除",
+        "op.submit.reset": "重置",
+        "window.batch.editor": "选择批量更新的字段,更新,关闭,false,720,true,btnBatchEdit",
+        "window.extra.column": "请选择您要显示的列,leftTop,720,true",
+        "window.extra.export": "选择导出字段,导出,关闭,false,720,true,btnExport",
+        "window.extra.import": "请上传导入文件,导入,关闭,false,720,true,btnImport",
+        "id.submit.add": "$opAdd",
+        "id.submit.save": "$opSave",
+        "id.submit.reset": "$opReset",
+        "id.submit.delete": "$opDelete",
+        "ajax.search.uri": "/api/employee/search",
+        "ajax.get.uri": "/api/employee/:key",
+        "ajax.delete.uri": "/api/employee/:key",
+        "ajax.batch.delete.uri": "/api/batch/employee/delete",
+        "ajax.batch.update.uri": "/api/batch/employee/update",
+        "ajax.column.full": "/api/columns/employee/full",
+        "ajax.column.my": "/api/columns/employee/my",
+        "ajax.column.save": "/api/columns/employee/my",
+        "ajax.file.export": "/api/employee/export",
+        "ajax.file.import": "/api/employee/import",
+        "confirm.delete": "确认删除当前员工记录？",
+        "confirm.batch.delete": "您确认要删除所有选中的员工记录？",
+        "confirm.clean.filter": "该操作将清空所有的查询条件，确认？",
+        "message.batch.delete": "您所选择的记录已经全部删除成功！"
+    },
+    "component": {
+        "extra.export": {
+            "notice": {
+                "message": "请选择字段！",
+                "description": [
+                    "只有您有权限的字段会列举在列表中，如果您对该字段没有权限，请联系管理员。",
+                    "如果您没有找到您想要的字段，请联系管理员。"
+                ]
+            },
+            "button": "btnExport",
+            "modal": {
+                "success": {
+                    "content": "您选择的字段信息已经成功导出！"
+                },
+                "error": {
+                    "content": "对不起，请选择您想要导出的列信息！"
+                }
+            }
+        },
+        "extra.import": {
+            "notice": {
+                "message": "选择本地文件",
+                "description": [
+                    "您可以按照提供的模板导入Excel格式的数据。",
+                    "文件后缀必须是 .xls 或 .xlsx 格式。",
+                    "每一次只能使用一个文件导入！"
+                ]
+            },
+            "upload": "模板文件",
+            "button": "btnImport",
+            "modal": {
+                "success": {
+                    "content": "您的数据已经导入成功！"
+                },
+                "error": {
+                    "content": "对不起，请选择您要上传的模板文件！"
+                }
+            }
+        },
+        "extra.column": {
+            "grid": 3,
+            "buttons": [
+                {
+                    "key": "keySave",
+                    "text": "保存",
+                    "icon": "save",
+                    "type": "primary",
+                    "event": "rxSave"
+                },
+                {
+                    "key": "keyReset",
+                    "text": "重置",
+                    "icon": "redo",
+                    "event": "rxReset"
+                }
+            ],
+            "modal": {
+                "success": {
+                    "content": "您的个人视图字段已经成功保存！"
+                },
+                "error": {
+                    "content": "对不起，请选择您要设置的列信息，列不可为空！"
+                }
+            }
+        },
+        "batch.editor": {
+            "fieldColumn": {
+                "title": "选择属性",
+                "items": [
+                    "code,员工编号",
+                    "name,员工名称",
+                    "active,是否启用",
+                    "createdBy,创建人",
+                    "createdAt,创建时间"
+                ]
+            },
+            "valueColumn": {
+                "title": "设置值",
+                "render": {
+                    "name": "TEXT",
+                    "active": {
+                        "type": "RADIO",
+                        "config": [
+                            "true,启用",
+                            "false,禁用"
+                        ]
+                    },
+                    "createdAt": {
+                        "type": "DATE",
+                        "config": {
+                            "format": "YYYY-MM-DD"
+                        }
+                    }
+                }
+            },
+            "button": "btnBatchEdit",
+            "modal": {
+                "error": {
+                    "content": "对不起，请选择您要批量更新的属性！"
+                },
+                "success": {
+                    "content": "您的属性信息已经全部更新成功！"
+                }
+            }
+        }
+    },
+    "table": {
+        "total": {
+            "report": "（总共:page页，:total条数据）",
+            "selected": "勾选了:count条"
+        },
+        "row": {
+            "onDoubleClick": "fnEdit"
+        },
+        "columns": [
+            {
+                "title": "操作",
+                "dataIndex": "key",
+                "fixed": "left",
+                "$render": "EXECUTOR",
+                "$option": [
+                    {
+                        "text": "编辑",
+                        "executor": "fnEdit"
+                    },
+                    "divider",
+                    {
+                        "text": "删除",
+                        "executor": "fnDelete",
+                        "confirm": "确认删除选择的员工记录？"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+required:
+  - name
+  - type
+  - config
+typed:
+  config: JOBJECT
+  websocket: JOBJECT

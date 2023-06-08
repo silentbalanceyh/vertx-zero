@@ -1,0 +1,158 @@
+[
+    {
+        "title": "品牌编码",
+        "dataIndex": "code",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入品牌编码",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "品牌名称",
+        "dataIndex": "name",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入品牌名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "品牌别名",
+        "dataIndex": "alias",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入品牌别名",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "品牌公司名",
+        "dataIndex": "companyName",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入品牌公司名",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "类别代码",
+        "dataIndex": "categoryCode",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入类别代码",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "类别名称",
+        "dataIndex": "categoryName",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入类别名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "区域码（GB/T2659-2000）",
+        "dataIndex": "area",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入GB/T2659-2000国际标准区域码",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "区域名称",
+        "dataIndex": "areaName",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入区域名称",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "区域类别码",
+        "dataIndex": "areaCategory",
+        "sorter": true,
+        "$filter.type": "SEARCH",
+        "$filter.config": {
+            "placeholder": "输入区域类别码",
+            "button": {
+                "search": "搜索",
+                "reset": "重置"
+            }
+        }
+    },
+    {
+        "title": "是否启用",
+        "dataIndex": "active",
+        "sorter": true,
+        "$render": "LOGICAL",
+        "$mapping": {
+            "true": "启用",
+            "false": "禁用"
+        },
+        "$filter.config.dataType": "BOOLEAN",
+        "$filter.config.items": [
+            "true,启用",
+            "false,禁用"
+        ],
+        "$filter.config.button": {
+            "yes": "确认",
+            "reset": "重置"
+        },
+        "$filter.config.width": {
+            "radio": 110,
+            "button": 55
+        }
+    },
+    {
+        "title": "创建人",
+        "dataIndex": "createdBy",
+        "$render": "USER",
+        "$config": {
+            "uri": "/api/user/:key",
+            "field": "realname"
+        },
+        "$empty": "（系统）"
+    },
+    {
+        "title": "创建时间",
+        "dataIndex": "createdAt",
+        "$render": "DATE",
+        "$format": "YYYY-MM-DD"
+    }
+]

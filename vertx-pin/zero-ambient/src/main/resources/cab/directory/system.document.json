@@ -1,0 +1,14 @@
+{
+    "query": {
+        "type": "zero.document.default"
+    },
+    "store": {
+        "runComponent": "io.vertx.mod.is.uca.command.FsReadOnly",
+        "initialize": {
+            "visitMode": [
+                "r",
+                "w"
+            ]
+        }
+    }
+}

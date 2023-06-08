@@ -1,0 +1,11 @@
+-   dao: cn.vertxup.psi.domain.tables.daos.PWhDao   # P_WH
+    key: key
+    unique:
+    - code
+    - sigma
+-   dao: cn.vertxup.psi.domain.tables.daos.PPosDao   # P_POS
+    key: key
+    unique:
+    - code
+    - whId
+    - sigma

@@ -1,0 +1,40 @@
+<included>
+    <appender name="API" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FOLDER}/zero-epic-extension/api.log</fileNamePattern>
+            <maxHistory>${LOG_MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>${LOG_MAX_FILE_SIZE}</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="ASYNC_API" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>8192</queueSize>
+        <appender-ref ref="API"/>
+    </appender>
+    <logger name="cn.vertxup.ambient.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.crud.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.rbac.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.erp.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.jet.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.lbs.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+    <logger name="cn.vertxup.ui.api" level="INFO">
+        <appender ref="ASYNC_API"/>
+    </logger>
+</included>

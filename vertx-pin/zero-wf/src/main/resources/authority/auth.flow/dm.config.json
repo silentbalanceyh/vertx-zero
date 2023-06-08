@@ -1,0 +1,26 @@
+{
+    "items": {
+        "dao": "cn.vertxup.workflow.domain.tables.daos.WFlowDao"
+    },
+    "webAction": [
+        {
+            "icon": "upload",
+            "text": "保存",
+            "type": "primary",
+            "key": "__ID_FLOW_SAVE",
+            "connectId": "__CID_FLOW_SAVE"
+        }
+    ],
+    "webTag": {
+        "config": {
+            "source": "workflow.cat",
+            "field": "type",
+            "display": "name",
+            "value": "code"
+        },
+        "ui": {
+            "placeholder": "（请选择过滤类型）",
+            "mode": "multiple"
+        }
+    }
+}

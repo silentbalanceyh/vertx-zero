@@ -1,0 +1,11 @@
+required:
+- access_id
+- access_secret
+- sign_name
+typed:
+  access_id: STRING
+  access_secret: STRING
+  timeout_connect: INTEGER
+  timeout_read: INTEGER
+  sign_name: STRING
+  tpl: JOBJECT

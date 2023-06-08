@@ -1,0 +1,88 @@
+-   dao: cn.vertxup.ui.domain.tables.daos.UiLayoutDao
+    key: key
+    unique:
+    - name
+    - sigma
+# 页面
+-   dao: cn.vertxup.ui.domain.tables.daos.UiPageDao
+    key: key
+    unique:
+    - app
+    - module
+    - page
+    - sigma
+# 控件
+-   dao: cn.vertxup.ui.domain.tables.daos.UiControlDao
+    key: key
+    unique:
+    - sign
+    - sigma
+# 列
+-   dao: cn.vertxup.ui.domain.tables.daos.UiColumnDao
+    key: key
+    unique:
+    - controlId
+    - dataIndex
+# 表单
+-   dao: cn.vertxup.ui.domain.tables.daos.UiFormDao
+    key: key
+    unique:
+    - code
+    - sigma
+# 字段
+-   dao: cn.vertxup.ui.domain.tables.daos.UiFieldDao
+    key: key
+    unique:
+    - controlId
+    - xPoint
+    - yPoint
+# 列表
+-   dao: cn.vertxup.ui.domain.tables.daos.UiListDao
+    key: key
+    unique:
+    - code
+    - sigma
+# 列表视图
+-   dao: cn.vertxup.ui.domain.tables.daos.UiViewDao
+    key: key
+    unique:
+    - code
+    - name
+    - sigma
+# 操作
+-   dao: cn.vertxup.ui.domain.tables.daos.UiOpDao
+    key: key
+    unique:
+    - controlId
+    - sigma
+    - clientKey
+    - action
+# 路径检索访问
+-   dao: cn.vertxup.ui.domain.tables.daos.UiVisitorDao
+    unique:
+    - identifier
+    - page
+    - path
+    - sigma
+# -------------- Option ----------------
+# 全部是单向表
+# 配置片段
+-   dao: cn.vertxup.ui.domain.tables.daos.VFragmentDao
+    key: key
+    unique:
+    - key
+# 搜索配置
+-   dao: cn.vertxup.ui.domain.tables.daos.VSearchDao
+    key: key
+    unique:
+    - key
+# 表格配置
+-   dao: cn.vertxup.ui.domain.tables.daos.VTableDao
+    key: key
+    unique:
+    - key
+# 查询配置
+-   dao: cn.vertxup.ui.domain.tables.daos.VQueryDao
+    key: key
+    unique:
+    - key

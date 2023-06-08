@@ -1,0 +1,715 @@
+{
+    "user": "8c148b72-7348-4d4e-b604-3b7d6053ac1e",
+    "session": "c18bd61892247cde732d4464c00e2d96",
+    "role": [
+        {
+            "roleId": "89791ff1-dfe4-4906-b900-26df1ae01852",
+            "priority": 1
+        },
+        {
+            "roleId": "e501b47a-c08b-4c83-b12b-95ad82873e96",
+            "priority": 0
+        }
+    ],
+    "group": [
+        {
+            "groupId": "1b44b29a-4fcd-4996-bc0a-dd27231dab34",
+            "priority": 1,
+            "role": [
+                {
+                    "roleId": "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                    "priority": 1
+                },
+                {
+                    "roleId": "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                    "priority": 0
+                }
+            ]
+        },
+        {
+            "groupId": "658d7b7c-a024-4414-8367-25486a6f7797",
+            "priority": 2,
+            "role": [
+                {
+                    "roleId": "89791ff1-dfe4-4906-b900-26df1ae01852",
+                    "priority": 0
+                }
+            ]
+        },
+        {
+            "groupId": "8e367b21-67bd-4c75-8058-5a0bc2d39d5c",
+            "priority": 0,
+            "role": [
+                {
+                    "roleId": "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                    "priority": 1
+                },
+                {
+                    "roleId": "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                    "priority": 0
+                }
+            ]
+        }
+    ],
+    "profile": {
+        "USER_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "USER_INTERSECT": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "USER_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "USER_LAZY": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "HORIZON_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "HORIZON_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "HORIZON_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "HORIZON_INTERSECT": {
+            "PERM": [],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "CRITICAL_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "CRITICAL_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "CRITICAL_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "CRITICAL_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "OVERLOOK_UNION": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "OVERLOOK_EAGER": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "OVERLOOK_LAZY": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "OVERLOOK_INTERSECT": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "PARENT_HORIZON_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_HORIZON_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_HORIZON_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "PARENT_HORIZON_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_CRITICAL_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_CRITICAL_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_CRITICAL_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_CRITICAL_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "PARENT_OVERLOOK_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "PARENT_OVERLOOK_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "PARENT_OVERLOOK_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "PARENT_OVERLOOK_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "INHERIT_HORIZON_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "INHERIT_HORIZON_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "INHERIT_HORIZON_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "INHERIT_HORIZON_INTERSECT": {
+            "PERM": [],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "INHERIT_CRITICAL_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "INHERIT_CRITICAL_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "INHERIT_CRITICAL_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "INHERIT_CRITICAL_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "INHERIT_OVERLOOK_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "INHERIT_OVERLOOK_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "INHERIT_OVERLOOK_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "INHERIT_OVERLOOK_INTERSECT": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "CHILD_HORIZON_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_HORIZON_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_HORIZON_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "CHILD_HORIZON_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_CRITICAL_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_CRITICAL_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_CRITICAL_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "CHILD_CRITICAL_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "CHILD_OVERLOOK_UNION": {
+            "PERM": [],
+            "ROLE": []
+        },
+        "CHILD_OVERLOOK_EAGER": {
+            "PERM": [],
+            "ROLE": []
+        },
+        "CHILD_OVERLOOK_LAZY": {
+            "PERM": [],
+            "ROLE": []
+        },
+        "CHILD_OVERLOOK_INTERSECT": {
+            "PERM": [],
+            "ROLE": []
+        },
+        "EXTEND_HORIZON_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "EXTEND_HORIZON_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "EXTEND_HORIZON_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852",
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "EXTEND_HORIZON_INTERSECT": {
+            "PERM": [],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51",
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "EXTEND_CRITICAL_UNION": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3",
+                "37b97397-d3b3-42e0-831f-00c9b7978400"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "EXTEND_CRITICAL_EAGER": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "ae60a3a0-a69d-4020-bae4-0d8f91715d25",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "e501b47a-c08b-4c83-b12b-95ad82873e96"
+            ]
+        },
+        "EXTEND_CRITICAL_LAZY": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5",
+                "00196045-872c-456d-91ad-86fa5577fc59",
+                "2834be85-722c-4890-a040-a7fcf925e9a3"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320"
+            ]
+        },
+        "EXTEND_CRITICAL_INTERSECT": {
+            "PERM": [
+                "55e25e97-9744-4b71-be3c-c45a2795e7c5"
+            ],
+            "ROLE": [
+                "2d335c9c-1547-4665-9643-6b0c7aaeb320",
+                "e501b47a-c08b-4c83-b12b-95ad82873e96",
+                "cc884efe-b8dc-48dc-93b0-334b1926ad51"
+            ]
+        },
+        "EXTEND_OVERLOOK_UNION": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "EXTEND_OVERLOOK_EAGER": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "EXTEND_OVERLOOK_LAZY": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        },
+        "EXTEND_OVERLOOK_INTERSECT": {
+            "PERM": [
+                "00196045-872c-456d-91ad-86fa5577fc59"
+            ],
+            "ROLE": [
+                "89791ff1-dfe4-4906-b900-26df1ae01852"
+            ]
+        }
+    }
+}

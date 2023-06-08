@@ -1,0 +1,5 @@
+required:
+  - uniform
+typed:
+  uniform: JOBJECT
+  extension: JOBJECT

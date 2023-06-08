@@ -1,0 +1,87 @@
+version: '2.2'
+services:
+    ox.es01.cn:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+        container_name: ox.es01.cn
+        environment:
+            - node.name=ox.es01.cn
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=ox.es02.cn,ox.es03.cn
+            - cluster.initial_master_nodes=ox.es01.cn,ox.es02.cn,ox.es03.cn
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - data01:${OX_ELASTIC}/data
+        ports:
+            - 9200:9200
+        networks:
+            - elastic
+
+    ox.es02.cn:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+        container_name: ox.es02.cn
+        environment:
+            - node.name=ox.es02.cn
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=ox.es01.cn,ox.es03.cn
+            - cluster.initial_master_nodes=ox.es01.cn,ox.es02.cn,ox.es03.cn
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - data02:${OX_ELASTIC}/data
+        ports:
+            - 9201:9201
+        networks:
+            - elastic
+
+    ox.es03.cn:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+        container_name: ox.es03.cn
+        environment:
+            - node.name=ox.es03.cn
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=ox.es01.cn,ox.es02.cn
+            - cluster.initial_master_nodes=ox.es01.cn,ox.es02.cn,ox.es03.cn
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - data03:${OX_ELASTIC}/data
+        ports:
+            - 9202:9202
+        networks:
+            - elastic
+
+    ox.es-kib.cn:
+        image: docker.elastic.co/kibana/kibana:7.9.1
+        container_name: ox.es-kib.cn
+        ports:
+            - 5601:5601
+        environment:
+            ELASTICSEARCH_URL: http://ox.es01.cn:9200
+            ELASTICSEARCH_HOSTS: http://ox.es01.cn:9200
+        networks:
+            - elastic
+
+volumes:
+    data01:
+        driver: local
+    data02:
+        driver: local
+    data03:
+        driver: local
+
+networks:
+    elastic:
+        driver: bridge

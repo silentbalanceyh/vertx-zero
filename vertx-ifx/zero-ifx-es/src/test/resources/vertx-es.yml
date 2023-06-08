@@ -1,0 +1,8 @@
+elasticsearch:
+  config:
+    hostname: ox.integration.cn
+    port: 9200
+    scheme: http
+    index: cmdb
+    username: elastic
+    password: Passw0rd

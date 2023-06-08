@@ -1,0 +1,32 @@
+{
+    "condition": {
+        "user": [
+            "sigma"
+        ],
+        "role": [
+            "sigma"
+        ],
+        "group": [
+            "sigma"
+        ],
+        "permission": [
+            "sigma"
+        ],
+        "resource": [
+            "sigma"
+        ],
+        "action": [
+            "sigma"
+        ]
+    },
+    "codeExpired": 30,
+    "codeLength": 6,
+    "codePool": "POOL_CODE",
+    "tokenExpired": 30,
+    "tokenPool": "POOL_TOKEN",
+    "permissionPool": "POOL_PERMISSIONS",
+    "supportGroup": true,
+    "supportSecondary": true,
+    "supportMultiApp": true,
+    "supportIntegration": false
+}

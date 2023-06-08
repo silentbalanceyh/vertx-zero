@@ -1,0 +1,3887 @@
+{
+    "dm": {
+        "items": [
+            {
+                "key": "process.request.continuity",
+                "label": "连续性管理",
+                "value": "process.request.continuity",
+                "type": "workflow.approval",
+                "data": {
+                    "key": "1fe43143-624d-4603-875f-325f15b43b18",
+                    "name": "连续性管理",
+                    "code": "process.request.continuity",
+                    "type": "workflow.approval",
+                    "definitionKey": "process.request.continuity",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.summary": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.summary": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`连续性管理：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.request.continuity`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Continuity"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TRequestContinuityDao",
+                            "fields": [
+                                "key",
+                                "commentExtension",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "version",
+                                "owner",
+                                "makeBy",
+                                "makeAt",
+                                "makeComment",
+                                "approveBy",
+                                "approveAt",
+                                "approveComment",
+                                "publishBy",
+                                "publishAt",
+                                "publishComment",
+                                "runAt",
+                                "fromAt",
+                                "toAt",
+                                "workContent"
+                            ],
+                            "auditor": [
+                                "owner"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 360
+                        },
+                        "phase": {
+                            "addon": [
+                                "PUBLISH,处理中:clock-circle,18:#3053EB",
+                                "RUNNING,处理中:clock-circle,18:#3053EB",
+                                "PLAN,处理中:clock-circle,18:#3053EB",
+                                "EXECUTE,处理中:clock-circle,18:#3053EB",
+                                "SUMMARY,审批审批:undo,18:#EE3B3B"
+                            ]
+                        },
+                        "synonym": {
+                            "phase": "连续性单状态",
+                            "title": "连续性单标题",
+                            "serial": "连续性单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.vendor.assessment",
+                "label": "员工考核流程",
+                "value": "process.vendor.assessment",
+                "type": "workflow.hr",
+                "data": {
+                    "key": "2279b596-5933-4ca3-a76f-bbc9672e4cfe",
+                    "name": "员工考核流程",
+                    "code": "process.vendor.assessment",
+                    "type": "workflow.hr",
+                    "definitionKey": "process.vendor.assessment",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`考核记录：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.vendor.assessment`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Assessment"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TVendorAssessmentDao",
+                            "fields": [
+                                "key",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "assessOn",
+                                "assessScore",
+                                "commentDept",
+                                "commentAssess",
+                                "commentLeader"
+                            ],
+                            "auditor": [
+                                "assessOn"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "记录单状态",
+                            "title": "记录单标题",
+                            "serial": "记录单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.customer.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.customer.employee"
+                            },
+                            "inherit": true
+                        },
+                        "oa.customer.rank": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.customer.rank"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.outcome",
+                "label": "资产出库流程",
+                "value": "process.asset.outcome",
+                "type": "workflow.management",
+                "data": {
+                    "key": "37fb05d6-0726-4fb5-ac3c-44825c373c76",
+                    "name": "资产出库流程",
+                    "code": "process.asset.outcome",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.outcome",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "Issued"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`出库申请：${serial}, ${title}`",
+                            "icon": "upload",
+                            "todoUrl": "`/workflow/run?name=process.asset.outcome`",
+                            "modelId": "ci.device",
+                            "indent": "W.Outcome"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetOutcomeDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "出库单状态",
+                            "title": "出库单标题",
+                            "serial": "出库单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.vendor.hour",
+                "label": "工时补签流程",
+                "value": "process.vendor.hour",
+                "type": "workflow.hr",
+                "data": {
+                    "key": "3efaaf24-8265-4354-852d-fd32b1146c68",
+                    "name": "工时补签流程",
+                    "code": "process.vendor.hour",
+                    "type": "workflow.hr",
+                    "definitionKey": "process.vendor.hour",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`工时补签记录：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.vendor.hour`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Labor.Hour"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TVendorHourDao",
+                            "fields": [
+                                "key",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "requestType",
+                                "fromType",
+                                "fromAt",
+                                "toType",
+                                "toAt"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "记录单状态",
+                            "title": "记录单标题",
+                            "serial": "记录单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.customer.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.customer.employee"
+                            },
+                            "inherit": true
+                        },
+                        "oa.employee.hour": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.employee.hour"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.vendor.check-in",
+                "label": "员工入场申请流程",
+                "value": "process.vendor.check-in",
+                "type": "workflow.hr",
+                "data": {
+                    "key": "3f984356-7cae-49d3-9e70-ccccb88a73ca",
+                    "name": "员工入场申请流程",
+                    "code": "process.vendor.check-in",
+                    "type": "workflow.hr",
+                    "definitionKey": "process.vendor.check-in",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`入场申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.vendor.check-in`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Check.In"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TVendorCheckInDao",
+                            "fields": [
+                                "key",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "onboardAt"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "申请单状态",
+                            "title": "申请单标题",
+                            "serial": "申请单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.customer.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.customer.employee"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.vendor.check-out",
+                "label": "员工离场申请流程",
+                "value": "process.vendor.check-out",
+                "type": "workflow.hr",
+                "data": {
+                    "key": "488b9e3c-976d-4d36-800c-a0fab10481c6",
+                    "name": "员工离场申请流程",
+                    "code": "process.vendor.check-out",
+                    "type": "workflow.hr",
+                    "definitionKey": "process.vendor.check-out",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`离场申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.vendor.check-out`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Check.Out"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TVendorCheckOutDao",
+                            "fields": [
+                                "key",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "leaveAt",
+                                "reason"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "申请单状态",
+                            "title": "申请单标题",
+                            "serial": "申请单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.customer.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.customer.employee"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.issued",
+                "label": "资产领用流程",
+                "value": "process.asset.issued",
+                "type": "workflow.management",
+                "data": {
+                    "key": "509d2643-5d3e-43d3-b4bb-044a8cda80e8",
+                    "name": "资产领用流程",
+                    "code": "process.asset.issued",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.issued",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "InUse"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`领用申请：${serial}, ${title}`",
+                            "icon": "download",
+                            "todoUrl": "`/workflow/run?name=process.asset.issued`",
+                            "modelId": "ci.device",
+                            "indent": "W.Issued"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetIssuedDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "领用单状态",
+                            "title": "领用单标题",
+                            "serial": "领用单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.return",
+                "label": "资产归还流程",
+                "value": "process.asset.return",
+                "type": "workflow.management",
+                "data": {
+                    "key": "715ba1be-8e8d-492c-8b80-47dafe19e390",
+                    "name": "资产归还流程",
+                    "code": "process.asset.return",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.return",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "Stored"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`归还申请：${serial}, ${title}`",
+                            "icon": "download",
+                            "todoUrl": "`/workflow/run?name=process.asset.return`",
+                            "modelId": "ci.device",
+                            "indent": "W.Return"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetReturnDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "归还单状态",
+                            "title": "归还单标题",
+                            "serial": "归还单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.discard",
+                "label": "资产报废流程",
+                "value": "process.asset.discard",
+                "type": "workflow.management",
+                "data": {
+                    "key": "834bc787-e2de-4091-af80-868ffa770140",
+                    "name": "资产报废流程",
+                    "code": "process.asset.discard",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.discard",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "Discard"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`报废申请：${serial}, ${title}`",
+                            "icon": "delete",
+                            "todoUrl": "`/workflow/run?name=process.asset.discard`",
+                            "modelId": "ci.device",
+                            "indent": "W.Discard"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetDiscardDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "报废单状态",
+                            "title": "报废单标题",
+                            "serial": "报废单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.oa.training",
+                "label": "培训管理流程",
+                "value": "process.oa.training",
+                "type": "workflow.oa",
+                "data": {
+                    "key": "84406dc6-2e96-46e3-8da1-3d2e49c8a31f",
+                    "name": "培训管理流程",
+                    "code": "process.oa.training",
+                    "type": "workflow.oa",
+                    "definitionKey": "process.oa.training",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.running": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.running": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`培训申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.oa.training`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Training"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TOaTrainingDao",
+                            "fields": [
+                                "key",
+                                "startAt",
+                                "endAt",
+                                "trainLocation",
+                                "trainMode",
+                                "notices",
+                                "exams",
+                                "leader",
+                                "leaderComment",
+                                "reviewer",
+                                "reviewerComment"
+                            ],
+                            "auditor": [
+                                "leader",
+                                "reviewer"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 360
+                        },
+                        "phase": {
+                            "addon": [
+                                "BEGIN,处理中:clock-circle,18:#3053EB",
+                                "RUNNING,处理中:clock-circle,18:#3053EB",
+                                "SUMMARY,等待审批:undo,18:#EE3B3B"
+                            ]
+                        },
+                        "synonym": {
+                            "phase": "培训单状态",
+                            "title": "培训单标题",
+                            "serial": "培训单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.training.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.employee.training"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.oa.trip",
+                "label": "出差申请流程",
+                "value": "process.oa.trip",
+                "type": "workflow.oa",
+                "data": {
+                    "key": "94abb741-b658-4acb-bb20-993dc2be5318",
+                    "name": "出差申请流程",
+                    "code": "process.oa.trip",
+                    "type": "workflow.oa",
+                    "definitionKey": "process.oa.trip",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`出差申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.oa.trip`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Business.Travel"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TOaTripDao",
+                            "fields": [
+                                "key",
+                                "requestBy",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "tripProvince",
+                                "tripCity",
+                                "tripAddress",
+                                "reason",
+                                "workContent"
+                            ],
+                            "auditor": [
+                                "requestBy"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "申请单状态",
+                            "title": "申请单标题",
+                            "serial": "申请单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "lbs.state": {
+                            "uri": "/api/state/by/sigma",
+                            "inherit": true
+                        },
+                        "lbs.city": {
+                            "uri": "/api/city/by/sigma",
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.oa.vacation",
+                "label": "员工休假申请流程",
+                "value": "process.oa.vacation",
+                "type": "workflow.oa",
+                "data": {
+                    "key": "95026af6-c715-48cc-aced-621106d687d9",
+                    "name": "员工休假申请流程",
+                    "code": "process.oa.vacation",
+                    "type": "workflow.oa",
+                    "definitionKey": "process.oa.vacation",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`休假申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.oa.vacation`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Leave"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TOaVacationDao",
+                            "fields": [
+                                "key",
+                                "requestBy",
+                                "classification",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "reason",
+                                "workContent"
+                            ],
+                            "auditor": [
+                                "requestBy"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "申请单状态",
+                            "title": "申请单标题",
+                            "serial": "申请单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        },
+                        "oa.vacation.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.employee.vacation"
+                            },
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.income",
+                "label": "资产入库流程",
+                "value": "process.asset.income",
+                "type": "workflow.management",
+                "data": {
+                    "key": "98f179c8-df4b-46ec-b68f-1f81ab4dfe93",
+                    "name": "资产入库流程",
+                    "code": "process.asset.income",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.income",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "Stored"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`入库申请：${serial}, ${title}`",
+                            "icon": "download",
+                            "todoUrl": "`/workflow/run?name=process.asset.income`",
+                            "modelId": "ci.device",
+                            "indent": "W.Income"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetIncomeDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "入库单状态",
+                            "title": "入库单标题",
+                            "serial": "入库单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.request.supervise",
+                "label": "督办流程",
+                "value": "process.request.supervise",
+                "type": "workflow.approval",
+                "data": {
+                    "key": "a3c6bfbd-fa76-460e-8aaa-71373c68abef",
+                    "name": "督办流程",
+                    "code": "process.request.supervise",
+                    "type": "workflow.approval",
+                    "definitionKey": "process.request.supervise",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sum.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sum.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sec.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sec.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.run.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.run.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.biz.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.biz.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "gateway": {
+                                "e.sum.leader": "toUser.sum",
+                                "e.sec.leader": "toUser.sec",
+                                "e.run.leader": "toUser.run",
+                                "e.biz.leader": "toUser.biz"
+                            },
+                            "data": {
+                                "draft": "draft",
+                                "leader": "escalate",
+                                "g": "toUser"
+                            }
+                        },
+                        "e.draft": {
+                            "gateway": {
+                                "e.sum.leader": "toUser.sum",
+                                "e.sec.leader": "toUser.sec",
+                                "e.run.leader": "toUser.run",
+                                "e.biz.leader": "toUser.biz"
+                            },
+                            "data": {
+                                "leader": "escalate",
+                                "g": "toUser"
+                            }
+                        },
+                        "e.approve": {
+                            "gateway": {
+                                "e.sum.leader": "toUser.sum",
+                                "e.sec.leader": "toUser.sec",
+                                "e.run.leader": "toUser.run",
+                                "e.biz.leader": "toUser.biz"
+                            },
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate",
+                                "g": "toUser"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "gateway": {
+                                "e.sum.leader": "toUser.sum",
+                                "e.sec.leader": "toUser.sec",
+                                "e.run.leader": "toUser.run",
+                                "e.biz.leader": "toUser.biz"
+                            },
+                            "data": {
+                                "confirmed": "confirmed",
+                                "g": "toUser"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sum.confirm": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sum.approve": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sec.confirm": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.sec.approve": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.run.confirm": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.run.approve": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.biz.confirm": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.biz.approve": {
+                            "data": {
+                                "confirmed": "confirmed",
+                                "leader": "escalate"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`督办申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.request.supervise`",
+                            "modelComponent": "cn.vertxup.workflow.domain.tables.daos.WTicketDao",
+                            "modelId": "w.ticket",
+                            "indent": "W.Supervise"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TRequestSuperviseDao",
+                            "fields": [
+                                "key",
+                                "startAt",
+                                "endAt",
+                                "superInterval",
+                                "superType",
+                                "superSource",
+                                "superPriority",
+                                "runProgress",
+                                "runDifficulty",
+                                "runPlan",
+                                "runDept",
+                                "expiredAt",
+                                "expiredComment"
+                            ],
+                            "complex": [
+                                "runDept"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 1600
+                        },
+                        "synonym": {
+                            "phase": "记录单状态",
+                            "title": "记录单标题",
+                            "serial": "记录单单号"
+                        },
+                        "op": {
+                            "$opDraft": {
+                                "comment": "存草稿专用",
+                                "e.start": {
+                                    "draft": true,
+                                    "status": "DRAFT",
+                                    "phase": "DRAFT"
+                                }
+                            },
+                            "$opOpen": {
+                                "comment": "e.start - 直接提交，e.draft - 存草稿提交",
+                                "e.start": {
+                                    "draft": false,
+                                    "status": "PENDING",
+                                    "phase": "PENDING"
+                                },
+                                "e.draft": {
+                                    "draft": false,
+                                    "status": "PENDING",
+                                    "phase": "PENDING"
+                                }
+                            },
+                            "$opCancel": {
+                                "comment": "撤销专用",
+                                "e.approve": {
+                                    "phase": "CANCELED"
+                                }
+                            },
+                            "$opApprove": {
+                                "comment": "审批专用",
+                                "e.approve": {
+                                    "confirmed": true,
+                                    "phase": "FINISHED"
+                                }
+                            },
+                            "$opReject": {
+                                "comment": "拒绝专用",
+                                "e.approve": {
+                                    "confirmed": false,
+                                    "phase": "REJECTED"
+                                }
+                            }
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma"
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "iso.supervise.interval",
+                                    "iso.supervise.type",
+                                    "iso.supervise.source",
+                                    "iso.supervise.priority"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.destroy",
+                "label": "资产销毁流程",
+                "value": "process.asset.destroy",
+                "type": "workflow.management",
+                "data": {
+                    "key": "c03f2362-5f77-4534-bf83-01163aa1eb78",
+                    "name": "资产销毁流程",
+                    "code": "process.asset.destroy",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.destroy",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {
+                                        "status": "Destroy"
+                                    }
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`销毁申请：${serial}, ${title}`",
+                            "icon": "download",
+                            "todoUrl": "`/workflow/run?name=process.asset.destroy`",
+                            "modelId": "ci.device",
+                            "indent": "W.Destroy"
+                        },
+                        "record": {
+                            "mode": "ATOM",
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetDestroyDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "销毁单状态",
+                            "title": "销毁单标题",
+                            "serial": "销毁单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ],
+                        "io": {
+                            "writer": {
+                                "record": {
+                                    "inSource": "linkageAsset",
+                                    "inPath": "targetData",
+                                    "outType": "ARRAY"
+                                }
+                            }
+                        }
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.request.inspection",
+                "label": "巡检流程",
+                "value": "process.request.inspection",
+                "type": "workflow.approval",
+                "data": {
+                    "key": "d0f00e34-0acb-43e2-9111-d110e7538e00",
+                    "name": "巡检流程",
+                    "code": "process.request.inspection",
+                    "type": "workflow.approval",
+                    "definitionKey": "process.request.inspection",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`巡检申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.request.inspection`",
+                            "modelComponent": "cn.vertxup.workflow.domain.tables.daos.WTicketDao",
+                            "modelId": "w.ticket",
+                            "indent": "W.Inspection"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TRequestInspectionDao",
+                            "fields": [
+                                "key",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "巡检单状态",
+                            "title": "巡检单标题",
+                            "serial": "巡检单号"
+                        },
+                        "linkage": [
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.oa.assignment",
+                "label": "工作交接流程",
+                "value": "process.oa.assignment",
+                "type": "workflow.oa",
+                "data": {
+                    "key": "d50386a7-87f5-4614-a908-b75e24e723f8",
+                    "name": "工作交接流程",
+                    "code": "process.oa.assignment",
+                    "type": "workflow.oa",
+                    "definitionKey": "process.oa.assignment",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`工作交接：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.oa.assignment`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Handover"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.erp.domain.tables.daos.TOaAssignmentDao",
+                            "fields": [
+                                "key",
+                                "requestBy",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "reason",
+                                "workContent"
+                            ],
+                            "auditor": [
+                                "requestBy"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "申请单状态",
+                            "title": "申请单标题",
+                            "serial": "申请单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            },
+                            "inherit": true
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            },
+                            "inherit": true
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma",
+                            "inherit": true
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.request.audit",
+                "label": "审计流程",
+                "value": "process.request.audit",
+                "type": "workflow.approval",
+                "data": {
+                    "key": "dcce1e05-c5b6-4208-98d0-86f2f4c82e00",
+                    "name": "审计流程",
+                    "code": "process.request.audit",
+                    "type": "workflow.approval",
+                    "definitionKey": "process.request.audit",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`审计申请：${serial}, ${title}`",
+                            "todoUrl": "`/workflow/run?name=process.request.audit`",
+                            "modelComponent": "cn.vertxup.erp.domain.tables.daos.EEmployeeDao",
+                            "modelId": "res.employee",
+                            "indent": "W.Audit"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TRequestAuditDao",
+                            "fields": [
+                                "key",
+                                "commentExtension",
+                                "classification",
+                                "auditSource",
+                                "auditMethod",
+                                "auditPurpose",
+                                "auditScope",
+                                "auditBasis",
+                                "auditLocation",
+                                "startAt",
+                                "endAt",
+                                "days",
+                                "approveBy",
+                                "approveAt",
+                                "approveComment",
+                                "reportBy",
+                                "reportComment"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 360
+                        },
+                        "phase": {
+                            "addon": [
+                                "RUNNING,处理中:clock-circle,18:#3053EB",
+                                "SUBMIT,处理中:clock-circle,18:#3053EB",
+                                "CORRECT,处理中:clock-circle,18:#3053EB"
+                            ]
+                        },
+                        "synonym": {
+                            "phase": "审计单状态",
+                            "title": "审计单标题",
+                            "serial": "审计单单号"
+                        },
+                        "linkage": [
+                            "linkageEmployee",
+                            "linkageTicket"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "request.audit.type": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:audit.type"
+                            }
+                        },
+                        "request.audit.method": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:audit.method"
+                            }
+                        },
+                        "resource.departments": {
+                            "uri": "/api/dept/by/sigma"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageEmployee": "workflow/linkage/employee.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            },
+            {
+                "key": "process.asset.count",
+                "label": "资产盘点流程",
+                "value": "process.asset.count",
+                "type": "workflow.management",
+                "data": {
+                    "key": "fdc85ba2-9861-49fd-bf9c-2b1ddb1c7d0e",
+                    "name": "资产盘点流程",
+                    "code": "process.asset.count",
+                    "type": "workflow.management",
+                    "definitionKey": "process.asset.count",
+                    "generateComponent": "io.vertx.mod.workflow.uca.component.TransferStandard",
+                    "generateConfig": {
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "DRAFT"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "runComponent": "io.vertx.mod.workflow.uca.component.MovementNext",
+                    "runConfig": {
+                        "e.start": {
+                            "data": {
+                                "draft": "draft"
+                            }
+                        },
+                        "e.approve": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        },
+                        "e.admit": {
+                            "data": {
+                                "confirmed": "confirmed"
+                            },
+                            "rule": [
+                                {
+                                    "field": "confirmed",
+                                    "value": true,
+                                    "record": {}
+                                },
+                                {
+                                    "field": "confirmed",
+                                    "value": false,
+                                    "todo": {
+                                        "status": "REJECTED"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "startComponent": "io.vertx.mod.workflow.uca.component.TransferStart",
+                    "startConfig": {
+                        "todo": {
+                            "name": "`盘点申请：${serial}, ${title}`",
+                            "icon": "download",
+                            "todoUrl": "`/workflow/run?name=process.asset.count`",
+                            "modelId": "ci.device",
+                            "indent": "W.Count"
+                        },
+                        "record": {
+                            "flag": "UPDATE",
+                            "virtual": true
+                        },
+                        "children": {
+                            "dao": "cn.vertxup.iso.domain.tables.daos.TAssetCountDao",
+                            "fields": [
+                                "key",
+                                "auditCode",
+                                "commentExtension"
+                            ]
+                        }
+                    },
+                    "uiConfig": {
+                        "canvas": {
+                            "height": 240
+                        },
+                        "synonym": {
+                            "phase": "盘点单状态",
+                            "title": "盘点单标题",
+                            "serial": "盘点单号"
+                        },
+                        "linkage": [
+                            "linkageTicket",
+                            "linkageAsset"
+                        ]
+                    },
+                    "uiAssist": {
+                        "service.catalog": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:zero.service.catalog"
+                            }
+                        },
+                        "workflow.cat": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:zero.workflow.cat"
+                            }
+                        },
+                        "asset.count.code": {
+                            "uri": "/api/type/tabulars/:type",
+                            "magic": {
+                                "type": "FIX:count.code"
+                            }
+                        },
+                        "data.category": {
+                            "uri": "/api/type/categories/:type",
+                            "magic": {
+                                "type": "FIX:ci.type"
+                            }
+                        },
+                        "tabular": {
+                            "uri": "/api/types/tabulars",
+                            "method": "POST",
+                            "magic": {
+                                "$body": [
+                                    "ci.status",
+                                    "ci.level"
+                                ]
+                            },
+                            "group": "type"
+                        }
+                    },
+                    "uiLinkage": {
+                        "linkageAttachment": "workflow/linkage/attachment.json",
+                        "linkageTicket": "workflow/linkage/ticket.json",
+                        "linkageAsset": "workflow/linkage/asset.json"
+                    },
+                    "active": true,
+                    "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                    "language": "cn",
+                    "createdBy": "zero-environment"
+                }
+            }
+        ],
+        "webAction": [
+            {
+                "icon": "upload",
+                "text": "保存",
+                "type": "primary",
+                "key": "__ID_FLOW_SAVE",
+                "connectId": "__CID_FLOW_SAVE"
+            },
+            {
+                "icon": "cloud-upload",
+                "text": "保存所有",
+                "type": "primary",
+                "key": "__ID_FLOW_ALL",
+                "connectId": "__CID_FLOW_ALL"
+            }
+        ],
+        "webTag": {
+            "config": {
+                "source": "workflow.cat",
+                "field": "type",
+                "display": "name",
+                "value": "code"
+            },
+            "ui": {
+                "placeholder": "（请选择过滤类型）",
+                "mode": "multiple"
+            }
+        },
+        "mapping": {
+            "name": "label",
+            "code": "key",
+            "definitionKey": "value",
+            "type": "type"
+        },
+        "qr": {
+            "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP"
+        }
+    },
+    "ui": {
+        "qr": {},
+        "surface": {
+            "webComponent": "HxFlow",
+            "webChildren": [
+                {
+                    "component": "HxList",
+                    "key": "rule.flow.queue"
+                },
+                {
+                    "component": "HxAction",
+                    "key": "rule.flow.action"
+                }
+            ],
+            "webBind": {}
+        },
+        "children": {
+            "rule.flow.queue": {
+                "qr": {},
+                "surface": {},
+                "dm": {
+                    "mapping": {},
+                    "qr": {}
+                }
+            },
+            "rule.flow.action": {
+                "qr": {},
+                "surface": {},
+                "dm": {
+                    "mapping": {},
+                    "qr": {}
+                }
+            }
+        }
+    },
+    "in": {
+        "key": "9455c4f4-dfcc-4cb4-a31e-6dcf5772e6ed",
+        "name": "流程设置",
+        "code": "rule.flow",
+        "phase": "EAGER",
+        "mapping": {
+            "name": "label",
+            "code": "key",
+            "definitionKey": "value",
+            "type": "type"
+        },
+        "runType": "ROLE",
+        "dmType": "FLAT",
+        "dmComponent": "io.vertx.mod.rbac.ruler.HSDimArea",
+        "dmCondition": {
+            "sigma": "`${sigma}`"
+        },
+        "dmConfig": {
+            "items": {
+                "dao": "cn.vertxup.workflow.domain.tables.daos.WFlowDao"
+            },
+            "webAction": [
+                {
+                    "icon": "upload",
+                    "text": "保存",
+                    "type": "primary",
+                    "key": "__ID_FLOW_SAVE",
+                    "connectId": "__CID_FLOW_SAVE"
+                },
+                {
+                    "icon": "cloud-upload",
+                    "text": "保存所有",
+                    "type": "primary",
+                    "key": "__ID_FLOW_ALL",
+                    "connectId": "__CID_FLOW_ALL"
+                }
+            ],
+            "webTag": {
+                "config": {
+                    "source": "workflow.cat",
+                    "field": "type",
+                    "display": "name",
+                    "value": "code"
+                },
+                "ui": {
+                    "placeholder": "（请选择过滤类型）",
+                    "mode": "multiple"
+                }
+            }
+        },
+        "uiType": "DAO",
+        "uiConfig": {},
+        "uiComponent": "io.vertx.mod.rbac.ruler.HSUiArea",
+        "uiSurface": {
+            "webComponent": "HxFlow",
+            "webChildren": [
+                {
+                    "component": "HxList",
+                    "key": "rule.flow.queue"
+                },
+                {
+                    "component": "HxAction",
+                    "key": "rule.flow.action"
+                }
+            ],
+            "webBind": {}
+        },
+        "uiSort": 2,
+        "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+        "language": "cn",
+        "active": true,
+        "createdBy": "zero-environment",
+        "children": [
+            {
+                "key": "6281c815-a319-4118-aa29-18e4b182f212",
+                "name": "列表权限",
+                "code": "rule.flow.queue",
+                "phase": "EAGER",
+                "parentId": "9455c4f4-dfcc-4cb4-a31e-6dcf5772e6ed",
+                "runType": "ROLE",
+                "uiType": "DAO",
+                "uiConfig": {},
+                "uiCondition": {},
+                "uiComponent": "io.vertx.mod.rbac.ruler.HSUiNorm",
+                "uiSurface": {},
+                "uiSort": 1,
+                "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                "language": "cn",
+                "active": true,
+                "createdBy": "zero-environment"
+            },
+            {
+                "key": "9167c039-687e-4141-9855-e6d588cd1d4c",
+                "name": "操作权限",
+                "code": "rule.flow.action",
+                "phase": "EAGER",
+                "parentId": "9455c4f4-dfcc-4cb4-a31e-6dcf5772e6ed",
+                "runType": "ROLE",
+                "uiType": "DAO",
+                "uiSort": 2,
+                "sigma": "Qxw5HDkluJFnAPmcQCtu9uhGdXEiGNtP",
+                "language": "cn",
+                "active": true,
+                "createdBy": "zero-environment"
+            }
+        ]
+    }
+}

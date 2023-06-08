@@ -1,0 +1,18 @@
+{
+    "name": "x-tabular",
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XTabularDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "type",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "initial": {
+            "type": "`${type}`"
+        }
+    }
+}

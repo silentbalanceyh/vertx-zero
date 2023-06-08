@@ -1,0 +1,4 @@
+typed:
+  collection: STRING
+  username: STRING
+  password: STRING

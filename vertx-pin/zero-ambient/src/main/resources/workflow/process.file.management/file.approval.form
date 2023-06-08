@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "label": "名称",
+      "type": "textfield",
+      "id": "filename",
+      "key": "filename"
+    },
+    {
+      "values": [
+        {
+          "label": "通过",
+          "value": true
+        },
+        {
+          "label": "拒绝",
+          "value": false
+        }
+      ],
+      "label": "审批结果",
+      "type": "radio",
+      "id": "status",
+      "key": "confirmed",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "e.approval.form"
+}

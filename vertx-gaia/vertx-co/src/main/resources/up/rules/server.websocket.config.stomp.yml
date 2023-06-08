@@ -1,0 +1,17 @@
+typed:
+  port: INTEGER
+  # Stomp Server
+  heartbeat: JOBJECT
+  maxBodyLength: INTEGER
+  maxFrameInTransaction: INTEGER
+  maxHeaderLength: INTEGER
+  maxHeaders: INTEGER
+  maxSubscriptionsByClient: INTEGER
+  secured: BOOLEAN
+  sendErrorOnNoSubscriptions: BOOLEAN
+  supportedVersions: JARRAY
+  timeFactor: INTEGER
+  trailingLine: BOOLEAN
+  transactionChunkSize: INTEGER
+  websocketBridge: BOOLEAN
+  websocketPath: STRING

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <jdbc>
+        <driver>com.mysql.cj.jdbc.Driver</driver>
+        <url>
+            <![CDATA[ jdbc:mysql://ox.engine.cn:3306/DB_ETERNAL?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useSSL=false&allowPublicKeyRetrieval=true ]]>
+        </url>
+        <username>${env:Z_DBR_USERNAME}</username>
+        <password>${env:Z_DBR_PASS}</password>
+    </jdbc>
+    <generator>
+        <name>io.github.jklingsporn.vertx.jooq.generate.classic.ClassicJDBCVertxGenerator</name>
+        <database>
+            <!--force generating id'sfor everything in public schema, that has an 'id' field-->
+            <syntheticPrimaryKeys>public\..*\.id</syntheticPrimaryKeys>
+            <!--name for fake primary key-->
+            <overridePrimaryKeys>override_primmary_key</overridePrimaryKeys>
+            <name>org.jooq.meta.mysql.MySQLDatabase</name>
+            <inputSchema>DB_ETERNAL</inputSchema>
+            <includes>(^(TPL_|MY_).*)</includes>
+            <unsignedTypes>false</unsignedTypes>
+        </database>
+        <generate>
+            <daos>true</daos>
+            <pojos>true</pojos>
+            <javaTimeTypes>true</javaTimeTypes>
+            <interfaces>true</interfaces>
+            <fluentSetters>true</fluentSetters>
+        </generate>
+        <target>
+            <packageName>cn.vertxup.tpl.domain</packageName>
+            <directory>../../src/main/java</directory>
+        </target>
+        <strategy>
+            <name>
+                io.github.jklingsporn.vertx.jooq.generate.VertxGeneratorStrategy
+            </name>
+        </strategy>
+    </generator>
+</configuration>

@@ -1,0 +1,54 @@
+{
+    "ui": [
+        [
+            "record@name,文件名,8,,,readOnly=true",
+            "record@type,文件类型,8,,,readOnly=true",
+            "record@sizeUi,文件大小,8,,,readOnly=true"
+        ],
+        [
+            {
+                "metadata": "record@file,文件下载,16,,aiFileUpload,text=上传",
+                "optionJsx.accept": "*/*",
+                "optionJsx.config.filekey": "key",
+                "optionJsx.config.limit": 10240,
+                "optionJsx.ajax.uri": "/api/file/upload/:category",
+                "optionJsx.ajax.download": "/api/file/download/:key",
+                "optionJsx.ajax.params": {
+                    "category": "FIX:FILE.REQUEST"
+                },
+                "optionJsx.config": {
+                    "linker": {
+                        "key": "record@key",
+                        "fileKey": "record@fileKey",
+                        "name": "record@name",
+                        "type": "record@type",
+                        "size": "record@size",
+                        "sizeUi": "record@sizeUi",
+                        "extension": "record@extension"
+                    }
+                },
+                "optionConfig.rules": [
+                    "required,上传文件不可为空，请上传您要审批的文件！"
+                ]
+            },
+            "record@extension,扩展名,8,,,readOnly=true"
+        ]
+    ],
+    "hidden": [
+        "record@key",
+        "record@fileKey",
+        "record@size",
+        "record@category"
+    ],
+    "transform": {
+        "record@file": {
+            "type": "FILE",
+            "field": "record@fileKey",
+            "fieldName": "record@name"
+        },
+        "record@sizeUi": {
+            "type": "SIZE",
+            "field": "record@size"
+        }
+    }
+}

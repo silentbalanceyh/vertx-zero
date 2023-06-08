@@ -1,0 +1,47 @@
+-   dao: cn.vertxup.erp.domain.tables.daos.ECompanyDao
+    key: key
+    unique:
+    - code
+    - sigma
+# 部门信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EDeptDao
+    key: key
+    unique:
+    - code
+    - companyId
+# 组信息
+-   dao: cn.vertxup.erp.domain.tables.daos.ETeamDao
+    key: key
+    unique:
+    - code
+    - deptId
+# 员工信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EEmployeeDao
+    key: key
+    unique:
+    - workNumber
+    - companyId
+# 档案信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EIdentityDao
+    key: key
+    unique:
+    - idcType
+    - idcNumber
+# 品牌信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EBrandDao
+    key: key
+    unique:
+    - code
+    - sigma
+# 客户信息
+-   dao: cn.vertxup.erp.domain.tables.daos.ECustomerDao
+    key: key
+    unique:
+    - taxCode
+    - sigma
+# 合同信息
+-   dao: cn.vertxup.erp.domain.tables.daos.EContractDao
+    key: key
+    unique:
+    - code
+    - sigma

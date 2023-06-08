@@ -1,0 +1,22 @@
+{
+    "name": "x-category",
+    "daoCls": "cn.vertxup.ambient.domain.tables.daos.XCategoryDao",
+    "field": {
+        "unique": [
+            [
+                "code",
+                "type",
+                "sigma"
+            ]
+        ]
+    },
+    "transform": {
+        "initial": {
+            "type": "`${type}`",
+            "identifier": "`${module}`"
+        },
+        "tree": {
+            "in": "code"
+        }
+    }
+}

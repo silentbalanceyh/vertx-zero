@@ -1,0 +1,80 @@
+{
+    "config": {
+        "query": {
+            "sourceType": "w.ticket",
+            "targetType": "w.ticket"
+        }
+    },
+    "message": {
+        "window": "选择关联工单",
+        "add": "添加关联工单",
+        "search": "搜索工单：",
+        "tip": "（默认只有`已完成`的工单可以被选择关联，若要关联其他工单，请联系管理员。）",
+        "failure": "请选择您要添加的工单信息，您未选择任何工单！",
+        "success": "您的关联工单信息已成功保存！"
+    },
+    "editor": {
+        "selection": {
+            "phase": [
+                "END"
+            ]
+        },
+        "tree": {
+            "type": "zero.service.catalog",
+            "title": "服务目录",
+            "config": {
+                "parent": "parentId",
+                "title": "name",
+                "text": "name",
+                "value": "code"
+            },
+            "condition": "catalog,i"
+        },
+        "initial": {
+            "alias": "工单关联记录",
+            "type": "TICKET",
+            "linkType": "TICKET-TICKET",
+            "sourceType": "w.ticket",
+            "targetType": "w.ticket"
+        },
+        "search": {
+            "condition": [
+                "serial,c",
+                "title,c"
+            ],
+            "placeholder": "单号/标题"
+        },
+        "ajax": {
+            "uri": "/api/up/flow-ticket",
+            "method": "POST"
+        }
+    },
+    "table": {
+        "columns": [
+            {
+                "metadata": "serial,单号"
+            },
+            "title,工单标题",
+            {
+                "metadata": "catalog,类型,DATUM",
+                "$datum": "source=service.catalog,value=code,display=name"
+            },
+            {
+                "metadata": "phase,工单状态,RENDERS",
+                "width": 100
+            },
+            {
+                "metadata": "openBy,制单人,USER",
+                "$config": {
+                    "uri": "/api/user/:key",
+                    "field": "realname",
+                    "icon": "user,#00BF9F"
+                }
+            },
+            {
+                "metadata": "openAt,制单时间,DATE",
+                "$format": "YYYY-MM-DD HH:mm"
+            }
+        ]
+    }
+}
